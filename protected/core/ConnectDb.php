@@ -1,6 +1,6 @@
 <?php
 
-class Db {
+class ConnectDb {
     
     protected static $_instance;
     
