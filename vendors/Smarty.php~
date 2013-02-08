@@ -1,0 +1,16 @@
+<?php
+
+abstract class Controller {
+public $petrol;
+function startEngine(){
+print('Двигатель завѐлся!');
+}
+abstract function stopEngine();
+}
+class InjectorCar extends Car {
+public function stopEngine(){
+print('Двигатель остановился!');
+}
+}
+
+?>

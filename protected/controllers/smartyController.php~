@@ -1,0 +1,21 @@
+<?php
+
+require_once('../../vendors/smarty/libs/Smarty.class.php');
+
+abstract class Controller {
+
+    function render() {
+
+        $smarty = new Smarty();
+
+        $smarty->template_dir = "vendors/smarty/templates/";
+        $smarty->compile_dir = "vendors/smarty/templates_c/";
+        $smarty->config_dir = "vendors/smarty/cache/";
+        $smarty->cache_dir = "vendors/smarty/configs/";
+
+        $smarty->display("smarty/templates/index.tpl");
+    }
+
+}
+
+?>
