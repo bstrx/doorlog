@@ -15,11 +15,11 @@
         $auto = new Autoloader();
         $auto->register();
          
-        $news = new News();
-        echo $news->old();
+        //$news = new News();
+        //echo $news->old();
          
-        //$get_url = new ControllersManager();
-        //$get_url->getUrl();
+        $get_url = new ControllersManager();
+        $get_url->getUrl();
         
         
 ?>
