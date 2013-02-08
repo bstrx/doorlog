@@ -1,0 +1,32 @@
+<?php
+
+ini_set('display_errors', 1);
+  error_reporting(E_ALL);
+
+  
+//include_once('vendors/smarty/setup.php');
+
+//$smarty= new Smarty_DoorLog();
+
+require('vendors/smarty/libs/Smarty.class.php');
+
+$smarty = new Smarty;
+
+
+
+//$smarty->force_compile = true;
+$smarty->debugging = true;
+$smarty->caching = true;
+$smarty->cache_lifetime = 120;
+
+$smarty->assign('Contacts',
+    array('fax' => '555-222-9876',
+          'email' => 'zaphod@slartibartfast.example.com',
+          'phone' => array('home' => '555-444-3333',
+                           'cell' => '555-111-1234')
+                           )
+         );
+
+$smarty->display("index.tpl");
+
+?>
