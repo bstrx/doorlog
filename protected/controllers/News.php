@@ -8,7 +8,7 @@ namespace controllers;
  */
 class News {
     function old(){
-        return $old_val='hello vova';
+        echo $old_val='hello vova';
     }
 }
 
