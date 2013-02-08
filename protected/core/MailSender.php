@@ -1,4 +1,6 @@
 <?php
+
+namespace core;
 /**
  * Description of MailSender
  *
@@ -62,7 +64,3 @@ class MailSender {
         }
     }
 }
-
-
-
-?>
