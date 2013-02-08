@@ -1,5 +1,7 @@
 <?php
 
+namespace core;
+
 class ConnectDb {
     
     protected static $_instance;
@@ -25,4 +27,3 @@ class ConnectDb {
     }
 
 }
-?>

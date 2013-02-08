@@ -1,4 +1,6 @@
 <?php
+
+namespace controllers;
 /**
  * Description of NewsContoller
  *
