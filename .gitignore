@@ -1,2 +1,4 @@
-/nbproject/
-/vendor/
+nbproject/
+vendor/
+config/config.php
+.idea/
