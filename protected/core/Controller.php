@@ -4,7 +4,7 @@ namespace core;
 
 abstract class Controller {
 
-    protected function render($value) {
+    protected function render($path, $value) {
         $smarty = new \Smarty();
 
         $smarty->setTemplateDir('/var/www/doorlog/protected/vendor/smarty/templates/');
@@ -13,7 +13,7 @@ abstract class Controller {
         $smarty->setCacheDir('/var/www/doorlog/protected/vendor/smarty/cache/');
 
         $smarty->assign($value);
-        $smarty->display('protected/views/index.tpl');
+        $smarty->display('protected/views/'.$path);
     }
 
 }
