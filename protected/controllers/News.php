@@ -12,7 +12,7 @@ class News extends Controller {
     function old(){
         echo $old_val='hello vova';
 
-        $this->render();
+        $this->render(array('value' => 2));
     }
 }
 
