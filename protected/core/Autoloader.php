@@ -94,10 +94,7 @@ class Autoloader {
             $filename = ($this->_includePath !== null ? $this->_includePath . DIRECTORY_SEPARATOR : '') . $fileName;
 
             if (file_exists($filename)) {
-                //echo ($this->_includePath !== null ? $this->_includePath . DIRECTORY_SEPARATOR : '') . $fileName;
                 require $filename;
-            } else {
-                echo "The file $filename does not exist";
             }
         }
     }
