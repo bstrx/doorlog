@@ -1,4 +1,4 @@
 nbproject/
-vendor/
-config/config.php
+protected/vendor/
+protected/config/config.php
 .idea/
