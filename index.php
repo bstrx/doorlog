@@ -12,6 +12,7 @@
          
         require_once("protected/core/Autoloader.php");
         require 'protected/config/config.php';
+        require 'protected/vendor/autoload.php';
 
         $auto = new Autoloader();
         $auto->register();
