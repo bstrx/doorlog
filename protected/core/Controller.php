@@ -5,7 +5,7 @@ namespace core;
 abstract class Controller {
 
     protected function render($value) {
-        $smarty = new News\Smarty();
+        $smarty = new \Smarty();
 
         $smarty->setTemplateDir('/var/www/doorlog/protected/vendor/smarty/templates/');
         $smarty->setCompileDir('/var/www/doorlog/protected/vendor/smarty/templates_c/');
