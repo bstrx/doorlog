@@ -12,7 +12,7 @@ abstract class Controller {
         $smarty->setConfigDir('/var/www/doorlog/protected/vendor/smarty/configs/');
         $smarty->setCacheDir('/var/www/doorlog/protected/vendor/smarty/cache/');
 
-        $this->smarty->assign($value);
+        $smarty->assign($value);
         $smarty->display('protected/views/index.tpl');
     }
 
