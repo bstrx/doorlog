@@ -17,17 +17,17 @@
         $auto = new Autoloader();
         $auto->register();
          
-        $get_url = new ControllersManager();
-        $get_url->getUrl();
+        //$get_url = new ControllersManager();
+        //$get_url->getUrl();
         
-        /*$_SESSION['login'] = 'maslov';   
+        $_SESSION['NAME'] = 'Маслов Святослав';   
         
-        $rolesPermissions = Acl::getUserPermissions();
+        $rolesPermissions = Acl::getUserPermissions("name");
         
         foreach ($rolesPermissions as $role => $permissions) {
             foreach ($permissions as $permission) {
                 echo $role . " " . $permission . "<br>";
             }
-        }*/
+        }
 
 ?>
