@@ -6,16 +6,16 @@ class Acl {
     
     static function getUserRoles()
     {
-        $user = $_SESSION['login'];
+        $user = $_SESSION['NAME'];
         $db = ConnectDb::getInstance();
         
         $userRoles = Array();
         
         $sql = "SELECT roles.role_name
-                FROM users_roles
-                INNER JOIN roles ON users_roles.id_role = roles.id
-                INNER JOIN users ON users_roles.id_user = users.id
-                WHERE users.login =  '$user';";
+                FROM persons_roles
+                INNER JOIN roles ON persons_roles.id_role = roles.id
+                INNER JOIN personal ON persons_roles.id_person = personal.ID
+                WHERE personal.NAME =  '$user';";
         
         $result = $db->query($sql);
                 
@@ -64,18 +64,25 @@ class Acl {
         }
     }
     
-    static function getUserPermissions()
+    static function getUserPermissions($permissionField)
     {
         $rolesWithPermissions = Array();
         
         $userRoles = self::getUserRoles();
+        
+        if ($userRoles){
+            foreach ($userRoles as $role) {
+                $rolePermissions = Acl::getRolePermissions($role, $permissionField);
+                $rolesWithPermissions[$role] = $rolePermissions;
+            }
 
-        foreach ($userRoles as $role) {
-            $rolePermissions = Acl::getRolePermissions($role, "name");
-            $rolesWithPermissions[$role] = $rolePermissions;
+            return $rolesWithPermissions;
+        } else {
+            
+            return false;
         }
         
-        return $rolesWithPermissions;
+        
     }
     
 }
