@@ -10,9 +10,7 @@ use core\Controller;
  */
 class News extends Controller {
     function old(){
-        echo $old_val='hello vova';
-
-        $this->render(array('value' => 2));
+        $this->render("menu.tpl" , array('value' => 2) );
     }
 }
 

@@ -74,20 +74,20 @@ class Autoloader {
      * Loads the given class or interface.
      * Сreated using standart PSR-0.
      * Сhange symbol "_" into directory separator in getting argument.
-     * 
-     * Example: 
+     *
+     * Example:
      *     loadClass("core\Autoloader")
      *     return /var/www/doorlog/protected/core/Autoloader.php
-     * 
+     *
      *     loadClass("controllers\News_old")
      *     return /var/www/doorlog/protected/controllers/News/old.php
-     * 
+     *
      */
     public function loadClass($className) {
-        
+
         $argNamespace = substr($className, 0, strlen($this->_namespace . $this->_namespaceSeparator));
         $namespace = $this->_namespace . $this->_namespaceSeparator;
-         
+
         if (null === $this->_namespace || $namespace === $argNamespace ) {
             $fileName = '';
            
@@ -103,10 +103,10 @@ class Autoloader {
             {
                 $path = $this->_includePath . DIRECTORY_SEPARATOR . $fileName ;
             } else {
-                $path = $fileName; 
+                $path = $fileName;
             }
-            
-            if (file_exists($path)) 
+
+            if (file_exists($path))
             {
                 require $path;
             }

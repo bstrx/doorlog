@@ -13,6 +13,7 @@ abstract class Controller {
         $smarty->setCacheDir('protected/vendor/smarty/cache/');
 
         $smarty->assign($values);
+
         $smarty->display('protected/views/'.$path);
     }
 
