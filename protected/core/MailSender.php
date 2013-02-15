@@ -9,9 +9,9 @@ namespace core;
 class MailSender {
     var $to = "";
     var $from = "";
-    var $reply_to = "";
-    var $cc = "";
-    var $bcc = "";
+   // var $reply_to = "";
+   // var $cc = "";
+    //var $bcc = "";
     var $subject = "";
     var $msg = "";
     var $validate_email = true;
@@ -38,9 +38,6 @@ class MailSender {
             $this->headers[] = "From: $this->from";
         }
         
-        if(!empty($this->reply_to)){
-            $this->headers[] = "Reply to: $this->reply_to";
-        }
         
         if($this->validate_email){
             if(!preg_match("/[-0-9a-z_\.]+@[-0-9a-z_\.]+\.[a-z]{2,6}/i", $this -> to)){

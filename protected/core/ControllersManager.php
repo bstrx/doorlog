@@ -3,14 +3,14 @@
 namespace core;
 
 class ControllersManager{
-    private $test_url =  array();
+    private $typedUrl =  array();
 
-    function getUrl(){
-        $test_url = $_GET['route'];
-        $url_arr=  explode("/", $test_url);
-        $class = "controllers\\".(ucfirst($url_arr[0]));
+    function runController(){
+        $typedUrl = $_GET['route'];
+        $urlArr=  explode("/", $typedUrl);
+        $class = "controllers\\".(ucfirst($urlArr[0]));
         //$class = "controllers\\".$class;
-        $method = $url_arr[1];
+        $method = $urlArr[1];
         if(class_exists($class, TRUE)){
 
             $obj = new $class;

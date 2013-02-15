@@ -10,7 +10,7 @@ use core\Controller;
  */
 class News extends Controller {
     function old(){
-        echo $old_val='hello vova';
+        echo $oldVal='hello vova';
 
         $this->render(array('value' => 2));
     }
