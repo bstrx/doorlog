@@ -7,10 +7,17 @@ class ControllersManager{
 
     function getUrl(){
         $test_url = $_GET['route'];
-        $url_arr=  explode("/", $test_url);
-        $class = "controllers\\".(ucfirst($url_arr[0]));
-        //$class = "controllers\\".$class;
-        $method = $url_arr[1];
+
+        if ($test_url)
+        {
+            $url_arr=  explode("/", $test_url);
+            $class = "controllers\\".(ucfirst($url_arr[0]));
+            $method = $url_arr[1];
+        } else {
+            $class = "controllers\\Main";
+            $method = "index";
+        }
+
         if(class_exists($class, TRUE)){
 
             $obj = new $class;
