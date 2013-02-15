@@ -81,8 +81,7 @@ class Acl {
             
             return false;
         }
-        
-        
+
     }
     
 }
