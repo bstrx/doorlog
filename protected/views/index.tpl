@@ -1,34 +1,18 @@
+<!DOCTYPE html>
 <html>
     <head>
-        <title>{$title}</title>
+        <title>{block name="title"}Учёт рабочего времени{/block}</title>
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
-        <meta name="Keywords" content="">
-        <meta name="Description" content="">
-        <meta name="robots" content="all">
-        <meta http-equiv="content-type" content="text/html; charset=utf-8">
-
+        <meta name="description" content="Система учёта рабочего времени, v2">
         <link href="../protected/vendor/twitter/bootstrap/docs/assets/css/bootstrap.css" rel="stylesheet">
         <link href="../protected/vendor/twitter/bootstrap/docs/assets/css/bootstrap-responsive.css" rel="stylesheet">
-
     </head>
     <body>
-
         <script src="http://code.jquery.com/jquery.js"></script>
-        <script src="/protected/vendor/twitter/bootstrap/docs/assets/js/bootstrap.min.js"></script>
+        <script src="../protected/vendor/twitter/bootstrap/docs/assets/js/bootstrap.min.js"></script>
 
-
-
-        {block name="logo"}
-        <a href=""><img src="{*logo.image*}" alt="{*logo.alt*}"></a>
-        {/block}
-
-        {block name="menu"}
-
-        {/block}
-
-        {block name="content"}
-
-        {*content*}
-        {/block}
+        {block name="javascript"}{/block}
+        {block name="menu"}{/block}
+        {block name="content"}{/block}
     </body>
 </html>

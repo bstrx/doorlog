@@ -1,12 +1,14 @@
 {extends "protected/views/index.tpl"}
-    {block name="menu"}
 
+    {block name="javascrtipt"}
         <script src="../protected/vendor/twitter/bootstrap/docs/assets/js/bootstrap-dropdown.js"></script>
+    {/block}
 
+    {block name="menu"}
         <div class="bs-menu">
             <div class="btn-toolbar" style="margin: 0;">
 
-                <button class="btn" type="submit" href="#"><a href="#">Главная</a></button>
+                <button class="btn" type="submit" href="#"><a href="/">Главная</a></button>
 
                 <div class="btn-group">
                         <button class="btn dropdown-toggle" data-toggle="dropdown">Отделы <span class="caret"></span></button>
@@ -40,6 +42,6 @@
 
             </div><!-- /btn-toolbar -->
         </div>
-
     {/block}
+
 {/extends}
