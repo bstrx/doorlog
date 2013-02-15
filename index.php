@@ -17,13 +17,10 @@
         $auto = new Autoloader();
         $auto->register();
          
-        //$news = new News();
-        //echo $news->old();
-         
-        //$get_url = new ControllersManager();
-        //$get_url->getUrl();
+        $get_url = new ControllersManager();
+        $get_url->getUrl();
         
-        $_SESSION['login'] = 'maslov';   
+        /*$_SESSION['login'] = 'maslov';   
         
         $rolesPermissions = Acl::getUserPermissions();
         
@@ -31,6 +28,6 @@
             foreach ($permissions as $permission) {
                 echo $role . " " . $permission . "<br>";
             }
-        }
+        }*/
 
 ?>
