@@ -3,6 +3,7 @@
 namespace controllers;
 
 use core\Controller;
+use core\Utils;
 /**
  * Description of NewsContoller
  *
@@ -10,8 +11,10 @@ use core\Controller;
  */
 class News extends Controller {
     function oldAction(){
-
+        
+         Utils::log('time', '13.00');
         $this->render("menu.tpl" , array('value' => 2) );
+       
 
     }
 }

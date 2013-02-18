@@ -1,4 +1,5 @@
 <?php
+namespace core;
 
 class Registry{
     protected static $_registry = array();
@@ -9,7 +10,7 @@ class Registry{
         }
     }
 
-    public static function geValue($key){
+    public static function getValue($key){
         if(array_key_exists($key, self::$_registry)){
             return self::$_registry[$key];
         }
@@ -20,3 +21,4 @@ class Registry{
     }
 
 }
+

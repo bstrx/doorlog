@@ -22,14 +22,12 @@ class ControllersManager{
         if(class_exists($class, TRUE)){
 
             $obj = new $class;
-            
+           
         }
 
-        if(method_exists($obj, $method)){
-
-            $method .= 'Action';
+        $method .= 'Action';
+        if(method_exists($obj, $method)){        
             $obj->$method();
-            
         }
     }
 
