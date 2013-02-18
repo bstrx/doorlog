@@ -17,8 +17,8 @@
         $auto = new Autoloader();
         $auto->register();
          
-        //$get_url = new ControllersManager();
-        //$get_url->getUrl();
+        $getUrl = new ControllersManager();
+        $getUrl->getUrl();
         
         $_SESSION['NAME'] = 'Маслов Святослав';   
         

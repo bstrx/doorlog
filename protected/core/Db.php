@@ -2,7 +2,7 @@
 
 namespace core;
 
-class ConnectDb {
+class Db {
     
     protected static $_instance;
     

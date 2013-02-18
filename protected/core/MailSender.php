@@ -9,9 +9,6 @@ namespace core;
 class MailSender {
     var $to = "";
     var $from = "";
-   // var $reply_to = "";
-   // var $cc = "";
-    //var $bcc = "";
     var $subject = "";
     var $msg = "";
     var $validate_email = true;
@@ -48,16 +45,21 @@ class MailSender {
     
     }
     
+    
     function send(){
         if(!$this->checkFields()){
             return TRUE;
         }
         
-        if(mail($this->to, htmlspecialchars(stripcslashes(trim($this->subject))),
-                htmlspecialchars(stripslashes(trim($this->msg))))){
-            return TRUE;
-        }  else {
-            return FALSE;
-        }
+        $subject = $this->safeString($this->subject);
+        $message = $this->safeString($this->msg);
+        
+        if (mail($this->to, $subject, $message)) {
+
+}
+        
+function safeString($str) {
+    return htmlspecialchars(stripslashes(trim($str)));
+}
     }
 }
