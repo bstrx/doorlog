@@ -4,14 +4,14 @@ namespace core;
 
 class ControllersManager {
 
-    private $testUrl = array();
+    private $typedUrl = array();
 
-    function getUrl() {
+    function runController() {
 
-        $testUrl = isset($_GET['route']) ? $_GET['route'] : null;
+        $typedUrl = isset($_GET['route']) ? $_GET['route'] : null;
 
-        if ($testUrl) {
-            $urlArr = explode("/", $testUrl);          
+        if ($typedUrl) {
+            $urlArr = explode("/", $typedUrl);
             $class = "controllers\\" . (ucfirst($urlArr[0]));
             if (empty($urlArr[1])) {
                 $method = "index";
@@ -26,10 +26,11 @@ class ControllersManager {
         if (class_exists($class, TRUE)){
 
             $obj = new $class;
+           
         }
 
-        if (method_exists($obj, $method)){
-
+        $method .= 'Action';
+        if(method_exists($obj, $method)){        
             $obj->$method();
         }
     }

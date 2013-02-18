@@ -7,7 +7,7 @@ class Acl {
     static function getUserRoles()
     {
         $user = $_SESSION['NAME'];
-        $db = ConnectDb::getInstance();
+        $db = Db::getInstance();
         
         $userRoles = Array();
         
@@ -36,7 +36,7 @@ class Acl {
     static function getRolePermissions($role, $field)
     {
         $roleName = $role;
-        $db = ConnectDb::getInstance();
+        $db = Db::getInstance();
         
         $rolePermissions = Array();
         

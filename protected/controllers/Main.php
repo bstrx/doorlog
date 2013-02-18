@@ -11,7 +11,7 @@ use core\Controller;
  */
 class Main extends Controller {
 
-    function index() {
+    function indexAction() {
         $this->render("Main/index.tpl" , array('value' => 2) );
     }
 
