@@ -30,5 +30,6 @@
                 echo $role . " " . $permission . "<br>";
             }
         }*/
-          Utils::log('example', 'example');
+          
+          //Utils::log('example', 'example');
 ?>
