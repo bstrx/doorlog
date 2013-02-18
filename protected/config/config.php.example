@@ -1,3 +1,8 @@
 <?php
-return array('test' => 'resultString');
+return array(
+    'db' => array(
+        'host'=>'',
+        'dbname'=>'',
+        'user'=>'',
+        'password'=>''));
 ?>
