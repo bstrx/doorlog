@@ -4,31 +4,31 @@ namespace core;
 
 class ControllersManager {
 
-    private $test_url = array();
+    private $testUrl = array();
 
     function getUrl() {
 
-        $test_url = $_GET['route'];
+        $testUrl = isset($_GET['route']) ? $_GET['route'] : null;
 
-        if ($test_url) {
-            $url_arr = explode("/", $test_url);
-            $class = "controllers\\" . (ucfirst($url_arr[0]));
-            If (!$method = $url_arr[1]) {
+        if ($testUrl) {
+            $urlArr = explode("/", $testUrl);          
+            $class = "controllers\\" . (ucfirst($urlArr[0]));
+            if (empty($urlArr[1])) {
                 $method = "index";
             } else {
-                $method = $url_arr[1];
+                $method = $urlArr[1];
             }
         } else {
             $class = "controllers\\Main";
             $method = "index";
         }
 
-        if (class_exists($class, TRUE)) {
+        if (class_exists($class, TRUE)){
 
             $obj = new $class;
         }
 
-        if (method_exists($obj, $method)) {
+        if (method_exists($obj, $method)){
 
             $obj->$method();
         }

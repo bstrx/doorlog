@@ -2,3 +2,5 @@ nbproject/
 protected/vendor/
 protected/config/config.php
 .idea/
+protected/composer.lock
+protected/composer.phar
