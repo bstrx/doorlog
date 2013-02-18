@@ -16,15 +16,15 @@ class ConnectDb {
     
     public static function getInstance() {
         
-        if (null === self::$_instance) {
-            self::$_instance = new \PDO( 'mysql:host=localhost;dbname=Acl', 'root', '123456');
+       if (null === self::$_instance) {
+            self::$_instance = new \PDO( 'mysql:host=localhost;dbname=test', '', '');
             self::$_instance->query ( 'SET character_set_connection = utf-8' );
             self::$_instance->query ( 'SET character_set_client = utf-8' );
             self::$_instance->query ( 'SET character_set_results = utf-8' );
             self::$_instance->query ( 'SET NAMES utf8' );
-        }
+       }
         
-        return self::$_instance;
+       return self::$_instance;
     }
 
 }

@@ -4,6 +4,7 @@
         use core\ControllersManager;
         use controllers\News;
         use core\Acl;
+        use core\Utils;
 
         ini_set('display_errors', true);
         ini_set('error_reporting',  E_ALL);
@@ -29,5 +30,5 @@
                 echo $role . " " . $permission . "<br>";
             }
         }*/
-
+          Utils::log('example', 'example');
 ?>
