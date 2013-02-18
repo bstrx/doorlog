@@ -1,4 +1,4 @@
-{extends "protected/views/index.tpl"}
+
 
     {block name="javascrtipt"}
         <script src="../protected/vendor/twitter/bootstrap/docs/assets/js/bootstrap-dropdown.js"></script>
@@ -44,4 +44,3 @@
         </div>
     {/block}
 
-{/extends}

@@ -6,7 +6,7 @@ class ControllersManager {
 
     private $typedUrl = array();
 
-    function getUrl() {
+    function runController() {
 
         $typedUrl = isset($_GET['route']) ? $_GET['route'] : null;
 
