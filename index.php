@@ -21,15 +21,14 @@
         $get_url = new ControllersManager();
         $get_url->getUrl();
         
-        /*$_SESSION['login'] = 'maslov';   
-        
-        $rolesPermissions = Acl::getUserPermissions();
-        
-        foreach ($rolesPermissions as $role => $permissions) {
-            foreach ($permissions as $permission) {
-                echo $role . " " . $permission . "<br>";
-            }
-        }*/
-          
-          //Utils::log('example', 'example');
+//        $_SESSION['NAME'] = 'Маслов Святослав';
+//
+//        $rolesPermissions = Acl::getUserPermissions("name");
+//
+//        foreach ($rolesPermissions as $role => $permissions) {
+//            foreach ($permissions as $permission) {
+//                echo $role . " " . $permission . "<br>";
+//            }
+//        }
+
 ?>

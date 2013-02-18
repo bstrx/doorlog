@@ -10,10 +10,7 @@ class Autoloader {
     public function __construct($namespace = null, $includePath = __DIR__, $namespaceSeparator = "\\") {
         $this->_namespace = $namespace;
         $this->_includePath = $includePath;
-
-        // удаляем последнюю директорию core с пути и сохраняем в переменной $_includePath....
         $this->_includePath = substr($includePath, 0, (strripos($includePath, DIRECTORY_SEPARATOR)));
-
         $this->_namespaceSeparator = $namespaceSeparator;
     }
 
@@ -75,26 +72,43 @@ class Autoloader {
 
     /**
      * Loads the given class or interface.
+     * Сreated using standart PSR-0.
+     * Сhange symbol "_" into directory separator in getting argument.
+     *
+     * Example:
+     *     loadClass("core\Autoloader")
+     *     return /var/www/doorlog/protected/core/Autoloader.php
+     *
+     *     loadClass("controllers\News_old")
+     *     return /var/www/doorlog/protected/controllers/News/old.php
+     *
      */
     public function loadClass($className) {
-        // если _namespace не указан или указанный соответствует полученному в аргументе то....
-        if (null === $this->_namespace || $this->_namespace . $this->_namespaceSeparator === substr($className, 0, strlen($this->_namespace . $this->_namespaceSeparator))) {
+
+        $argNamespace = substr($className, 0, strlen($this->_namespace . $this->_namespaceSeparator));
+        $namespace = $this->_namespace . $this->_namespaceSeparator;
+
+        if (null === $this->_namespace || $namespace === $argNamespace ) {
             $fileName = '';
-            $namespace = '';
-            // если SEPARATOR содержится в полученном аргументе, то разбиваем строку на namespace и class
-            if (false !== ($lastNsPos = strripos($className, $this->_namespaceSeparator))) {
+           
+            if ( $lastNsPos = strripos($className, $this->_namespaceSeparator) ) {
                 $namespace = substr($className, 0, $lastNsPos);
                 $className = substr($className, $lastNsPos + 1);
-                // замена заданного сепаратора на DIRECTORY_SEPARATOR в namespace
                 $fileName = str_replace($this->_namespaceSeparator, DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
             }
-            // замена _ на DIRECTORY_SEPARATOR в classname 
+           
             $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . $this->_fileExtension;
 
-            $filename = ($this->_includePath !== null ? $this->_includePath . DIRECTORY_SEPARATOR : '') . $fileName;
+            if ($this->_includePath)
+            {
+                $path = $this->_includePath . DIRECTORY_SEPARATOR . $fileName ;
+            } else {
+                $path = $fileName;
+            }
 
-            if (file_exists($filename)) {
-                require $filename;
+            if (file_exists($path))
+            {
+                require $path;
             }
         }
     }
