@@ -77,10 +77,7 @@ class Autoloader {
      * Loads the given class or interface.
      */
     public function loadClass($className) {
-        
-       
-        
-// если _namespace не указан или указанный соответствует полученному в аргументе то....
+        // если _namespace не указан или указанный соответствует полученному в аргументе то....
         if (null === $this->_namespace || $this->_namespace . $this->_namespaceSeparator === substr($className, 0, strlen($this->_namespace . $this->_namespaceSeparator))) {
             $fileName = '';
             $namespace = '';
