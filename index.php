@@ -17,13 +17,10 @@
         $auto = new Autoloader();
         $auto->register();
          
-<<<<<<< HEAD
-        $getUrl = new ControllersManager();
-        $getUrl->getUrl();
-=======
+
         $get_url = new ControllersManager();
         $get_url->getUrl();
->>>>>>> 37a9c944656439bcbafea9376a7bca6dbd7c4637
+
         
 //        $_SESSION['NAME'] = 'Маслов Святослав';
 //
