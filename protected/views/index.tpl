@@ -9,7 +9,7 @@
         <link rel="stylesheet" href="css/style.css">
     </head>
     <body>
-        {block name="menu"}
+        {block name="logo"}
         <a href=""><img src="{*logo.image*}" alt="{*logo.alt*}"></a>
             {/block}
 
@@ -20,6 +20,7 @@
         {block name="content"}
 
         {*content*}
+
         {/block}
     </body>
 </html>
