@@ -84,7 +84,6 @@ class Autoloader {
      *
      */
     public function loadClass($className) {
-
         $argNamespace = substr($className, 0, strlen($this->_namespace . $this->_namespaceSeparator));
         $namespace = $this->_namespace . $this->_namespaceSeparator;
 
@@ -112,5 +111,4 @@ class Autoloader {
             }
         }
     }
-
 }
