@@ -6,6 +6,7 @@
         use core\Acl;
         use core\Utils;
         use core\Registry;
+        use core\ExceptionsManager;
 
         ini_set('display_errors', true);
         ini_set('error_reporting',  E_ALL);
@@ -14,6 +15,7 @@
          
         require_once("protected/core/Autoloader.php");
         require 'protected/vendor/autoload.php';
+
         $auto = new Autoloader();
         $auto->register();
          
@@ -25,7 +27,8 @@
             $controllerManager->runController();
         }
         catch (Exception $e) {
-            echo $e->getMessage(), '<br>';
+            $exception = new ExceptionsManager();
+            $exception->show($e);
         }
 
         

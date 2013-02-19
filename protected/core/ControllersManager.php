@@ -21,14 +21,14 @@ class ControllersManager {
         if (class_exists($class, TRUE)){
             $obj = new $class;
         } else {
-           throw new \Exception('Requested page not found.');
+           throw new \Exception('Requested page not found. Existing class required');
         }
          
         $method .= 'Action';
         if(method_exists($obj, $method)){
             $obj->$method();
         } else {
-            throw new \Exception('Requested page not found.');
+            throw new \Exception('Requested page not found. Existing method required');
             }
     }        
 }
