@@ -14,17 +14,19 @@
          
         require_once("protected/core/Autoloader.php");
         require 'protected/vendor/autoload.php';
-
         $auto = new Autoloader();
         $auto->register();
          
         $cfg = require 'protected/config/config.php';
         Registry::setValue('config', $cfg);
 
-        $controllerManager = new ControllersManager();
-        $controllerManager->runController();
-
-
+        try{
+            $controllerManager = new ControllersManager();
+            $controllerManager->runController();
+        }
+        catch (Exception $e) {
+            echo $e->getMessage(), '<br>';
+        }
 
         
 //        $_SESSION['NAME'] = 'Маслов Святослав';
