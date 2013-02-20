@@ -3,7 +3,6 @@
 namespace core;
 
 abstract class Controller {
-
     protected function render($path, array $values) {
         $smarty = new \Smarty();
 
@@ -16,5 +15,4 @@ abstract class Controller {
 
         $smarty->display('protected/views/'.$path);
     }
-
 }

@@ -1,10 +1,7 @@
 nbproject/
-<<<<<<< HEAD
-=======
 protected/vendor/
 protected/config/config.php
 .idea/
 protected/composer.lock
 protected/composer.phar
->>>>>>> 8e1fac1ba52f2cfae4f9abd2780367b5daf6b71e
 .gitignore
