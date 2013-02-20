@@ -1,4 +1,4 @@
-# Savage
+# Savage v0.1
 
 Installation:
 
@@ -7,5 +7,3 @@ Installation:
 3. Install subversion (for smarty package);
 4. In site's 'protected' dir run "**php composer.phar install**";
 5. Copy **/config/config.php.example** to **config/config.php** and fill it.
-
-![GitHub Logo](/images/i.ico) v0.1
