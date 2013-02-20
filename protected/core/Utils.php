@@ -16,7 +16,7 @@ class Utils{
         echo('<br>' . 'Line: ' . $e->getLine());
         if($e->getCode()){
             echo('<br>' . 'Code: ' . $e->getCode());
+            }
         echo('<br>' . 'Trace: ' . '<pre>' . $e->getTraceAsString() . '</pre>');
         }
-    }
 }

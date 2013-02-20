@@ -26,8 +26,7 @@
             $controllerManager->runController();
         }
         catch (Exception $e) {
-            $exception = new Utils();
-            $exception->show($e);
+            Utils::show($e);
         }
 
         
