@@ -1,15 +1,10 @@
 <?php
 
 namespace core;
-
 class ControllersManager {
-
     private $typedUrl = array();
-
     function runController() {
-
         $typedUrl = isset($_GET['route']) ? $_GET['route'] : null;
-
         if ($typedUrl) {
             $urlArr = explode("/", $typedUrl);
             $class = "controllers\\" . (ucfirst($urlArr[0]));
@@ -24,15 +19,16 @@ class ControllersManager {
         }
 
         if (class_exists($class, TRUE)){
-
             $obj = new $class;
-           
+        } else {
+           throw new \Exception('Requested page not found. Existing class required');
         }
-
+         
         $method .= 'Action';
-        if(method_exists($obj, $method)){        
+        if(method_exists($obj, $method)){
             $obj->$method();
-        }
-    }
-
+        } else {
+            throw new \Exception('Requested page not found. Existing method required');
+            }
+    }        
 }

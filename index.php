@@ -6,7 +6,7 @@
         use core\Acl;
         use core\Utils;
         use core\Registry;
-
+        
         ini_set('display_errors', true);
         ini_set('error_reporting',  E_ALL);
          
@@ -21,10 +21,14 @@
         $cfg = require 'protected/config/config.php';
         Registry::setValue('config', $cfg);
 
-        $controllerManager = new ControllersManager();
-        $controllerManager->runController();
-
-
+        try{
+            $controllerManager = new ControllersManager();
+            $controllerManager->runController();
+        }
+        catch (Exception $e) {
+            $exception = new Utils();
+            $exception->show($e);
+        }
 
         
 //        $_SESSION['NAME'] = 'Маслов Святослав';
