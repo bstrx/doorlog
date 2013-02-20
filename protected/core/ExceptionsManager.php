@@ -1,18 +1,8 @@
 <?php
 namespace core;
 
-class Utils{
-
-    static function log($type, $data){
-       $db = Db::getInstance();           
-       $result = $db->query("INSERT INTO log(type, data) 
-             VALUES ('$type', '$data')");
-       return $result;
-    }     
-}
-
 class ExceptionsManager {
-    static function show($e) {
+    function show($e) {
         echo('Message: ' . $e->getMessage());
         echo('<br>' . 'File: ' . $e->getFile());
         echo('<br>' . 'Line: ' . $e->getLine());
