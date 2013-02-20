@@ -9,9 +9,7 @@ class Utils{
              VALUES ('$type', '$data')");
        return $result;
     }     
-}
 
-class ExceptionsManager {
     static function show($e) {
         echo('Message: ' . $e->getMessage());
         echo('<br>' . 'File: ' . $e->getFile());
