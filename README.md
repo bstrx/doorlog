@@ -1,6 +1,4 @@
-![GitHub Logo](/images/logout.ico)
-# Savage
-
+![GitHub Logo](/images/i.ico) # Savage
 
 Installation:
 
