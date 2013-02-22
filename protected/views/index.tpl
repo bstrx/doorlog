@@ -18,7 +18,7 @@
         {block name="FlashMessages"}
             {if isset($_flashMessages)}
                 {foreach key=type item=messageArr from=$_flashMessages}
-                    {foreach item=message from=$_flashMessages[$type]}                       
+                    {foreach item=message from=$_flashMessages[$type]}
                         <div class='flash_{$type}'> {$message} </div>
                     {/foreach}
                 {/foreach}
@@ -32,9 +32,8 @@
             </form>
         </div>
         {/block}
-        
-        {block name="content"}
-        {/block}
+
+        {block name="content"} {/block}
     </body>
 </html>
 

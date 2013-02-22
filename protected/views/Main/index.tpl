@@ -1,4 +1,12 @@
 {extends "protected/views/index.tpl"}
+
+<div class="search" align="center">
+    <form class="form-search">
+        <input type="text" class="input-medium search-query" width="350px">
+        <button type="submit" class="btn">Найти</button>
+    </form>
+</div>
+
 {block name="content"}
             <div class="span6">
                 <table class="table table-bordered" style="">
@@ -20,4 +28,5 @@
                 </table>
             </div>
 {/block}
+
 {/extends}
