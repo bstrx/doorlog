@@ -2,3 +2,21 @@
     margin: auto;
     padding: 0px;
 }
+
+.flash_info{
+    margin: 5px;
+    color: white;    
+    background-color: #61b832;
+    border:1px solid #bedf5d;
+    padding:10px;
+    border-color: #55a12c;
+}
+
+.flash_error{
+    margin: 5px;
+    color: white;
+    background: #de4343;
+    border:1px solid #ffffff;
+    padding:10px;
+    border-color: #c43d3d;
+}
