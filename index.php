@@ -1,26 +1,37 @@
 <?php
-    use core\ControllersManager;
-    use core\Acl;
-    use core\Registry;
-
+    session_start();
     ini_set('display_errors', true);
     ini_set('error_reporting',  E_ALL);
 
     header('Content-Type: text/html; charset=utf-8');
 
-    require 'protected/core/Autoloader.php';
+    use core\MailSender;
+    use core\ControllersManager;
+    use controllers\News;
+    use core\Acl;
+    use core\Utils;
+    use core\Registry;
+    use core\FlashMessages;
+
+    require_once("protected/core/Autoloader.php");
     require 'protected/vendor/autoload.php';
 
-    $autoloader = new Autoloader();
-    $autoloader->register();
+    $auto = new Autoloader();
+    $auto->register();
 
     $cfg = require 'protected/config/config.php';
     Registry::setValue('config', $cfg);
 
-    $controllerManager = new ControllersManager();
-    $controllerManager->runController();
+    FlashMessages::addMessage("new message", "info");
+    FlashMessages::addMessage("type error message", "error");
 
-
+    try{
+        $controllerManager = new ControllersManager();
+        $controllerManager->runController();
+    }
+    catch (Exception $e) {
+        Utils::showException($e);
+    }
 
 //        $_SESSION['NAME'] = 'Маслов Святослав';
 //

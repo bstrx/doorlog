@@ -1,7 +1,6 @@
 <?php
 
 namespace core;
-
 abstract class Controller {
     protected function render($path, array $values) {
         $smarty = new \Smarty();
@@ -12,7 +11,8 @@ abstract class Controller {
         $smarty->setCacheDir('protected/vendor/smarty/cache/');
 
         $smarty->assign($values);
-
+        
+        $smarty->assign(array('_flashMessages' => FlashMessages::getMessage()));
         $smarty->display('protected/views/'.$path);
     }
 }
