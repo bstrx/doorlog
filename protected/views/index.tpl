@@ -24,15 +24,6 @@
                 {/foreach}
             {/if}
         {/block}
-        {block name="search" }
-        <div class="search" align="center">
-             <form class="form-search">
-                 <input type="text" class="input-medium search-query" width="350px">
-                <button type="submit" class="btn">Найти</button>
-            </form>
-        </div>
-        {/block}
-
         {block name="content"} {/block}
     </body>
 </html>
