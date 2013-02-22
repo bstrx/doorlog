@@ -7,6 +7,7 @@
         <link href="/doorlog/protected/vendor/twitter/bootstrap/docs/assets/css/bootstrap.css" rel="stylesheet">
         <link href="/doorlog/protected/vendor/twitter/bootstrap/docs/assets/css/bootstrap-responsive.css" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="/doorlog/css/main.css">
+        <link rel="icon" href="/doorlog/images/logout.ico" type="images/x-icon">
     </head>
     <body>
         <script src="http://code.jquery.com/jquery.js"></script>
