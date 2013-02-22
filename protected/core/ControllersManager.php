@@ -29,6 +29,6 @@ class ControllersManager {
             $obj->$method();
         } else {
             throw new \Exception('Requested page not found. Existing method required');
-            }
+        }
     }        
 }

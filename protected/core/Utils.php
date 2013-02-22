@@ -10,13 +10,13 @@ class Utils{
        return $result;
     }     
 
-    static function show($e) {
+    static function showException($e) {
         echo('Message: ' . $e->getMessage());
         echo('<br>' . 'File: ' . $e->getFile());
         echo('<br>' . 'Line: ' . $e->getLine());
         if($e->getCode()){
             echo('<br>' . 'Code: ' . $e->getCode());
-            }
-        echo('<br>' . 'Trace: ' . '<pre>' . $e->getTraceAsString() . '</pre>');
         }
+        echo('<br>' . 'Trace: ' . '<pre>' . $e->getTraceAsString() . '</pre>');
+    }
 }

@@ -14,19 +14,25 @@
 
         {block name="javascript"}{/block}
         {block name="menu"}{include file='protected/views/menu.tpl'}{/block}
+        {block name="FlashMessages"}
+            {if isset($_flashMessages)}
+                {foreach key=type item=messageArr from=$_flashMessages}
+                    {foreach item=message from=$_flashMessages[$type]}                       
+                        <div class='flash_{$type}'> {$message} </div>
+                    {/foreach}
+                {/foreach}
+            {/if}
+        {/block}
         {block name="search" }
         <div class="search" align="center">
-
              <form class="form-search">
                  <input type="text" class="input-medium search-query" width="350px">
                 <button type="submit" class="btn">Найти</button>
             </form>
-
         </div>
-
         {/block}
+        
         {block name="content"}
-
         {/block}
     </body>
 </html>
