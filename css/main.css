@@ -2,3 +2,12 @@
     margin: auto;
     padding: 0px;
 }
+
+.tbl-top {
+    background-color: whitesmoke;
+}
+
+#new_dep {
+    
+    height: 30px;
+}

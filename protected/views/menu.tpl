@@ -1,5 +1,5 @@
 {block name="javascrtipt"}
-    <script src="/doorlog/protected/vendor/twitter/bootstrap/docs/assets/js/bootstrap-dropdown.js"></script>
+    <script src="/savage21/protected/vendor/twitter/bootstrap/docs/assets/js/bootstrap-dropdown.js"></script>
 {/block}
 
 {block name="menu"}
