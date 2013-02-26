@@ -3,9 +3,9 @@
 namespace models;
 use core\Db;
 
-class Departments {
+class Departments extends \core\Model {
     function getAll(){
-
+/*
        $obj =  Db::getInstance();
 //       $r = $obj-> query("SELECT name
 //                          FROM departments" );
@@ -17,9 +17,18 @@ class Departments {
                           GROUP BY name" );
 
     //   $obj-> setFetchMode(PDO::FETCH_ASSOC);
-      $tmp = $r->fetchAll(\PDO::FETCH_ASSOC);
+      $tmp = $r->fetchAll(\PDO::FETCH_ASSOC);*/
+      $q = "SELECT d.name, count(personal_id) as total_users, t.name as chief_name
+        FROM departments as d
+        LEFT JOIN users as u
+        ON u.department_id = d.id
+        LEFT JOIN `tc-db-main`.personal as t
+        ON d.chief_id = t.id
+        GROUP BY d.id";
 
-      return $tmp;
+      $result = $this->get($q);
+     
+      return $result;
     }
 
       function createDep(){

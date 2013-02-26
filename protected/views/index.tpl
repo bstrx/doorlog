@@ -7,6 +7,7 @@
         <link href="/savage21/protected/vendor/twitter/bootstrap/docs/assets/css/bootstrap.css" rel="stylesheet">
         <link href="/savage21/protected/vendor/twitter/bootstrap/docs/assets/css/bootstrap-responsive.css" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="/savage21/css/main.css">
+        <link rel="icon" href="/savage21/images/logout.ico" type="images/x-icon">
     </head>
     <body>
         <script src="http://code.jquery.com/jquery.js"></script>
@@ -14,20 +15,16 @@
 
         {block name="javascript"}{/block}
         {block name="menu"}{include file='protected/views/menu.tpl'}{/block}
-        {block name="search" }
-        <div class="search" align="center">
-
-             <form class="form-search">
-                 <input type="text" class="input-medium search-query" width="350px">
-                <button type="submit" class="btn">Найти</button>
-            </form>
-
-        </div>
-
+        {block name="FlashMessages"}
+            {if isset($_flashMessages)}
+                {foreach key=type item=messageArr from=$_flashMessages}
+                    {foreach item=message from=$_flashMessages[$type]}
+                        <div class='flash_{$type}'> {$message} </div>
+                    {/foreach}
+                {/foreach}
+            {/if}
         {/block}
-        {block name="content"}
-
-        {/block}
+        {block name="content"} {/block}
     </body>
 </html>
 

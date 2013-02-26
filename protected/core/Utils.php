@@ -9,4 +9,14 @@ class Utils{
              VALUES ('$type', '$data')");
        return $result;
     }     
+
+    static function showException($e) {
+        echo('Message: ' . $e->getMessage());
+        echo('<br>' . 'File: ' . $e->getFile());
+        echo('<br>' . 'Line: ' . $e->getLine());
+        if($e->getCode()){
+            echo('<br>' . 'Code: ' . $e->getCode());
+        }
+        echo('<br>' . 'Trace: ' . '<pre>' . $e->getTraceAsString() . '</pre>');
+    }
 }

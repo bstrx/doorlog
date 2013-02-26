@@ -8,7 +8,7 @@
                     <tr class="tbl-top"><td>Название отдела</td><td>Кол-во сотрудников</td><td>Начальник</td></tr>
                     <!--<tr><td>RU.pr</td><td></td><td></td></tr>-->
                     {foreach from=$departments item=department}
-                    <tr><td>{$department['name']}</td><td></td><td></td></tr>
+                    <tr><td>{$department['name']}</td><td>{$department['total_users']}</td><td>{$department['chief_name']}</td></tr>
                     {/foreach}
                     
                 </table>

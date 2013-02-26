@@ -6,8 +6,20 @@
 .tbl-top {
     background-color: whitesmoke;
 }
+.flash_info{
+    margin: 5px;
+    color: white;    
+    background-color: #61b832;
+    border:1px solid #bedf5d;
+    padding:10px;
+    border-color: #55a12c;
+}
 
-#new_dep {
-    
-    height: 30px;
+.flash_error{
+    margin: 5px;
+    color: white;
+    background: #de4343;
+    border:1px solid #ffffff;
+    padding:10px;
+    border-color: #c43d3d;
 }
