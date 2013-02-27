@@ -24,7 +24,6 @@
                 {/foreach}
             {/if}
         {/block}
-        {block name="addUsers"} {/block}
         {block name="content"} {/block}
     </body>
 </html>

@@ -1,5 +1,5 @@
 {extends "protected/views/index.tpl"}
-    {block name="addUsers"}
+    {block name="content"}
         <div class="Users">
             <form action="add" method="POST">
                 <p>Выберите пользователя:</p>
