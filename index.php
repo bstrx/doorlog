@@ -2,16 +2,14 @@
     session_start();
     ini_set('display_errors', true);
     ini_set('error_reporting',  E_ALL);
+    date_default_timezone_set('UTC');
 
     header('Content-Type: text/html; charset=utf-8');
 
-    use core\MailSender;
     use core\ControllersManager;
-    use controllers\News;
     use core\Acl;
     use core\Utils;
     use core\Registry;
-    use core\FlashMessages;
 
     require_once("protected/core/Autoloader.php");
     require 'protected/vendor/autoload.php';
@@ -22,8 +20,8 @@
     $cfg = require 'protected/config/config.php';
     Registry::setValue('config', $cfg);
 
-    FlashMessages::addMessage("new message", "info");
-    FlashMessages::addMessage("type error message", "error");
+    //core\FlashMessages::addMessage("new message", "info");
+//core\FlashMessages::addMessage("type error message", "error");
 
     try{
         $controllerManager = new ControllersManager();
