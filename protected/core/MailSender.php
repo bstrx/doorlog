@@ -7,24 +7,23 @@ namespace core;
  * @author adrenaline
  */
 class MailSender {
+    
+    var $to = '';
+    var $subject = '';
+    var $msg = '';
+    var $from = '';
+    var $validate_email = true;
+    var $rigorous_email_chek = true;
+    var $allow_empty_subject = false;
+    var $allow_empty_msg = false;
+    var $headers = array();
+
     public function __construct($to, $subject, $msg) {
         $this->to = $to;
         $this->subject = $subject;
         $this->msg = $msg;
     }
 
-    var $to = '';
-    var $subject = '';
-    var $msg = '';
-    var $from = '';
-
-    var $validate_email = true;
-    var $rigorous_email_chek = true;
-    var $allow_empty_subject = false;
-    var $allow_empty_msg = false;
-    
-    var $headers = array();
-    
     function checkFields(){
         if(empty($this->to)){
             return FALSE;
@@ -66,8 +65,4 @@ class MailSender {
     function safeString($str) {
         return htmlspecialchars(stripslashes(trim($str)));
     }
-
-    //function __construct($t,$subject,$message) {
-        
-    //}
 }
