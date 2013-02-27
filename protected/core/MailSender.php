@@ -7,10 +7,17 @@ namespace core;
  * @author adrenaline
  */
 class MailSender {
-    var $to = "";
-    var $from = "";
-    var $subject = "";
-    var $msg = "";
+    public function __construct($to, $subject, $msg) {
+        $this->to = $to;
+        $this->subject = $subject;
+        $this->msg = $msg;
+    }
+
+    var $to = '';
+    var $subject = '';
+    var $msg = '';
+    var $from = '';
+
     var $validate_email = true;
     var $rigorous_email_chek = true;
     var $allow_empty_subject = false;
@@ -32,34 +39,35 @@ class MailSender {
         }
         
         if(!empty($this->from)){
-            $this->headers[] = "From: $this->from";
+            $this->headers .= "From: $this->from";
         }
-        
-        
+
         if($this->validate_email){
             if(!preg_match("/[-0-9a-z_\.]+@[-0-9a-z_\.]+\.[a-z]{2,6}/i", $this -> to)){
                 return FALSE;
             }
             return TRUE;
         }
-    
     }
-    
     
     function send(){
-        if(!$this->checkFields()){
+
+        if(!MailSender::checkFields()){
             return TRUE;
         }
-        
+
         $subject = $this->safeString($this->subject);
         $message = $this->safeString($this->msg);
-        
-        if (mail($this->to, $subject, $message)) {
 
-}
-        
-function safeString($str) {
-    return htmlspecialchars(stripslashes(trim($str)));
-}
+        mail($this->to, $subject, $message);        
+   
     }
+
+    function safeString($str) {
+        return htmlspecialchars(stripslashes(trim($str)));
+    }
+
+    //function __construct($t,$subject,$message) {
+        
+    //}
 }
