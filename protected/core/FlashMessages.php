@@ -2,9 +2,16 @@
 namespace core;
 
 class FlashMessages{
+    static $typesArray = array('success', 'info', 'error');
+
     function addMessage($message, $type){
-        $_SESSION['flashMessages'][$type][] = $message;
+        if (in_array(self::$typesArray)) {
+            $_SESSION['flashMessages'][$type][] = $message;
+        }
+        return false;
     }
+
+
 
     function getMessage(){
         $flashMessages = array();

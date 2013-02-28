@@ -5,19 +5,7 @@ use core\Db;
 
 class Departments extends \core\Model {
     function getAll(){
-/*
-       $obj =  Db::getInstance();
-//       $r = $obj-> query("SELECT name
-//                          FROM departments" );
 
-              $r = $obj-> query("SELECT name, count(personal_id)
-                          FROM departments
-                          LEFT JOIN users
-                          ON users.department_id = departments.id
-                          GROUP BY name" );
-
-    //   $obj-> setFetchMode(PDO::FETCH_ASSOC);
-      $tmp = $r->fetchAll(\PDO::FETCH_ASSOC);*/
       $q = "SELECT d.name, count(personal_id) as total_users, t.name as chief_name
         FROM departments as d
         LEFT JOIN users as u
@@ -31,19 +19,38 @@ class Departments extends \core\Model {
       return $result;
     }
 
-      function createDep(){
-          $dep_name = "'".$_POST['dep_name']."'";
+    function getMenuDepartments(){
+        $q = "SELECT name, id
+              FROM departments";
+
+        $result = $this->get($q);
+        
+
+        return $result;
+    }
+
+    function createDep($depName){
           
+          $depName = "'".$depName."'";
           $obj = Db::getInstance();
           $obj->query("INSERT INTO departments(name)
-              VALUES($dep_name)");
+              VALUES($depName)");
 
       }
 
 
-      function deleteDep(){
+      function show($depId){
+          
+          $q = "SELECT p.name
+              FROM `tc-db-main`.personal as p
+              LEFT JOIN `savage-db`.users as u
+              ON u.personal_id = p.id
+              WHERE u.department_id = $depId";
 
+          $result = $this->get($q);
+          return $result;
       }
+
 
 
     

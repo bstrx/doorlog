@@ -12,7 +12,9 @@ abstract class Controller {
 
         $smarty->assign($values);
 
+        $departmentsModel = new \models\Departments();
         $smarty->assign(array('_flashMessages' => FlashMessages::getMessage()));
+        $smarty->assign(array('_menu' => $departmentsModel->getMenuDepartments()));
         $smarty->display('protected/views/'.$path);
     }
 }

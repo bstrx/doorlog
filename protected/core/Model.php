@@ -11,7 +11,7 @@ abstract class Model {
         $data = $db->query($query);
         if ($db->errorCode() != '00000') {
             $errorInfo = $db->errorInfo();
-            echo 'Db error happened:';
+            echo 'Db error occurred:';
             echo '<br><br><b>Code:</b>' . $errorInfo[0];
             echo '<br><b> Message:</b>' . $errorInfo[2];
             echo "</pre>";

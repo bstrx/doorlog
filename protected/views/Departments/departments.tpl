@@ -13,7 +13,7 @@
                     
                 </table>
                 <form method='post'>
-                <input type="text" name="dep_name" id="dep_name" placeholder="Название отдела">
+                <input type="text" name="depName" id="dep_name" placeholder="Название отдела">
                 <button type="submit" class="btn">Добавить</button>
                 </form>
             </div>
