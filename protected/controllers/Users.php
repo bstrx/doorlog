@@ -5,6 +5,7 @@ use core\Controller;
 use models\Users as UsersModel;
 use core\MailSender;
 use core\FlashMessages;
+use core\Authentication;
 
 class Users extends Controller{
     function indexAction() {
@@ -27,8 +28,8 @@ class Users extends Controller{
         if(isset($_POST['user']) && isset($_POST['email'])){
             $user = $_POST['user'];
             $email = $_POST['email'];
-            $salt = $this->createRandomString(5,5);
-            $password = $this->createRandomString();
+            $salt = Authentication::createRandomString(5,5);
+            $password = Authentication::createRandomString();
             $hash = sha1($salt.$password);
             if($users->insertUsers($user, $email, $hash, $salt)){
                 FlashMessages::addMessage("Пользователь успешно добавлен.", "info");
@@ -39,13 +40,26 @@ class Users extends Controller{
             $mail = new MailSender($email, "subject", "Your password: $password");
             $mail->send();
         }
-        
         $unregisteredUsers = $users->getAllUnregistered();
         $sortedUsers = array();
         foreach ($unregisteredUsers as $user) {
             $sortedUsers[$user['id']] = $user['name'];
         }
-        
         $this->render("Users/add.tpl" , array('users' => $sortedUsers) );
+    }
+
+    function loginAction(){
+        if(isset($_POST['email']) && isset($_POST['password'])){
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $auth = new Authentication;
+            $check = $auth->checkPassword($email, $password);
+            if($check){
+                header('Location: /');
+            } else {
+               //TODO describe error
+            }
+        }
+        $this->render("Users/login.tpl" , array('value' => 2));
     }
 }

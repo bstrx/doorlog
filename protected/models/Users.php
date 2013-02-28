@@ -15,6 +15,13 @@ class Users extends Model{
         return $add;
     }
 
+    public function getInfo($email){
+        $db = Db::getInstance();
+        $checkPassword = $db->query("SELECT `password` , `salt` FROM `users` WHERE email='$email'");
+        $fetchData = $checkPassword->fetchAll(\PDO::FETCH_ASSOC);
+        return $fetchData;
+    }
+
     //Получает все периоды входов-выходов пользователя за определённый месяц
     public function getMonthlyUserActions($userId, $timestamp = null) {
         if (is_null($timestamp)) $timestamp = time();
