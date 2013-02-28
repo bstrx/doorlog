@@ -16,5 +16,6 @@ abstract class Controller {
         $smarty->assign(array('_flashMessages' => FlashMessages::getMessage()));
         $smarty->assign(array('_menu' => $departmentsModel->getMenuDepartments()));
         $smarty->display('protected/views/'.$path);
+        exit();
     }
 }
