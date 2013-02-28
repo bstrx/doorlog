@@ -10,6 +10,7 @@
     use core\Acl;
     use core\Utils;
     use core\Registry;
+    use core\Authentication;
 
     require_once("protected/core/Autoloader.php");
     require 'protected/vendor/autoload.php';
@@ -19,6 +20,9 @@
 
     $cfg = require 'protected/config/config.php';
     Registry::setValue('config', $cfg);
+
+    $auth = new Authentication();
+    $auth->checkAccess();
 
     //core\FlashMessages::addMessage("new message", "info");
 //core\FlashMessages::addMessage("type error message", "error");
