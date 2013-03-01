@@ -25,15 +25,15 @@ class Users extends Controller{
     public function addAction(){
         $users = new UsersModel();
        // print_r($_POST);
-        if(isset($_POST['userId']) && isset($_POST['position']) && isset($_POST['email'])){
+        if(isset($_POST['userId']) && isset($_POST['department']) && isset($_POST['position']) && isset($_POST['email'])){
             $user = $_POST['userId'];
             $position = $_POST['position'];
-            
+            $department = $_POST['department'];
             $email = $_POST['email'];
             $salt = Utils::createRandomString(5,5);
             $password = Utils::createRandomString(8, 10);
             $hash = sha1($salt.$password);
-            if($users->insertUsers($user, $email, $hash, $salt, $position)){
+            if($users->insertUsers($user, $email, $hash, $salt, $position, $department)){
                 FlashMessages::addMessage("Пользователь успешно добавлен.", "info");
                 echo $password; //TODO убрать - пароль должен приходить на почту
             }
@@ -48,11 +48,12 @@ class Users extends Controller{
         $unregisteredUsers = $users->getAllUnregistered();
         $posList = $users->getPositionsList();
         $sortedUsers = array();
+        $sortedDepartments = $users->getDepartmentsList();
         
         foreach ($unregisteredUsers as $user) {
             $sortedUsers[$user['id']] = $user['name'];
         }
-        $this->render("Users/add.tpl" , array('users' => $sortedUsers, 'positions'=>$posList) );
+        $this->render("Users/add.tpl" , array('users' => $sortedUsers, 'positions'=>$posList, 'departments'=>$sortedDepartments) );
     }
 
     public function loginAction(){
