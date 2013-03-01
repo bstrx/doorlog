@@ -9,9 +9,9 @@ class Users extends Model{
         return $result;
     }
 
-    public function insertUsers($user, $email, $hash, $salt){
+    public function insertUsers($user, $email, $hash, $salt, $position){
         $db = Db::getInstance();
-        $add= $db->query("INSERT INTO users(personal_id, email, password, salt, created) VALUES ('$user', '$email','$hash','$salt', NOW())");
+        $add= $db->query("INSERT INTO users(personal_id, email, password, salt, department_id, created) VALUES ('$user', '$email','$hash','$salt','$position', NOW())");
         return $add;
     }
 
@@ -70,5 +70,15 @@ class Users extends Model{
 
         $result = $this->get($q);
         return $result;
+    }
+
+    public function getPositionsList(){
+        $db = Db::getInstance();
+        $q ="SELECT name, id
+                               FROM positions";
+        $result = $this->get($q);
+        print_r($result);
+        return $result[0];
+
     }
 }

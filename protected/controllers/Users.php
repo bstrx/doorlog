@@ -25,13 +25,14 @@ class Users extends Controller{
 
     function addAction(){
         $users = new UsersModel();
-        if(isset($_POST['user']) && isset($_POST['email'])){
+        if(isset($_POST['user']) && isset($_POST['position']) && isset($_POST['email'])){
             $user = $_POST['user'];
+            $position = $_POST['position'];
             $email = $_POST['email'];
             $salt = Authentication::createRandomString(5,5);
             $password = Authentication::createRandomString();
             $hash = sha1($salt.$password);
-            if($users->insertUsers($user, $email, $hash, $salt)){
+            if($users->insertUsers($user, $email, $hash, $salt, $position)){
                 FlashMessages::addMessage("Пользователь успешно добавлен.", "info");
             }
             else{
@@ -41,11 +42,12 @@ class Users extends Controller{
             $mail->send();
         }
         $unregisteredUsers = $users->getAllUnregistered();
+        $posList = $users->getPositionsList();
         $sortedUsers = array();
         foreach ($unregisteredUsers as $user) {
             $sortedUsers[$user['id']] = $user['name'];
         }
-        $this->render("Users/add.tpl" , array('users' => $sortedUsers) );
+        $this->render("Users/add.tpl" , array('users' => $sortedUsers, 'positions'=>$posList) );
     }
 
     function loginAction(){

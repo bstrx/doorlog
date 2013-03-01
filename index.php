@@ -22,7 +22,7 @@
     Registry::setValue('config', $cfg);
 
     $auth = new Authentication();
-    $auth->checkAccess();
+    //$auth->checkAccess();
 
     //core\FlashMessages::addMessage("new message", "info");
 //core\FlashMessages::addMessage("type error message", "error");
