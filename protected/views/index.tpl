@@ -23,8 +23,9 @@
                 {/foreach}
             {/if}
         {/block}
-        {block name="content"} {/block}
-
+        <div id="content">
+            {block name="content"} {/block}
+        </div>
     </body>
 </html>
 

@@ -43,7 +43,7 @@
 
 
             <ul class="nav pull-right">
-                <li><a href="#">Выйти</a></li>
+                <li><a href="/users/logout">Выйти</a></li>
             </ul>
             <form class="navbar-form pull-left">
                 <input type="text" class="span2">

@@ -3,6 +3,7 @@ namespace controllers;
 
 use core\Controller;
 use models\Users as UsersModel;
+use core\Registry;
 
 class Main extends Controller {
 
@@ -11,8 +12,8 @@ class Main extends Controller {
 
     //Отрисовывает главную страницу, передаёт данные о посещениях пользователя по целому месяцу
     function indexAction() {
-        $userId = 119; //TODO заменить на настоящий id
-
+        $userInfo = Registry::getValue('user');
+        $userId = $userInfo['id'];
         $usersModel = new UsersModel();
         $date = $this->getDate();
         $monthlyActions = $usersModel->getMonthlyUserActions($userId, strtotime($date));
@@ -21,8 +22,8 @@ class Main extends Controller {
         $weeklyActions = $usersModel->getWeeklyUserActions($userId, strtotime($date));
         $weeklyPeriods = $this->formPeriods($weeklyActions);
 
-        if (isset($weeklyPeriods['days'][date('d-m-Y')])) {
-            $currentDayPeriods = $weeklyPeriods['days'][date('d-m-Y')];
+        if (isset($weeklyPeriods['days'][$date])) {
+            $currentDayPeriods = $weeklyPeriods['days'][$date];
         } else $currentDayPeriods = array();
 
         $this->render("Main/index.tpl", array(

@@ -2,7 +2,7 @@
 namespace core;
 
 abstract class Controller {
-    protected function render($path, array $values) {
+    protected function render($path, array $values = array()) {
         $smarty = new \Smarty();
 
         $smarty->setTemplateDir('protected/vendor/smarty/templates/');

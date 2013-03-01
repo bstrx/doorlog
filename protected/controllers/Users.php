@@ -3,63 +3,80 @@ namespace controllers;
 
 use core\Controller;
 use models\Users as UsersModel;
+use core\Utils;
 use core\MailSender;
 use core\FlashMessages;
 use core\Authentication;
 
+
 class Users extends Controller{
-    function indexAction() {
-        //$this->render("users.tpl" , array('value' => 2) );
-    }
-
-    function createRandomString($minchar = 5, $maxchar=10){
-        $chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890abcdefghijklmnopqrstuvwxyz";
-        $length = mt_rand($minchar,$maxchar);
-        $password = '';
-        $charsCount = strlen($chars)-1;
-        for($i=0; $i<$length; $i++){
-            $password.= $chars[mt_rand(1, $charsCount)];
-        }
-        return $password;
-    }
-
-    function addAction(){
+    public function indexAction() {
         $users = new UsersModel();
-        if(isset($_POST['user']) && isset($_POST['email'])){
-            $user = $_POST['user'];
+        $registeredUsers = $users->getAllRegistered();
+        $this->render("Users/index.tpl" , array('users' => $registeredUsers) );
+    }
+
+    public function logoutAction() {
+        $auth = new Authentication;
+        $auth->logout();
+        header('Location: /');
+    }
+
+    public function addAction(){
+        $users = new UsersModel();
+        if (isset($_POST['userId']) && isset($_POST['email'])){
+            $userId = $_POST['userId'];
             $email = $_POST['email'];
-            $salt = Authentication::createRandomString(5,5);
-            $password = Authentication::createRandomString();
-            $hash = sha1($salt.$password);
-            if($users->insertUsers($user, $email, $hash, $salt)){
+            $salt = Utils::createRandomString(5, 5);
+            $password = Utils::createRandomString(8, 10);
+            $hash = $this->generateHash($password, $salt);
+
+            if($users->insertUsers($userId, $email, $hash, $salt)){
                 FlashMessages::addMessage("Пользователь успешно добавлен.", "info");
+                echo $password; //TODO убрать - пароль должен приходить на почту
             }
             else{
                 FlashMessages::addMessage("Произошла ошибка. Пользователь добавлен не был.", "error");
             }
+
             $mail = new MailSender($email, "subject", "Your password: $password");
-            $mail->send();
+            //$mail->send(); //TODO сделать доступным
         }
+
         $unregisteredUsers = $users->getAllUnregistered();
         $sortedUsers = array();
         foreach ($unregisteredUsers as $user) {
             $sortedUsers[$user['id']] = $user['name'];
         }
+
         $this->render("Users/add.tpl" , array('users' => $sortedUsers) );
     }
 
-    function loginAction(){
-        if(isset($_POST['email']) && isset($_POST['password'])){
-            $email = $_POST['email'];
-            $password = $_POST['password'];
-            $auth = new Authentication;
-            $check = $auth->checkPassword($email, $password);
-            if($check){
-                header('Location: /');
+    public function loginAction(){
+        if (isset($_POST['login']) && isset($_POST['password'])){
+            $usersModel = new UsersModel();
+            if (filter_var($_POST['login'], FILTER_VALIDATE_EMAIL)) {
+                $userInfo = $usersModel->getInfoByEmail($_POST['login']);
             } else {
-               //TODO describe error
+                $userInfo = $usersModel->getInfoById((int) $_POST['login']);
+            }
+            if ($userInfo) {
+                $hash = $this->generateHash($_POST['password'], $userInfo['salt']);
+
+                if ($hash == $userInfo['password']) {
+                    $auth = new Authentication();
+                    $auth->grantAccess($userInfo['personal_id'], $hash);
+                    header('Location: /');
+                } else {
+                    //TODO describe error
+                }
             }
         }
-        $this->render("Users/login.tpl" , array('value' => 2));
+
+        $this->render("Users/login.tpl");
+    }
+
+    public function generateHash($password, $salt) {
+        return sha1($salt . $password);
     }
 }

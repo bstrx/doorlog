@@ -19,4 +19,15 @@ class Utils{
         }
         echo('<br>' . 'Trace: ' . '<pre>' . $e->getTraceAsString() . '</pre>');
     }
+
+    static function createRandomString($minchar = 5, $maxchar=10){
+        $chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890abcdefghijklmnopqrstuvwxyz";
+        $length = mt_rand($minchar,$maxchar);
+        $randomString = '';
+        $charsCount = strlen($chars) - 1;
+        for($i = 0; $i < $length; $i++){
+            $randomString .= $chars[mt_rand(1, $charsCount)];
+        }
+        return $randomString;
+    }
 }
