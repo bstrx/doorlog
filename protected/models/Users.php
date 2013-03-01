@@ -33,12 +33,9 @@ class Users extends Model{
         return $result;
     }
 
-    public function insertUsers($user, $email, $hash, $salt){
+    public function insertUsers($user, $email, $hash, $salt, $position, $department){
         $db = Db::getInstance();
-        $add= $db->query("
-            INSERT INTO users(personal_id, email, password, salt, created)
-            VALUES ('$user', '$email','$hash','$salt', NOW())
-        ");
+        $add= $db->query("INSERT INTO users(personal_id, position_id, email, password, salt, department_id, created) VALUES ('$user','$position', '$email','$hash','$salt','$department', NOW())");
         return $add;
     }
 
@@ -105,5 +102,36 @@ class Users extends Model{
 
         $result = $this->get($q);
         return $result;
+    }
+
+    public function getPositionsList(){
+        //$db = Db::getInstance();
+        $q ="SELECT name, id
+                               FROM positions";
+        $result = $this->get($q);
+        //print_r($result);
+
+        $sortedResult = array();
+        foreach ($result as $k => $position){
+           $sortedResult[$position['id']] = $position['name'];
+
+        }
+
+        //print_r($sortedResult);
+        return $sortedResult;
+
+    }
+
+    public function getDepartmentsList(){
+        $q = "SELECT name, id
+              FROM departments";
+        $result = $this->get($q);
+
+        $sortedResult = array();
+        foreach ($result as $k => $department) {
+            $sortedResult[$department['id']] = $department['name'];
+
+        }
+        return $sortedResult;
     }
 }
