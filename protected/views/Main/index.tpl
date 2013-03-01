@@ -1,17 +1,6 @@
 {extends "protected/views/index.tpl"}
 
     {block name="content"}
-<!--
-        <div class="span6">
-            <table class="table table-bordered" style="">
-                <tr><td>ФИО</td><td>Гаврилюк Евгений Валентинович</td></tr>
-                <tr><td>Статус</td><td>В стакане</td></tr>
-                <tr class="error"><td>Отработано за неделю</td><td>40</td></tr>
-                <tr class="error"><td>Отработано за день</td><td>8</td></tr>
-                <tr class="error"><td>Отработано за месяц</td><td>160</td></tr>
-            </table>
-        </div>
--->
         <div class="span7">
         <div class="tabbable">
             <ul class="nav nav-tabs" data-tabs="tabs">
@@ -58,9 +47,9 @@
                         <th>День</th>
                         <th>Время в офисе</th>
 
-                        {foreach from=months item=singleDay}
+                        {foreach from=$week['days'] key=date item=singleDay}
                             <tr>
-                                <td colspan>25.02.2013</td>
+                                <td colspan>{$date}</td>
                                 <td> <b>{$singleDay['sum']|date_format:"%H:%M"}</b></td>
                             </tr>
                         {/foreach}
@@ -88,8 +77,8 @@
                         <td> Всего</td>
                         <td>
 
-                            {math equation="x / 3600" x=$month['total_sum']} ч.
-                            {math equation="(x % 3600) / 60" x=$month['total_sum']} м.
+                            {math equation="round(x / 3600)" x=$month['total_sum']} ч.
+                            {math equation="round(x % 3600 / 60)" x=$month['total_sum']} м.
                         </td>
                     </tr>
                     </table>

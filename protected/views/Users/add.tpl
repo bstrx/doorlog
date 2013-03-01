@@ -1,9 +1,9 @@
 {extends "protected/views/index.tpl"}
     {block name="content"}
         <div class="Users">
-            <form action="add" method="POST">
+            <form method="POST">
                 <p>Выберите пользователя:</p>
-                <select name="user">
+                <select name="userId">
                     {html_options options=$users}
                 </select> </br>
                 <p>Выберите должность:</p>

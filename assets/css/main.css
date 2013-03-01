@@ -2,8 +2,12 @@
     margin: 10px;
 }
 
-.span6 {
-    margin-left: 10px;
+.span7 {
+    margin-left:0px;
+}
+
+#content {
+    padding: 15px 0px 0px 20px;
 }
 
 

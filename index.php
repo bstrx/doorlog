@@ -24,9 +24,6 @@
     $auth = new Authentication();
     //$auth->checkAccess();
 
-    //core\FlashMessages::addMessage("new message", "info");
-//core\FlashMessages::addMessage("type error message", "error");
-
     try{
         $controllerManager = new ControllersManager();
         $controllerManager->runController();
