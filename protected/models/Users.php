@@ -105,33 +105,18 @@ class Users extends Model{
     }
 
     public function getPositionsList(){
-        //$db = Db::getInstance();
         $q ="SELECT name, id
-                               FROM positions";
+             FROM positions";
+        
         $result = $this->get($q);
-        //print_r($result);
-
-        $sortedResult = array();
-        foreach ($result as $k => $position){
-           $sortedResult[$position['id']] = $position['name'];
-
-        }
-
-        //print_r($sortedResult);
-        return $sortedResult;
-
+        return $result;
     }
 
     public function getDepartmentsList(){
         $q = "SELECT name, id
               FROM departments";
+
         $result = $this->get($q);
-
-        $sortedResult = array();
-        foreach ($result as $k => $department) {
-            $sortedResult[$department['id']] = $department['name'];
-
-        }
-        return $sortedResult;
+        return $result;
     }
 }

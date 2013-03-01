@@ -1,6 +1,6 @@
 {extends "protected/views/index.tpl"}
     {block name="content"}
-        <div class="Users">
+        <div class="users">
             <form method="POST">
                 <p>Выберите пользователя:</p>
                 <select name="userId">

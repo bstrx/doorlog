@@ -32,7 +32,7 @@ class Users extends Controller{
             $email = $_POST['email'];
             $salt = Utils::createRandomString(5,5);
             $password = Utils::createRandomString(8, 10);
-            $hash = sha1($salt.$password);
+            $hash = $this->generateHash($password, $salt);
             if($users->insertUsers($user, $email, $hash, $salt, $position, $department)){
                 FlashMessages::addMessage("Пользователь успешно добавлен.", "info");
                 echo $password; //TODO убрать - пароль должен приходить на почту
@@ -49,7 +49,16 @@ class Users extends Controller{
         $posList = $users->getPositionsList();
         $sortedUsers = array();
         $sortedDepartments = $users->getDepartmentsList();
-        
+
+        $depList = array();
+        foreach ($sortedDepartments as $k => $department) {
+            $depList[$department['id']] = $department['name'];
+        }
+        $sortedPositions = array();
+        foreach ($posList as $k => $position){
+           $sortedPositions[$position['id']] = $position['name'];
+        }
+
         foreach ($unregisteredUsers as $user) {
             $sortedUsers[$user['id']] = $user['name'];
         }
