@@ -11,11 +11,11 @@
                         Отделы <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">QA</a></li>
-                        <li><a href="#">RU.Project</a></li>
-                        <li><a href="#">ONP</a></li>
-                        <li><a href="#">Profit</a></li>
-                        <li><a href="#">Administration</a></li>
+                        {if isset($_menu)}
+                            {foreach from=$_menu item=departments}
+                                <li><a href="/departments/show?id={$departments['id']}">{$departments['name']}</a></li>
+                            {/foreach}
+                        {/if}
                     </ul>
                 </li>
                 <li class="dropdown">
