@@ -49,21 +49,27 @@ class Users extends Controller{
         $unregisteredUsers = $users->getAllUnregistered();
         $posList = $users->getPositionsList();
         $sortedUsers = array();
-        $sortedDepartments = $users->getDepartmentsList();
+        $depList = $users->getDepartmentsList();
 
-        $depList = array();
-        foreach ($sortedDepartments as $k => $department) {
-            $depList[$department['id']] = $department['name'];
+        $sortedDepartments = array();
+        foreach ($depList as $department) {
+            $sortedDepartments[$department['id']] = $department['name'];
         }
+
         $sortedPositions = array();
-        foreach ($posList as $k => $position){
+        foreach ($posList as $position){
            $sortedPositions[$position['id']] = $position['name'];
         }
 
         foreach ($unregisteredUsers as $user) {
             $sortedUsers[$user['id']] = $user['name'];
         }
-        $this->render("Users/add.tpl" , array('users' => $sortedUsers, 'positions'=>$posList, 'departments'=>$sortedDepartments) );
+
+        $this->render("Users/add.tpl" , array(
+            'users' => $sortedUsers,
+            'positions'=> $sortedPositions,
+            'departments'=> $sortedDepartments)
+        );
     }
 
     public function loginAction(){

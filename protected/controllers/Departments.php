@@ -12,10 +12,10 @@ class Departments extends Controller {
            $depName = $_POST['depName'];
            $obj->createDep($depName);
         }
-        
+
         $departments =  $obj->getAll();
 
-        $this->render("Departments/departments.tpl" , array('departments' => $departments));
+        $this->render("Departments/index.tpl" , array('departments' => $departments));
     }
 
     function showAction(){
@@ -23,9 +23,9 @@ class Departments extends Controller {
         if(isset($_GET['id']) && $_GET['id']){
             $depId = $_GET['id'];
         }
-        
+
         $department = $obj->show($depId);
 
-        $this->render("Departments/department.tpl" , array('department' => $department));
+        $this->render("Departments/show.tpl" , array('department' => $department));
     }
 }

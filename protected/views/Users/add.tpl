@@ -7,7 +7,6 @@
                     {html_options options=$users}
                 </select> </br>
 
-
                 <p>Выберите отдел:</p>
                 <select name="department">
                     {html_options options=$departments}
@@ -18,8 +17,7 @@
                     {html_options options=$positions}
                 </select> </br>
 
-
-                <p>Добавить Email:</p> <input type="text" maxlength="25" size="40" name="email"></p>
+                <p>Укажите Email:</p> <input type="text" maxlength="45" size="40" name="email"></p>
                 <input type=submit value="Добавить">
             </form>
         </div>

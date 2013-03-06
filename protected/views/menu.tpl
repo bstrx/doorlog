@@ -20,13 +20,13 @@
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        Отчёты <span class="caret"></span>
+                        <s>Отчёты</s> <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">По себе</a></li>
-                        <li><a href="#">Графический</a></li>
-                        <li><a href="#">По дням</a></li>
-                        <li><a href="#">По отделам</a></li>
+                        <li><a href="#"><s>По себе</s></a></li>
+                        <li><a href="#"><s>Графический</s></a></li>
+                        <li><a href="#"><s>По дням</s></a></li>
+                        <li><a href="#"><s>По отделам</s></a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
@@ -35,8 +35,8 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a href="{$_root}/departments">Отделы</a></li>
-                        <li><a href="#">Права доступа</a></li>
-                        <li><a href="{$_root}/users#">Пользователи</a></li>
+                        <li><a href="#"><s>Права доступа</s></a></li>
+                        <li><a href="{$_root}/users">Пользователи</a></li>
                     </ul>
                 </li>
             </ul>
