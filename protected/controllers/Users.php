@@ -39,7 +39,7 @@ class Users extends Controller{
                 echo $password; //TODO убрать - пароль должен приходить на почту
             }
             else{
-                FlashMessages::addMessage("Произошла ошибка. Пользователь добавлен не был.", "error");
+                FlashMessages::addMessage("Произошла ошибка. Пользователь не был добавлен.", "error");
             }
 
             $mail = new MailSender($email, "subject", "Your password: $password");
@@ -72,7 +72,7 @@ class Users extends Controller{
             if (filter_var($_POST['login'], FILTER_VALIDATE_EMAIL)) {
                 $userInfo = $usersModel->getInfoByEmail($_POST['login']);
             } else {
-                $userInfo = $usersModel->getInfoById((int) $_POST['login']);
+                //$userInfo = $usersModel->getInfoById((int) $_POST['login']);
             }
             if ($userInfo) {
                 $hash = $this->generateHash($_POST['password'], $userInfo['salt']);
@@ -82,8 +82,10 @@ class Users extends Controller{
                     $auth->grantAccess($userInfo['personal_id'], $hash);
                     $this->redirect('/');
                 } else {
-                    //TODO describe error
+                    FlashMessages::addMessage("Неверный пароль.", "error");
                 }
+            } else {
+                FlashMessages::addMessage("Неверный пользователь.", "error");
             }
         }
 

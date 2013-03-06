@@ -54,6 +54,16 @@ class Users extends Model{
         return $result[0];
     }
 
+    public function getInfoBy($id){
+        $result = $this->get("
+            SELECT t.id, u.email, u.position_id, u.password, u.salt, t.name
+            FROM `users` u
+            JOIN `tc-db-main`.`personal` t ON u.personal_id = t.id
+            WHERE t.id = '$id'
+        ");
+        return $result[0];
+    }
+
     //Получает все периоды входов-выходов пользователя за определённый месяц
     public function getMonthlyUserActions($userId, $timestamp = null) {
         if (is_null($timestamp)) $timestamp = time();
@@ -107,7 +117,7 @@ class Users extends Model{
     public function getPositionsList(){
         $q ="SELECT name, id
              FROM positions";
-        
+
         $result = $this->get($q);
         return $result;
     }

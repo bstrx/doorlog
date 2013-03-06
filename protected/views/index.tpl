@@ -12,17 +12,21 @@
         <script src="{$_root}/protected/vendor/twitter/bootstrap/docs/assets/js/bootstrap.min.js"></script>
     </head>
     <body>
-        {block name="javascript"}{/block}
-        {block name="menu"}{include file='protected/views/menu.tpl'}{/block}
-        {block name="FlashMessages"}
-            {if isset($_flashMessages)}
-                {foreach key=type item=messageArr from=$_flashMessages}
-                    {foreach item=message from=$_flashMessages[$type]}
-                        <div class='alert alert-{$type}'> {$message} </div>
-                    {/foreach}
-                {/foreach}
+
+            {block name="javascript"}{/block}
+            {if $_user}
+                {block name="menu"}{include file='protected/views/menu.tpl'}{/block}
             {/if}
-        {/block}
+            {block name="FlashMessages"}
+                {if isset($_flashMessages)}
+                    {foreach key=type item=messageArr from=$_flashMessages}
+                        {foreach item=message from=$_flashMessages[$type]}
+                            <div class='alert alert-{$type}'> {$message} </div>
+                        {/foreach}
+                    {/foreach}
+                {/if}
+            {/block}
+
         <div id="content">
             {block name="content"} {/block}
         </div>
