@@ -10,6 +10,8 @@
         <link href="/doorlog/assets/images/logout.ico" rel="icon" type="images/x-icon">
         <script src="/doorlog/assets/js/jquery-1.9.1.min.js"></script>
         <script src="/doorlog/protected/vendor/twitter/bootstrap/docs/assets/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
+        <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
     </head>
     <body>
         {block name="javascript"}{/block}
@@ -28,4 +30,3 @@
         </div>
     </body>
 </html>
-
