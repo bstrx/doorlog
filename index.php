@@ -3,7 +3,6 @@
     ini_set('display_errors', true);
     ini_set('error_reporting',  E_ALL);
     date_default_timezone_set('UTC');
-
     header('Content-Type: text/html; charset=utf-8');
 
     use core\ControllersManager;
@@ -12,7 +11,7 @@
     use core\Registry;
     use core\Authentication;
 
-    require_once("protected/core/Autoloader.php");
+    require 'protected/core/Autoloader.php';
     require 'protected/vendor/autoload.php';
 
     $auto = new Autoloader();

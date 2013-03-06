@@ -4,18 +4,18 @@
         <div class="container">
             <ul class="nav">
                 <li>
-                    <a href="#">Главная</a>
+                    <a href="/">Главная</a>
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         Отделы <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">QA</a></li>
-                        <li><a href="#">RU.Project</a></li>
-                        <li><a href="#">ONP</a></li>
-                        <li><a href="#">Profit</a></li>
-                        <li><a href="#">Administration</a></li>
+                        {if isset($_menu)}
+                            {foreach from=$_menu item=departments}
+                                <li><a href="{$_root}/departments/show?id={$departments['id']}">{$departments['name']}</a></li>
+                            {/foreach}
+                        {/if}
                     </ul>
                 </li>
                 <li class="dropdown">
@@ -34,14 +34,14 @@
                         Настройки <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">Отделы</a></li>
+                        <li><a href="{$_root}/departments">Отделы</a></li>
                         <li><a href="#">Права доступа</a></li>
-                        <li><a href="#">Пользователи</a></li>
+                        <li><a href="{$_root}/users#">Пользователи</a></li>
                     </ul>
                 </li>
             </ul>
             <ul class="nav pull-right">
-                <li><a href="/users/logout">Выйти</a></li>
+                <li><a href="{$_root}/users/logout">Выйти</a></li>
             </ul>
             <form class="navbar-form pull-left" method ="get">
                 <script>
@@ -85,4 +85,10 @@
         </div>
     </div>
 </div>
+<<<<<<< HEAD
 {/block}
+=======
+
+
+{/block}
+>>>>>>> e21301c115b037cff68dde8f8ee51fdeb64056cf

@@ -44,12 +44,9 @@ class Users extends Model{
         return $result;
     }
 
-    public function insertUsers($user, $email, $hash, $salt){
+    public function insertUsers($user, $email, $hash, $salt, $position, $department){
         $db = Db::getInstance();
-        $add= $db->query("
-            INSERT INTO users(personal_id, email, password, salt, created)
-            VALUES ('$user', '$email','$hash','$salt', NOW())
-        ");
+        $add= $db->query("INSERT INTO users(personal_id, position_id, email, password, salt, department_id, created) VALUES ('$user','$position', '$email','$hash','$salt','$department', NOW())");
         return $add;
     }
 
@@ -113,6 +110,22 @@ class Users extends Model{
               AND YEAR(logtime) = {$year}
             ORDER BY logtime ASC
             ";
+
+        $result = $this->get($q);
+        return $result;
+    }
+
+    public function getPositionsList(){
+        $q ="SELECT name, id
+             FROM positions";
+        
+        $result = $this->get($q);
+        return $result;
+    }
+
+    public function getDepartmentsList(){
+        $q = "SELECT name, id
+              FROM departments";
 
         $result = $this->get($q);
         return $result;

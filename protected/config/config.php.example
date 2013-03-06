@@ -1,8 +1,10 @@
 <?php
 return array(
+    'root' => '', //f.e. if you access your page localhost/doorlog/... then value shoold be /doorlog
     'db' => array(
         'host'=>'',
         'dbname'=>'',
         'user'=>'',
-        'password'=>''));
+        'password'=>'')
+);
 ?>
