@@ -29,7 +29,18 @@ class Users extends Model{
             LEFT JOIN `departments` d
               ON u.department_id = d.id
         ");
+        return $result;
+    }
 
+    public function searchByName(){
+        $result = $this->get("
+            SELECT t.NAME as name,
+                t.id
+            FROM `users` u
+            JOIN `tc-db-main`.`personal` t
+              ON u.personal_id = t.id
+            WHERE t.NAME LIKE '%" . strval($_GET['term']) . "%'
+        ");
         return $result;
     }
 

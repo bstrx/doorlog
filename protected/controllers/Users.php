@@ -7,7 +7,7 @@ use core\Utils;
 use core\MailSender;
 use core\FlashMessages;
 use core\Authentication;
-
+use core\Db;
 
 class Users extends Controller{
     public function indexAction() {
@@ -40,7 +40,6 @@ class Users extends Controller{
             else{
                 FlashMessages::addMessage("Произошла ошибка. Пользователь добавлен не был.", "error");
             }
-
             $mail = new MailSender($email, "subject", "Your password: $password");
             //$mail->send(); //TODO сделать доступным
         }
@@ -71,7 +70,7 @@ class Users extends Controller{
             if (filter_var($_POST['login'], FILTER_VALIDATE_EMAIL)) {
                 $userInfo = $usersModel->getInfoByEmail($_POST['login']);
             } else {
-                $userInfo = $usersModel->getInfoById((int) $_POST['login']);
+                $userInfo = $usersModel->getInfo((int) $_POST['login']);
             }
             if ($userInfo) {
                 $hash = $this->generateHash($_POST['password'], $userInfo['salt']);
@@ -91,5 +90,11 @@ class Users extends Controller{
 
     public function generateHash($password, $salt) {
         return sha1($salt . $password);
+    }
+
+    function searchAction(){
+        $autocomplete = new UsersModel;
+        $result = $autocomplete ->searchByName();
+        echo (json_encode($result));
     }
 }
