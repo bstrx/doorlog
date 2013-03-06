@@ -8,6 +8,7 @@ use core\MailSender;
 use core\FlashMessages;
 use core\Authentication;
 use core\Registry;
+use core\Db;
 
 
 class Users extends Controller{
@@ -41,7 +42,6 @@ class Users extends Controller{
             else{
                 FlashMessages::addMessage("Произошла ошибка. Пользователь не был добавлен.", "error");
             }
-
             $mail = new MailSender($email, "subject", "Your password: $password");
             //$mail->send(); //TODO сделать доступным
         }
@@ -94,5 +94,11 @@ class Users extends Controller{
 
     public function generateHash($password, $salt) {
         return sha1($salt . $password);
+    }
+
+    function searchAction(){
+        $autocomplete = new UsersModel;
+        $result = $autocomplete ->searchByName();
+        echo (json_encode($result));
     }
 }

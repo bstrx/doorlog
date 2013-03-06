@@ -40,19 +40,52 @@
                     </ul>
                 </li>
             </ul>
-
-
             <ul class="nav pull-right">
                 <li><a href="{$_root}/users/logout">Выйти</a></li>
             </ul>
-            <form class="navbar-form pull-left">
-                <input type="text" class="span2">
+
+            <form class="navbar-form pull-left" method ="get">
+                <input type="text" class="span2" id="autocomplete">
+                <input type="hidden" id="id" name="id">
                 <button type="submit" class="btn">Поиск</button>
             </form>
-
         </div>
     </div>
 </div>
 
+<script type="text/javascript">
+    $(function() {
+        $("#autocomplete").autocomplete({
+            minLength: 3,
+            source: function( request, response ) {
+                $.ajax({
+                    url: "/doorlog/users/search",
+                    dataType: "json",
+                    data:{
+                        term:request.term
+                    },
 
+                    success: function(data) {
+                        response($.map(data, function(item) {
+                            return {
+                                label:item.name,
+                                id:item.id
+                            };
+                        }));
+                    }
+                });
+            },
+            select: function( event, ui ) {
+                $("#id").val(ui.item.id);
+            },
+            messages: {
+                noResults: '',
+                results: function() {
+                }
+            }
+        });
+    });
+</script>
 {/block}
+
+
