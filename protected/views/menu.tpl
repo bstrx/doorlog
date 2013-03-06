@@ -85,10 +85,5 @@
         </div>
     </div>
 </div>
-<<<<<<< HEAD
 {/block}
-=======
-
-
 {/block}
->>>>>>> e21301c115b037cff68dde8f8ee51fdeb64056cf
