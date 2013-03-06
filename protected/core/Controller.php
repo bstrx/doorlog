@@ -17,6 +17,10 @@ abstract class Controller {
         $departmentsModel = new Dep();
         $smarty->assign(array('_flashMessages' => FlashMessages::getMessage()));
         $smarty->assign(array('_menu' => $departmentsModel->getMenuDepartments()));
+
+        $cfg = Registry::getValue('config');
+        $smarty->assign(array('_root' => $cfg['root']));
+
         $smarty->display('protected/views/'.$path);
         exit();
     }

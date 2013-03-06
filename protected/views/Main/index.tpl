@@ -1,7 +1,34 @@
+<!-- class='timer' data-unixtime="$period['exit']"-->
 {extends "protected/views/index.tpl"}
 
     {block name="content"}
-        <div class="span7">
+
+    <script type="text/javascript">
+        $(
+            function() {
+                var elements = $('.timer')
+                if (elements.length) {
+                    setInterval( function() {
+                        elements.each( function() {
+                            setDate(this)
+                        })
+                    }, 1000);
+                }
+            }
+        )
+
+        function setDate(element) {
+            var unixtime = $(element).attr('data-unixtime') | 0;
+            var currentDate = new Date(unixtime * 1000);
+            var h = currentDate.getHours(); // 0-24 format
+            var m = currentDate.getMinutes();
+            var s = currentDate.getSeconds();
+            $(element).text(h + ':' + m + ':' + s);
+            $(element).attr('data-unixtime', ++unixtime)
+        }
+    </script>
+
+    <div class="span7">
         <div class="tabbable">
             <ul class="nav nav-tabs" data-tabs="tabs">
                 <li class="active"><a data-toggle="tab" href="#day">День</a></li>
@@ -12,6 +39,7 @@
             <div class="tab-content">
                 <!-- Вкладка "День" -->
                 <div class="tab-pane active" id="day">
+                    <div align=right>{$date|date_format:"%d-%m-%Y"}</div>
                     <table class="table table-bordered">
                         <th>Вход</th>
                         <th>Выход</th>
@@ -20,13 +48,24 @@
                             {foreach from=$day['periods'] item=period}
                                 <tr>
                                     <td> {$period['enter']|date_format:"%H:%M"}</td>
-                                    <td> {$period['exit']|date_format:"%H:%M"} </td>
-                                    <td> {$period['diff']|date_format:"%H:%M"} </td>
+                                    {if ($period['enter']|date_format:"%D" == $period['exit']|date_format:"%D")}
+                                        <td> {$period['exit']|date_format:"%H:%M"} </td>
+                                    {else}
+                                        <td> {$period['exit']|date_format:"%H:%M (%D)"} </td>
+                                    {/if}
+                                    <td>
+                                        {math equation="floor(x / 3600)" x=$period['diff']} ч.
+                                        {math equation="floor(x % 3600 / 60)" x=$period['diff']} м.
+                                    </td>
+
                                 </tr>
                             {/foreach}
                             <tr>
                                 <td colspan=2>Всего</td>
-                                <td><b>{$day['sum']|date_format:"%H:%M"}</b></td>
+                                <td>
+                                    {math equation="floor(x / 3600)" x=$day['sum']} ч.
+                                    {math equation="floor(x % 3600 / 60)" x=$day['sum']} м.
+                                </td>
                             </tr>
                         {else}
                             <tr>
@@ -49,43 +88,38 @@
 
                         {foreach from=$week['days'] key=date item=singleDay}
                             <tr>
-                                <td colspan>{$date}</td>
-                                <td> <b>{$singleDay['sum']|date_format:"%H:%M"}</b></td>
+                                <td colspan>{$date|date_format:"%d/%m/%Y"}</td>
+                                <td>
+                                    {math equation="floor(x / 3600)" x=$singleDay['sum']} ч.
+                                    {math equation="floor(x % 3600 / 60)" x=$singleDay['sum']} м.
+                                </td>
                             </tr>
                         {/foreach}
                         <tr>
                             <td> Всего</td>
-                            <td> <b>{$singleDay['sum']|date_format:"%d %H:%M"}</b></td>
+                            <td>
+                                {math equation="floor(x / 3600)" x=$week['total_sum']} ч.
+                                {math equation="floor(x % 3600 / 60)" x=$week['total_sum']} м.
+                            </td>
                         </tr>
                     </table>
                 </div>
 
-                <!-- Вкладка "Месяц" -->
+
+                <!--Вкладка "Месяц"-->
                 <div class="tab-pane" id="month">
                     <table class="table table-bordered">
-
-                    <th>День</th>
-                    <th>Время в офисе</th>
-
-                    {foreach from=$month['days'] key=dayDate item=singleDay}
-                        <tr>
-                            <td>{$dayDate}</td>
-                            <td> {$singleDay['sum']|date_format:"%H:%M"}</td>
-                        </tr>
-                    {/foreach}
                     <tr>
                         <td> Всего</td>
                         <td>
-
-                            {math equation="round(x / 3600)" x=$month['total_sum']} ч.
-                            {math equation="round(x % 3600 / 60)" x=$month['total_sum']} м.
+                            {math equation="floor(x / 3600)" x=$month['total_sum']} ч.
+                            {math equation="floor(x % 3600 / 60)" x=$month['total_sum']} м.
                         </td>
                     </tr>
                     </table>
                 </div>
             </div>
         </div>
-        </div>
+    </div>
     {/block}
-
 {/extends}
