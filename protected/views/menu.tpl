@@ -4,7 +4,7 @@
         <div class="container">
             <ul class="nav">
                 <li>
-                    <a href="/">Главная</a>
+                    <a href="{$_root}/">Главная</a>
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
