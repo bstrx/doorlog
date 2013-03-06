@@ -82,26 +82,38 @@
                 <!-- Вкладка "Неделя" -->
                 <div class="tab-pane" id="week">
                     <table class="table table-bordered">
-
                         <th>День</th>
                         <th>Время в офисе</th>
+                        {if isset($week['days'])}
+                            {foreach from=$week['days'] key=date item=singleDay}
+                                <tr>
+                                    <td colspan>{$date|date_format:"%d/%m/%Y"}</td>
+                                    <td>
+                                        {math equation="floor(x / 3600)" x=$singleDay['sum']} ч.
+                                        {math equation="floor(x % 3600 / 60)" x=$singleDay['sum']} м.
+                                    </td>
+                                </tr>
+                            {/foreach}
 
-                        {foreach from=$week['days'] key=date item=singleDay}
                             <tr>
-                                <td colspan>{$date|date_format:"%d/%m/%Y"}</td>
+                                <td> Всего </td>
                                 <td>
-                                    {math equation="floor(x / 3600)" x=$singleDay['sum']} ч.
-                                    {math equation="floor(x % 3600 / 60)" x=$singleDay['sum']} м.
+                                    {math equation="floor(x / 3600)" x=$week['total_sum']} ч.
+                                    {math equation="floor(x % 3600 / 60)" x=$week['total_sum']} м.
                                 </td>
                             </tr>
-                        {/foreach}
-                        <tr>
-                            <td> Всего</td>
-                            <td>
-                                {math equation="floor(x / 3600)" x=$week['total_sum']} ч.
-                                {math equation="floor(x % 3600 / 60)" x=$week['total_sum']} м.
-                            </td>
-                        </tr>
+
+                        {else}
+
+                            <tr>
+                                <td  colspan=2>
+                                    <div align=center>
+                                        На этой неделе посещений не было
+                                    </div>
+                                </td>
+                            </tr>
+
+                        {/if}
                     </table>
                 </div>
 
