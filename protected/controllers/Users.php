@@ -7,6 +7,7 @@ use core\Utils;
 use core\MailSender;
 use core\FlashMessages;
 use core\Authentication;
+use core\Registry;
 
 
 class Users extends Controller{
@@ -19,7 +20,7 @@ class Users extends Controller{
     public function logoutAction() {
         $auth = new Authentication;
         $auth->logout();
-        header('Location: /');
+        $this->redirect('/');
     }
 
     public function addAction(){
@@ -79,7 +80,7 @@ class Users extends Controller{
                 if ($hash == $userInfo['password']) {
                     $auth = new Authentication();
                     $auth->grantAccess($userInfo['personal_id'], $hash);
-                    header('Location: /');
+                    $this->redirect('/');
                 } else {
                     //TODO describe error
                 }

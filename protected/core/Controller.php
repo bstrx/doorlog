@@ -15,13 +15,21 @@ abstract class Controller {
         $smarty->assign($values);
 
         $departmentsModel = new Dep();
-        $smarty->assign(array('_flashMessages' => FlashMessages::getMessage()));
-        $smarty->assign(array('_menu' => $departmentsModel->getMenuDepartments()));
-
         $cfg = Registry::getValue('config');
-        $smarty->assign(array('_root' => $cfg['root']));
+        $userInfo = Registry::getValue('user');
+        $smarty->assign(array(
+            '_root' => $cfg['root'],
+            '_user' => $userInfo,
+            '_menu' => $departmentsModel->getMenuDepartments(),
+            '_flashMessages' => FlashMessages::getMessage()
+        ));
 
         $smarty->display('protected/views/'.$path);
         exit();
+    }
+
+    protected function redirect($url = '/') {
+        $cfg = Registry::getValue('config');
+        header('Location: ' . $cfg['root'] . $url);
     }
 }
