@@ -25,9 +25,9 @@ abstract class Controller {
         ));
 
         $smarty->registerPlugin(
-            "modifier",
-            "formatDate",
-            array("core\Utils", "formatDate")
+            'modifier',
+            'formatDate',
+            array('core\DateTime', 'formatDate')
         );
 
         $smarty->display('protected/views/'.$path);

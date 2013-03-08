@@ -2,7 +2,6 @@
 namespace core;
 
 class Utils{
-
     static function log($type, $data){
        $db = Db::getInstance();
        $result = $db->query("INSERT INTO log(type, data)
@@ -29,19 +28,5 @@ class Utils{
             $randomString .= $chars[mt_rand(1, $charsCount)];
         }
         return $randomString;
-    }
-
-    static function formatDate($unixtime)
-    {
-        $h = floor($unixtime / 3600);
-        $m = floor($unixtime % 3600 / 60);
-
-        if ($h) {
-            $str = $h . ' ч. ' . $m . ' м.';
-        } else {
-            $str = $m . ' м.';
-        }
-
-        return $str;
     }
 }

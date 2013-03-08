@@ -15,10 +15,5 @@ class Registry{
             return self::$_registry[$key];
         }
     }
-
-    protected function __construct() {
-
-    }
-
 }
 

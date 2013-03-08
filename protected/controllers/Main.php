@@ -4,6 +4,7 @@ namespace controllers;
 use core\Controller;
 use models\Users as UsersModel;
 use core\Registry;
+use core\DateTime;
 
 class Main extends Controller {
 
@@ -16,7 +17,7 @@ class Main extends Controller {
         $userId = $userInfo['id'];
         $usersModel = new UsersModel();
         $date = $this->getDate();
-        $weekDays = $this->getWeekDays($date);
+        $weekDays = DateTime::getWeekDays($date);
         $monthlyActions = $usersModel->getMonthlyUserActions($userId, strtotime($date));
         $monthlyPeriods = $this->formPeriods($monthlyActions);
 
@@ -33,21 +34,10 @@ class Main extends Controller {
             'day' => $currentDayPeriods,
             'week' => $weeklyPeriods,
             'month' => $monthlyPeriods
-            )
-        );
+        ));
     }
 
-    //Возвращает дату либо из $_GET, либо текущую
-    public function getDate() {
-        if (!empty($_GET['date'])) {
-            $unixtime = strtotime($_GET['date']);
-            $date = date('Y-m-d', $unixtime);
-        } else $date = date('Y-m-d');
-
-        return $date;
-    }
-
-     function formPeriods(array $actions) {
+    function formPeriods(array $actions) {
         $daysPeriods = array();
         $daysPeriods['total_sum'] = 0;
 
@@ -98,29 +88,13 @@ class Main extends Controller {
         return $daysPeriods;
     }
 
-    private function getWeekDays($date) {
+    //Возвращает дату либо из $_GET, либо текущую
+    public function getDate() {
+        if (!empty($_GET['date'])) {
+            $unixtime = strtotime($_GET['date']);
+            $date = date('Y-m-d', $unixtime);
+        } else $date = date('Y-m-d');
 
-        $daysNames = array('Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Cб', 'Вс');
-
-        $ts = strtotime($date);
-        $dayOfWeek = date('w', $ts);
-        $offset = $dayOfWeek - 1;
-        if ($offset < 0) {
-            $offset = 6;
-        }
-        $ts -= $offset * 24 * 60 * 60;
-
-        $weekDays = array();
-        foreach ($daysNames as $name) {
-            $date = date("Y-m-d", $ts);
-            $weekDays[] = array(
-                'date' => $date,
-                'name' => $name,
-            );
-            $ts += 86400;
-        }
-
-        return $weekDays;
+        return $date;
     }
-
 }
