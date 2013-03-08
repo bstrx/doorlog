@@ -39,83 +39,17 @@
             <div class="tab-content">
                 <!-- Вкладка "День" -->
                 <div class="tab-pane active" id="day">
-                    <div align=right>{$date|date_format:"%d-%m-%Y"}</div>
-                    <table class="table table-bordered">
-                        <th>Вход</th>
-                        <th>Выход</th>
-                        <th>Время в офисе</th>
-                        {if ($day && $day['periods'])}
-                            {foreach from=$day['periods'] item=period}
-                                <tr>
-                                    <td> {$period['enter']|date_format:"%H:%M"}</td>
-                                    {if ($period['enter']|date_format:"%D" == $period['exit']|date_format:"%D")}
-                                        <td> {$period['exit']|date_format:"%H:%M"} </td>
-                                    {else}
-                                        <td> {$period['exit']|date_format:"%H:%M (%D)"} </td>
-                                    {/if}
-                                    <td>
-                                        {$period['diff']|formatDate}
-                                    </td>
-
-                                </tr>
-                            {/foreach}
-                            <tr>
-                                <td colspan=2>Всего</td>
-                                <td>
-                                    {$day['sum']|formatDate}
-                                </td>
-                            </tr>
-                        {else}
-                            <tr>
-                                <td  colspan=3>
-                                    <div align=center>
-                                        В этот день посещений не было
-                                    </div>
-                                </td>
-                            </tr>
-                        {/if}
-                    </table>
+                    {block name="menu"} {include file='protected/views/Main/day.tpl'} {/block}
                 </div>
 
                 <!-- Вкладка "Неделя" -->
                 <div class="tab-pane" id="week">
-                    <table class="table table-bordered">
-                        <th>День</th>
-                        <th>Время в офисе</th>
-
-                        {if isset($week['days'])}
-                            {foreach from=$week['days'] key=date item=singleDay}
-                                <tr>
-                                    <td colspan>{$date|date_format:"%d/%m/%Y"}</td>
-                                    <td> {$singleDay['sum']|formatDate} </td>
-                                </tr>
-                            {/foreach}
-
-                            <tr>
-                                <td> Всего </td>
-                                <td> {$week['total_sum']|formatDate} </td>
-                            </tr>
-                        {else}
-                            <tr>
-                                <td  colspan=2>
-                                    <div align=center>
-                                        На этой неделе посещений не было
-                                    </div>
-                                </td>
-                            </tr>
-                        {/if}
-                    </table>
+                    {block name="menu"} {include file='protected/views/Main/week.tpl'} {/block}
                 </div>
-
 
                 <!--Вкладка "Месяц"-->
                 <div class="tab-pane" id="month">
-                    <table class="table table-bordered">
-                    <tr>
-                        <td> Всего</td>
-                        <td> {$month['total_sum']|formatDate} </td>
-                    </tr>
-                    </table>
+                    {block name="menu"} {include file='protected/views/Main/month.tpl'} {/block}
                 </div>
             </div>
         </div>
