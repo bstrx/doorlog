@@ -54,8 +54,7 @@
                                         <td> {$period['exit']|date_format:"%H:%M (%D)"} </td>
                                     {/if}
                                     <td>
-                                        {math equation="floor(x / 3600)" x=$period['diff']} ч.
-                                        {math equation="floor(x % 3600 / 60)" x=$period['diff']} м.
+                                        {$period['diff']|formatDate}
                                     </td>
 
                                 </tr>
@@ -63,8 +62,7 @@
                             <tr>
                                 <td colspan=2>Всего</td>
                                 <td>
-                                    {math equation="floor(x / 3600)" x=$day['sum']} ч.
-                                    {math equation="floor(x % 3600 / 60)" x=$day['sum']} м.
+                                    {$day['sum']|formatDate}
                                 </td>
                             </tr>
                         {else}
@@ -84,27 +82,20 @@
                     <table class="table table-bordered">
                         <th>День</th>
                         <th>Время в офисе</th>
+
                         {if isset($week['days'])}
                             {foreach from=$week['days'] key=date item=singleDay}
                                 <tr>
                                     <td colspan>{$date|date_format:"%d/%m/%Y"}</td>
-                                    <td>
-                                        {math equation="floor(x / 3600)" x=$singleDay['sum']} ч.
-                                        {math equation="floor(x % 3600 / 60)" x=$singleDay['sum']} м.
-                                    </td>
+                                    <td> {$singleDay['sum']|formatDate} </td>
                                 </tr>
                             {/foreach}
 
                             <tr>
                                 <td> Всего </td>
-                                <td>
-                                    {math equation="floor(x / 3600)" x=$week['total_sum']} ч.
-                                    {math equation="floor(x % 3600 / 60)" x=$week['total_sum']} м.
-                                </td>
+                                <td> {$week['total_sum']|formatDate} </td>
                             </tr>
-
                         {else}
-
                             <tr>
                                 <td  colspan=2>
                                     <div align=center>
@@ -112,7 +103,6 @@
                                     </div>
                                 </td>
                             </tr>
-
                         {/if}
                     </table>
                 </div>
@@ -123,10 +113,7 @@
                     <table class="table table-bordered">
                     <tr>
                         <td> Всего</td>
-                        <td>
-                            {math equation="floor(x / 3600)" x=$month['total_sum']} ч.
-                            {math equation="floor(x % 3600 / 60)" x=$month['total_sum']} м.
-                        </td>
+                        <td> {$month['total_sum']|formatDate} </td>
                     </tr>
                     </table>
                 </div>

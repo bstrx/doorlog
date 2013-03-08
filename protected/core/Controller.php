@@ -24,6 +24,12 @@ abstract class Controller {
             '_flashMessages' => FlashMessages::getMessage()
         ));
 
+        $smarty->registerPlugin(
+            "modifier",
+            "formatDate",
+            array("core\Utils", "formatDate")
+        );
+
         $smarty->display('protected/views/'.$path);
         exit();
     }
@@ -32,4 +38,7 @@ abstract class Controller {
         $cfg = Registry::getValue('config');
         header('Location: ' . $cfg['root'] . $url);
     }
+
+
+
 }

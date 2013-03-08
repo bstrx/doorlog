@@ -30,4 +30,18 @@ class Utils{
         }
         return $randomString;
     }
+
+    static function formatDate($unixtime)
+    {
+        $h = floor($unixtime / 3600);
+        $m = floor($unixtime % 3600 / 60);
+
+        if ($h) {
+            $str = $h . ' ч. ' . $m . ' м.';
+        } else {
+            $str = $m . ' м.';
+        }
+
+        return $str;
+    }
 }
