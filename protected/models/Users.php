@@ -81,6 +81,7 @@ class Users extends Model{
 
         $month = date('n', $timestamp);
         $year = date('Y', $timestamp);
+        $date = date('Y-m-d', $timestamp);
 
         $q = "SELECT id,
                 logtime,

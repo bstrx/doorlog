@@ -9,13 +9,19 @@
     <th> Дата </th>
     <th> Время в офисе </th>
 
+    {* Перебираем по каждому дню недели (weekDays), в независимости от наличия входов/выходов *}
     {foreach from=$weekDays item=dayInfo}
         <tr>
             <td> {$dayInfo['name']} </td>
             <td> {$dayInfo['date']|date_format:"%d-%m-%Y"} </td>
             <td>
                 {if isset($week['days'][$dayInfo['date']])}
-                    {$week['days'][$date]['sum']|formatDate}
+                    {if ($week['days'][$dayInfo['date']]['setTimer'])}
+                        {$timer = true}
+                        <span class='timer' data-unixtime="{$week['days'][$dayInfo['date']]['sum']}"> </span>
+                    {else}
+                        {$week['days'][$dayInfo['date']]['sum']|formatDate}
+                    {/if}
                 {else}
                     ---
                 {/if}
@@ -25,6 +31,12 @@
 
     <tr>
         <td colspan=2> Всего </td>
-        <td> {$week['total_sum']|formatDate} </td>
+        <td>
+            {if isset($timer)}
+                <span class='timer' data-unixtime="{$week['total_sum']}"> </span>
+            {else}
+                {$week['total_sum']|formatDate}
+            {/if}
+        </td>
     </tr>
 </table>

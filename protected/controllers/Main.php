@@ -40,6 +40,9 @@ class Main extends Controller {
     function formPeriods(array $actions) {
         $daysPeriods = array();
         $daysPeriods['total_sum'] = 0;
+        $setTimer = false;
+        $currentDate = date('Y-m-d', time());
+        $previousDate = date('Y-m-d', strtotime('now - 1 day'));
 
         $actsCount = count($actions);
         for ($i = 0; $i < $actsCount; $i++) {
@@ -47,11 +50,12 @@ class Main extends Controller {
             $enterTime = null;
             $exitTime = null;
             $day = $actions[$i]['day'];
+
             if (!isset($daysPeriods['days'][$day])) $daysPeriods['days'][$day] = array();
             if (!isset($daysPeriods['days'][$day]['sum'])) $daysPeriods['days'][$day]['sum'] = 0;
             if (!isset($daysPeriods['days'][$day]['periods'])) $daysPeriods['days'][$day]['periods'] = array();
 
-            //нам нужно выделить пары вход + выход, иначе действия не влияют на общее время
+            //нам нужно выделить пары вход + выход, чтобы добавить их разницу к тому, сколько человек провёл в офисе
             if ($actions[$i]['direction'] == self::IN_OFFICE
                 && isset($actions[$i+1])
                 && $actions[$i+1]['direction'] == self::OUT_OFFICE){
@@ -60,11 +64,11 @@ class Main extends Controller {
                 $exitTime = strtotime($actions[$i+1]['logtime']);
                 $diff = $exitTime - $enterTime;
 
-                $daysPeriods['days'][$day]['sum'] += $diff;
                 $daysPeriods['days'][$day]['periods'][] = array(
                     'enter' => $enterTime,
                     'exit' => $exitTime,
-                    'diff' => $diff
+                    'diff' => $diff,
+                    'setTimer' => false,
                 );
 
                 $i++;
@@ -73,15 +77,24 @@ class Main extends Controller {
 
                 if ($actions[$i]['direction'] == self::IN_OFFICE) {
                     $enterTime = $actionTime;
+
+                    if (!isset($actions[$i+1]) && ($day == $currentDate  || $day == $previousDate)) {
+                        $setTimer = true;
+                        $exitTime = time();
+                        $diff = $exitTime - $enterTime;
+                    }
                 } else $exitTime = $actionTime;
 
                 $daysPeriods['days'][$day]['periods'][] = array(
                     'enter' => $enterTime,
                     'exit' => $exitTime,
-                    'diff' => null
+                    'diff' => $diff,
+                    'setTimer' => $setTimer,
                 );
             }
 
+            $daysPeriods['days'][$day]['setTimer'] = $setTimer;
+            $daysPeriods['days'][$day]['sum'] += $diff;
             $daysPeriods['total_sum'] += $diff;
         }
 

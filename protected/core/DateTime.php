@@ -9,12 +9,7 @@ class DateTime{
         $h = floor($unixtime / 3600);
         $m = floor($unixtime % 3600 / 60);
 
-        if ($h) {
-            $str = $h . ' ч. ' . $m . ' м.';
-        } else {
-            $str = $m . ' м.';
-        }
-
+        $str = $h . ' ч ' . $m . ' м';
         return $str;
     }
 

@@ -6,23 +6,45 @@
     {if ($day && $day['periods'])}
         {foreach from=$day['periods'] item=period}
             <tr>
-                <td> {$period['enter']|date_format:"%H:%M"}</td>
-                {if ($period['enter']|date_format:"%D" == $period['exit']|date_format:"%D")}
-                    <td> {$period['exit']|date_format:"%H:%M"} </td>
-                {else}
-                    <td> {$period['exit']|date_format:"%H:%M (%D)"} </td>
-                {/if}
+                {*Вход*}
                 <td>
-                    {$period['diff']|formatDate}
+                    {$period['enter']|date_format:"%H:%M"}
                 </td>
 
+                {*Выход*}
+                <td>
+                    {if !$period['setTimer']}
+                        {if ($period['enter']|date_format:"%D" == $period['exit']|date_format:"%D")}
+                            {$period['exit']|date_format:"%H:%M"}
+                        {else}
+                             {$period['exit']|date_format:"%H:%M (%D)"}
+                        {/if}
+                    {else}
+                        в офисе
+                    {/if}
+                </td>
+
+                {*Время в офисе*}
+                {if $period['setTimer']}
+                    <td class='timer' data-unixtime="{$period['diff']}"> </td>
+                {else}
+                    <td> {$period['diff']|formatDate} </td>
+                {/if}
             </tr>
         {/foreach}
 
+        {*Суммарное время*}
         <tr>
-            <td colspan=2> Всего </td>
+            <td colspan=2>
+                Всего
+            </td>
+
             <td>
-                {$day['sum']|formatDate}
+                {if $day['setTimer']}
+                    <span class='timer' data-unixtime="{$day['sum']}"> </span>
+                {else}
+                    {$day['sum']|formatDate}
+                {/if}
             </td>
         </tr>
     {else}

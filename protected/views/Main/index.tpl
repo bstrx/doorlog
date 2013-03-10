@@ -1,4 +1,4 @@
-<!-- class='timer' data-unixtime="$period['exit']"-->
+
 {extends "protected/views/index.tpl"}
 
     {block name="content"}
@@ -7,6 +7,10 @@
         $(
             function() {
                 var elements = $('.timer')
+                elements.each( function() {
+                    setDate(this)
+                })
+
                 if (elements.length) {
                     setInterval( function() {
                         elements.each( function() {
@@ -23,7 +27,7 @@
             var h = currentDate.getHours(); // 0-24 format
             var m = currentDate.getMinutes();
             var s = currentDate.getSeconds();
-            $(element).text(h + ':' + m + ':' + s);
+            $(element).text(h + ' ч ' + m + ' м ' + s + ' c');
             $(element).attr('data-unixtime', ++unixtime)
         }
     </script>
@@ -37,17 +41,17 @@
             </ul>
 
             <div class="tab-content">
-                <!-- Вкладка "День" -->
+                {* Вкладка "День" *}
                 <div class="tab-pane active" id="day">
                     {block name="menu"} {include file='protected/views/Main/day.tpl'} {/block}
                 </div>
 
-                <!-- Вкладка "Неделя" -->
+                {* Вкладка "Неделя" *}
                 <div class="tab-pane" id="week">
                     {block name="menu"} {include file='protected/views/Main/week.tpl'} {/block}
                 </div>
 
-                <!--Вкладка "Месяц"-->
+                {* Вкладка "Месяц" *}
                 <div class="tab-pane" id="month">
                     {block name="menu"} {include file='protected/views/Main/month.tpl'} {/block}
                 </div>

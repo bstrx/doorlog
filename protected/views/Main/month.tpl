@@ -3,5 +3,7 @@
 <table class="table table-bordered">
 <tr>
     <td> Всего </td>
-    <td> {$month['total_sum']|formatDate} </td>
+    <td>
+        {$month['total_sum']|formatDate}
+    </td>
 </tr>
