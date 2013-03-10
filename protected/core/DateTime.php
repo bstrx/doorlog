@@ -35,4 +35,16 @@ class DateTime{
         return $weekDays;
     }
 
+    static function getWeekFirstDay($ut) {
+        $dayNum = date('w', $ut);
+
+        if ($dayNum == 0) {
+            $firstDay = strtotime('Monday last week', $ut);
+        }
+        else {
+            $firstDay = strtotime('Monday this week', $ut);
+        }
+
+        return $firstDay;
+    }
 }

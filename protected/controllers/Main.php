@@ -6,38 +6,60 @@ use models\Users as UsersModel;
 use core\Registry;
 use core\DateTime;
 
-class Main extends Controller {
-
+class Main extends Controller
+{
     const IN_OFFICE = 2;
     const OUT_OFFICE = 1;
 
-    //Отрисовывает главную страницу, передаёт данные о посещениях пользователя по целому месяцу
-    function indexAction() {
+    public function indexAction() {
         $userInfo = Registry::getValue('user');
         $userId = $userInfo['id'];
-        $usersModel = new UsersModel();
         $date = $this->getDate();
-        $weekDays = DateTime::getWeekDays($date);
-        $monthlyActions = $usersModel->getMonthlyUserActions($userId, strtotime($date));
-        $monthlyPeriods = $this->formPeriods($monthlyActions);
 
-        $weeklyActions = $usersModel->getWeeklyUserActions($userId, strtotime($date));
-        $weeklyPeriods = $this->formPeriods($weeklyActions);
+        $dayInfo = array();
+        $weekInfo = $this->getWeekInfo($userId, $date);
+        $monthInfo = $this->getMonthInfo($userId, $date);
 
-        if (isset($weeklyPeriods['days'][$date])) {
-            $currentDayPeriods = $weeklyPeriods['days'][$date];
-        } else $currentDayPeriods = array();
+        if (isset($weekInfo['days'][$date])) {
+            $dayInfo = $weekInfo['days'][$date];
+        }
+
+
 
         $this->render("Main/index.tpl", array(
+            'currentDate' => date('Y-m-d', time()),
             'date' => $date,
-            'weekDays' => $weekDays,
-            'day' => $currentDayPeriods,
-            'week' => $weeklyPeriods,
-            'month' => $monthlyPeriods
+            'weekDays' => DateTime::getWeekDays($date),
+            'day' => $dayInfo,
+            'week' => $weekInfo,
+            'month' => $monthInfo,
         ));
     }
 
-    function formPeriods(array $actions) {
+    private function getWeekInfo($userId, $date) {
+        $ut = strtotime($date);
+        $uWeekFirstDay = DateTime::getWeekFirstDay($ut);
+        $uOffsetDay = $uWeekFirstDay + 7 * 24 * 60 * 60;
+
+        $usersModel = new UsersModel();
+        $weekActions = $usersModel->getActions($userId, $uWeekFirstDay, $uOffsetDay);
+        $weekPeriods = $this->formPeriods($weekActions, date('Y-m-d', $uOffsetDay));
+        return $weekPeriods;
+    }
+
+    private function getMonthInfo($userId, $date) {
+        $uTime = strtotime($date);
+        $uMonthFirstDay = strtotime('first day of this month', $uTime);
+        $uOffsetDay = strtotime('last day of this month', $uTime) + 24 * 60 * 60;
+
+        $usersModel = new UsersModel();
+        $monthActions = $usersModel->getActions($userId, $uMonthFirstDay, date('Y-m-d', $uOffsetDay));
+        $monthPeriods = $this->formPeriods($monthActions, $uOffsetDay);
+
+        return $monthPeriods;
+    }
+
+    function formPeriods(array $actions, $offsetDate = null) {
         $daysPeriods = array();
         $daysPeriods['total_sum'] = 0;
         $setTimer = false;
@@ -57,6 +79,7 @@ class Main extends Controller {
 
             //нам нужно выделить пары вход + выход, чтобы добавить их разницу к тому, сколько человек провёл в офисе
             if ($actions[$i]['direction'] == self::IN_OFFICE
+                && $day != $offsetDate
                 && isset($actions[$i+1])
                 && $actions[$i+1]['direction'] == self::OUT_OFFICE){
 
