@@ -78,7 +78,7 @@ class Users extends Controller{
             if (filter_var($_POST['login'], FILTER_VALIDATE_EMAIL)) {
                 $userInfo = $usersModel->getInfoByEmail($_POST['login']);
             } else {
-                //$userInfo = $usersModel->getInfoById((int) $_POST['login']);
+                $userInfo = $usersModel->getInfoByCodeKey((int) $_POST['login']);
             }
             if ($userInfo) {
                 $hash = $this->generateHash($_POST['password'], $userInfo['salt']);
