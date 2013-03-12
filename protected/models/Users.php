@@ -51,6 +51,7 @@ class Users extends Model{
             JOIN `tc-db-main`.`personal` t ON u.personal_id = t.id
             WHERE t.id = '$id'
         ");
+        print_r($result);
         return $result[0];
     }
 
