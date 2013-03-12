@@ -3,8 +3,7 @@
     {block name="content"}
 
     <script type="text/javascript">
-        $(
-            function() {
+        $(function() {
                 var elements = $('.timer')
                 elements.each( function() {
                     setDate(this)
@@ -17,8 +16,7 @@
                         })
                     }, 1000);
                 }
-            }
-        )
+        });
 
         function setDate(element) {
             var unixtime = $(element).attr('data-unixtime') | 0;
@@ -46,7 +44,11 @@
                 onSelect: function (dateText, inst) {
                     $(this).parent('form').submit();
                 }
-            })
+            });
+
+            $('.right-calendar span').on('click', function () {
+                $('#datepicker').datepicker("show");
+            });
         });
     </script>
 
@@ -54,7 +56,7 @@
 
          <div align=right class='right-calendar'>
              <form>
-                 {$date|date_format:"%d-%m-%Y"} <input name="date" type="hidden" id="datepicker" />
+                 <input name="date" type="hidden" id="datepicker" /> <span class="">{$date|date_format:"%d-%m-%Y"}</span>
              </form>
          </div>
         <div class="tabbable">
