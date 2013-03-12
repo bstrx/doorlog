@@ -1,4 +1,4 @@
-<!-- class='timer' data-unixtime="$period['exit']"-->
+
 {extends "protected/views/index.tpl"}
 
     {block name="content"}
@@ -7,6 +7,10 @@
         $(
             function() {
                 var elements = $('.timer')
+                elements.each( function() {
+                    setDate(this)
+                })
+
                 if (elements.length) {
                     setInterval( function() {
                         elements.each( function() {
@@ -23,7 +27,7 @@
             var h = currentDate.getHours(); // 0-24 format
             var m = currentDate.getMinutes();
             var s = currentDate.getSeconds();
-            $(element).text(h + ':' + m + ':' + s);
+            $(element).text(h + ' ч ' + m + ' м ' + s + ' c');
             $(element).attr('data-unixtime', ++unixtime)
         }
     </script>
@@ -37,98 +41,19 @@
             </ul>
 
             <div class="tab-content">
-                <!-- Вкладка "День" -->
+                {* Вкладка "День" *}
                 <div class="tab-pane active" id="day">
-                    <div align=right>{$date|date_format:"%d-%m-%Y"}</div>
-                    <table class="table table-bordered">
-                        <th>Вход</th>
-                        <th>Выход</th>
-                        <th>Время в офисе</th>
-                        {if ($day && $day['periods'])}
-                            {foreach from=$day['periods'] item=period}
-                                <tr>
-                                    <td> {$period['enter']|date_format:"%H:%M"}</td>
-                                    {if ($period['enter']|date_format:"%D" == $period['exit']|date_format:"%D")}
-                                        <td> {$period['exit']|date_format:"%H:%M"} </td>
-                                    {else}
-                                        <td> {$period['exit']|date_format:"%H:%M (%D)"} </td>
-                                    {/if}
-                                    <td>
-                                        {math equation="floor(x / 3600)" x=$period['diff']} ч.
-                                        {math equation="floor(x % 3600 / 60)" x=$period['diff']} м.
-                                    </td>
-
-                                </tr>
-                            {/foreach}
-                            <tr>
-                                <td colspan=2>Всего</td>
-                                <td>
-                                    {math equation="floor(x / 3600)" x=$day['sum']} ч.
-                                    {math equation="floor(x % 3600 / 60)" x=$day['sum']} м.
-                                </td>
-                            </tr>
-                        {else}
-                            <tr>
-                                <td  colspan=3>
-                                    <div align=center>
-                                        В этот день посещений не было
-                                    </div>
-                                </td>
-                            </tr>
-                        {/if}
-                    </table>
+                    {block name="menu"} {include file='protected/views/Main/day.tpl'} {/block}
                 </div>
 
-                <!-- Вкладка "Неделя" -->
+                {* Вкладка "Неделя" *}
                 <div class="tab-pane" id="week">
-                    <table class="table table-bordered">
-                        <th>День</th>
-                        <th>Время в офисе</th>
-                        {if isset($week['days'])}
-                            {foreach from=$week['days'] key=date item=singleDay}
-                                <tr>
-                                    <td colspan>{$date|date_format:"%d/%m/%Y"}</td>
-                                    <td>
-                                        {math equation="floor(x / 3600)" x=$singleDay['sum']} ч.
-                                        {math equation="floor(x % 3600 / 60)" x=$singleDay['sum']} м.
-                                    </td>
-                                </tr>
-                            {/foreach}
-
-                            <tr>
-                                <td> Всего </td>
-                                <td>
-                                    {math equation="floor(x / 3600)" x=$week['total_sum']} ч.
-                                    {math equation="floor(x % 3600 / 60)" x=$week['total_sum']} м.
-                                </td>
-                            </tr>
-
-                        {else}
-
-                            <tr>
-                                <td  colspan=2>
-                                    <div align=center>
-                                        На этой неделе посещений не было
-                                    </div>
-                                </td>
-                            </tr>
-
-                        {/if}
-                    </table>
+                    {block name="menu"} {include file='protected/views/Main/week.tpl'} {/block}
                 </div>
 
-
-                <!--Вкладка "Месяц"-->
+                {* Вкладка "Месяц" *}
                 <div class="tab-pane" id="month">
-                    <table class="table table-bordered">
-                    <tr>
-                        <td> Всего</td>
-                        <td>
-                            {math equation="floor(x / 3600)" x=$month['total_sum']} ч.
-                            {math equation="floor(x % 3600 / 60)" x=$month['total_sum']} м.
-                        </td>
-                    </tr>
-                    </table>
+                    {block name="menu"} {include file='protected/views/Main/month.tpl'} {/block}
                 </div>
             </div>
         </div>

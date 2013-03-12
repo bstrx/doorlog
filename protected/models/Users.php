@@ -116,8 +116,8 @@ class Users extends Model{
             FROM `tc-db-log`.`logs`
             WHERE
               emphint = {$userId}
-              AND WEEK(logtime, 1) = {$week}
-              AND YEAR(logtime) = {$year}
+              AND DATE(logtime) >= FROM_UNIXTIME({$fromDate})
+              AND DATE(logtime) <= FROM_UNIXTIME({$toDate})
             ORDER BY logtime ASC
             ";
 
