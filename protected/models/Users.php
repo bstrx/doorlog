@@ -65,6 +65,16 @@ class Users extends Model{
         return $result[0];
     }
 
+    public function getInfoByCodeKey($codekey){
+        $result = $this->get("
+            SELECT u.personal_id, u.password, u.salt
+            FROM `users` u
+            JOIN `tc-db-main`.`personal` t ON u.personal_id = t.id
+            WHERE SUBSTRING( HEX (`CODEKEY`) , 5, 4 ) = HEX($codekey)
+        ");
+        return $result[0];
+    }
+
     public function getActions($userId, $fromDate, $toDate) {
         $q = "SELECT id,
                 logtime,
