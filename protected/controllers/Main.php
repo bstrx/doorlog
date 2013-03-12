@@ -24,8 +24,6 @@ class Main extends Controller
             $dayInfo = $weekInfo['days'][$date];
         }
 
-
-
         $this->render("Main/index.tpl", array(
             'currentDate' => date('Y-m-d', time()),
             'date' => $date,
@@ -37,8 +35,8 @@ class Main extends Controller
     }
 
     private function getWeekInfo($userId, $date) {
-        $ut = strtotime($date);
-        $uWeekFirstDay = DateTime::getWeekFirstDay($ut);
+        $uTime = strtotime($date);
+        $uWeekFirstDay = DateTime::getWeekFirstDay($uTime);
         $uOffsetDay = $uWeekFirstDay + 7 * 24 * 60 * 60;
 
         $usersModel = new UsersModel();
@@ -53,8 +51,8 @@ class Main extends Controller
         $uOffsetDay = strtotime('last day of this month', $uTime) + 24 * 60 * 60;
 
         $usersModel = new UsersModel();
-        $monthActions = $usersModel->getActions($userId, $uMonthFirstDay, date('Y-m-d', $uOffsetDay));
-        $monthPeriods = $this->formPeriods($monthActions, $uOffsetDay);
+        $monthActions = $usersModel->getActions($userId, $uMonthFirstDay, $uOffsetDay);
+        $monthPeriods = $this->formPeriods($monthActions, date('Y-m-d', $uOffsetDay));
 
         return $monthPeriods;
     }

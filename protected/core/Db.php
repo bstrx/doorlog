@@ -14,8 +14,9 @@ class Db {
        if (null === self::$_instance) {
             $values = Registry::getValue('config');
             $valuesDb = $values['db'];
+            $connectionString = "mysql:host=" . $valuesDb['host'] . ";port=" . $valuesDb['port'] .";dbname=" . $valuesDb['dbname'];
 
-            self::$_instance = new \PDO("mysql:host=" . $valuesDb['host'] . ";dbname=" . $valuesDb['dbname'] , $valuesDb['user'], $valuesDb['password']);
+            self::$_instance = new \PDO($connectionString, $valuesDb['user'], $valuesDb['password']);
             self::$_instance->query ( 'SET character_set_connection = utf-8' );
             self::$_instance->query ( 'SET character_set_client = utf-8' );
             self::$_instance->query ( 'SET character_set_results = utf-8' );
