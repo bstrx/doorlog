@@ -7,6 +7,8 @@ use core\Utils;
 use core\MailSender;
 use core\FlashMessages;
 use core\Authentication;
+use core\Registry;
+use core\Db;
 
 
 class Users extends Controller{
@@ -19,7 +21,7 @@ class Users extends Controller{
     public function logoutAction() {
         $auth = new Authentication;
         $auth->logout();
-        header('Location: /');
+        $this->redirect('/');
     }
 
     public function addAction(){
@@ -38,9 +40,8 @@ class Users extends Controller{
                 echo $password; //TODO убрать - пароль должен приходить на почту
             }
             else{
-                FlashMessages::addMessage("Произошла ошибка. Пользователь добавлен не был.", "error");
+                FlashMessages::addMessage("Произошла ошибка. Пользователь не был добавлен.", "error");
             }
-
             $mail = new MailSender($email, "subject", "Your password: $password");
             //$mail->send(); //TODO сделать доступным
         }
@@ -48,21 +49,27 @@ class Users extends Controller{
         $unregisteredUsers = $users->getAllUnregistered();
         $posList = $users->getPositionsList();
         $sortedUsers = array();
-        $sortedDepartments = $users->getDepartmentsList();
+        $depList = $users->getDepartmentsList();
 
-        $depList = array();
-        foreach ($sortedDepartments as $k => $department) {
-            $depList[$department['id']] = $department['name'];
+        $sortedDepartments = array();
+        foreach ($depList as $department) {
+            $sortedDepartments[$department['id']] = $department['name'];
         }
+
         $sortedPositions = array();
-        foreach ($posList as $k => $position){
+        foreach ($posList as $position){
            $sortedPositions[$position['id']] = $position['name'];
         }
 
         foreach ($unregisteredUsers as $user) {
             $sortedUsers[$user['id']] = $user['name'];
         }
-        $this->render("Users/add.tpl" , array('users' => $sortedUsers, 'positions'=>$posList, 'departments'=>$sortedDepartments) );
+
+        $this->render("Users/add.tpl" , array(
+            'users' => $sortedUsers,
+            'positions'=> $sortedPositions,
+            'departments'=> $sortedDepartments)
+        );
     }
 
     public function loginAction(){
@@ -71,7 +78,7 @@ class Users extends Controller{
             if (filter_var($_POST['login'], FILTER_VALIDATE_EMAIL)) {
                 $userInfo = $usersModel->getInfoByEmail($_POST['login']);
             } else {
-                $userInfo = $usersModel->getInfo((int) $_POST['login']);
+                $userInfo = $usersModel->getInfoByCodeKey((int) $_POST['login']);
             }
             if ($userInfo) {
                 $hash = $this->generateHash($_POST['password'], $userInfo['salt']);
@@ -79,10 +86,12 @@ class Users extends Controller{
                 if ($hash == $userInfo['password']) {
                     $auth = new Authentication();
                     $auth->grantAccess($userInfo['personal_id'], $hash);
-                    header('Location: /');
+                    $this->redirect('/');
                 } else {
-                    //TODO describe error
+                    FlashMessages::addMessage("Неверный пароль.", "error");
                 }
+            } else {
+                FlashMessages::addMessage("Неверный пользователь.", "error");
             }
         }
 
@@ -91,5 +100,11 @@ class Users extends Controller{
 
     public function generateHash($password, $salt) {
         return sha1($salt . $password);
+    }
+
+    function searchAction(){
+        $autocomplete = new UsersModel;
+        $result = $autocomplete ->searchByName();
+        echo (json_encode($result));
     }
 }

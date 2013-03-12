@@ -1,7 +1,38 @@
+
 {extends "protected/views/index.tpl"}
 
     {block name="content"}
-        <div class="span7">
+
+    <script type="text/javascript">
+        $(
+            function() {
+                var elements = $('.timer')
+                elements.each( function() {
+                    setDate(this)
+                })
+
+                if (elements.length) {
+                    setInterval( function() {
+                        elements.each( function() {
+                            setDate(this)
+                        })
+                    }, 1000);
+                }
+            }
+        )
+
+        function setDate(element) {
+            var unixtime = $(element).attr('data-unixtime') | 0;
+            var currentDate = new Date(unixtime * 1000);
+            var h = currentDate.getHours(); // 0-24 format
+            var m = currentDate.getMinutes();
+            var s = currentDate.getSeconds();
+            $(element).text(h + ' ч ' + m + ' м ' + s + ' c');
+            $(element).attr('data-unixtime', ++unixtime)
+        }
+    </script>
+
+    <div class="span7">
         <div class="tabbable">
             <ul class="nav nav-tabs" data-tabs="tabs">
                 <li class="active"><a data-toggle="tab" href="#day">День</a></li>
@@ -10,82 +41,22 @@
             </ul>
 
             <div class="tab-content">
-                <!-- Вкладка "День" -->
+                {* Вкладка "День" *}
                 <div class="tab-pane active" id="day">
-                    <table class="table table-bordered">
-                        <th>Вход</th>
-                        <th>Выход</th>
-                        <th>Время в офисе</th>
-                        {if ($day && $day['periods'])}
-                            {foreach from=$day['periods'] item=period}
-                                <tr>
-                                    <td> {$period['enter']|date_format:"%H:%M"}</td>
-                                    <td> {$period['exit']|date_format:"%H:%M"} </td>
-                                    <td> {$period['diff']|date_format:"%H:%M"} </td>
-                                </tr>
-                            {/foreach}
-                            <tr>
-                                <td colspan=2>Всего</td>
-                                <td><b>{$day['sum']|date_format:"%H:%M"}</b></td>
-                            </tr>
-                        {else}
-                            <tr>
-                                <td  colspan=3>
-                                    <div align=center>
-                                        В этот день посещений не было
-                                    </div>
-                                </td>
-                            </tr>
-                        {/if}
-                    </table>
+                    {block name="menu"} {include file='protected/views/Main/day.tpl'} {/block}
                 </div>
 
-                <!-- Вкладка "Неделя" -->
+                {* Вкладка "Неделя" *}
                 <div class="tab-pane" id="week">
-                    <table class="table table-bordered">
-
-                        <th>День</th>
-                        <th>Время в офисе</th>
-
-                        {foreach from=$week['days'] key=date item=singleDay}
-                            <tr>
-                                <td colspan>{$date}</td>
-                                <td> <b>{$singleDay['sum']|date_format:"%H:%M"}</b></td>
-                            </tr>
-                        {/foreach}
-                        <tr>
-                            <td> Всего</td>
-                            <td> <b>{$singleDay['sum']|date_format:"%d %H:%M"}</b></td>
-                        </tr>
-                    </table>
+                    {block name="menu"} {include file='protected/views/Main/week.tpl'} {/block}
                 </div>
 
-                <!-- Вкладка "Месяц" -->
+                {* Вкладка "Месяц" *}
                 <div class="tab-pane" id="month">
-                    <table class="table table-bordered">
-
-                    <th>День</th>
-                    <th>Время в офисе</th>
-
-                    {foreach from=$month['days'] key=dayDate item=singleDay}
-                        <tr>
-                            <td>{$dayDate}</td>
-                            <td> {$singleDay['sum']|date_format:"%H:%M"}</td>
-                        </tr>
-                    {/foreach}
-                    <tr>
-                        <td> Всего</td>
-                        <td>
-
-                            {math equation="round(x / 3600)" x=$month['total_sum']} ч.
-                            {math equation="round(x % 3600 / 60)" x=$month['total_sum']} м.
-                        </td>
-                    </tr>
-                    </table>
+                    {block name="menu"} {include file='protected/views/Main/month.tpl'} {/block}
                 </div>
             </div>
         </div>
-        </div>
+    </div>
     {/block}
-
 {/extends}

@@ -18,3 +18,7 @@
 .tbl-top {
     background-color: whitesmoke;
 }
+
+form#add-department input {
+    margin: 0px;
+}

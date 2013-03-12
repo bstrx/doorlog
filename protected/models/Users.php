@@ -29,7 +29,18 @@ class Users extends Model{
             LEFT JOIN `departments` d
               ON u.department_id = d.id
         ");
+        return $result;
+    }
 
+    public function searchByName(){
+        $result = $this->get("
+            SELECT t.NAME as name,
+                t.id
+            FROM `users` u
+            JOIN `tc-db-main`.`personal` t
+              ON u.personal_id = t.id
+            WHERE t.NAME LIKE '%" . strval($_GET['term']) . "%'
+        ");
         return $result;
     }
 
@@ -37,11 +48,6 @@ class Users extends Model{
         $db = Db::getInstance();
         $add= $db->query("INSERT INTO users(personal_id, position_id, email, password, salt, department_id, created) VALUES ('$user','$position', '$email','$hash','$salt','$department', NOW())");
         return $add;
-    }
-
-    public function getInfoByEmail($email){
-        $result = $this->get("SELECT * FROM `users` WHERE email='$email'");
-        return $result[0];
     }
 
     public function getInfo($id){
@@ -55,49 +61,33 @@ class Users extends Model{
         return $result[0];
     }
 
-    //Получает все периоды входов-выходов пользователя за определённый месяц
-    public function getMonthlyUserActions($userId, $timestamp = null) {
-        if (is_null($timestamp)) $timestamp = time();
-
-        $month = date('n', $timestamp);
-        $year = date('Y', $timestamp);
-
-        $q = "SELECT id,
-                logtime,
-                emphint,
-                DATE( logtime ) AS `day`,
-                TIME( logtime ) AS `time`,
-                SUBSTRING( HEX(  `logdata` ) , 10, 1 ) as direction
-            FROM `tc-db-log`.`logs`
-            WHERE
-              emphint = {$userId}
-              AND MONTH(logtime) = {$month}
-              AND YEAR(logtime) = {$year}
-            ORDER BY logtime ASC
-            ";
-
-        $result = $this->get($q);
-        return $result;
+    public function getInfoByEmail($email){
+        $result = $this->get("SELECT * FROM `users` WHERE email='$email'");
+        return $result[0];
     }
 
-    //Получает все периоды входов-выходов пользователя за определённую неделю
-    public function getWeeklyUserActions($userId, $timestamp = null) {
-        if (is_null($timestamp)) $timestamp = time();
+    public function getInfoByCodeKey($codekey){
+        $result = $this->get("
+            SELECT u.personal_id, u.password, u.salt
+            FROM `users` u
+            JOIN `tc-db-main`.`personal` t ON u.personal_id = t.id
+            WHERE SUBSTRING( HEX(`CODEKEY`) , 5, 4 ) = HEX($codekey)
+        ");
+        return $result[0];
+    }
 
-        $week = (int) date('W', $timestamp);
-        $year = date('Y', $timestamp);
-
+    public function getActions($userId, $fromDate, $toDate) {
         $q = "SELECT id,
                 logtime,
                 emphint,
                 DATE( logtime ) AS `day`,
                 TIME( logtime ) AS `time`,
-                SUBSTRING( HEX(  `logdata` ) , 10, 1 ) as direction
+                SUBSTRING( HEX( `logdata` ) , 10, 1 ) as direction
             FROM `tc-db-log`.`logs`
             WHERE
               emphint = {$userId}
-              AND WEEK(logtime, 1) = {$week}
-              AND YEAR(logtime) = {$year}
+              AND DATE(logtime) >= FROM_UNIXTIME({$fromDate})
+              AND DATE(logtime) <= FROM_UNIXTIME({$toDate})
             ORDER BY logtime ASC
             ";
 
@@ -108,7 +98,7 @@ class Users extends Model{
     public function getPositionsList(){
         $q ="SELECT name, id
              FROM positions";
-        
+
         $result = $this->get($q);
         return $result;
     }

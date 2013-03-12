@@ -4,7 +4,7 @@
         <div class="container">
             <ul class="nav">
                 <li>
-                    <a href="#">Главная</a>
+                    <a href="{$_root}/">Главная</a>
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -13,20 +13,20 @@
                     <ul class="dropdown-menu">
                         {if isset($_menu)}
                             {foreach from=$_menu item=departments}
-                                <li><a href="/departments/show?id={$departments['id']}">{$departments['name']}</a></li>
+                                <li><a href="{$_root}/departments/show?id={$departments['id']}">{$departments['name']}</a></li>
                             {/foreach}
                         {/if}
                     </ul>
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        Отчёты <span class="caret"></span>
+                        <s>Отчёты</s> <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">По себе</a></li>
-                        <li><a href="#">Графический</a></li>
-                        <li><a href="#">По дням</a></li>
-                        <li><a href="#">По отделам</a></li>
+                        <li><a href="#"><s>По себе</s></a></li>
+                        <li><a href="#"><s>Графический</s></a></li>
+                        <li><a href="#"><s>По дням</s></a></li>
+                        <li><a href="#"><s>По отделам</s></a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
@@ -34,25 +34,58 @@
                         Настройки <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">Отделы</a></li>
-                        <li><a href="#">Права доступа</a></li>
-                        <li><a href="#">Пользователи</a></li>
+                        <li><a href="{$_root}/departments">Отделы</a></li>
+                        <li><a href="#"><s>Права доступа</s></a></li>
+                        <li><a href="{$_root}/users">Пользователи</a></li>
                     </ul>
                 </li>
             </ul>
-
-
             <ul class="nav pull-right">
-                <li><a href="/users/logout">Выйти</a></li>
+                <li><a href="{$_root}/users/logout">Выйти</a></li>
             </ul>
-            <form class="navbar-form pull-left">
-                <input type="text" class="span2">
+
+            <form class="navbar-form pull-left" method ="get">
+                <input type="text" class="span2" id="autocomplete">
+                <input type="hidden" id="id" name="id">
                 <button type="submit" class="btn">Поиск</button>
             </form>
-
         </div>
     </div>
 </div>
 
+<script type="text/javascript">
+    $(function() {
+        $("#autocomplete").autocomplete({
+            minLength: 3,
+            source: function( request, response ) {
+                $.ajax({
+                    url: "/doorlog/users/search",
+                    dataType: "json",
+                    data:{
+                        term:request.term
+                    },
 
+                    success: function(data) {
+                        response($.map(data, function(item) {
+                            return {
+                                label:item.name,
+                                id:item.id
+                            };
+                        }));
+                    }
+                });
+            },
+            select: function( event, ui ) {
+                $("#id").val(ui.item.id);
+            },
+            messages: {
+                noResults: '',
+                results: function() {
+                }
+            }
+        });
+    });
+</script>
 {/block}
+
+
