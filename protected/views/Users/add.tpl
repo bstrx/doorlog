@@ -9,7 +9,8 @@
 
                 <p>Выберите отдел:</p>
                 <select name="department">
-                    {html_options options=$departments}
+                    <option value='null'></option>
+                    {html_options options=$departments }
                 </select> </br>
 
                 <p>Выберите должность:</p>

@@ -3,6 +3,7 @@ namespace core;
 
 use controllers\Users;
 use core\Db;
+use core\Acl;
 use models\Users as UsersModel;
 
 class Authentication{
@@ -19,6 +20,8 @@ class Authentication{
         $auth = new Users;
         $auth ->loginAction();
     }
+
+   
 
     public function grantAccess($id, $hash) {
         SetCookie ("id", $id, time() + 50000, '/');

@@ -109,5 +109,6 @@ class Users extends Model{
 
         $result = $this->get($q);
         return $result;
+        
     }
 }

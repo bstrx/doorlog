@@ -4,9 +4,9 @@ namespace core;
 
 class Acl {
     
-    static function getUserRoles()
+    static function getUserRoles($user)
     {
-        $user = $_SESSION['NAME'];
+        //$user = Registry::getValue('user');
         $db = Db::getInstance();
         
         $userRoles = Array();
@@ -15,7 +15,7 @@ class Acl {
                 FROM persons_roles
                 INNER JOIN roles ON persons_roles.id_role = roles.id
                 INNER JOIN personal ON persons_roles.id_person = personal.ID
-                WHERE personal.NAME =  '$user';";
+                WHERE personal.ID =  '$user';";
         
         $result = $db->query($sql);
                 
@@ -33,7 +33,7 @@ class Acl {
         }
     }
     
-    static function getRolePermissions($role, $field)
+    static function getRolePermissions($role)
     {
         $roleName = $role;
         $db = Db::getInstance();
@@ -53,7 +53,7 @@ class Acl {
         if (!empty( $result ) )
         {
             foreach ($result as $row) {
-                $rolePermissions[] = $row[$field];
+                $rolePermissions[] = $row;
             }
             
             return $rolePermissions;
@@ -64,15 +64,15 @@ class Acl {
         }
     }
     
-    static function getUserPermissions($permissionField)
+    static function getUserPermissions($user)
     {
         $rolesWithPermissions = Array();
         
-        $userRoles = self::getUserRoles();
+        $userRoles = self::getUserRoles($user);
         
         if ($userRoles){
             foreach ($userRoles as $role) {
-                $rolePermissions = Acl::getRolePermissions($role, $permissionField);
+                $rolePermissions = Acl::getRolePermissions($role);
                 $rolesWithPermissions[$role] = $rolePermissions;
             }
 
