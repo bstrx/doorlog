@@ -1,4 +1,3 @@
-
 {extends "protected/views/index.tpl"}
 
     {block name="content"}
@@ -30,9 +29,34 @@
             $(element).text(h + ' ч ' + m + ' м ' + s + ' c');
             $(element).attr('data-unixtime', ++unixtime)
         }
+
+        $(function() {
+            $('#datepicker').datepicker({
+                showOn: 'both',
+                buttonImage: "assets/images/calendar.png",
+                buttonImageOnly: true,
+                dateFormat: "dd-mm-yy",
+                autoSize: true,
+                firstDay: 1,
+                dayNamesMin: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+                yearRange: "c-1:c",
+                maxDate: "c",
+                defaultDate: new Date('{$date}'),
+                monthNames: ['Январь','Февраль','Март','Апрель','Май','Июнь', 'Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'],
+                onSelect: function (dateText, inst) {
+                    $(this).parent('form').submit();
+                }
+            })
+        });
     </script>
 
-    <div class="span7">
+     <div class="span7">
+
+         <div align=right class='right-calendar'>
+             <form>
+                 {$date|date_format:"%d-%m-%Y"} <input name="date" type="hidden" id="datepicker" />
+             </form>
+         </div>
         <div class="tabbable">
             <ul class="nav nav-tabs" data-tabs="tabs">
                 <li class="active"><a data-toggle="tab" href="#day">День</a></li>

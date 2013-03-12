@@ -1,4 +1,4 @@
-<div align=right>{$date|date_format:"%m-%Y"}</div>
+{*<div align=right>{$date|date_format:"%m-%Y"}</div>*}
 
 <table class="table table-bordered">
 <tr>

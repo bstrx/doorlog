@@ -4,6 +4,7 @@
 
 .span7 {
     margin-left:0px;
+    position: relative;
 }
 
 #content {
@@ -21,4 +22,10 @@
 
 form#add-department input {
     margin: 0px;
+}
+
+.right-calendar {
+    position: absolute;
+    top: 12px;
+    right: 0px;
 }
