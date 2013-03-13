@@ -44,7 +44,7 @@
                 <li><a href="{$_root}/users/logout">Выйти</a></li>
             </ul>
 
-            <form class="navbar-form pull-left" method ="get">
+            <form class="navbar-form pull-left" method ="get" action="/doorlog/users/show">
                 <input type="text" class="span2" id="autocomplete">
                 <input type="hidden" id="id" name="id">
                 <button type="submit" class="btn">Поиск</button>

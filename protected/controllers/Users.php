@@ -107,4 +107,22 @@ class Users extends Controller{
         $result = $autocomplete ->searchByName();
         echo (json_encode($result));
     }
+
+    function showAction(){
+        $userInfo = NULL;
+        if(isset($_GET['id'])){
+            $id = $_GET['id'];
+            $getUser = new UsersModel;
+            $userInfo = $getUser->getUserInfo($id);
+        }
+        if($userInfo){
+            $userStatus = $getUser->getUserStatus($id);
+            $userInfo['status'] = $userStatus['status'];
+        }
+        else {
+            FlashMessages::addMessage("Неверный id пользователя", "error");
+        }
+        
+        $this->render("Users/show.tpl", array('userInfo' => $userInfo));
+    }
 }
