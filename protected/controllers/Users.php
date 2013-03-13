@@ -109,13 +109,14 @@ class Users extends Controller{
     }
 
     function showAction(){
+        $userInfo = NULL;
         if(isset($_GET['id'])){
             $id = $_GET['id'];
             $getUser = new UsersModel;
             $userInfo = $getUser->getUserInfo($id);
-            $userStatus = $getUser->getUserStatus($id);
         }
         if($userInfo){
+            $userStatus = $getUser->getUserStatus($id);
             $userInfo['status'] = $userStatus['status'];
         }
         else {
