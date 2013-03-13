@@ -2,6 +2,8 @@
 namespace models;
 use core\Db;
 use core\Model;
+
+
 class Users extends Model{
     public function getAllUnregistered(){
         $result = $this->get("
@@ -57,6 +59,7 @@ class Users extends Model{
             JOIN `tc-db-main`.`personal` t ON u.personal_id = t.id
             WHERE t.id = '$id'
         ");
+       
         return $result[0];
     }
 
@@ -75,7 +78,7 @@ class Users extends Model{
         return $result[0];
     }
 
-    public function getActions($userId, $fromDate, $toDate) {
+    public function getActions($userId, $fromDate, $toDate){
         $q = "SELECT id,
                 logtime,
                 emphint,
@@ -108,6 +111,16 @@ class Users extends Model{
 
         $result = $this->get($q);
         return $result;
+        
+    }
+
+    public function getUserRoles($userId){
+        $result = $this->get("SELECT roles.role_name
+                FROM persons_roles
+                INNER JOIN roles ON persons_roles.id_role = roles.id
+                INNER JOIN users ON persons_roles.id_person = users.personal_id
+                WHERE users.personal_id =  '$userId'");
+        return $result;
     }
     
     public function getUserInfo($id){
@@ -139,5 +152,16 @@ class Users extends Model{
             ";
         $result = $this->get($q);
         return isset($result['0']) ? $result['0'] : false;
+    }
+    
+        public function getRolePermissions($roleId){
+        $result = $this->get("SELECT permissions.key
+                FROM roles_permissions
+                INNER JOIN roles       ON
+                      roles_permissions.id_role = roles.id
+                INNER JOIN permissions ON
+                      roles_permissions.id_permission = permissions.id
+                WHERE roles.id = '$roleId'");
+        return $result;
     }
 }
