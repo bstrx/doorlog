@@ -129,7 +129,7 @@ class Users extends Model{
     }
 
     public function getUserStatus($id){
-        $q = "SELECT SUBSTRING( HEX(  `logdata` ) , 10, 1 ) as status
+        $q = "SELECT SUBSTRING( HEX(`logdata`) , 10, 1 ) as status
             FROM `tc-db-log`.`logs`
             WHERE
               emphint = '$id'
