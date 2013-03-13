@@ -2,88 +2,65 @@
 
 namespace core;
 
+use models\Users as Us;
+
 class Acl {
     
-    static function getUserRoles($user)
-    {
-        //$user = Registry::getValue('user');
-        $db = Db::getInstance();
-        
+    static function getUserRoles($userId){
+
         $userRoles = Array();
-        
-        $sql = "SELECT roles.role_name
-                FROM persons_roles
-                INNER JOIN roles ON persons_roles.id_role = roles.id
-                INNER JOIN personal ON persons_roles.id_person = personal.ID
-                WHERE personal.ID =  '$user';";
-        
-        $result = $db->query($sql);
-                
-        if (!empty( $result ) )
-        {
+        $obj = new Us();
+        $result = $obj->getUserRoles($userId);
+                    
+        if (!empty( $result ) ){
             foreach ($result as $row) {
                 $userRoles[] = $row['role_name'];
             }
-            
+           
             return $userRoles;
 
-        } else {
-            
+        } else {           
             return false; 
         }
     }
     
-    static function getRolePermissions($role)
-    {
-        $roleName = $role;
-        $db = Db::getInstance();
-        
-        $rolePermissions = Array();
-        
-        $sql = "SELECT permissions.key, permissions.name 
-                FROM roles_permissions
-                INNER JOIN roles       ON 
-                      roles_permissions.id_role = roles.id
-                INNER JOIN permissions ON 
-                      roles_permissions.id_permission = permissions.id
-                WHERE roles.role_name = '$roleName';";
-        
-        $result = $db->query($sql);
+    static function getRolePermissions($roleName){
                 
-        if (!empty( $result ) )
-        {
+        $rolePermissions = Array();
+        $obj = new Us();
+        $result = $obj->getRolePermissions($roleName);
+                
+        if (!empty( $result ) ){
             foreach ($result as $row) {
                 $rolePermissions[] = $row;
-            }
-            
+            }           
             return $rolePermissions;
 
-        } else {
-            
+        } else {            
             return false; 
         }
     }
     
-    static function getUserPermissions($user)
-    {
-        $rolesWithPermissions = Array();
-        
+    static function getUserPermissions($user){
+
+        $permissions = Array();
+        $rolePermissions = Array();       
         $userRoles = self::getUserRoles($user);
         
         if ($userRoles){
             foreach ($userRoles as $role) {
-                $rolePermissions = Acl::getRolePermissions($role);
-                $rolesWithPermissions[$role] = $rolePermissions;
-            }
+                $rolePermissions = self::getRolePermissions($role);                
+                }
 
-            return $rolesWithPermissions;
-        } else {
-            
+            foreach($rolePermissions as $permission){
+               $permissions[] = $permission['key'];
+                }                        
+            return $permissions;
+
+        } else {           
             return false;
         }
-
-    }
-    
+    }    
 }
 
 ?>
