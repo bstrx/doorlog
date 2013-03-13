@@ -1,4 +1,5 @@
-<div align=right>{$date|date_format:"%d-%m-%Y"}</div>
+
+
 <table class="table table-bordered">
     <th>Вход</th>
     <th>Выход</th>

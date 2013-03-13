@@ -50,11 +50,6 @@ class Users extends Model{
         return $add;
     }
 
-    public function getInfoByEmail($email){
-        $result = $this->get("SELECT * FROM `users` WHERE email='$email'");
-        return $result[0];
-    }
-
     public function getInfo($id){
         $result = $this->get("
             SELECT t.id, u.email, u.position_id, u.password, u.salt, t.name
@@ -65,12 +60,17 @@ class Users extends Model{
         return $result[0];
     }
 
+    public function getInfoByEmail($email){
+        $result = $this->get("SELECT * FROM `users` WHERE email='$email'");
+        return $result[0];
+    }
+
     public function getInfoByCodeKey($codekey){
         $result = $this->get("
             SELECT u.personal_id, u.password, u.salt
             FROM `users` u
             JOIN `tc-db-main`.`personal` t ON u.personal_id = t.id
-            WHERE SUBSTRING( HEX( `CODEKEY` ) , 5, 4 ) = HEX($codekey)
+            WHERE SUBSTRING( HEX(`CODEKEY`) , 5, 4 ) = HEX($codekey)
         ");
         return $result[0];
     }
@@ -81,7 +81,7 @@ class Users extends Model{
                 emphint,
                 DATE( logtime ) AS `day`,
                 TIME( logtime ) AS `time`,
-                SUBSTRING( HEX(  `logdata` ) , 10, 1 ) as direction
+                SUBSTRING( HEX( `logdata` ) , 10, 1 ) as direction
             FROM `tc-db-log`.`logs`
             WHERE
               emphint = {$userId}

@@ -35,9 +35,10 @@ class Main extends Controller
     }
 
     private function getWeekInfo($userId, $date) {
+        $uDay = 24 * 60 * 60;
         $uTime = strtotime($date);
-        $uWeekFirstDay = DateTime::getWeekFirstDay($uTime);
-        $uOffsetDay = $uWeekFirstDay + 7 * 24 * 60 * 60;
+        $uWeekFirstDay = DateTime::getWeekFirstDay($uTime) - $uDay;
+        $uOffsetDay = $uWeekFirstDay + 7 * $uDay;
 
         $usersModel = new UsersModel();
         $weekActions = $usersModel->getActions($userId, $uWeekFirstDay, $uOffsetDay);
@@ -46,9 +47,10 @@ class Main extends Controller
     }
 
     private function getMonthInfo($userId, $date) {
+        $uDay = 24 * 60 * 60;
         $uTime = strtotime($date);
-        $uMonthFirstDay = strtotime('first day of this month', $uTime);
-        $uOffsetDay = strtotime('last day of this month', $uTime) + 24 * 60 * 60;
+        $uMonthFirstDay = strtotime('first day of this month', $uTime)  - $uDay;
+        $uOffsetDay = strtotime('last day of this month', $uTime) + $uDay;
 
         $usersModel = new UsersModel();
         $monthActions = $usersModel->getActions($userId, $uMonthFirstDay, $uOffsetDay);

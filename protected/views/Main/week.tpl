@@ -1,8 +1,8 @@
-<div align=right>
+{*<div align=right>
     {$weekDays['0']['date']|date_format:"%d-%m-%Y"}
     -
     {$weekDays['6']['date']|date_format:"%d-%m-%Y"}
-</div>
+</div>*}
 
 <table class="table table-bordered">
     <th> День </th>
