@@ -70,7 +70,7 @@ class Users extends Model{
             SELECT u.personal_id, u.password, u.salt
             FROM `users` u
             JOIN `tc-db-main`.`personal` t ON u.personal_id = t.id
-            WHERE SUBSTRING( HEX (`CODEKEY`) , 5, 4 ) = HEX($codekey)
+            WHERE SUBSTRING( HEX( `CODEKEY` ) , 5, 4 ) = HEX($codekey)
         ");
         return $result[0];
     }
@@ -108,5 +108,36 @@ class Users extends Model{
 
         $result = $this->get($q);
         return $result;
+    }
+    
+    public function getUserInfo($id){
+        $q = "SELECT t.name as name,
+              d.name as department,
+              p.name as position
+            FROM `tc-db-main`.`personal` t
+            JOIN `users` u
+              ON t.id = u.personal_id
+            LEFT JOIN `positions` p
+              ON u.position_id = p.id
+            LEFT JOIN `departments` d
+              ON u.department_id = d.id
+            WHERE u.personal_id = '$id'
+            ";
+
+        $result = $this->get($q);
+        return isset($result['0']) ? $result['0'] : false;
+    }
+
+    public function getUserStatus($id){
+        $q = "SELECT SUBSTRING( HEX(  `logdata` ) , 10, 1 ) as status
+            FROM `tc-db-log`.`logs`
+            WHERE
+              emphint = '$id'
+            AND logtime <= NOW() - INTERVAL 1 DAY
+            ORDER BY logtime DESC
+            LIMIT 1
+            ";
+        $result = $this->get($q);
+        return isset($result['0']) ? $result['0'] : false;
     }
 }
