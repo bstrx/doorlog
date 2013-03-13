@@ -2,14 +2,14 @@
 
 namespace core;
 
-use models\Users as Us;
+use models\Users;
 
 class Acl {
     
     static function getUserRoles($userId){
 
         $userRoles = Array();
-        $obj = new Us();
+        $obj = new Users();
         $result = $obj->getUserRoles($userId);
                     
         if (!empty( $result ) ){
@@ -24,11 +24,11 @@ class Acl {
         }
     }
     
-    static function getRolePermissions($roleName){
+    static function getRolePermissions($roleId){
                 
         $rolePermissions = Array();
         $obj = new Us();
-        $result = $obj->getRolePermissions($roleName);
+        $result = $obj->getRolePermissions($roleId);
                 
         if (!empty( $result ) ){
             foreach ($result as $row) {
@@ -60,7 +60,16 @@ class Acl {
         } else {           
             return false;
         }
-    }    
+    }
+    static function checkPermissions($permission){
+        $userInfo = Registry::getValue('user');
+
+        if(isset($userInfo['permissions']) && in_array($permission, $userInfo['permissions'])){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
 
 ?>

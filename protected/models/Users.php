@@ -123,14 +123,14 @@ class Users extends Model{
         return $result;
     }
 
-    public function getRolePermissions($roleName){
+    public function getRolePermissions($roleId){
         $result = $this->get("SELECT permissions.key
                 FROM roles_permissions
                 INNER JOIN roles       ON
                       roles_permissions.id_role = roles.id
                 INNER JOIN permissions ON
                       roles_permissions.id_permission = permissions.id
-                WHERE roles.role_name = '$roleName'");
+                WHERE roles.id = '$roleId'");
         return $result;
     }
 

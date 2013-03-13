@@ -27,20 +27,7 @@ class Authentication{
 
         $auth = new Users;
         $auth ->loginAction();
-    }
-
-    public function checkPermissions($permission){
-        $userInfo = Registry::getValue('user');
-        
-        if(isset($userInfo['permissions']) && in_array($permission, $userInfo['permissions'])){
-            return true;
-        }else{
-            return false;
-        }
-    }
-
-
-   
+    } 
 
     public function grantAccess($id, $hash) {
         SetCookie ("id", $id, time() + 50000, '/');
