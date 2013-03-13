@@ -20,10 +20,10 @@
 
         function setDate(element) {
             var unixtime = $(element).attr('data-unixtime') | 0;
-            var currentDate = new Date(unixtime * 1000);
-            var h = currentDate.getHours(); // 0-24 format
-            var m = currentDate.getMinutes();
-            var s = currentDate.getSeconds();
+            var h = Math.floor(unixtime / 3600);
+            var m = Math.floor(unixtime % 3600 / 60);
+            var s = Math.floor(unixtime % 3600 % 60);
+
             $(element).text(h + ' ч ' + m + ' м ' + s + ' c');
             $(element).attr('data-unixtime', ++unixtime)
         }
