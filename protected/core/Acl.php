@@ -27,7 +27,7 @@ class Acl {
     static function getRolePermissions($roleId){
                 
         $rolePermissions = Array();
-        $obj = new Us();
+        $obj = new Users();
         $result = $obj->getRolePermissions($roleId);
                 
         if (!empty( $result ) ){
@@ -61,7 +61,7 @@ class Acl {
             return false;
         }
     }
-    static function checkPermissions($permission){
+    static function checkPermission($permission){
         $userInfo = Registry::getValue('user');
 
         if(isset($userInfo['permissions']) && in_array($permission, $userInfo['permissions'])){
