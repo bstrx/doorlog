@@ -24,6 +24,11 @@ class Users extends Controller{
         $this->redirect('/');
     }
 
+    public function testAction() {
+        $mail = new MailSender('groundsale@ya.ru', "subject", "Your password: 312231132");
+        $mail->send();
+    }
+
     public function addAction(){
         $users = new UsersModel();
        // print_r($_POST);
@@ -122,7 +127,7 @@ class Users extends Controller{
         else {
             FlashMessages::addMessage("Неверный id пользователя", "error");
         }
-        
+
         $this->render("Users/show.tpl", array('userInfo' => $userInfo));
     }
 }
