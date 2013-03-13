@@ -39,3 +39,11 @@ form#add-department input {
     color:#0088CC;
     border-bottom: #0088CC dotted 1px;
 }
+
+.col-small {
+    width: 150px;
+}
+
+.col-large {
+    width:300px;
+}

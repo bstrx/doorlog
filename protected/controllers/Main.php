@@ -37,11 +37,11 @@ class Main extends Controller
     private function getWeekInfo($userId, $date) {
         $uDay = 24 * 60 * 60;
         $uTime = strtotime($date);
-        $uWeekFirstDay = DateTime::getWeekFirstDay($uTime) - $uDay;
+        $uWeekFirstDay = DateTime::getWeekFirstDay($uTime);
         $uOffsetDay = $uWeekFirstDay + 7 * $uDay;
 
         $usersModel = new UsersModel();
-        $weekActions = $usersModel->getActions($userId, $uWeekFirstDay, $uOffsetDay);
+        $weekActions = $usersModel->getActions($userId, $uWeekFirstDay - $uDay, $uOffsetDay);
         $weekPeriods = $this->formPeriods($weekActions, date('Y-m-d', $uOffsetDay));
         return $weekPeriods;
     }

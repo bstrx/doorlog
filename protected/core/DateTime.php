@@ -3,7 +3,7 @@ namespace core;
 
 class DateTime{
     static $daysShortNames = array('Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Cб', 'Вс');
-    static $daysFullNames = array('Понедельник', 'Вторник', 'Среда', 'Пятница', 'Четверг', 'Cуббота', 'Воскресенье');
+    static $daysFullNames = array('Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Cуббота', 'Воскресенье');
 
     static function formatDate($unixtime) {
         $h = floor($unixtime / 3600);
@@ -23,7 +23,7 @@ class DateTime{
         $ts -= $offset * 24 * 60 * 60;
 
         $weekDays = array();
-        foreach (self::$daysShortNames as $name) {
+        foreach (self::$daysFullNames as $name) {
             $date = date("Y-m-d", $ts);
             $weekDays[] = array(
                 'date' => $date,

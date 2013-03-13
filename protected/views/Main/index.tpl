@@ -56,7 +56,7 @@
 
          <div align=right class='right-calendar'>
              <form>
-                 <input name="date" type="hidden" id="datepicker" /> <span class="">{$date|date_format:"%d-%m-%Y"}</span>
+                 <input name="date" type="hidden" id="datepicker" /> <span>{$date|date_format:"%d.%m.%Y"}</span>
              </form>
          </div>
         <div class="tabbable">
