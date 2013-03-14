@@ -107,14 +107,15 @@ class Users extends Controller{
         return sha1($salt . $password);
     }
 
-    function searchAction(){
+    public function searchAction(){
         $autocomplete = new UsersModel;
-        $result = $autocomplete ->searchByName();
+        $name = $_GET['name'];
+        $result = $autocomplete->searchByName($name);
         echo (json_encode($result));
     }
 
-    function showAction(){
-        $userInfo = NULL;
+    public function showAction(){
+        $userInfo = null;
         if(isset($_GET['id'])){
             $id = $_GET['id'];
             $getUser = new UsersModel;
@@ -123,8 +124,7 @@ class Users extends Controller{
         if($userInfo){
             $userStatus = $getUser->getUserStatus($id);
             $userInfo['status'] = $userStatus['status'];
-        }
-        else {
+        } else {
             FlashMessages::addMessage("Неверный id пользователя", "error");
         }
 

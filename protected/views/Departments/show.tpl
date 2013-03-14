@@ -6,13 +6,14 @@
         <th> Имя </th>
         <th> Должность </th>
 
-        {foreach from=$department item=username}
+        {foreach from=$users item=user}
             <tr>
-                <td> {$username['name']} </td>
+                <td> {$user['name']} </td>
                 <td> -todo- </td>
             </tr>
         {/foreach}
    </table>
+</div>
 {/block}
 
 {/extends}

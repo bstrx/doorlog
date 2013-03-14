@@ -62,7 +62,7 @@
                     url: "/doorlog/users/search",
                     dataType: "json",
                     data:{
-                        term:request.term
+                        name:request.term
                     },
 
                     success: function(data) {

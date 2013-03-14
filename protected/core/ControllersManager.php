@@ -1,5 +1,4 @@
 <?php
-
 namespace core;
 class ControllersManager {
     private $typedUrl = array();
@@ -23,12 +22,12 @@ class ControllersManager {
         } else {
            throw new \Exception('Requested page not found. Existing class required');
         }
-         
+
         $method .= 'Action';
         if(method_exists($obj, $method)){
             $obj->$method();
         } else {
             throw new \Exception('Requested page not found. Existing method required');
         }
-    }        
+    }
 }
