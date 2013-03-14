@@ -7,13 +7,12 @@ namespace core;
  * @author adrenaline
  */
 class MailSender {
-    
+
     var $to = '';
     var $subject = '';
     var $msg = '';
-    var $from = '';
+    var $from = 'Opensoft Savage';
     var $validate_email = true;
-    var $rigorous_email_chek = true;
     var $allow_empty_subject = false;
     var $allow_empty_msg = false;
     var $headers = array();
@@ -28,15 +27,15 @@ class MailSender {
         if(empty($this->to)){
             return FALSE;
         }
-        
+
         if(!$this->allow_empty_subject && empty($this->subject)){
             return FALSE;
         }
-        
+
         if(!$this->allow_empty_msg && empty($this->msg)){
             return FALSE;
         }
-        
+
         if(!empty($this->from)){
             $this->headers .= "From: $this->from";
         }
@@ -48,18 +47,16 @@ class MailSender {
             return TRUE;
         }
     }
-    
-    function send(){
 
+    function send(){
         if(!MailSender::checkFields()){
-            return TRUE;
+            return false;
         }
 
         $subject = $this->safeString($this->subject);
         $message = $this->safeString($this->msg);
 
-        mail($this->to, $subject, $message);        
-   
+        return mail($this->to, $subject, $message);
     }
 
     function safeString($str) {
