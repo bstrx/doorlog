@@ -21,7 +21,7 @@
     Registry::setValue('config', $cfg);
 
     $auth = new Authentication();
-    $auth->checkAccess();
+   // $auth->checkAccess();
 
     try{
         $controllerManager = new ControllersManager();

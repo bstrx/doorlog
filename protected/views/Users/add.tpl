@@ -2,6 +2,7 @@
     {block name="content"}
         <div class="users">
             <form method="POST">
+                
                 <p>Выберите пользователя:</p>
                 <select name="userId">
                     {html_options options=$users}
