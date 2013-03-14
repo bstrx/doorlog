@@ -24,14 +24,9 @@ class Users extends Controller{
         $this->redirect('/');
     }
 
-    public function testAction() {
-        $mail = new MailSender('groundsale@ya.ru', "subject", "Your password: 312231132");
-        $mail->send();
-    }
-
     public function addAction(){
         $users = new UsersModel();
-       // print_r($_POST);
+
         if(isset($_POST['userId']) && isset($_POST['department']) && isset($_POST['position']) && isset($_POST['email'])){
             $user = $_POST['userId'];
             $position = $_POST['position'];
@@ -42,13 +37,11 @@ class Users extends Controller{
             $hash = $this->generateHash($password, $salt);
             if($users->insertUsers($user, $email, $hash, $salt, $position, $department)){
                 FlashMessages::addMessage("Пользователь успешно добавлен.", "info");
-                echo $password; //TODO убрать - пароль должен приходить на почту
-            }
-            else{
+            } else {
                 FlashMessages::addMessage("Произошла ошибка. Пользователь не был добавлен.", "error");
             }
             $mail = new MailSender($email, "subject", "Your password: $password");
-            //$mail->send(); //TODO сделать доступным
+            $mail->send();
         }
 
         $unregisteredUsers = $users->getAllUnregistered();
