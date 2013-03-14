@@ -11,6 +11,7 @@ abstract class Controller {
         $smarty->setCompileDir('protected/vendor/smarty/templates_c/');
         $smarty->setConfigDir('protected/vendor/smarty/configs/');
         $smarty->setCacheDir('protected/vendor/smarty/cache/');
+        $smarty->escape_html = true;
 
         $smarty->assign($values);
 

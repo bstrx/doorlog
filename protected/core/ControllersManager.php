@@ -2,7 +2,7 @@
 namespace core;
 class ControllersManager {
     private $typedUrl = array();
-    function runController() {
+    public function runController() {
         $typedUrl = isset($_GET['route']) ? $_GET['route'] : null;
         if ($typedUrl) {
             $urlArr = explode("/", $typedUrl);

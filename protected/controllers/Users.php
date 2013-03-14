@@ -24,11 +24,6 @@ class Users extends Controller{
         $this->redirect('/');
     }
 
-    public function testAction() {
-        $mail = new MailSender('groundsale@ya.ru', "subject", "Your password: 312231132");
-        $mail->send();
-    }
-
     public function addAction(){
         $users = new UsersModel();
 
