@@ -19,11 +19,10 @@ class Departments extends Controller {
             $depName = $_POST['depName'];
             if ($obj->createDep($depName)){
                 FlashMessages::addMessage("Отдел успешно добавлен.", "info");
-            } 
-        } else {
-            FlashMessages::addMessage("Произошла ошибка. Отдел не был добавлен.", "error");
+            } else {
+                FlashMessages::addMessage("Произошла ошибка. Отдел не был добавлен.", "error");
+            }
         }
-
         $departments =  $obj->getAll();
         $this->render("Departments/add.tpl" , array());
     }
