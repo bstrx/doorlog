@@ -1,7 +1,12 @@
 <?php
 namespace core;
+
 class ControllersManager {
-    private $typedUrl = array();
+    /**
+     * Create instance of controller's class and runs its'method depending on route(url) passed
+     * If route is 'users/add', then class of controller will be 'Users' and method will be 'AddAction'
+     * @return void
+     */
     public function runController() {
         $typedUrl = isset($_GET['route']) ? $_GET['route'] : null;
         if ($typedUrl) {
@@ -18,14 +23,14 @@ class ControllersManager {
         }
 
         if (class_exists($class, TRUE)){
-            $obj = new $class;
+            $classInstance = new $class;
         } else {
            throw new \Exception('Requested page not found. Existing class required');
         }
 
         $method .= 'Action';
-        if(method_exists($obj, $method)){
-            $obj->$method();
+        if(method_exists($classInstance, $method)){
+            $classInstance->$method();
         } else {
             throw new \Exception('Requested page not found. Existing method required');
         }

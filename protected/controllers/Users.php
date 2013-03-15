@@ -4,7 +4,6 @@ namespace controllers;
 use core\Controller;
 use models\Users as UsersModel;
 use core\Utils;
-use core\MailSender;
 use core\FlashMessages;
 use core\Authentication;
 use core\Registry;
@@ -40,8 +39,7 @@ class Users extends Controller{
             } else {
                 FlashMessages::addMessage("Произошла ошибка. Пользователь не был добавлен.", "error");
             }
-            $mail = new MailSender($email, "subject", "Your password: $password");
-            $mail->send();
+            Utils::sendMail($email, "Создан аккаунт в системе Opensoft Savage", "Ваш пароль: $password");
         }
 
         $unregisteredUsers = $users->getAllUnregistered();
@@ -114,6 +112,7 @@ class Users extends Controller{
             $getUser = new UsersModel;
             $userInfo = $getUser->getUserInfo($id);
         }
+
         if($userInfo){
             $userStatus = $getUser->getUserStatus($id);
             $userInfo['status'] = $userStatus['status'];
