@@ -20,7 +20,7 @@ abstract class Model {
 
         if (!empty($fetchedData)) {
             return $fetchedData;
-        } else return false;
+        } else return array();
     }
 
     /**
