@@ -2,6 +2,7 @@
 
 {block name="content"}
     <div class="span7">
+        <a href="/departments/add">Добавить отдел</a>
         <table class="table table-bordered">
             <th> Название отдела </th>
             <th> Кол-во сотрудников </th>
@@ -15,11 +16,6 @@
                 </tr>
             {/foreach}
         </table>
-
-        <form method='post' id="add-department">
-            <input type="text" name="depName" placeholder="Название отдела">
-            <button type="submit" class="btn"> Добавить </button>
-        </form>
     </div>
 {/block}
 
