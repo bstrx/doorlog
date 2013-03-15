@@ -2,7 +2,7 @@
 
 {block name="content"}
     <div class="span7">
-        <a href="/departments/add">Добавить отдел</a>
+        <a href="{$_root}/departments/add">Добавить отдел</a>
         <table class="table table-bordered">
             <th> Название отдела </th>
             <th> Кол-во сотрудников </th>
