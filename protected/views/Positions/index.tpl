@@ -18,6 +18,7 @@
                     <tr>
                         <td> {$position['name']} </td>
                         <td> {$position['total_position']}</td>
+                        <td> <a href="{$_root}/positions/edit?id={$position['id']}">Редактировать</a></td>
                     </tr>
                 {/foreach}
             </tbody>
