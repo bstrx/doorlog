@@ -4,6 +4,7 @@
     {block name="content"}
 
         <div class='span7'>
+            <a href="{$_root}/users/add">Добавить пользователя</a>
             <table class="table table-bordered">
                 <thead>
                     <th>Имя</th>
@@ -14,7 +15,8 @@
                 <tbody>
                     {foreach from=$users item=user}
                         <tr>
-                            <td> {$user['name']} </td>
+
+                            <td> <a href="{$_root}/users/show?id={$user['id']}"> {$user['name']} </a></td>
                             <td> {$user['email']} </td>
                             <td> {$user['department']} </td>
                             <td> {$user['position']} </td>
@@ -22,7 +24,6 @@
                     {/foreach}
                 </tbody>
             </table>
-            <a href="{$_root}/users/add">Добавить пользователя</a>
         </div>
     {/block}
 

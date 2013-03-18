@@ -19,7 +19,9 @@ class Users extends Model{
 
     public function getAllRegistered(){
         $result = $this->fetchAll("
-            SELECT t.NAME as name,
+            SELECT
+              t.id,
+              t.NAME as name,
               d.name as department,
               p.name as position,
               u.email as email

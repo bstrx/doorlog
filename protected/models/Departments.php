@@ -6,14 +6,18 @@ use core\Model;
 
 class Departments extends Model {
     public function getAll(){
-      $q = "SELECT d.name, count(personal_id) as total_users, t.name as chief_name
+        $q = "SELECT
+              d.id,
+              d.name,
+              count(personal_id) as total_users,
+              t.name as chief_name
             FROM departments as d
             LEFT JOIN users as u ON u.department_id = d.id
             LEFT JOIN `tc-db-main`.personal as t ON d.chief_id = t.id
             GROUP BY d.id";
 
-      $result = $this->fetchAll($q);
-      return $result;
+        $result = $this->fetchAll($q);
+return $result;
     }
 
     public function getMenuDepartments(){
