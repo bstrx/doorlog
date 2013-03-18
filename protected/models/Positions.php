@@ -6,14 +6,14 @@ use core\Model;
 class Positions extends Model{
     public function getAll(){
         $q = "SELECT d.name,count(position_id) as total_position
-            FROM positions as d
-            LEFT JOIN users as u ON u.position_id=d.id
+            FROM position as d
+            LEFT JOIN user as u ON u.position_id=d.id
             GROUP BY d.id";
         $result = $this->fetchAll($q);
-        
-        
+
         return $result;
     }
+
     public function insertPosition($position){
         $db = Db::getInstance();
         $add= $db->query("INSERT INTO position(name)

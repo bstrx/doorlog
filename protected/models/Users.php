@@ -10,7 +10,7 @@ class Users extends Model{
             FROM `tc-db-main`.`personal`
             WHERE type='EMP'
               AND status='AVAILABLE'
-            AND id!=ALL(SELECT `personal_id` FROM `users`)
+            AND id!=ALL(SELECT `personal_id` FROM `user`)
             ORDER BY name
         ");
 
@@ -25,12 +25,12 @@ class Users extends Model{
               d.name as department,
               p.name as position,
               u.email as email
-            FROM `users` u
+            FROM `user` u
             JOIN `tc-db-main`.`personal` t
               ON u.personal_id = t.id
-            LEFT JOIN `positions` p
+            LEFT JOIN `position` p
               ON u.position_id = p.id
-            LEFT JOIN `departments` d
+            LEFT JOIN `department` d
               ON u.department_id = d.id
             ORDER BY t.NAME
         ");
@@ -42,7 +42,7 @@ class Users extends Model{
         $result = $this->fetchAll("
             SELECT t.NAME as name,
                 t.id
-            FROM `users` u
+            FROM `user` u
             JOIN `tc-db-main`.`personal` t
               ON u.personal_id = t.id
             WHERE t.NAME LIKE '%" . $name . "%'
@@ -54,7 +54,7 @@ class Users extends Model{
 
     public function insertUsers($user, $email, $hash, $salt, $position, $department){
         $db = Db::getInstance();
-        $add= $db->query("INSERT INTO users(personal_id, position_id, email, password, salt, department_id, created)
+        $add= $db->query("INSERT INTO user(personal_id, position_id, email, password, salt, department_id, created)
             VALUES ('$user','$position', '$email','$hash','$salt','$department', NOW())");
         return $add;
     }
@@ -62,7 +62,7 @@ class Users extends Model{
     public function getInfo($id){
         $result = $this->fetchOne("
             SELECT t.id, u.email, u.position_id, u.password, u.salt, t.name
-            FROM `users` u
+            FROM `user` u
             JOIN `tc-db-main`.`personal` t ON u.personal_id = t.id
             WHERE t.id = '$id'
         ");
@@ -73,7 +73,7 @@ class Users extends Model{
     public function getInfoByEmail($email){
         $result = $this->fetchOne("
             SELECT *
-            FROM `users`
+            FROM `user`
             WHERE email='$email'
         ");
 
@@ -83,7 +83,7 @@ class Users extends Model{
     public function getInfoByCodeKey($codekey){
         $result = $this->fetchOne("
             SELECT u.personal_id, u.password, u.salt
-            FROM `users` u
+            FROM `user` u
             JOIN `tc-db-main`.`personal` t ON u.personal_id = t.id
             WHERE SUBSTRING( HEX(`CODEKEY`) , 5, 4 ) = HEX($codekey)
         ");
@@ -112,7 +112,7 @@ class Users extends Model{
 
     public function getPositionsList(){
         $q ="SELECT name, id
-             FROM positions";
+             FROM position";
 
         $result = $this->fetchAll($q);
         return $result;
@@ -120,7 +120,7 @@ class Users extends Model{
 
     public function getDepartmentsList(){
         $q = "SELECT name, id
-              FROM departments";
+              FROM department";
 
         $result = $this->fetchAll($q);
         return $result;
@@ -128,11 +128,11 @@ class Users extends Model{
     }
 
     public function getUserRoles($userId){
-        $q = "SELECT roles.role_name
-            FROM persons_roles
-            INNER JOIN roles ON persons_roles.id_role = roles.id
-            INNER JOIN users ON persons_roles.id_person = users.personal_id
-            WHERE users.personal_id =  '$userId'";
+        $q = "SELECT role.name
+            FROM users_roles
+            INNER JOIN role ON users_roles.id_role = role.id
+            INNER JOIN user ON users_roles.id_person = user.personal_id
+            WHERE user.personal_id =  '$userId'";
 
         $result = $this->fetchAll($q);
         return $result;
@@ -143,11 +143,11 @@ class Users extends Model{
               d.name as department,
               p.name as position
             FROM `tc-db-main`.`personal` t
-            JOIN `users` u
+            JOIN `user` u
               ON t.id = u.personal_id
-            LEFT JOIN `positions` p
+            LEFT JOIN `position` p
               ON u.position_id = p.id
-            LEFT JOIN `departments` d
+            LEFT JOIN `department` d
               ON u.department_id = d.id
             WHERE u.personal_id = '$id'
             ";
@@ -169,11 +169,11 @@ class Users extends Model{
     }
 
     public function getRolePermissions($roleId){
-        $q = "SELECT permissions.key
+        $q = "SELECT permission.key
                 FROM roles_permissions rp
-                INNER JOIN roles r ON rp.id_role = r.id
-                INNER JOIN permissions p ON rp.id_permission = p.id
-                WHERE roles.id = '$roleId'";
+                INNER JOIN role r ON rp.id_role = r.id
+                INNER JOIN permission p ON rp.id_permission = p.id
+                WHERE role.id = '$roleId'";
 
         $result = $this->getAll($q);
         return $result;

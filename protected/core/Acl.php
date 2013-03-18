@@ -12,7 +12,7 @@ class Acl {
 
         if (!empty( $result ) ){
             foreach ($result as $row) {
-                $userRoles[] = $row['role_name'];
+                $userRoles[] = $row['name'];
             }
 
             return $userRoles;
