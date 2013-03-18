@@ -37,6 +37,7 @@
                         <li><a href="{$_root}/departments">Отделы</a></li>
                         <li><a href="{$_root}/roles">Права доступа</a></li>
                         <li><a href="{$_root}/users">Пользователи</a></li>
+                        <li><a href="{$_root}/positions">Должности</a></li>
                     </ul>
                 </li>
             </ul>
@@ -62,7 +63,7 @@
                     url: "/doorlog/users/search",
                     dataType: "json",
                     data:{
-                        term:request.term
+                        name:request.term
                     },
 
                     success: function(data) {

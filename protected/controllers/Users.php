@@ -4,7 +4,6 @@ namespace controllers;
 use core\Controller;
 use models\Users as UsersModel;
 use core\Utils;
-use core\MailSender;
 use core\FlashMessages;
 use core\Authentication;
 use core\Registry;
@@ -26,7 +25,7 @@ class Users extends Controller{
 
     public function addAction(){
         $users = new UsersModel();
-       // print_r($_POST);
+
         if(isset($_POST['userId']) && isset($_POST['department']) && isset($_POST['position']) && isset($_POST['email'])){
             $user = $_POST['userId'];
             $position = $_POST['position'];
@@ -37,13 +36,10 @@ class Users extends Controller{
             $hash = $this->generateHash($password, $salt);
             if($users->insertUsers($user, $email, $hash, $salt, $position, $department)){
                 FlashMessages::addMessage("Пользователь успешно добавлен.", "info");
-                echo $password; //TODO убрать - пароль должен приходить на почту
-            }
-            else{
+            } else {
                 FlashMessages::addMessage("Произошла ошибка. Пользователь не был добавлен.", "error");
             }
-            $mail = new MailSender($email, "subject", "Your password: $password");
-            //$mail->send(); //TODO сделать доступным
+            Utils::sendMail($email, "Создан аккаунт в системе Opensoft Savage", "Ваш пароль: $password");
         }
 
         $unregisteredUsers = $users->getAllUnregistered();
@@ -102,27 +98,28 @@ class Users extends Controller{
         return sha1($salt . $password);
     }
 
-    function searchAction(){
+    public function searchAction(){
         $autocomplete = new UsersModel;
-        $result = $autocomplete ->searchByName();
+        $name = $_GET['name'];
+        $result = $autocomplete->searchByName($name);
         echo (json_encode($result));
     }
 
-    function showAction(){
-        $userInfo = NULL;
+    public function showAction(){
+        $userInfo = null;
         if(isset($_GET['id'])){
             $id = $_GET['id'];
             $getUser = new UsersModel;
             $userInfo = $getUser->getUserInfo($id);
         }
+
         if($userInfo){
             $userStatus = $getUser->getUserStatus($id);
             $userInfo['status'] = $userStatus['status'];
-        }
-        else {
+        } else {
             FlashMessages::addMessage("Неверный id пользователя", "error");
         }
-        
+
         $this->render("Users/show.tpl", array('userInfo' => $userInfo));
     }
 }

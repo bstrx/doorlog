@@ -4,7 +4,7 @@ namespace controllers;
 use core\Controller;
 use models\Users as UsersModel;
 use core\Registry;
-use core\DateTime;
+use core\Utils;
 
 class Main extends Controller
 {
@@ -27,7 +27,7 @@ class Main extends Controller
         $this->render("Main/index.tpl", array(
             'currentDate' => date('Y-m-d', time()),
             'date' => $date,
-            'weekDays' => DateTime::getWeekDays($date),
+            'weekDays' => Utils::getWeekDays($date),
             'day' => $dayInfo,
             'week' => $weekInfo,
             'month' => $monthInfo,
@@ -37,7 +37,7 @@ class Main extends Controller
     private function getWeekInfo($userId, $date) {
         $uDay = 24 * 60 * 60;
         $uTime = strtotime($date);
-        $uWeekFirstDay = DateTime::getWeekFirstDay($uTime);
+        $uWeekFirstDay = Utils::getWeekFirstDay($uTime);
         $uOffsetDay = $uWeekFirstDay + 7 * $uDay;
 
         $usersModel = new UsersModel();
@@ -59,7 +59,7 @@ class Main extends Controller
         return $monthPeriods;
     }
 
-    function formPeriods(array $actions, $offsetDate = null) {
+    public function formPeriods(array $actions, $offsetDate = null) {
         $daysPeriods = array();
         $daysPeriods['total_sum'] = 0;
         $setTimer = false;

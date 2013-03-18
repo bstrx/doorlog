@@ -1,4 +1,6 @@
 {extends "protected/views/index.tpl"}
+    {block name="pagetitle"}<h1>Просмотр пользователя</h1>{/block}
+
     {block name="content"}
         <div class="span7">
             {if $userInfo}

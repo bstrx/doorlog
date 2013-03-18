@@ -1,4 +1,6 @@
 {extends "protected/views/index.tpl"}
+    {block name="pagetitle"}<h1>Добавить пользователя</h1>{/block}
+
     {block name="content"}
         <div class="users">
             <form method="POST">

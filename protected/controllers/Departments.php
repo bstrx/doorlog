@@ -2,30 +2,38 @@
 namespace controllers;
 
 use core\Controller;
-use models\Departments as Dep;
+use core\FlashMessages;
+use models\Departments as DepartmentModel;
 
 class Departments extends Controller {
 
-    function indexAction() {
-        $obj =  new Dep();
-        if(isset($_POST['depName']) && $_POST['depName']){
-           $depName = $_POST['depName'];
-           $obj->createDep($depName);
-        }
-
+    public function indexAction() {
+        $obj =  new DepartmentModel();
         $departments =  $obj->getAll();
-
         $this->render("Departments/index.tpl" , array('departments' => $departments));
     }
 
-    function showAction(){
-        $obj =  new Dep();
+    public function addAction() {
+        $obj =  new DepartmentModel();
+        if(isset($_POST['depName']) && $_POST['depName']){
+            $depName = $_POST['depName'];
+            if ($obj->createDep($depName)){
+                FlashMessages::addMessage("Отдел успешно добавлен.", "info");
+            } else {
+                FlashMessages::addMessage("Произошла ошибка. Отдел не был добавлен.", "error");
+            }
+        }
+        $departments =  $obj->getAll();
+        $this->render("Departments/add.tpl" , array());
+    }
+
+    public function showAction(){
+        $department =  new DepartmentModel();
         if(isset($_GET['id']) && $_GET['id']){
             $depId = $_GET['id'];
         }
 
-        $department = $obj->show($depId);
-
-        $this->render("Departments/show.tpl" , array('department' => $department));
+        $users = $department->getUsers($depId);
+        $this->render("Departments/show.tpl" , array('users' => $users));
     }
 }
