@@ -1,0 +1,13 @@
+<?php
+return array(
+    //f.e. if you access your page localhost/doorlog/... then value shoold be /doorlog
+    'root' => '',
+    'db' => array(
+        'host' => '10.7.0.36',
+        'dbname' => 'savage-db',
+        'user' => 'dev',
+        'password'=> 'safe4dev',
+        'port' => 3305,
+    )
+);
+?>

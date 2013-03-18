@@ -21,6 +21,8 @@
         {/if}
 
         <div id="content">
+            {block name="pagetitle"}{/block}
+
             {block name="FlashMessages"}
                 {if isset($_flashMessages)}
                     {foreach key=type item=messageArr from=$_flashMessages}
