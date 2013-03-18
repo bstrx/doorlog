@@ -30,6 +30,7 @@ class Users extends Model{
               ON u.position_id = p.id
             LEFT JOIN `departments` d
               ON u.department_id = d.id
+            ORDER BY t.NAME
         ");
 
         return $result;
@@ -43,6 +44,7 @@ class Users extends Model{
             JOIN `tc-db-main`.`personal` t
               ON u.personal_id = t.id
             WHERE t.NAME LIKE '%" . $name . "%'
+            ORDER BY t.NAME
         ");
 
         return $result;

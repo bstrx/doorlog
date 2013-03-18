@@ -1,6 +1,8 @@
 {extends "protected/views/index.tpl"}
+    {block name="pagetitle"}<h1>Пользователи</h1>{/block}
 
     {block name="content"}
+
         <div class='span7'>
             <table class="table table-bordered">
                 <thead>
