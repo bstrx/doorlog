@@ -76,6 +76,10 @@ class Utils{
     public static function formatDate($unixtime) {
         $h = floor($unixtime / 3600);
         $m = floor($unixtime % 3600 / 60);
+
+        $h = str_pad($h, 2, "0", STR_PAD_LEFT);
+        $m = str_pad($m, 2, "0", STR_PAD_LEFT);
+
         $str = $h . ' ч ' . $m . ' м';
 
         return $str;
