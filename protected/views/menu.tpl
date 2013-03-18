@@ -35,7 +35,7 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a href="{$_root}/departments">Отделы</a></li>
-                        <li><a href="#"><s>Права доступа</s></a></li>
+                        <li><a href="{$_root}/roles">Права доступа</a></li>
                         <li><a href="{$_root}/users">Пользователи</a></li>
                     </ul>
                 </li>

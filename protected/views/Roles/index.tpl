@@ -6,6 +6,7 @@
         <thead>
                     <th>Роль</th>
                     <th>Кол-во обладателей</th>
+                    <th>Управление</th>
 
                 </thead>
                 <tbody>
@@ -13,6 +14,7 @@
                         <tr>
                             <td> {$role['role_name']} </td>
                             <td> {$role['users_count']} </td>
+                            <td><a href="{$_root}/roles/edit?id={$role['id']}">Редактировать</a></td>
 
                         </tr>
                     {/foreach}
