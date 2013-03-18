@@ -16,15 +16,14 @@ class Positions extends Controller{
         $Positions = new PositionModel();
 
         if( isset($_POST['posName'])){
-            $position = $_POST['posName'];
-            if($Positions->insertPosition( $position)){
+            $positionName = $_POST['posName'];
+            if($Positions->insertPosition($positionName)){
                 FlashMessages::addMessage("Должность успешно добавлена.", "info");
             } else {
                 FlashMessages::addMessage("Произошла ошибка. Должность не была добавлена.", "error");
             }
         }
-
-        $this->render("Positions/add.tpl");
+            $this->render("Positions/add.tpl");
     }
     public function editAction(){
         if (isset($_GET['id'])){
@@ -34,27 +33,30 @@ class Positions extends Controller{
                 if (isset($_POST['position'])){
                     $set=$_POST['position'];
                     if($Positions->savePosition($id,$set)){
-                        FlashMessages::addMessage("Должность успешно изменина.", "info");
-                        $position=$Positions->getPos($id);
+                        header("Location:/positions");
+                        FlashMessages::addMessage("Должность успешно отредоктирована.", "info");
                     } else {
                         FlashMessages::addMessage("Произошла ошибка. Должность не была изменена.", "error");
+                        $this->render("Positions/edit.tpl",array('position'=>$position));
                     }
                 }
+                else{
+                    $this->render("Positions/edit.tpl",array('position'=>$position));
+                }
         }
-        $this->render("Positions/edit.tpl",array('position'=>$position));
     }
     public function deleteAction(){
         if (isset($_POST['id'])){
             $id = $_POST['id'];
             $Positions=new PositionModel();
-            if ($Positions->updatePosition($id)){
-                $Positions->deletePosition($id);
+            if ($Positions->deletePosition($id)){
+                header('Location:/positions');
                 FlashMessages::addMessage("Должность успешно удалена.", "info");
             } else {
+                header('Location:/positions');
                 FlashMessages::addMessage("Произошла ошибка. Должность не была удалена.", "error");
             }
         }
-        $this->render("Positions/delete.tpl");
     }
     
 }

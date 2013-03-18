@@ -6,7 +6,7 @@ use core\Model;
 
 class Positions extends Model{
     public function getAll(){
-        $q = "SELECT d.name,count(position_id) as total_position
+        $q = "SELECT d.name,count(position_id) as total_position,d.id
             FROM position as d
             LEFT JOIN user as u ON u.position_id=d.id
             GROUP BY d.id";
@@ -15,10 +15,10 @@ class Positions extends Model{
         return $result;
     }
 
-    public function insertPosition($position){
+    public function insertPosition($positionName){
         $db = Db::getInstance();
-        $add= $db->query("INSERT INTO position(name)
-            VALUES ('$position')");
+        $add= $db->query("INSERT INTO `position` (`name`, `id`)
+            VALUES ('$positionName',NULL)");
         return $add;
     }
     public function getPos($id){
@@ -35,19 +35,15 @@ class Positions extends Model{
             WHERE id = '$id'");
         return $edit;
     }
-    public function updatePosition($id){
+    public function deletePosition($id){
         $db = Db::getInstance();
         $update = $db->query("UPDATE user
             SET position_id=0
-            WHERE position_id='$id");
-        print $update;
-        return $update;
-    }
-    public function deletePosition($id){
-        $db = Db::getInstance();
-        $delete =$db->query("DELETE * 
+            WHERE position_id='$id'");
+        $delete =$db->query("DELETE 
             FROM position
             WHERE id='$id'");
+
         return $delete;
     }
 }
