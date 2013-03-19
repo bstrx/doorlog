@@ -27,6 +27,28 @@ class Departments extends Controller {
         $this->render("Departments/add.tpl" , array());
     }
 
+    public function editAction() {
+        $id = $_GET['id'];
+        $obj =  new DepartmentModel();
+        if(isset($_POST['depName']) && $_POST['depName']){
+            $depName = $_POST['depName'];
+            $obj->editDep($depName, $id);
+            header('Location: /departments');
+            FlashMessages::addMessage("Отдел успешно отредактирован.", "info");
+        } else {
+            $departments = $obj->getDepById($id);
+            $this->render("Departments/edit.tpl" , array('departments' => $departments));
+        }     
+    }
+
+    public function deleteAction(){
+        $id = $_POST[id];
+        print $id;
+        $obj =  new DepartmentModel();
+        $obj->dellDep($id);
+        header('Location: /departments');
+    }
+
     public function showAction(){
         $department =  new DepartmentModel();
         if(isset($_GET['id']) && $_GET['id']){
