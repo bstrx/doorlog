@@ -21,6 +21,7 @@ class Positions extends Model{
             VALUES ('$positionName')");
         return $add;
     }
+    
     public function getPosition($id){
         $q= "SELECT name,id
             FROM position
@@ -28,6 +29,7 @@ class Positions extends Model{
         $result = $this->fetchOne($q);
         return $result;
     }
+    
     public function savePosition($id,$position){
         $db = Db::getInstance();
         $edit = $db->query("UPDATE position
@@ -35,6 +37,7 @@ class Positions extends Model{
             WHERE id = '$id'");
         return $edit;
     }
+    
     public function deletePosition($id){
         $db = Db::getInstance();
         $update = $db->query("UPDATE user

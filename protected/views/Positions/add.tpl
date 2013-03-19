@@ -4,7 +4,7 @@
 
 {block name="content"}
     <div class="span7">
-        <form method='post' id="add-position">
+        <form method='post' id="add-department">
             <input type="text" name="posName" placeholder="Название Должности">
             <button type="submit" class="btn"> Добавить </button>
         </form>
