@@ -1,6 +1,5 @@
 {extends "protected/views/index.tpl"}
 {block name="content"}
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
     <script>
         $(document).ready(function()
         {
@@ -15,15 +14,15 @@
         });
     </script>
     <div class="span7">
-        <form method='post' id="add-department" style="float:left;">
+        <form method='post' id="edit-position">
             <input type="text" name="position" value="{$position['name']}">
              <button type="submit" class="btn"> Сохранить </button>&nbsp;
         </form>
-        <form action="{$_root}/positions/delete" method='POST' id="delete-position">
+        <form action="{$_root}/positions/delete" method='POST' id="edit-position">
             <input type="hidden" name="id" value="{$position['id']}">
-            <button id="delete" type="submit" class="btn"> Удалить </button>
-            <a href="{$_root}/positions" class="btn">Отмена</a>
+            <button id="delete" type="submit" class="btn"> Удалить </button>&nbsp;
         </form>
+        <a href="{$_root}/positions" class="btn">Отмена</a>
     </div>
 {/block}
 {/extends}

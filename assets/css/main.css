@@ -51,3 +51,9 @@ form#add-department input {
 .col-large {
     width:300px;
 }
+form#edit-position input {
+    margin: 0px;
+}
+#edit-position{
+    float: left;
+}

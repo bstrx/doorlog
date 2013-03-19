@@ -6,10 +6,10 @@ use core\Model;
 
 class Positions extends Model{
     public function getAll(){
-        $q = "SELECT d.name,count(position_id) as total_position,d.id
-            FROM position as d
-            LEFT JOIN user as u ON u.position_id=d.id
-            GROUP BY d.id";
+        $q = "SELECT p.name,count(position_id) as total_position,p.id
+            FROM position as p
+            LEFT JOIN user as u ON u.position_id=p.id
+            GROUP BY p.id";
         $result = $this->fetchAll($q);
 
         return $result;
@@ -17,11 +17,11 @@ class Positions extends Model{
 
     public function insertPosition($positionName){
         $db = Db::getInstance();
-        $add= $db->query("INSERT INTO `position` (`name`, `id`)
-            VALUES ('$positionName',NULL)");
+        $add= $db->query("INSERT INTO `position` (`name`)
+            VALUES ('$positionName')");
         return $add;
     }
-    public function getPos($id){
+    public function getPosition($id){
         $q= "SELECT name,id
             FROM position
             WHERE id='$id'";
