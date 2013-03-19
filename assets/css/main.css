@@ -54,14 +54,17 @@ form#add-department input {
 form#edit-position input {
     margin: 0px;
 }
+
 #edit-position{
     float: left;
     padding-right:5px;
 }
+
 #delete-position{
     float: left;
     padding-right:5px;
 }
+
 #dialog{
     display:none;
 }

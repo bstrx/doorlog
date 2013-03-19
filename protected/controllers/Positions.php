@@ -14,7 +14,7 @@ class Positions extends Controller{
     }
     
     public function addAction(){
-        $positions = new positionModel();
+        $positions = new PositionModel();
 
         if( isset($_POST['posName'])){
             $positionName = $_POST['posName'];
