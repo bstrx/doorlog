@@ -10,7 +10,7 @@
                     position: ["center"],
                     buttons: {
                         "Ок": function() {
-                            $("#delete-position").submit();
+                            $("#delete-dep").submit();
                         },
                         "Отмена": function() {
                             $(this).dialog("close");
@@ -24,19 +24,19 @@
         });
 </script>
     <div class="span7">
-        <form method='post' id="add-department" style="float:left;">
+        <form method='post' id="edit-department">
             <input type="text" name="depName" value="{$departments['name']}">
-            <button type="submit" class="btn"> Сохранить </button>
+            <button type="submit" class="btn" id = 'edit-dep'> Сохранить </button>
         </form>
         <form action = "/departments/delete" method='post' id="del-department">
             <input type="hidden" name="id" value="{$departments['id']}">
             <button type="submit" class="btn" id = "delete"> Удалить </button>
-            <a class="btn" href="{$_root}/departments">Отмена</a>
         </form>
+        <a class="btn" href="{$_root}/departments">Отмена</a>
     </div>
 <div id="dialog">
     <p>Дейсвительно хотите удалить?</p>
-    <form action = "/departments/delete" method='post' id = "delete-position">
+    <form action = "/departments/delete" method='post' id = "delete-dep">
         <input type="hidden" name="id" value="{$departments['id']}">
     </form>
 </div>

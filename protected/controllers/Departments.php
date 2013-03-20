@@ -33,7 +33,7 @@ class Departments extends Controller {
         if(isset($_POST['depName']) && $_POST['depName']){
             $depName = $_POST['depName'];
             $obj->editDep($depName, $id);
-            header('Location: /departments');
+            $this->redirect("/departments");
             FlashMessages::addMessage("Отдел успешно отредактирован.", "info");
         } else {
             $departments = $obj->getDepById($id);
@@ -43,10 +43,10 @@ class Departments extends Controller {
 
     public function deleteAction(){
         $id = $_POST[id];
-        print $id;
         $obj =  new DepartmentModel();
         $obj->dellDep($id);
-        header('Location: /departments');
+        $this->redirect("/departments");
+        FlashMessages::addMessage("Отдел успешно удален.", "info");
     }
 
     public function showAction(){
