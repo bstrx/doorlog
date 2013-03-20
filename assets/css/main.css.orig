@@ -51,35 +51,29 @@ form#add-department input {
 .col-large {
     width:300px;
 }
+<<<<<<< HEAD
+
 form#edit-department input {
     margin: 0px;
 }
 
 #edit-department {
-    float: left;
-    padding-right:5px;
-}
-
-#delete-dep{
-    margin-top: 50px;
-    margin-left: -90px;
-}
-
-#del-department {
-    float: left;
-    padding-right:5px;
-}
-
-
+=======
 form#edit-position input {
     margin: 0px;
 }
 
 #edit-position{
+>>>>>>> a129ced23464badfe8d13220ad94bc624f36b83b
     float: left;
     padding-right:5px;
 }
 
+<<<<<<< HEAD
+#del-department {
+    float: left;
+    padding-right:5px;
+=======
 #delete-position{
     float: left;
     padding-right:5px;
@@ -87,21 +81,5 @@ form#edit-position input {
 
 #dialog{
     display:none;
-}
-
-#edit-dep-cancel{
-    margin-top: 50px;
-    margin-left: -184px;
-}
-
-#edit-dep-label{
-    width: 265px;
-}
-
-#add-dep-label{
-    width: 160px;   
-}
-
-#add-dep-cancel{
-    margin-left: 5px;
+>>>>>>> a129ced23464badfe8d13220ad94bc624f36b83b
 }
