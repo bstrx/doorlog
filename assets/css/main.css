@@ -60,6 +60,11 @@ form#edit-department input {
     padding-right:5px;
 }
 
+#delete-dep{
+    margin-top: 50px;
+    margin-left: -90px;
+}
+
 #del-department {
     float: left;
     padding-right:5px;
@@ -82,4 +87,21 @@ form#edit-position input {
 
 #dialog{
     display:none;
+}
+
+#edit-dep-cancel{
+    margin-top: 50px;
+    margin-left: -184px;
+}
+
+#edit-dep-label{
+    width: 265px;
+}
+
+#add-dep-label{
+    width: 160px;   
+}
+
+#add-dep-cancel{
+    margin-left: 5px;
 }
