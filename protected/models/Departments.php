@@ -28,12 +28,35 @@ class Departments extends Model {
         return $result;
     }
 
-    public function createDep($depName){
-          $obj = Db::getInstance();
-          $result = $obj->query("INSERT INTO department(name) VALUES('$depName')");
+    public function getDepById($id){
+      $q = "SELECT * FROM department WHERE id = $id";
 
-          return $result;
+      $result = $this->fetchOne($q);
+      return $result;
+    }
+
+    public function createDep($depName){
+      $obj = Db::getInstance();
+      $result = $obj->query("INSERT INTO department(name) VALUES('$depName')");
+
+      return $result;
       }
+
+    public function dellDep($id){
+      $q = "DELETE FROM department WHERE id = $id";;
+      $q1 = "UPDATE user SET department_id = '0' WHERE department_id = '$id' ";
+      $result = $this->fetchAll($q1);
+      $result1 = $this->fetchAll($q);
+      return $result;
+    }
+
+
+    public function editDep($newname, $id){
+      $q = "UPDATE department SET name = '$newname' WHERE id = '$id' ";
+
+      $result = $this->fetchAll($q);
+      return $result;
+    }
 
     public function getUsers($depId){
         $depId = (int) $depId;
