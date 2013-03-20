@@ -51,7 +51,6 @@ form#add-department input {
 .col-large {
     width:300px;
 }
-
 form#edit-department input {
     margin: 0px;
 }
@@ -64,4 +63,23 @@ form#edit-department input {
 #del-department {
     float: left;
     padding-right:5px;
+}
+
+
+form#edit-position input {
+    margin: 0px;
+}
+
+#edit-position{
+    float: left;
+    padding-right:5px;
+}
+
+#delete-position{
+    float: left;
+    padding-right:5px;
+}
+
+#dialog{
+    display:none;
 }
