@@ -2,26 +2,26 @@
     {block name="content"}
 
     <div class="span7">
-        <table class="table table-bordered">
-            <thead>
-                {foreach from=$allPermissions item=groupName}
-                    <th>{$groupName['group_name']}</th>
 
-                {/foreach}
-            </thead>
-            <tbody>
                 
-                {foreach from=$allPermissions item=permission}
-                        <tr>
-                            <td> {$permission['name']} </td>
-                            
-                        </tr>
+                {foreach from=$allPermissions item=group}
+                <span class="tbl-span">{$group['group_name']}</span></br>
+                <table class="table table-bordered">
+                    <tbody>
+
+                {foreach from=$group['permissions'] item=perm_name key=key}
+                    
+                        <tr><td>{$perm_name}</td></tr>
+                        
+                
                     {/foreach}
-                 
-            </tbody>
+                           </tbody>
+                </table>
+                            
+                        
+                    {/foreach} 
+                
 
-
-        </table>
 
     {/block}
 {/extends}

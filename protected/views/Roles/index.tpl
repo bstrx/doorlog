@@ -12,7 +12,7 @@
                 <tbody>
                     {foreach from=$roles item=role}
                         <tr>
-                            <td> {$role['role_name']} </td>
+                            <td> {$role['name']} </td>
                             <td> {$role['users_count']} </td>
                             <td><a href="{$_root}/roles/edit?id={$role['id']}">Редактировать</a></td>
 

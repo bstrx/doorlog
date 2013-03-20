@@ -41,16 +41,19 @@ class Roles extends Controller{
         foreach ($rolePermissions as $result){
             $rolePermissions= $result;
         }
-        //print_r($rolePermissions);
+
         $allPermissions = $obj->getAllPermissions();
 
-        $tmp = array();
+        $sortedPermissions = array();
+        foreach($allPermissions as $row){
+            $sortedPermissions[$row['id']]['group_name'] = $row['group_name'];
+            $sortedPermissions[$row['id']]['permissions'][$row['perm_id']]= $row['perm_name'];
+           
 
+        }
 
-
-        print_r($allPermissions);
         $this->render("Roles/edit.tpl", array('rolePermissions'=>$rolePermissions,
-                                              'allPermissions'=>$allPermissions));
+                                              'allPermissions'=>$sortedPermissions));
     }
 
     
