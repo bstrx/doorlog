@@ -54,4 +54,17 @@ abstract class Model {
         echo "</pre>";
         die();
     }
+
+    protected function execute($queryString, $params){
+        $db = Db::getInstance();
+        $stmt = $db->prepare($queryString);
+
+        if ($params){
+            $ans = $stmt->execute($params);
+        } else {
+            $ans = $stmt->execute();
+        }
+        return $ans;   
+    }
+
 }
