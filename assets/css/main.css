@@ -70,25 +70,6 @@ form#edit-department input {
     padding-right:5px;
 }
 
-
-form#edit-position input {
-    margin: 0px;
-}
-
-#edit-position{
-    float: left;
-    padding-right:5px;
-}
-
-#delete-position{
-    float: left;
-    padding-right:5px;
-}
-
-#dialog{
-    display:none;
-}
-
 #edit-dep-cancel{
     margin-top: 50px;
     margin-left: -184px;
@@ -104,4 +85,40 @@ form#edit-position input {
 
 #add-dep-cancel{
     margin-left: 5px;
+}
+
+form#edit-position input {
+    margin: 0px;
+}
+
+#save{
+    float:left;
+    margin-right:10px;
+}
+
+#edit-cancel{
+    float:left;
+    margin-right:10px;
+    margin-top:-20px;
+}
+
+#delete{
+    margin-top: -30px;
+}
+
+#edit-label{
+    width:260px;
+}
+
+#dialog{
+    display:none;
+}
+
+#success{
+    float:left;
+    margin-right:10px;
+}
+
+#add-cancel{
+    margin-top:-30px;
 }

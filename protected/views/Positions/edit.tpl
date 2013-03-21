@@ -23,15 +23,16 @@
         });
     </script>
     <div class="span7">
-        <form method='post' id="edit-position">
-            <input type="text" name="position" value="{$position['name']}">
-             <button type="submit" id="save" class="btn"> Сохранить </button>
+        {block name="pagetitle"}<h1>Редактировать должность</h1>{/block}
+        <form method='post'>
+            <input type="text" name="position" id="edit-label" value="{$position['name']}"><br />
+             <button type="submit" id="save" class="btn btn-success"> Сохранить </button>
         </form>
-        <form action="{$_root}/positions/delete" method='POST' id="delete-position">
+        <a href="{$_root}/positions" id="edit-cancel" class="btn">Отмена</a>
+        <form action="{$_root}/positions/delete" id="delete-position" method='POST'>
             <input type="hidden" name="id" value="{$position['id']}">
-            <button id="delete" type="submit" class="btn"> Удалить </button>
+            <button id="delete" type="submit" class="btn btn-danger"> Удалить </button>
         </form>
-        <a href="{$_root}/positions" class="btn">Отмена</a>
     </div>
 
 <div id="dialog" title="Диалоговое окно">
