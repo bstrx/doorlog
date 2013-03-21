@@ -25,11 +25,11 @@
     <div class="span7">
         {block name="pagetitle"}<h1>Редактировать должность</h1>{/block}
         <form method='post'>
-            <input type="text" name="position" style="display:block;" value="{$position['name']}">
-             <button type="submit" id="save" style="float:left; margin-right:5px;" class="btn btn-success"> Сохранить </button>
+            <input type="text" name="position" id="edit-label" value="{$position['name']}"><br />
+             <button type="submit" id="save" class="btn btn-success"> Сохранить </button>
         </form>
-        <a href="{$_root}/positions" style="float:left; margin-right:5px; margin-top:-10px;" class="btn">Отмена</a>
-        <form action="{$_root}/positions/delete" method='POST'>
+        <a href="{$_root}/positions" id="edit-cancel" class="btn">Отмена</a>
+        <form action="{$_root}/positions/delete" id="delete-position" method='POST'>
             <input type="hidden" name="id" value="{$position['id']}">
             <button id="delete" type="submit" class="btn btn-danger"> Удалить </button>
         </form>

@@ -51,34 +51,74 @@ form#add-department input {
 .col-large {
     width:300px;
 }
+form#edit-department input {
+    margin: 0px;
+}
+
+#edit-department {
+    float: left;
+    padding-right:5px;
+}
+
+#delete-dep{
+    margin-top: 50px;
+    margin-left: -90px;
+}
+
+#del-department {
+    float: left;
+    padding-right:5px;
+}
+
+#edit-dep-cancel{
+    margin-top: 50px;
+    margin-left: -184px;
+}
+
+#edit-dep-label{
+    width: 265px;
+}
+
+#add-dep-label{
+    width: 160px;   
+}
+
+#add-dep-cancel{
+    margin-left: 5px;
+}
+
 form#edit-position input {
     margin: 0px;
 }
 
-#edit-position{
-    float: left;
-    padding-right:5px;
+#save{
+    float:left;
+    margin-right:10px;
 }
 
-#delete-position{
-    float: left;
-    padding-right:5px;
+#edit-cancel{
+    float:left;
+    margin-right:10px;
+    margin-top:-20px;
+}
+
+#delete{
+    margin-top: -30px;
+}
+
+#edit-label{
+    width:260px;
 }
 
 #dialog{
     display:none;
 }
 
-#add-position{
-    display:block;
+#success{
+    float:left;
+    margin-right:10px;
 }
 
-#success{
-    margin: 0px;
-    float:left;
-}
 #add-cancel{
-    margin: 0px;
-    margin-top:-12px;
-    margin-left: 5px;
+    margin-top:-30px;
 }
