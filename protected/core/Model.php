@@ -55,16 +55,16 @@ abstract class Model {
         die();
     }
 
-    protected function PrepState($queryString, $params){
+    protected function execute($queryString, $params){
         $db = Db::getInstance();
         $stmt = $db->prepare($queryString);
 
         if ($params){
-            $stmt->execute($params);
+            $ans = $stmt->execute($params);
         } else {
-            $stmt->execute();
+            $ans = $stmt->execute();
         }
-        return $stmt;   
+        return $ans;   
     }
 
 }
