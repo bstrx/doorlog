@@ -54,9 +54,17 @@ class Users extends Model{
 
     public function insertUsers($user, $email, $hash, $salt, $position, $department){
         $db = Db::getInstance();
-        $add= $db->query("INSERT INTO user(personal_id, position_id, email, password, salt, department_id, created)
-            VALUES ('$user','$position', '$email','$hash','$salt','$department', NOW())");
-        return $add;
+        $add="INSERT INTO user(personal_id, position_id, email, password, salt, department_id, created)
+            VALUES (:user,:position,:email,:hash,:salt,:department, NOW())";
+        $params=array();
+        $params['user'] = $user;
+        $params['position'] = $position;
+        $params['email'] = $email;
+        $params['hash'] = $hash;
+        $params['salt'] = $salt;
+        $params['department'] = $department;
+        $result = $this->execute($add,$params);
+        return $result;
     }
 
     public function getInfo($id){

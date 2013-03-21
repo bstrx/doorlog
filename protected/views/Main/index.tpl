@@ -73,17 +73,17 @@
             <div class="tab-content">
                 {* Вкладка "День" *}
                 <div class="tab-pane active" id="day">
-                    {block name="menu"} {include file='protected/views/Main/day.tpl'} {/block}
+                    {include file='protected/views/Main/day.tpl'}
                 </div>
 
                 {* Вкладка "Неделя" *}
                 <div class="tab-pane" id="week">
-                    {block name="menu"} {include file='protected/views/Main/week.tpl'} {/block}
+                    {include file='protected/views/Main/week.tpl'}
                 </div>
 
                 {* Вкладка "Месяц" *}
                 <div class="tab-pane" id="month">
-                    {block name="menu"} {include file='protected/views/Main/month.tpl'} {/block}
+                    {include file='protected/views/Main/month.tpl'}
                 </div>
             </div>
         </div>
