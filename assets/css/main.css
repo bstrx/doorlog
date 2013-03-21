@@ -68,3 +68,17 @@ form#edit-position input {
 #dialog{
     display:none;
 }
+
+#add-position{
+    display:block;
+}
+
+#success{
+    margin: 0px;
+    float:left;
+}
+#add-cancel{
+    margin: 0px;
+    margin-top:-12px;
+    margin-left: 5px;
+}

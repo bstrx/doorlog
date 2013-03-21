@@ -12,6 +12,7 @@
             <thead>
                 <th> Название </th>
                 <th> Количество сотрудников </th>
+                <th> </th>
             </thead>
             <tbody>
                 {foreach from=$positions item=position}
