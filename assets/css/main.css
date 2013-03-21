@@ -51,6 +51,12 @@ form#add-department input {
 .col-large {
     width:300px;
 }
+
+#dialog{
+    display:none;
+}
+
 form{
     margin: 0px;
 }
+

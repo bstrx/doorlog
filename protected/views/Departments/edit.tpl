@@ -10,7 +10,7 @@
                     position: ["center"],
                     buttons: {
                         "Ок": function() {
-                            $("#delete-dep").submit();
+                            $("#del-department").submit();
                         },
                         "Отмена": function() {
                             $(this).dialog("close");
@@ -26,22 +26,20 @@
     <div class="span7">
         <h1>Редактировать отдел</h1>
         <form method='post' id="edit-department">
-            <input type="text" id="edit-dep-label" name="depName" value="{$departments['name']}">
-            <br>
-            <br>
-            <button type="submit" class="btn btn-success" id = 'edit-dep'> Сохранить </button>
+            <input type="text" name="depName" value="{$departments['name']}">
         </form>
-        <a class="btn" id="edit-dep-cancel" href="{$_root}/departments">Отмена</a>
+        
         <form action = "/departments/delete" method='post' id="del-department">
             <input type="hidden" name="id" value="{$departments['id']}">
-            <button type="submit" class="btn btn-danger" id = "delete-dep"> Удалить </button>
         </form>
+
+        <button type="submit" class="btn btn-success" form="edit-department"> Сохранить </button>
+        <a class="btn" href="{$_root}/departments"> Отмена </a>
+        <button type="submit" class="btn btn-danger" id="delete" form="del-department"> Удалить </button>
+
     </div>
 <div id="dialog">
     <p>Дейсвительно хотите удалить?</p>
-    <form action = "/departments/delete" method='post' id = "delete-dep">
-        <input type="hidden" name="id" value="{$departments['id']}">
-    </form>
 </div>
 
 
