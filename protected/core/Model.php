@@ -63,7 +63,8 @@ abstract class Model {
             $stmt->execute($params);
         } else {
             $stmt->execute();
-        }   
+        }
+        return $stmt;   
     }
 
 }
