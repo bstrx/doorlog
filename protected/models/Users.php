@@ -5,21 +5,19 @@ use core\Model;
 
 class Users extends Model{
     public function getAllUnregistered(){
-        $result = $this->fetchAll("
-            SELECT id, name
+        $q= "SELECT id, name
             FROM `tc-db-main`.`personal`
             WHERE type='EMP'
               AND status='AVAILABLE'
             AND id!=ALL(SELECT `personal_id` FROM `user`)
-            ORDER BY name
-        ");
+            ORDER BY name";
+        $result = $this->fetchAll($q,"");
 
         return $result;
     }
 
     public function getAllRegistered(){
-        $result = $this->fetchAll("
-            SELECT
+        $q= "SELECT
               t.id,
               t.NAME as name,
               d.name as department,
@@ -32,22 +30,24 @@ class Users extends Model{
               ON u.position_id = p.id
             LEFT JOIN `department` d
               ON u.department_id = d.id
-            ORDER BY t.NAME
-        ");
+            ORDER BY t.NAME";
+        $result = $this->fetchAll($q,"");
 
         return $result;
     }
 
     public function searchByName($name){
-        $result = $this->fetchAll("
-            SELECT t.NAME as name,
+        $q="SELECT t.NAME as name,
                 t.id
             FROM `user` u
             JOIN `tc-db-main`.`personal` t
               ON u.personal_id = t.id
-            WHERE t.NAME LIKE '%" . $name . "%'
+            WHERE t.NAME LIKE '% . :name . %'
             ORDER BY t.NAME
-        ");
+        ";
+        $params=array();
+        $params['name']=$name;
+        $result = $this->fetchAll($q,$name);
 
         return $result;
     }
@@ -68,33 +68,38 @@ class Users extends Model{
     }
 
     public function getInfo($id){
-        $result = $this->fetchOne("
+        $q="
             SELECT t.id, u.email, u.position_id, u.password, u.salt, t.name
             FROM `user` u
             JOIN `tc-db-main`.`personal` t ON u.personal_id = t.id
-            WHERE t.id = '$id'
-        ");
+            WHERE t.id = :id
+        ";
+        $params=array();
+        $params['id']=$id;
+        $result = $this->fetchOne($q,$params);
 
         return $result;
     }
 
     public function getInfoByEmail($email){
-        $result = $this->fetchOne("
-            SELECT *
+        $q="SELECT *
             FROM `user`
-            WHERE email='$email'
-        ");
+            WHERE email=:email";
+        $params=array();
+        $params['email']=$email;
+        $result = $this->fetchOne($q,$params);
 
         return $result;
     }
 
     public function getInfoByCodeKey($codekey){
-        $result = $this->fetchOne("
-            SELECT u.personal_id, u.password, u.salt
+        $q="SELECT u.personal_id, u.password, u.salt
             FROM `user` u
             JOIN `tc-db-main`.`personal` t ON u.personal_id = t.id
-            WHERE SUBSTRING( HEX(`CODEKEY`) , 5, 4 ) = HEX($codekey)
-        ");
+            WHERE SUBSTRING( HEX(`CODEKEY`) , 5, 4 ) = HEX(:codekey)";
+        $params=array();
+        $params['codekey']=$codekey;
+        $result = $this->fetchOne($q,$params);
 
         return $result;
     }
@@ -108,13 +113,16 @@ class Users extends Model{
                 SUBSTRING( HEX( `logdata` ) , 10, 1 ) as direction
             FROM `tc-db-log`.`logs`
             WHERE
-              emphint = {$userId}
-              AND DATE(logtime) >= FROM_UNIXTIME({$fromDate})
-              AND DATE(logtime) <= FROM_UNIXTIME({$toDate})
+              emphint = :userId
+              AND DATE(logtime) >= FROM_UNIXTIME(:fromDate)
+              AND DATE(logtime) <= FROM_UNIXTIME(:toDate)
             ORDER BY logtime ASC
             ";
-
-        $result = $this->fetchAll($q);
+        $params=array();
+        $params['userId']=$userId;
+        $params['fromDate']=$fromDate;
+        $params['toDate']=$toDate;
+        $result = $this->fetchAll($q,$params);
         return $result;
     }
 
@@ -122,7 +130,7 @@ class Users extends Model{
         $q ="SELECT name, id
              FROM position";
 
-        $result = $this->fetchAll($q);
+        $result = $this->fetchAll($q,"");
         return $result;
     }
 
@@ -130,7 +138,7 @@ class Users extends Model{
         $q = "SELECT name, id
               FROM department";
 
-        $result = $this->fetchAll($q);
+        $result = $this->fetchAll($q,"");
         return $result;
 
     }
@@ -140,9 +148,10 @@ class Users extends Model{
             FROM users_roles
             INNER JOIN role ON users_roles.id_role = role.id
             INNER JOIN user ON users_roles.id_person = user.personal_id
-            WHERE user.personal_id =  '$userId'";
-
-        $result = $this->fetchAll($q);
+            WHERE user.personal_id =  :userId";
+        $params=array();
+        $params['userId']=$userId;
+        $result = $this->fetchAll($q,$params);
         return $result;
     }
 
@@ -157,22 +166,26 @@ class Users extends Model{
               ON u.position_id = p.id
             LEFT JOIN `department` d
               ON u.department_id = d.id
-            WHERE u.personal_id = '$id'
+            WHERE u.personal_id = :id
             ";
+        $params=array();
+        $params['id']=$id;
 
-        $result = $this->fetchOne($q);
+        $result = $this->fetchOne($q,$params);
         return $result;
     }
 
     public function getUserStatus($id){
         $q = "SELECT SUBSTRING( HEX(`logdata`) , 10, 1 ) as status
             FROM `tc-db-log`.`logs`
-            WHERE emphint = '$id'
+            WHERE emphint = :id
               AND logtime <= NOW() - INTERVAL 1 DAY
             ORDER BY logtime DESC
             LIMIT 1";
+        $params=array();
+        $params['id']=$id;
 
-        $result = $this->fetchOne($q);
+        $result = $this->fetchOne($q,$params);
         return $result;
     }
 
@@ -181,9 +194,10 @@ class Users extends Model{
                 FROM roles_permissions rp
                 INNER JOIN role r ON rp.id_role = r.id
                 INNER JOIN permission p ON rp.id_permission = p.id
-                WHERE role.id = '$roleId'";
-
-        $result = $this->getAll($q);
+                WHERE role.id = :roleId";
+        $params=array();
+        $params['roleId']=$roleId;
+        $result = $this->getAll($q,$params);
         return $result;
     }
 }

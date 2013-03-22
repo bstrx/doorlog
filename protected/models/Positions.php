@@ -10,44 +10,58 @@ class Positions extends Model{
             FROM position as p
             LEFT JOIN user as u ON u.position_id=p.id
             GROUP BY p.id";
-        $result = $this->fetchAll($q);
+        $params=array();
+        $result = $this->fetchAll($q,$params);
 
         return $result;
     }
 
     public function insertPosition($positionName){
         $db = Db::getInstance();
-        $add= $db->query("INSERT INTO `position` (`name`)
-            VALUES ('$positionName')");
-        return $add;
+        $add= "INSERT INTO `position` (`name`)
+            VALUES (:positionName)";
+        $params=array();
+        $params['positionName']=$positionName;
+        $result=$this->execute($add, $params);
+        return $result;
     }
     
     public function getPosition($id){
         $q= "SELECT name,id
             FROM position
-            WHERE id='$id'";
-        $result = $this->fetchOne($q);
+            WHERE id=:id";
+        $params=array();
+        $params['id']=$id;
+        $result = $this->fetchOne($q,$params);
         return $result;
     }
     
     public function savePosition($id,$position){
         $db = Db::getInstance();
-        $edit = $db->query("UPDATE position
-            SET name='$position' 
-            WHERE id = '$id'");
-        return $edit;
+        $edit = "UPDATE position
+            SET name=:position 
+            WHERE id = :id";
+        $params=array();
+        $params['position']=$position;
+        $params['id']=$id;
+        $result=$this->execute($edit, $params);
+        return $result;
     }
     
     public function deletePosition($id){
         $db = Db::getInstance();
-        $update = $db->query("UPDATE user
+        $update = "UPDATE user
             SET position_id=0
-            WHERE position_id='$id'");
-        $delete =$db->query("DELETE 
+            WHERE position_id=:id";
+        $delete ="DELETE 
             FROM position
-            WHERE id='$id'");
+            WHERE id=:id";
+        $params = array();
+        $params['id']=$id;
+        $result = $this->execute($update, $params);
+        $result = $this->execute($delete, $params);
 
-        return $delete;
+        return $result;
     }
 }
 ?>
