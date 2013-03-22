@@ -30,6 +30,7 @@ class Acl {
             foreach ($result as $row) {
                 $rolePermissions[] = $row;
             }
+            print_r($result);
             return $rolePermissions;
 
         }
@@ -50,6 +51,7 @@ class Acl {
             foreach($rolePermissions as $permission){
                 $permissions[] = $permission['key'];
             }
+
             return $permissions;
 
         }

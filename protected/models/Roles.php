@@ -27,11 +27,10 @@ class Roles extends \core\Model{
 
     function getRolePermissions($roleId){
 
-        $q = "SELECT permission.id, name, permission_group_id, group_name
-              FROM permission
-              JOIN permission_group as pg
-              ON pg.id = permission.permission_group_id
-              WHERE permission.id = $roleId";
+        $q = "SELECT id_permission
+              FROM roles_permissions
+              
+              WHERE id_role = $roleId";
         $result = $this->fetchAll($q);
         return $result;
     }
@@ -55,6 +54,21 @@ ON p.permission_group_id = pg.id
 ORDER BY id ASC";
         $result = $this->fetchAll($q);
         //print_r($result);
+        return $result;
+    }
+
+    function deleteRolePermissions($roleId){
+        $q = "DELETE 
+              FROM roles_permissions
+              WHERE id_role = $roleId";
+        $result = $this->fetchAll($q);
+        return $result;
+    }
+
+    function addRolePermissions($roleId, $permission){
+        $q = "INSERT INTO roles_permissions(id_role, id_permission)
+              VALUES($roleId, $permission)";
+        $result = $this->fetchAll($q);
         return $result;
     }
 }

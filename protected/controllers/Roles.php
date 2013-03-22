@@ -32,27 +32,52 @@ class Roles extends Controller{
 
         $rolePermissions = array();
         $allPermissions = array();
+        $sortedPermissions = array();
 
         if(isset($_GET['id']) && $_GET['id']){
             $roleId = $_GET['id'];
-            $rolePermissions = $obj->getRolePermissions($roleId);
+            //$rolePermissions = $obj->getRolePermissions($roleId);
         }
+                if(isset($_POST['changes'])){
+            if(isset($_POST['chb'])){
+                $newPermissions = $_POST['chb'];
+                $obj->deleteRolePermissions($roleId);
+                foreach($newPermissions as $permission){
+                    $obj->addRolePermissions($roleId, $permission);
+                    
+                }
+                FlashMessages::addMessage("Роль успешно изменена.", "info");
+                }else{
+                $obj->deleteRolePermissions($roleId);
+                FlashMessages::addMessage("Роль успешно изменена.", "info");
+        }
+        }
+        $rolePermissions = $obj->getRolePermissions($roleId);
 
-        foreach ($rolePermissions as $result){
-            $rolePermissions= $result;
+
+        $sortedRolePermissions = array();
+        foreach($rolePermissions as $prow){
+            $sortedRolePermissions[$prow['id_permission']] = $prow['id_permission'];
         }
 
         $allPermissions = $obj->getAllPermissions();
 
-        $sortedPermissions = array();
-        foreach($allPermissions as $row){
-            $sortedPermissions[$row['id']]['group_name'] = $row['group_name'];
-            $sortedPermissions[$row['id']]['permissions'][$row['perm_id']]= $row['perm_name'];
-           
 
+        $tmp = array();
+          foreach($allPermissions as $row){
+            $sortedPermissions[$row['id']]['group_name'] = $row['group_name'];
+            $tmp['perm_name'] = $row['perm_name'];
+            if(in_array($row['perm_id'], $sortedRolePermissions)){
+                $tmp['select']= true;
+             }else{
+                $tmp['select']= false;
+            }
+            
+            $sortedPermissions[$row['id']]['permissions'][$row['perm_id']]= $tmp;         
         }
 
-        $this->render("Roles/edit.tpl", array('rolePermissions'=>$rolePermissions,
+
+        $this->render("Roles/edit.tpl", array('rolePermissions'=>$sortedRolePermissions,
                                               'allPermissions'=>$sortedPermissions));
     }
 
