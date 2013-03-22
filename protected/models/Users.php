@@ -37,16 +37,17 @@ class Users extends Model{
     }
 
     public function searchByName($name){
+        $searchName = '%' . $name . '%';
         $q="SELECT t.NAME as name,
                 t.id
             FROM `user` u
             JOIN `tc-db-main`.`personal` t
               ON u.personal_id = t.id
-            WHERE t.NAME LIKE '% . :name . %'
+            WHERE t.NAME LIKE :searchName
             ORDER BY t.NAME
         ";
         $params=array();
-        $params['name']=$name;
+        $params['searchName']=$searchName;
         $result = $this->fetchAll($q,$params);
 
         return $result;
