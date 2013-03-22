@@ -74,10 +74,10 @@ class Users extends Model{
     public function checkUserAttr($email, $tel){
         $attr = array();
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
-            $attr[0] = 'Ошибка заполнения поля Телефон';
+            $attr[0] = 'Ошибка заполнения поля Email';
         }
         if (!is_numeric($tel)){
-            $attr[1] = 'Ошибка заполнения поля Email';
+            $attr[1] = 'Ошибка заполнения поля Телефон';
         }
         return $attr;
     }
