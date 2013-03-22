@@ -53,10 +53,10 @@ class Users extends Model{
         return $result;
     }
 
-    public function insertUsers($user, $email, $hash, $salt, $position, $department){
+    public function insertUsers($user, $email, $hash, $salt, $position, $department, $tel, $bday){
         $db = Db::getInstance();
-        $add="INSERT INTO user(personal_id, position_id, email, password, salt, department_id, created)
-            VALUES (:user,:position,:email,:hash,:salt,:department, NOW())";
+        $add="INSERT INTO user(personal_id, position_id, email, password, salt, department_id, created, birthday, phone)
+            VALUES (:user,:position,:email,:hash,:salt,:department, NOW(), :bday, :tel)";
         $params=array();
         $params['user'] = $user;
         $params['position'] = $position;
@@ -64,6 +64,9 @@ class Users extends Model{
         $params['hash'] = $hash;
         $params['salt'] = $salt;
         $params['department'] = $department;
+        $params['bday'] = $bday;
+        $params['tel'] = $tel;
+        
         $result = $this->execute($add,$params);
         return $result;
     }
