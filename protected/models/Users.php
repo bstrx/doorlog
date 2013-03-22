@@ -71,6 +71,17 @@ class Users extends Model{
         return $result;
     }
 
+    public function checkUserAttr($email, $tel){
+        $attr = array();
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
+            $attr[0] = 'Ошибка заполнения поля Телефон';
+        }
+        if (!is_numeric($tel)){
+            $attr[1] = 'Ошибка заполнения поля Email';
+        }
+        return $attr;
+    }
+
     public function getInfo($id){
         $q="
             SELECT t.id, u.email, u.position_id, u.password, u.salt, t.name

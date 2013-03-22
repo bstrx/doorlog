@@ -27,6 +27,7 @@
 
                 <p>Выберите должность:</p>
                 <select name="position">
+                    <option value='null'></option>
                     {html_options options=$positions}
                 </select> </br>
 
