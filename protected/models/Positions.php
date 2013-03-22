@@ -10,8 +10,7 @@ class Positions extends Model{
             FROM position as p
             LEFT JOIN user as u ON u.position_id=p.id
             GROUP BY p.id";
-        $params=array();
-        $result = $this->fetchAll($q,$params);
+        $result = $this->fetchAll($q);
 
         return $result;
     }

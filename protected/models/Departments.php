@@ -15,16 +15,14 @@ class Departments extends Model {
             LEFT JOIN user as u ON u.department_id = d.id
             LEFT JOIN `tc-db-main`.personal as t ON d.chief_id = t.id
             GROUP BY d.id";
-        $params = array();
-        $result = $this->fetchAll($q,$params);
+        $result = $this->fetchAll($q);
         return $result;
     }
 
     public function getMenuDepartments(){
         $q = "SELECT name, id
               FROM department";
-        $params = array();
-        $result = $this->fetchAll($q, $params);
+        $result = $this->fetchAll($q);
         return $result;
     }
 
@@ -54,7 +52,7 @@ class Departments extends Model {
       $result1 = $this->execute($q1, $params);
       return $result;
     }
-    
+
     public function editDep($newname, $id){
       $params = array();
       $params['id'] = $id;
