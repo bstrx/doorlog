@@ -15,7 +15,6 @@ class Departments extends Model {
             LEFT JOIN user as u ON u.department_id = d.id
             LEFT JOIN `tc-db-main`.personal as t ON d.chief_id = t.id
             GROUP BY d.id";
-
         $result = $this->fetchAll($q);
         return $result;
     }
@@ -23,15 +22,15 @@ class Departments extends Model {
     public function getMenuDepartments(){
         $q = "SELECT name, id
               FROM department";
-
         $result = $this->fetchAll($q);
         return $result;
     }
 
     public function getDepById($id){
-      $q = "SELECT * FROM department WHERE id = $id";
-
-      $result = $this->fetchOne($q);
+      $q = "SELECT * FROM department WHERE id = (:id)";
+      $params = array();
+      $params['id'] = $id; 
+      $result = $this->fetchOne($q, $params);
       return $result;
     }
 
@@ -54,7 +53,6 @@ class Departments extends Model {
       return $result;
     }
 
-
     public function editDep($newname, $id){
       $params = array();
       $params['id'] = $id;
@@ -71,8 +69,8 @@ class Departments extends Model {
             LEFT JOIN `savage-db`.user as u
             ON u.personal_id = p.id
             WHERE u.department_id = " . $depId;
-
-        $result = $this->fetchAll($q);
+        $params = array();
+        $result = $this->fetchAll($q, $params);
         return $result;
     }
 }

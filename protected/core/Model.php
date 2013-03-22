@@ -9,13 +9,13 @@ abstract class Model {
      * @param string $query sql
      * @return array|bool
      */
-    protected function fetchAll($query) {
+    protected function fetchAll($query,$params = array()) {
         $db = Db::getInstance();
-        $data = $db->query($query);
+        $data = $db->prepare($query);
         if ($db->errorCode() != '00000') {
             $this->showDbError($db->errorInfo());
         }
-
+        $data->execute($params);
         $fetchedData = $data->fetchAll(\PDO::FETCH_ASSOC);
 
         if (!empty($fetchedData)) {
@@ -28,13 +28,13 @@ abstract class Model {
      * @param string $query sql
      * @return array|bool
      */
-    protected function fetchOne($query) {
+    protected function fetchOne($query,$params = array()) {
         $db = Db::getInstance();
-        $data = $db->query($query);
+        $data = $db->prepare($query);
         if ($db->errorCode() != '00000') {
             $this->showDbError($db->errorInfo());
         }
-
+        $data->execute($params);
         $fetchedData = $data->fetchAll(\PDO::FETCH_ASSOC);
 
         if (!empty($fetchedData) && isset($fetchedData['0'])) {
@@ -55,15 +55,10 @@ abstract class Model {
         die();
     }
 
-    protected function execute($queryString, $params){
+    protected function execute($queryString, $params = array()){
         $db = Db::getInstance();
         $stmt = $db->prepare($queryString);
-
-        if ($params){
-            $ans = $stmt->execute($params);
-        } else {
-            $ans = $stmt->execute();
-        }
+        $ans = $stmt->execute($params);
         return $ans;   
     }
 

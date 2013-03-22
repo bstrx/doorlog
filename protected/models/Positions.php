@@ -28,8 +28,10 @@ class Positions extends Model{
     public function getPosition($id){
         $q= "SELECT name,id
             FROM position
-            WHERE id='$id'";
-        $result = $this->fetchOne($q);
+            WHERE id=:id";
+        $params=array();
+        $params['id']=$id;
+        $result = $this->fetchOne($q,$params);
         return $result;
     }
     
