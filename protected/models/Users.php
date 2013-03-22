@@ -11,7 +11,7 @@ class Users extends Model{
               AND status='AVAILABLE'
             AND id!=ALL(SELECT `personal_id` FROM `user`)
             ORDER BY name";
-        $result = $this->fetchAll($q,"");
+        $result = $this->fetchAll($q);
 
         return $result;
     }
@@ -31,7 +31,7 @@ class Users extends Model{
             LEFT JOIN `department` d
               ON u.department_id = d.id
             ORDER BY t.NAME";
-        $result = $this->fetchAll($q,"");
+        $result = $this->fetchAll($q);
 
         return $result;
     }
@@ -47,7 +47,7 @@ class Users extends Model{
         ";
         $params=array();
         $params['name']=$name;
-        $result = $this->fetchAll($q,$name);
+        $result = $this->fetchAll($q,$params);
 
         return $result;
     }
@@ -130,7 +130,7 @@ class Users extends Model{
         $q ="SELECT name, id
              FROM position";
 
-        $result = $this->fetchAll($q,"");
+        $result = $this->fetchAll($q);
         return $result;
     }
 
@@ -138,7 +138,7 @@ class Users extends Model{
         $q = "SELECT name, id
               FROM department";
 
-        $result = $this->fetchAll($q,"");
+        $result = $this->fetchAll($q);
         return $result;
 
     }
