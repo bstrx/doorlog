@@ -33,7 +33,7 @@ class Users extends Controller{
             $email = $_POST['email'];
             $tel = $_POST['tel'];
             $bday = $_POST['bday'];
-            $attr = $attr = $users->checkUserAttr($email, $tel);
+            $attr = $users->checkUserAttr($email, $tel);
             if (!$attr){
                 $salt = Utils::createRandomString(5,5);
                 $password = Utils::createRandomString(8, 10);
