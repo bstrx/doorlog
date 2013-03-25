@@ -2,7 +2,7 @@
 <html>
     <head>
         <title>{block name="title"}Учёт рабочего времени{/block}</title>
-        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <meta charset="utf-8">
         <meta name="description" content="Система учёта рабочего времени, v2">
         <link href="{$_root}/protected/vendor/twitter/bootstrap/docs/assets/css/bootstrap.css" rel="stylesheet">
         <link href="{$_root}/protected/vendor/twitter/bootstrap/docs/assets/css/bootstrap-responsive.css" rel="stylesheet">

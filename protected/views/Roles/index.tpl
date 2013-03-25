@@ -1,7 +1,11 @@
-{extends "protected/views/index.tpl"}
+ {extends "protected/views/index.tpl"}
 
     {block name="content"}
     <div class="span7">
+        <h1>Права доступа</h1>
+        <a href="{$_root}/roles/add">Добавить роль</a>
+        <br>
+        <br>
         <table class="table table-bordered">
         <thead>
                     <th>Роль</th>

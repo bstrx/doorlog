@@ -60,7 +60,7 @@
             minLength: 3,
             source: function( request, response ) {
                 $.ajax({
-                    url: "/doorlog/users/search",
+                    url: "{$_root}/users/search",
                     dataType: "json",
                     data:{
                         name:request.term

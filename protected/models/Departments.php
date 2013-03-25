@@ -15,7 +15,6 @@ class Departments extends Model {
             LEFT JOIN user as u ON u.department_id = d.id
             LEFT JOIN `tc-db-main`.personal as t ON d.chief_id = t.id
             GROUP BY d.id";
-
         $result = $this->fetchAll($q);
         return $result;
     }
@@ -23,17 +22,45 @@ class Departments extends Model {
     public function getMenuDepartments(){
         $q = "SELECT name, id
               FROM department";
-
         $result = $this->fetchAll($q);
         return $result;
     }
 
-    public function createDep($depName){
-          $obj = Db::getInstance();
-          $result = $obj->query("INSERT INTO department(name) VALUES('$depName')");
+    public function getDepById($id){
+      $q = "SELECT * FROM department WHERE id = (:id)";
+      $params = array();
+      $params['id'] = $id; 
+      $result = $this->fetchOne($q, $params);
+      return $result;
+    }
 
-          return $result;
+    public function createDep($depName){
+      $q = "INSERT INTO department(name) VALUES(:depName)";
+      $params = array();
+      $params['depName'] = $depName;
+      $result = $this->execute($q, $params);
+
+      return $result;
       }
+
+    public function dellDep($id){
+      $params = array();
+      $params['id'] = $id;
+      $q = "DELETE FROM department WHERE id = (:id)";
+      $q1 = "UPDATE user SET department_id = '0' WHERE department_id = (:id) ";
+      $result = $this->execute($q, $params);
+      $result1 = $this->execute($q1, $params);
+      return $result;
+    }
+
+    public function editDep($newname, $id){
+      $params = array();
+      $params['id'] = $id;
+      $params['newname'] = $newname;
+      $q = "UPDATE department SET name = (:newname) WHERE id = (:id) ";
+      $result = $this->execute($q, $params);
+      return $result;
+    }
 
     public function getUsers($depId){
         $depId = (int) $depId;
@@ -42,8 +69,8 @@ class Departments extends Model {
             LEFT JOIN `savage-db`.user as u
             ON u.personal_id = p.id
             WHERE u.department_id = " . $depId;
-
-        $result = $this->fetchAll($q);
+        $params = array();
+        $result = $this->fetchAll($q, $params);
         return $result;
     }
 }

@@ -8,28 +8,19 @@
                 <span class="tbl-span">{$group['group_name']}</span></br>
                 <table class="table table-bordered">
                     <tbody>
-
-                {foreach from=$group['permissions'] item=perm_name key=key}
-                   <tr><td> 
-                    {if $perm_name['select']==1}
-                        
-                        {html_checkboxes name="chb" output=$perm_name['perm_name'] values=$key selected=$rolePermissions}
-                    {else}
-                        
-                        {html_checkboxes name="chb" output=$perm_name['perm_name'] values=$key}
-                    {/if}
-                    </td></tr>
-                    {/foreach}
-                           </tbody>
+                        {foreach from=$group['permissions'] item=perm_name key=key}
+                            <tr><td>
+                            {html_checkboxes name="chb" output=$perm_name['perm_name'] values=$key selected=$rolePermissions}
+                            </td></tr>
+                        {/foreach}
+                    </tbody>
                 </table>
-                            
-                        
-                    {/foreach}
-                    <input type="hidden" name="changes" value="done">
-                    <button type="submit" class="btn"> Изменить </button>
-                    <a class="btn" href="{$_root}/roles">Отмена</a>
+                {/foreach}
+                <input type="hidden" name="changes" value="done">
+                <button type="submit" class="btn"> Изменить </button>
+                <a class="btn" href="{$_root}/roles">Отмена</a>
         </form>
    </div>
 
-    {/block}
+   {/block}
 {/extends}
