@@ -205,14 +205,14 @@ class Users extends Model{
     }
 
     public function getRolePermissions($roleId){
-        $q = "SELECT permission.key
+        $q = "SELECT p.key
                 FROM roles_permissions rp
                 INNER JOIN role r ON rp.id_role = r.id
                 INNER JOIN permission p ON rp.id_permission = p.id
                 WHERE role.id = :roleId";
         $params=array();
         $params['roleId']=$roleId;
-        $result = $this->getAll($q,$params);
+        $result = $this->fetchAll($q,$params);
         return $result;
     }
 }
