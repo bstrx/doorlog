@@ -62,11 +62,12 @@ class Departments extends Controller {
         sort($users);
         for ($i=0; $i <count($users) ; $i++) { 
             $userId = $users[$i]['id'];
-            $users[$i]['status'] = $user->getUserStatus($userId);
+            $weekTime = $user->getUserStatus($userId);
+            $users[$i]['status'] = $weekTime['status'];
             $users[$i]['time'] = $time->getWeekInfo($userId, date('Y-m-d'));
         }
         $name = $department->getDepById($depId);
         $users['depName'] = $name['name'];
-        $this->render("Departments/show.tpl" , array('users' => $users));
+        $this->render("Departments/show.tpl" , array('users' => $users, 'depName' => $name));
     }
 }
