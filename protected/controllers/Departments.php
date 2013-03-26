@@ -12,6 +12,7 @@ class Departments extends Controller {
     public function indexAction() {
         $obj =  new DepartmentModel();
         $departments =  $obj->getAll();
+
         $this->render("Departments/index.tpl" , array('departments' => $departments));
     }
 
@@ -25,7 +26,7 @@ class Departments extends Controller {
                 FlashMessages::addMessage("Произошла ошибка. Отдел не был добавлен.", "error");
             }
         }
-        $departments =  $obj->getAll();
+
         $this->render("Departments/add.tpl" , array());
     }
 
@@ -40,7 +41,7 @@ class Departments extends Controller {
         } else {
             $departments = $obj->getDepById($id);
             $this->render("Departments/edit.tpl" , array('departments' => $departments));
-        }     
+        }
     }
 
     public function deleteAction(){
@@ -60,7 +61,7 @@ class Departments extends Controller {
         }
         $users = $department->getUsers($depId);
         sort($users);
-        for ($i=0; $i <count($users) ; $i++) { 
+        for ($i=0; $i <count($users) ; $i++) {
             $userId = $users[$i]['id'];
             $weekTime = $user->getUserStatus($userId);
             $users[$i]['status'] = $weekTime['status'];
