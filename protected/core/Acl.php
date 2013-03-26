@@ -3,6 +3,7 @@
 namespace core;
 
 use models\Users;
+use models\Roles;
 
 class Acl {
     static function getUserRoles($userId){
@@ -30,6 +31,7 @@ class Acl {
             foreach ($result as $row) {
                 $rolePermissions[] = $row;
             }
+            
             return $rolePermissions;
 
         }
@@ -38,20 +40,25 @@ class Acl {
     }
 
     static function getUserPermissions($user){
-        $permissions = Array();
+        $permissionsArr = Array();
         $rolePermissions = Array();
         $userRoles = self::getUserRoles($user);
 
         if ($userRoles){
+            $obj = new Roles();
+
             foreach ($userRoles as $role) {
-                $rolePermissions = self::getRolePermissions($role);
+            $rolePermissions[] = $obj->getRolePermissions($role);
             }
 
-            foreach($rolePermissions as $permission){
-                $permissions[] = $permission['key'];
+            foreach($rolePermissions as $permissions){
+                foreach($permissions as $permission){
+                    $permissionsArr[] = $permission;
+                }               
             }
-            return $permissions;
 
+            $permissionsArr = array_unique($permissionsArr);
+            return $permissionsArr;
         }
 
         return false;
@@ -64,7 +71,7 @@ class Acl {
             return true;
         }
 
-        return false;
+            return false;
     }
 }
 
