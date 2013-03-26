@@ -4,6 +4,8 @@ namespace controllers;
 use core\Controller;
 use core\FlashMessages;
 use models\Departments as DepartmentModel;
+use models\Users as UserModel;
+use controllers\Main as Time;
 
 class Departments extends Controller {
 
@@ -50,12 +52,20 @@ class Departments extends Controller {
     }
 
     public function showAction(){
+        $time  = new Time();
         $department =  new DepartmentModel();
+        $user = new UserModel();
         if(isset($_GET['id']) && $_GET['id']){
             $depId = $_GET['id'];
         }
-
         $users = $department->getUsers($depId);
+        sort($users);
+        for ($i=0; $i <count($users) ; $i++) { 
+            $userId = $users[$i]['id'];
+            $users[$i]['status'] = $user->getUserStatus($userId);
+            $users[$i]['time'] = $time->getWeekInfo($userId, date('Y-m-d'));
+        }
+        $users['depName'] = $department->getDepById($depId)['name'];
         $this->render("Departments/show.tpl" , array('users' => $users));
     }
 }
