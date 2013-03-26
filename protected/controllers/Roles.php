@@ -41,8 +41,8 @@ class Roles extends Controller{
             $roleId = $_GET['id'];
         }
            if(isset($_POST['changes'])){
-               if(isset($_POST['chb'])){
-                    $newPermissions = $_POST['chb'];
+               if(isset($_POST['checkbox'])){
+                    $newPermissions = $_POST['checkbox'];
                     $obj->deleteRolePermissions($roleId);
                     foreach($newPermissions as $permission){
                         $obj->addRolePermissions($roleId, $permission);
@@ -58,7 +58,7 @@ class Roles extends Controller{
         $allPermissions = $obj->getAllPermissions();
         
         foreach($rolePermissions as $rolePermission){
-            $sortedRolePermissions[$rolePermission['id_permission']] = $rolePermission['id_permission'];
+            $sortedRolePermissions[] = $rolePermission['id_permission'];
         }
         
         foreach($allPermissions as $row){

@@ -40,7 +40,7 @@ class Acl {
     }
 
     static function getUserPermissions($user){
-        $permissions = Array();
+        $permissionsArr = Array();
         $rolePermissions = Array();
         $userRoles = self::getUserRoles($user);
 
@@ -51,12 +51,14 @@ class Acl {
             $rolePermissions[] = $obj->getRolePermissions($role);
             }
 
-            foreach($rolePermissions as $permission){
-                $permissions = $permission;
+            foreach($rolePermissions as $permissions){
+                foreach($permissions as $permission){
+                    $permissionsArr[] = $permission;
+                }               
             }
 
-            $permissions = array_unique($permissions);
-            return $permissions;
+            $permissionsArr = array_unique($permissionsArr);
+            return $permissionsArr;
         }
 
         return false;

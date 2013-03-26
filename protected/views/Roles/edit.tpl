@@ -8,9 +8,9 @@
                 <span class="tbl-span">{$group['group_name']}</span></br>
                 <table class="table table-bordered">
                     <tbody>
-                        {foreach from=$group['permissions'] item=perm_name key=key}
+                        {foreach from=$group['permissions'] item=permName key=key}
                             <tr><td>
-                            {html_checkboxes name="chb" output=$perm_name['perm_name'] values=$key selected=$rolePermissions}
+                            {html_checkboxes name="checkbox" output=$permName['perm_name'] values=$key selected=$rolePermissions}
                             </td></tr>
                         {/foreach}
                     </tbody>

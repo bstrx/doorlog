@@ -5,35 +5,36 @@
  */
 namespace models;
 use core\Db;
+use core\Model;
 
-class Roles extends \core\Model{
+class Roles extends Model {
     
     function getAll(){
-        $result = $this->fetchAll("SELECT name, id, count(id_person) as users_count
-                              FROM role
-                              LEFT OUTER JOIN users_roles as ur
-                              ON role.id = ur.id_role
-                              GROUP BY name");
-   
+        $q = "SELECT name, id, count(id_person) as users_count
+                                   FROM role
+                                   LEFT OUTER JOIN users_roles as ur
+                                   ON role.id = ur.id_role
+                                   GROUP BY name";
+        $result = $this->fetchAll($q);
         return $result;
     }
 
     function addRole($name){
-        $name = "'".$name."'";
         $params = array();
         $params['name'] = $name;
-        $q = "INSERT INTO roles(role_name)
+        $q = "INSERT INTO role(name)
                        VALUES(:name)";
         $result = $this->execute($q, $params);
         return $result;
     }
 
     function getRolePermissions($roleId){
-
+        $params = array();
+        $params['roleId'] = $roleId;
         $q = "SELECT id_permission
               FROM roles_permissions              
-              WHERE id_role = $roleId";
-        $result = $this->fetchAll($q);
+              WHERE id_role = :roleId";
+        $result = $this->fetchAll($q, $params);
         return $result;
     }
 
