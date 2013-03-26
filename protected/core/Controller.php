@@ -49,6 +49,7 @@ abstract class Controller {
     protected function redirect($url = '/') {
         $cfg = Registry::getValue('config');
         header('Location: ' . $cfg['root'] . $url);
+        die();
     }
 
 
