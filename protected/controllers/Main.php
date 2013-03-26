@@ -34,7 +34,7 @@ class Main extends Controller
         ));
     }
 
-    private function getWeekInfo($userId, $date) {
+    public function getWeekInfo($userId, $date) {
         $uDay = 24 * 60 * 60;
         $uTime = strtotime($date);
         $uWeekFirstDay = Utils::getWeekFirstDay($uTime);
@@ -46,7 +46,7 @@ class Main extends Controller
         return $weekPeriods;
     }
 
-    private function getMonthInfo($userId, $date) {
+    public function getMonthInfo($userId, $date) {
         $uDay = 24 * 60 * 60;
         $uTime = strtotime($date);
         $uMonthFirstDay = strtotime('first day of this month', $uTime)  - $uDay;

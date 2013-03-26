@@ -65,7 +65,8 @@ class Departments extends Controller {
             $users[$i]['status'] = $user->getUserStatus($userId);
             $users[$i]['time'] = $time->getWeekInfo($userId, date('Y-m-d'));
         }
-        $users['depName'] = $department->getDepById($depId)['name'];
+        $name = $department->getDepById($depId);
+        $users['depName'] = $name['name'];
         $this->render("Departments/show.tpl" , array('users' => $users));
     }
 }
