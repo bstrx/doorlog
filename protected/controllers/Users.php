@@ -24,27 +24,51 @@ class Users extends Controller{
         $this->redirect('/');
     }
 
+    public function addValidation($_POST) {
+        if(isset($_POST['userId']) && isset($_POST['department']) && isset($_POST['position']) && isset($_POST['email']) && isset($_POST['birthday'])&& isset($_POST['phone'])){
+            if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+                FlashMessages::addMessage("Не правильно введен Email.", "error");
+                $result = FALSE;
+            }
+            if(!preg_match('/[0-9]{2}.[0-9]{2}.[0-9]{4}/', $_POST['birthday'])){
+                FlashMessages::addMessage("Не правильно введена дата рождения", "error");
+                $result = FALSE;
+            }
+            if(!filter_var($_POST['phone'], FILTER_VALIDATE_INT)){
+                FlashMessages::addMessage("Не правильно введен номер телефона.", "error");
+                $result = FALSE;
+            }
+            return $result;
+        }else {
+            return false;
+        }
+        return true;
+    }
+
     public function addAction(){
         $users = new UsersModel();
-       // print_r($_POST);
-        if(isset($_POST['userId']) && isset($_POST['department']) && isset($_POST['position']) && isset($_POST['email'])){
-            $user = $_POST['userId'];
-            $position = $_POST['position'];
-            $department = $_POST['department'];
-            $email = $_POST['email'];
-            $salt = Utils::createRandomString(5,5);
-            $password = Utils::createRandomString(8, 10);
-            $hash = $this->generateHash($password, $salt);
-            if($users->insertUsers($user, $email, $hash, $salt, $position, $department)){
-                FlashMessages::addMessage("Пользователь успешно добавлен.", "info");
-                echo $password; //TODO убрать - пароль должен приходить на почту
+        //print_r($_POST);
+        $validation = Users::addValidation($_POST);
+            if($validation){
+                $user = $_POST['userId'];
+                $position = $_POST['position'];
+                $department = $_POST['department'];
+                $email = $_POST['email'];
+                $birthday = $_POST['birthday'];
+                $phone = $_POST['phone'];
+                $salt = Utils::createRandomString(5,5);
+                $password = Utils::createRandomString(8, 10);
+                $hash = $this->generateHash($password, $salt);
+                if($users->insertUsers($user, $email, $hash, $salt, $position, $department, $birthday, $phone)){
+                    FlashMessages::addMessage("Пользователь успешно добавлен.", "info");
+                    echo $password; //TODO убрать - пароль должен приходить на почту
+                }
+                else{
+                    FlashMessages::addMessage("Произошла ошибка. Пользователь не был добавлен.", "error");
+                }
+                $mail = new MailSender($email, "subject", "Your password: $password");
+                //$mail->send(); //TODO сделать доступным
             }
-            else{
-                FlashMessages::addMessage("Произошла ошибка. Пользователь не был добавлен.", "error");
-            }
-            $mail = new MailSender($email, "subject", "Your password: $password");
-            //$mail->send(); //TODO сделать доступным
-        }
 
         $unregisteredUsers = $users->getAllUnregistered();
         $posList = $users->getPositionsList();
@@ -94,7 +118,6 @@ class Users extends Controller{
                 FlashMessages::addMessage("Неверный пользователь.", "error");
             }
         }
-
         $this->render("Users/login.tpl");
     }
 

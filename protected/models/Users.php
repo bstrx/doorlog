@@ -44,9 +44,9 @@ class Users extends Model{
         return $result;
     }
 
-    public function insertUsers($user, $email, $hash, $salt, $position, $department){
+    public function insertUsers($user, $email, $hash, $salt, $position, $department, $birthday, $phone){
         $db = Db::getInstance();
-        $add= $db->query("INSERT INTO users(personal_id, position_id, email, password, salt, department_id, created) VALUES ('$user','$position', '$email','$hash','$salt','$department', NOW())");
+       // $add= $db->query("INSERT INTO user(personal_id, position_id, email, password, salt, department_id, created, birthday, phone) VALUES ('$user','$position', '$email','$hash','$salt','$department', NOW(), '$birthday', '$phone'");
         return $add;
     }
 
