@@ -22,7 +22,6 @@ class Roles extends Controller{
            $roleName = $_POST['roleName'];
            if($obj->addRole($roleName)){
                FlashMessages::addMessage("Роль успешно добавлена.", "success");
-               $this->redirect("/roles");
            } else {
                FlashMessages::addMessage("Ошибка добавления.", "error");
            }
@@ -51,6 +50,7 @@ class Roles extends Controller{
                     }else{
                         $obj->deleteRolePermissions($roleId);
                     }
+
             FlashMessages::addMessage("Роль успешно изменена.", "info");
         }
         
@@ -72,22 +72,7 @@ class Roles extends Controller{
         }
 
         $this->render("Roles/edit.tpl", array('rolePermissions'=>$sortedRolePermissions,
-                                              'allPermissions'=>$sortedPermissions,
-                                              'roleId'=>$roleId));
-    }
-
-    function deleteAction(){
-        if(isset($_POST['id'])){
-            $roleId = $_POST['id'];
-        }
-        $obj = new RolesModel();
-           
-        if($obj->deleteRoleWithPermissions($roleId)){
-            FlashMessages::addMessage("Роль успешно удалена.", "info");
-        } else {
-            FlashMessages::addMessage("Ошибка удаления", "error");
-        }
-        $this->redirect("/roles");
+                                              'allPermissions'=>$sortedPermissions));
     }
 }
 
