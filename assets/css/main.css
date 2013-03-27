@@ -1,3 +1,7 @@
+h1 {
+    font-size: 28px;
+}
+
 #main_menu {
     margin: 10px;
 }
@@ -8,7 +12,7 @@
 }
 
 #content {
-    padding: 15px 0px 0px 20px;
+    padding: 0px 20px 0px 20px;
 }
 
 
@@ -20,9 +24,6 @@
     background-color: whitesmoke;
 }
 
-form#add-department input {
-    margin: 0px;
-}
 
 .right-calendar {
     position: absolute;
@@ -38,4 +39,25 @@ form#add-department input {
 .right-calendar span{
     color:#0088CC;
     border-bottom: #0088CC dotted 1px;
+}
+
+.col-small {
+    width: 150px;
+}
+
+.col-large {
+    width:300px;
+}
+
+#dialog{
+    display:none;
+}
+
+form{
+    margin: 0px;
+}
+
+#chief{
+    color:gray;
+    font-style: italic;
 }

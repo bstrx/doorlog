@@ -35,8 +35,9 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a href="{$_root}/departments">Отделы</a></li>
-                        <li><a href="#"><s>Права доступа</s></a></li>
+                        <li><a href="{$_root}/roles">Права доступа</a></li>
                         <li><a href="{$_root}/users">Пользователи</a></li>
+                        <li><a href="{$_root}/positions">Должности</a></li>
                     </ul>
                 </li>
             </ul>
@@ -59,10 +60,10 @@
             minLength: 3,
             source: function( request, response ) {
                 $.ajax({
-                    url: "/doorlog/users/search",
+                    url: "{$_root}/users/search",
                     dataType: "json",
                     data:{
-                        term:request.term
+                        name:request.term
                     },
 
                     success: function(data) {

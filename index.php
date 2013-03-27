@@ -2,7 +2,6 @@
     session_start();
     ini_set('display_errors', true);
     ini_set('error_reporting',  E_ALL);
-    date_default_timezone_set('UTC');
     setlocale(LC_ALL, "ru_RU.UTF-8");
     header('Content-Type: text/html; charset=utf-8');
 

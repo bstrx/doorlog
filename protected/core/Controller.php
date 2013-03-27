@@ -4,6 +4,12 @@ namespace core;
 use models\Departments as Dep;
 
 abstract class Controller {
+    /**
+     * Sets up smarty settings and variables and renders template
+     * @param string $path path to template
+     * @param array $values smartyVarName => value
+     * @return void
+     */
     protected function render($path, array $values = array()) {
         $smarty = new \Smarty();
 
@@ -11,6 +17,7 @@ abstract class Controller {
         $smarty->setCompileDir('protected/vendor/smarty/templates_c/');
         $smarty->setConfigDir('protected/vendor/smarty/configs/');
         $smarty->setCacheDir('protected/vendor/smarty/cache/');
+        $smarty->escape_html = true;
 
         $smarty->assign($values);
 
@@ -27,16 +34,22 @@ abstract class Controller {
         $smarty->registerPlugin(
             'modifier',
             'formatDate',
-            array('core\DateTime', 'formatDate')
+            array('core\Utils', 'formatDate')
         );
 
         $smarty->display('protected/views/'.$path);
         exit();
     }
 
+    /**
+     * Redirects using root path
+     * @param string $url
+     * @return void
+     */
     protected function redirect($url = '/') {
         $cfg = Registry::getValue('config');
         header('Location: ' . $cfg['root'] . $url);
+        die();
     }
 
 

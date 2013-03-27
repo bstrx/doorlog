@@ -20,10 +20,14 @@
 
         function setDate(element) {
             var unixtime = $(element).attr('data-unixtime') | 0;
-            var currentDate = new Date(unixtime * 1000);
-            var h = currentDate.getHours(); // 0-24 format
-            var m = currentDate.getMinutes();
-            var s = currentDate.getSeconds();
+            var h = Math.floor(unixtime / 3600);
+            var m = Math.floor(unixtime % 3600 / 60);
+            var s = Math.floor(unixtime % 3600 % 60);
+
+            if (h < 10) h = '0' + h;
+            if (m < 10) m = '0' + m;
+            if (s < 10) s = '0' + s;
+
             $(element).text(h + ' ч ' + m + ' м ' + s + ' c');
             $(element).attr('data-unixtime', ++unixtime)
         }
@@ -56,7 +60,7 @@
 
          <div align=right class='right-calendar'>
              <form>
-                 <input name="date" type="hidden" id="datepicker" /> <span class="">{$date|date_format:"%d-%m-%Y"}</span>
+                 <input name="date" type="hidden" id="datepicker" /> <span>{$date|date_format:"%d.%m.%Y"}</span>
              </form>
          </div>
         <div class="tabbable">
@@ -69,17 +73,17 @@
             <div class="tab-content">
                 {* Вкладка "День" *}
                 <div class="tab-pane active" id="day">
-                    {block name="menu"} {include file='protected/views/Main/day.tpl'} {/block}
+                    {include file='protected/views/Main/day.tpl'}
                 </div>
 
                 {* Вкладка "Неделя" *}
                 <div class="tab-pane" id="week">
-                    {block name="menu"} {include file='protected/views/Main/week.tpl'} {/block}
+                    {include file='protected/views/Main/week.tpl'}
                 </div>
 
                 {* Вкладка "Месяц" *}
                 <div class="tab-pane" id="month">
-                    {block name="menu"} {include file='protected/views/Main/month.tpl'} {/block}
+                    {include file='protected/views/Main/month.tpl'}
                 </div>
             </div>
         </div>
