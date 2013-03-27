@@ -39,7 +39,7 @@
 <div>
     <h1> Добавить отгул </h1>
 
-    <form method="POST" action='/users/vacation'>
+    <form method="POST" action='{$_root}/users/vacation'>
         <p>
             <input type="hidden" id="id" name="id" value='{$id}'/>
             <label for="from"> Выберите начало периода: </label>
