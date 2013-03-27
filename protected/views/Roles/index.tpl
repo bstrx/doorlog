@@ -9,8 +9,8 @@
         <table class="table table-bordered">
             <thead>
                 <th>Роль</th>
-                <th>Кол-во обладателей</th>
-                <th>Управление</th>
+                <th>Кол-во сотрудников</th>
+                <th></th>
             </thead>
             <tbody>
                 {foreach from=$roles item=role}
