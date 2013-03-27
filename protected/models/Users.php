@@ -205,7 +205,7 @@ class Users extends Model{
     }
 
     public function getUserStatuses(){
-        $q = "SELECT * FROM statuses";
+        $q = "SELECT * FROM status";
         $result = $this->fetchAll($q);
         return $result;
     }
@@ -223,7 +223,7 @@ class Users extends Model{
     }
 
     public function setVacation($id, $type, $data){
-        $q = 'INSERT INTO users_status(user_id, status_id, date) VALUES (:id, :type, :date) ';
+        $q = 'INSERT INTO users_statuses(user_id, status_id, date) VALUES (:id, :type, :date) ';
         $params = array();
         $params['id'] = $id;
         $params['type'] = $type;

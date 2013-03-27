@@ -143,17 +143,18 @@ class Users extends Controller{
             $to = $_POST['to'];
             $type = $_POST['vtype'];
 
-            $date[0] = strtotime($from);
-            $date[1] = strtotime($to);
-            $date['days'] = floor(($date[1] - $date[0]) / (3600 * 24));
-            
-            for($i=0; $i<$date['days']+1; $i++){
-                $data =  date("o-m-d", $date[0]+((3600*24)*$i));
-                $res = $vacation->setVacation($id, $type, $data);
-                var_dump($res);
+            $dateStart = strtotime($from);
+            $dateFinish = strtotime($to);
+            $sumDays = floor(($dateFinish - $dateStart) / (3600 * 24));
+
+            for($i=0; $i<=$sumDays; $i++){
+                $date =  date("o-m-d", $dateStart+((3600*24)*$i));
+                $res = $vacation->setVacation($id, $type, $date);
             }
             if ($res){
-                FlashMessages::addMessage("Отгул добавлен", "info");
+                FlashMessages::addMessage("Отгул добавлен.", "info");
+            } else {
+                FlashMessages::addMessage("Произошла ошибка. Отгул не был добавлен.", "error");
             }
 
             $this->redirect('/users/show?id='.$id);
