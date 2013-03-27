@@ -2,8 +2,6 @@
     {block name="pagetitle"}<h1>Добавить пользователя</h1>{/block}
 
     {block name="content"}
-    <h3>Добавить нового пользователя</h3>
-
   <script>
   $(function() {
     $( "#datepicker" ).datepicker({
@@ -30,9 +28,6 @@
 
                 <p>Выберите должность:</p>
                 <select name="position">
-                    <option> </option>
-                    {html_options options=$positions}
-                </select> </br>
                     <option value='null'></option>
                     {html_options options=$positions}
                 </select> </br>
@@ -47,6 +42,5 @@
             </form>
 
         </div>
-
     {/block}
 {/extends}
