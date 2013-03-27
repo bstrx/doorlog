@@ -171,7 +171,7 @@ class Users extends Model{
     }
 
     public function getUserInfo($id){
-        $q = "SELECT t.id, t.name as name,
+        $q = "SELECT t.id, t.name,
               d.name as department,
               p.name as position
             FROM `tc-db-main`.`personal` t
@@ -222,19 +222,13 @@ class Users extends Model{
         return $result;
     }
 
-    public function setVacation($id, $from, $to, $type){
+    public function setVacation($id, $type, $data){
+        $q = 'INSERT INTO users_status(user_id, status_id, date) VALUES (:id, :type, :date) ';
         $params = array();
         $params['id'] = $id;
         $params['type'] = $type;
-
-        $q = 'INSERT INTO users_status(user_id, status_id, date) VALUES (:id, :type, :date) ';
-        $date[0] = strtotime($from);
-        $date[1] = strtotime($to);
-        $date['days'] = floor(($date[1] - $date[0]) / (3600 * 24));
-        for($i=0; $i<$date['days']+1; $i++){
-            $data =  date("o-m-d", $date[0]+((3600*24)*$i));
-            $params['date'] = $data;
-            $this->execute($q, $params);
-        }
+        $params['date'] = $data;
+        $result = $this->execute($q, $params);
+        return $result; 
     }
 }

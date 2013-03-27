@@ -136,16 +136,27 @@ class Users extends Controller{
 
     public function vacationAction(){
         $vacation = new UsersModel;
+
         if(isset($_POST['id']) && isset($_POST['from']) && isset($_POST['to'])){
             $id = $_POST['id'];
             $from = $_POST['from'];
             $to = $_POST['to'];
             $type = $_POST['vtype'];
+
+            $date[0] = strtotime($from);
+            $date[1] = strtotime($to);
+            $date['days'] = floor(($date[1] - $date[0]) / (3600 * 24));
+            
+            for($i=0; $i<$date['days']+1; $i++){
+                $data =  date("o-m-d", $date[0]+((3600*24)*$i));
+                $res = $vacation->setVacation($id, $type, $data);
+                var_dump($res);
+            }
+            if ($res){
+                FlashMessages::addMessage("Отгул добавлен", "info");
+            }
+
+            $this->redirect('/users/show?id='.$id);
         }
-        $vacation->setVacation($id, $from, $to, $type);
-        if ($vacation){
-            FlashMessages::addMessage("Отгул добавлен", "info");
-        }
-        $this->redirect('/users/show?id='.$id);
     }
 }
