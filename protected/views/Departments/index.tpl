@@ -4,8 +4,7 @@
     <div class="span7">
         <h1>Отделы</h1>
         <a href="{$_root}/departments/add">Добавить отдел</a>
-        <br>
-        <br>
+
         <table class="table table-bordered">
             <th> Название отдела </th>
             <th> Кол-во сотрудников </th>

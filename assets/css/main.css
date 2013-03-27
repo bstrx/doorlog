@@ -29,9 +29,6 @@ h3 {
     background-color: whitesmoke;
 }
 
-form#add-department input {
-    margin: 0px;
-}
 
 .right-calendar {
     position: absolute;
@@ -74,5 +71,10 @@ input[type = "checkbox"]{
     height: 18px;
     width: 18px;
     margin: 0 5px 0 0;
+}
+
+#chief{
+    color:gray;
+    font-style: italic;
 }
 

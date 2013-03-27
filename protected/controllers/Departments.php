@@ -4,12 +4,15 @@ namespace controllers;
 use core\Controller;
 use core\FlashMessages;
 use models\Departments as DepartmentModel;
+use models\Users as UserModel;
+use controllers\Main as Time;
 
 class Departments extends Controller {
 
     public function indexAction() {
         $obj =  new DepartmentModel();
         $departments =  $obj->getAll();
+
         $this->render("Departments/index.tpl" , array('departments' => $departments));
     }
 
@@ -23,7 +26,7 @@ class Departments extends Controller {
                 FlashMessages::addMessage("Произошла ошибка. Отдел не был добавлен.", "error");
             }
         }
-        $departments =  $obj->getAll();
+
         $this->render("Departments/add.tpl" , array());
     }
 
@@ -38,7 +41,7 @@ class Departments extends Controller {
         } else {
             $departments = $obj->getDepById($id);
             $this->render("Departments/edit.tpl" , array('departments' => $departments));
-        }     
+        }
     }
 
     public function deleteAction(){
@@ -50,12 +53,21 @@ class Departments extends Controller {
     }
 
     public function showAction(){
+        $time  = new Time();
         $department =  new DepartmentModel();
+        $user = new UserModel();
         if(isset($_GET['id']) && $_GET['id']){
             $depId = $_GET['id'];
         }
-
         $users = $department->getUsers($depId);
-        $this->render("Departments/show.tpl" , array('users' => $users));
+        sort($users);
+        for ($i=0; $i <count($users) ; $i++) {
+            $userId = $users[$i]['id'];
+            $weekTime = $user->getUserStatus($userId);
+            $users[$i]['status'] = $weekTime['status'];
+            $users[$i]['time'] = $time->getWeekInfo($userId, date('Y-m-d'));
+        }
+        $name = $department->getDepById($depId);
+        $this->render("Departments/show.tpl" , array('users' => $users, 'depName' => $name));
     }
 }
