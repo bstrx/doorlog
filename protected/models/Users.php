@@ -215,4 +215,18 @@ class Users extends Model{
         $result = $this->fetchAll($q,$params);
         return $result;
     }
+    public function getSearchUsers($text){
+        $q = "SELECT
+              t.id,
+              t.NAME as name
+            FROM `user` u
+            JOIN `tc-db-main`.`personal` t
+              ON u.personal_id = t.id
+            WHERE t.NAME LIKE '%$text%'
+            ";
+        $params=array();
+        $params['text']=$text;
+        $result = $this->fetchAll($q,$params);
+        return $result;
+    }
 }

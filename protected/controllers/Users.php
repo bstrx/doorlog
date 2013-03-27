@@ -131,4 +131,15 @@ class Users extends Controller{
 
         $this->render("Users/show.tpl", array('userInfo' => $userInfo));
     }
+
+    public function searchUsersAction(){
+        if($_GET['id']){
+            $user = new Users;
+            $show = $user->showAction();
+        } else {
+            $users = new UsersModel;
+            $searchUsers = $users->getSearchUsers($_GET['text']);
+            $this->render("Users/searchUsers.tpl", array('searchUsers' => $searchUsers));
+        }
+    }
 }
