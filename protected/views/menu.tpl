@@ -45,8 +45,8 @@
                 <li><a href="{$_root}/users/logout">Выйти</a></li>
             </ul>
 
-            <form class="navbar-form pull-left" action="{$_root}/users/show">
-                <input type="text" class="span2" id="autocomplete">
+            <form class="navbar-form pull-left" action="{$_root}/users/searchUsers">
+                <input type="text" class="span2" id="autocomplete" name="text">
                 <input type="hidden" id="id" name="id">
                 <button type="submit" class="btn">Поиск</button>
             </form>
