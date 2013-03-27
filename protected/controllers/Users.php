@@ -99,6 +99,7 @@ class Users extends Controller{
                 FlashMessages::addMessage("Неверный пользователь.", "error");
             }
         }
+        
         $this->render("Users/login.tpl");
     }
 
