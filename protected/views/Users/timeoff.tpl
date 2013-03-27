@@ -37,21 +37,24 @@
             });
         </script>
 <div>
-    <h2> Добавить отгул </h2>
-    <form method="POST" action='/dsaddas/'>
+    <h1> Добавить отгул </h1>
+
+    <form method="POST" action='/users/vacation?id={$id}'>
         <p>
+            <input type="hidden" id="id" name="id" value='{$userInfo['id']}'/>
             <label for="from"> Выберите начало периода: </label>
             <input type="text" id="from" name="from" />
             <label for="to"> Выберите окончание периода: </label>
             <input type="text" id="to" name="to" />
+
             <label for="timeoff_type"> Тип: </label>
-            <select id="timeoff_type">
-                <option> Отпуск </option>
-                <option> Заболел </option>
-                <option> За свой счёт </option>
+            <select id="timeoff_type" name = "vtype">
+                {foreach from=$statuses item=stat}
+                    <option value = "{$stat['status_id']}"> {$stat['status_name']} </option>
+                {/foreach}
             </select>
         </p>
 
-        <input type="submit" value="Добавить" name="submit" id="delete" class="btn btn-success">
+        <input type="submit" value="Добавить" name="submit" id="add" class="btn btn-success">
     </form>
 </div>
