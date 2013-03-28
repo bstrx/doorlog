@@ -24,6 +24,15 @@
                     {/foreach}
                 </tbody>
             </table>
+            <div class="pagination">
+            <form>
+                <ul>
+                {for $i=1 to $pagesCount}
+                <li><a href="{$_root}/users?page={$i}">{$i}</a></li>
+                {/for}
+                </ul>
+            </form>
+            </div>
         </div>
     {/block}
 
