@@ -43,7 +43,6 @@ class Users extends Model{
         $q = "SELECT count(id) AS count
               FROM user";
         $result = $this->fetchOne($q);
-        print_r($result);
         return $result;
     }
 
