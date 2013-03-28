@@ -99,7 +99,7 @@ class Users extends Controller{
                 FlashMessages::addMessage("Неверный пользователь.", "error");
             }
         }
-
+        
         $this->render("Users/login.tpl");
     }
 
@@ -107,7 +107,7 @@ class Users extends Controller{
         return sha1($salt . $password);
     }
 
-    public function searchAction(){
+    public function autocompleteAction(){
         $autocomplete = new UsersModel;
         $name = $_GET['name'];
         $result = $autocomplete->searchByName($name);
@@ -158,6 +158,16 @@ class Users extends Controller{
             }
 
             $this->redirect('/users/show?id='.$id);
+        }
+    }
+
+    public function searchAction(){
+        if(isset($_GET['id']) && $_GET['id']){
+            $this->showAction();
+        } else {
+            $users = new UsersModel;
+            $search = $users->searchByName($_GET['text']);
+            $this->render("Users/search.tpl", array('search' => $search));
         }
     }
 }
