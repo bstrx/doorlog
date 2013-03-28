@@ -20,14 +20,20 @@ class Users extends Controller {
 
         if (isset($_GET['page']) && $_GET['page'] != 1) {
             $firstElement = ($_GET['page'] - 1) * $elementsCount;
+            $currentPage = $_GET['page'];
+        } else {
+            $currentPage = 1;
         }
-        $registeredCount = $users->getAllRegisteredCount();
+
+        $registeredCount = $users->getAllRegisteredCount();      
         $pagesCount = ceil($registeredCount['count'] / $elementsCount);
+        
         $registeredUsers = $users->getRegistered($firstElement, $elementsCount);
 
 
         $this->render("Users/index.tpl", array('users' => $registeredUsers,
-            'pagesCount' => $pagesCount));
+            'pagesCount' => $pagesCount,
+            'currentPage' => $currentPage));
     }
 
     public function logoutAction() {
