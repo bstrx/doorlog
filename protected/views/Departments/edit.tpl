@@ -30,7 +30,7 @@
             <input type="text" name="depName" value="{$departments['name']}"><br>
             <p>Начальник отдела:</p>
             <select name="chief">
-                <option value='null'></option>
+                <option value=0></option>
                 {html_options options=$users selected={$departments['chief_id']}}
             </select>
         </form>
