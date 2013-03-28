@@ -16,7 +16,7 @@ class Users extends Model{
         return $result;
     }
 
-    public function getAllRegistered(){
+    public function getRegistered($firstElement, $elementsCount){
         $q= "SELECT
               t.id,
               t.NAME as name,
@@ -30,9 +30,20 @@ class Users extends Model{
               ON u.position_id = p.id
             LEFT JOIN `department` d
               ON u.department_id = d.id
-            ORDER BY t.NAME";
-        $result = $this->fetchAll($q);
+            ORDER BY t.NAME
+            LIMIT :firstElement, :elementsCount";
+        $params = array();
+        $params['firstElement'] = $firstElement;
+        $params['elementsCount'] = $elementsCount;
+        $result = $this->fetchAll($q, $params);
+        return $result;
+    }
 
+    public function getAllRegisteredCount(){
+        $q = "SELECT count(id) AS count
+              FROM user";
+        $result = $this->fetchOne($q);
+        print_r($result);
         return $result;
     }
 
