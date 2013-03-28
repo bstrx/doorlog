@@ -45,7 +45,7 @@
                 <li><a href="{$_root}/users/logout">Выйти</a></li>
             </ul>
 
-            <form class="navbar-form pull-left" action="{$_root}/users/searchUsers">
+            <form class="navbar-form pull-left" action="{$_root}/users/search">
                 <input type="text" class="span2" id="autocomplete" name="text">
                 <input type="hidden" id="id" name="id">
                 <button type="submit" class="btn">Поиск</button>
@@ -60,7 +60,7 @@
             minLength: 3,
             source: function( request, response ) {
                 $.ajax({
-                    url: "{$_root}/users/search",
+                    url: "{$_root}/users/autocomplete",
                     dataType: "json",
                     data:{
                         name:request.term
