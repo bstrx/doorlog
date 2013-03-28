@@ -13,8 +13,23 @@ use core\Db;
 class Users extends Controller{
     public function indexAction() {
         $users = new UsersModel();
-        $registeredUsers = $users->getAllRegistered();
-        $this->render("Users/index.tpl" , array('users' => $registeredUsers) );
+        $registeredUsers = array();
+        $point = 0;
+        $pagePoint = 10;
+        
+        if(isset($_GET['page']) && $_GET['page']!=1){
+            $point = ($_GET['page']-1)*10;
+            $val = Registry::getValue('config');
+            $pagePoint = $val['pcount'];
+        }
+        $registeredCount = $users->getAllRegisteredCount();
+        $pagesCount = ceil($registeredCount['count']/10);
+        $registeredUsers = $users->getRegistered($point, $pagePoint);
+
+        
+        $this->render("Users/index.tpl" , array('users' => $registeredUsers,
+                                                'pagesCount'=>$pagesCount) );
+        
     }
 
     public function logoutAction() {
