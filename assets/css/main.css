@@ -84,3 +84,8 @@ input[type = "checkbox"]{
 #vacation{
    margin-top: 110px;
 }
+
+
+#checked {
+    background-color: whitesmoke;
+}
