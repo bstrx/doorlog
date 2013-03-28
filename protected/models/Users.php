@@ -94,9 +94,16 @@ class Users extends Model{
 
     public function getInfo($id){
         $q="
-            SELECT t.id, u.email, u.position_id, u.password, u.salt, t.name
+            SELECT u.id,
+                u.email,
+                u.position_id,
+                u.password,
+                u.salt,
+                t.id as personal_id,
+                t.name
             FROM `user` u
-            JOIN `tc-db-main`.`personal` t ON u.personal_id = t.id
+            JOIN `tc-db-main`.`personal` t
+              ON u.personal_id = t.id
             WHERE t.id = :id
         ";
         $params=array();

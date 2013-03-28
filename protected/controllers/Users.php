@@ -136,8 +136,6 @@ class Users extends Controller {
 
     public function showAction() {
         $userInfo = null;
-        $vacation = new UsersModel;
-        $statuses = $vacation->getUserStatuses();
 
         if(isset($_GET['id'])){
             $id = $_GET['id'];
@@ -151,6 +149,9 @@ class Users extends Controller {
         } else {
             FlashMessages::addMessage("Неверный id пользователя", "error");
         }
+
+        $vacation = new UsersModel;
+        $statuses = $vacation->getUserStatuses();
         $this->render("Users/show.tpl", array('userInfo' => $userInfo, 'statuses'=> $statuses, 'id' => $id));
     }
 

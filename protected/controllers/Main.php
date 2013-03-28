@@ -13,12 +13,12 @@ class Main extends Controller
 
     public function indexAction() {
         $userInfo = Registry::getValue('user');
-        $userId = $userInfo['id'];
+        $userPersonalId = $userInfo['personal_id'];
         $date = $this->getDate();
 
         $dayInfo = array();
-        $weekInfo = $this->getWeekInfo($userId, $date);
-        $monthInfo = $this->getMonthInfo($userId, $date);
+        $weekInfo = $this->getWeekInfo($userPersonalId, $date);
+        $monthInfo = $this->getMonthInfo($userPersonalId, $date);
 
         if (isset($weekInfo['days'][$date])) {
             $dayInfo = $weekInfo['days'][$date];
@@ -34,26 +34,26 @@ class Main extends Controller
         ));
     }
 
-    public function getWeekInfo($userId, $date) {
+    public function getWeekInfo($userPersonalId, $date) {
         $uDay = 24 * 60 * 60;
         $uTime = strtotime($date);
         $uWeekFirstDay = Utils::getWeekFirstDay($uTime);
         $uOffsetDay = $uWeekFirstDay + 7 * $uDay;
 
         $usersModel = new UsersModel();
-        $weekActions = $usersModel->getActions($userId, $uWeekFirstDay - $uDay, $uOffsetDay);
+        $weekActions = $usersModel->getActions($userPersonalId, $uWeekFirstDay - $uDay, $uOffsetDay);
         $weekPeriods = $this->formPeriods($weekActions, date('Y-m-d', $uOffsetDay));
         return $weekPeriods;
     }
 
-    public function getMonthInfo($userId, $date) {
+    public function getMonthInfo($userPersonalId, $date) {
         $uDay = 24 * 60 * 60;
         $uTime = strtotime($date);
         $uMonthFirstDay = strtotime('first day of this month', $uTime)  - $uDay;
         $uOffsetDay = strtotime('last day of this month', $uTime) + $uDay;
 
         $usersModel = new UsersModel();
-        $monthActions = $usersModel->getActions($userId, $uMonthFirstDay, $uOffsetDay);
+        $monthActions = $usersModel->getActions($userPersonalId, $uMonthFirstDay, $uOffsetDay);
         $monthPeriods = $this->formPeriods($monthActions, date('Y-m-d', $uOffsetDay));
 
         return $monthPeriods;
