@@ -30,10 +30,10 @@
                     <ul>
                     {for $i=1 to $pagesCount}
                     <li>
-                        {if $i!=$currentPage}
-                            <a href="{$_root}/users?page={$i}">{$i}</a>
-                        {else}
+                        {if $i==$currentPage}
                             <a id="checked" href="{$_root}/users?page={$i}">{$i}</a>
+                        {else}
+                            <a href="{$_root}/users?page={$i}">{$i}</a>
                         {/if}
                     </li>
                     {/for}

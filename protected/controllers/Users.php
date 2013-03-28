@@ -26,12 +26,7 @@ class Users extends Controller {
         }
 
         $registeredCount = $users->getAllRegisteredCount();
-        
-        if($registeredCount['count']<=$elementsCount){
-            $pagesCount=1;
-        } else {
-            $pagesCount = ceil($registeredCount['count'] / $elementsCount);
-        }
+        $pagesCount = ceil($registeredCount['count'] / $elementsCount);
 
         $registeredUsers = $users->getRegistered($firstElement, $elementsCount);
 
