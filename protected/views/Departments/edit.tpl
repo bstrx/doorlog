@@ -35,7 +35,7 @@
             </select>
         </form>
 
-        <form action = "/departments/delete" method='post' id="del-department">
+        <form action = "{$_root}/departments/delete" method='post' id="del-department">
             <input type="hidden" name="id" value="{$departments['id']}">
         </form>
 
