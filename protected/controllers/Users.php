@@ -134,7 +134,7 @@ class Users extends Controller{
 
     public function searchAction(){
         if(isset($_GET['id']) && $_GET['id']){
-            Users::showAction();
+            $this->showAction();
         } else {
             $users = new UsersModel;
             $search = $users->getSearchUsers($_GET['text']);

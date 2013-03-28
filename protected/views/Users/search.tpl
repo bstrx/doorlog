@@ -1,4 +1,5 @@
 {extends "protected/views/index.tpl"}
+    {block name="pagetitle"}<h1>Результаты поиска</h1>{/block}
     {block name="content"}
         <table class="table table-bordered">
             <th> Имя </th>
