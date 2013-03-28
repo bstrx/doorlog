@@ -8,7 +8,7 @@ use core\Db;
 use core\Model;
 
 class Roles extends Model {
-    
+
     function getAll(){
         $q = "SELECT name, id, count(id_person) as users_count
                                    FROM role
@@ -32,7 +32,7 @@ class Roles extends Model {
         $params = array();
         $params['roleId'] = $roleId;
         $q = "SELECT id_permission
-              FROM roles_permissions              
+              FROM roles_permissions
               WHERE id_role = :roleId";
         $result = $this->fetchAll($q, $params);
         return $result;
@@ -40,7 +40,7 @@ class Roles extends Model {
 
     function getAllPermissions(){
 
-        $q = "SELECT pg.id, group_name, name as perm_name, p.id as perm_id
+        $q = "SELECT pg.id, pg.name as group_name, name as perm_name, p.id as perm_id
               FROM permission_group pg
               INNER JOIN permission p
               ON p.permission_group_id = pg.id
@@ -50,7 +50,7 @@ class Roles extends Model {
     }
 
     function deleteRolePermissions($roleId){
-        $q = "DELETE 
+        $q = "DELETE
               FROM roles_permissions
               WHERE id_role = (:roleId)";
         $params = array();
