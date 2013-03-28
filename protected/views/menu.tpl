@@ -46,7 +46,7 @@
             </ul>
 
             <form class="navbar-form pull-left" action="{$_root}/users/search">
-                <input type="text" class="span2" id="autocomplete" name="text">
+                <input type="text" class="span2" id="autocomplete" name="text" value={if isset($text)}{$text}{/if}>
                 <input type="hidden" id="id" name="id">
                 <button type="submit" class="btn">Поиск</button>
             </form>
