@@ -36,8 +36,8 @@ class Departments extends Controller {
         if(isset($_POST['depName']) && $_POST['depName']){
             $depName = $_POST['depName'];
             $obj->editDep($depName, $id);
-            $this->redirect("/departments");
             FlashMessages::addMessage("Отдел успешно отредактирован.", "info");
+            $this->redirect("/departments");
         } else {
             $departments = $obj->getDepById($id);
             $this->render("Departments/edit.tpl" , array('departments' => $departments));
@@ -47,9 +47,11 @@ class Departments extends Controller {
     public function deleteAction(){
         $id = $_POST[id];
         $obj =  new DepartmentModel();
-        $obj->dellDep($id);
-        $this->redirect("/departments");
-        FlashMessages::addMessage("Отдел успешно удален.", "info");
+        $delete = $obj->dellDep($id);
+        if ($delete) {
+            FlashMessages::addMessage("Отдел успешно удален.", "info");
+            $this->redirect("/departments");
+        } else FlashMessages::addMessage("При удалении отдела произошла ошибка.", "error");
     }
 
     public function showAction(){
