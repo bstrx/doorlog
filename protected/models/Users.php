@@ -171,7 +171,7 @@ class Users extends Model{
     }
 
     public function getUserInfo($id){
-        $q = "SELECT t.name as name,
+        $q = "SELECT t.id, t.name,
               d.name as department,
               p.name as position
             FROM `tc-db-main`.`personal` t
@@ -204,6 +204,12 @@ class Users extends Model{
         return $result;
     }
 
+    public function getUserStatuses(){
+        $q = "SELECT * FROM status";
+        $result = $this->fetchAll($q);
+        return $result;
+    }
+
     public function getRolePermissions($roleId){
         $q = "SELECT p.key
                 FROM roles_permissions rp
@@ -215,18 +221,14 @@ class Users extends Model{
         $result = $this->fetchAll($q,$params);
         return $result;
     }
-    public function getSearchUsers($text){
-        $q = "SELECT
-              t.id,
-              t.NAME as name
-            FROM `user` u
-            JOIN `tc-db-main`.`personal` t
-              ON u.personal_id = t.id
-            WHERE t.NAME LIKE '%$text%'
-            ";
-        $params=array();
-        $params['text']=$text;
-        $result = $this->fetchAll($q,$params);
-        return $result;
+
+    public function setVacation($id, $type, $data){
+        $q = 'INSERT INTO users_statuses(user_id, status_id, date) VALUES (:id, :type, :date) ';
+        $params = array();
+        $params['id'] = $id;
+        $params['type'] = $type;
+        $params['date'] = $data;
+        $result = $this->execute($q, $params);
+        return $result; 
     }
 }

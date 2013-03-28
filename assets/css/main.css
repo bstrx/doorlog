@@ -2,6 +2,10 @@ h1 {
     font-size: 28px;
 }
 
+h3 {
+    font-size: 20px;
+}
+
 #main_menu {
     margin: 10px;
 }
@@ -9,6 +13,7 @@ h1 {
 .span7 {
     margin-left:0px;
     position: relative;
+
 }
 
 #content {
@@ -24,6 +29,9 @@ h1 {
     background-color: whitesmoke;
 }
 
+form#add-department input {
+    margin: 0px;
+}
 
 .right-calendar {
     position: absolute;
@@ -57,7 +65,22 @@ form{
     margin: 0px;
 }
 
+.tbl-span {
+    margin-left: 5px;
+}
+
+input[type = "checkbox"]{
+    display: inline-block;
+    height: 18px;
+    width: 18px;
+    margin: 0 5px 0 0;
+}
+
 #chief{
     color:gray;
     font-style: italic;
+}
+
+#vacation{
+   margin-top: 110px;
 }

@@ -116,6 +116,9 @@ class Users extends Controller{
 
     public function showAction(){
         $userInfo = null;
+        $vacation = new UsersModel;
+        $statuses = $vacation->getUserStatuses();
+
         if(isset($_GET['id'])){
             $id = $_GET['id'];
             $getUser = new UsersModel;
@@ -128,8 +131,34 @@ class Users extends Controller{
         } else {
             FlashMessages::addMessage("Неверный id пользователя", "error");
         }
+        $this->render("Users/show.tpl", array('userInfo' => $userInfo, 'statuses'=> $statuses, 'id' => $id));
+    }
 
-        $this->render("Users/show.tpl", array('userInfo' => $userInfo));
+    public function vacationAction(){
+        $vacation = new UsersModel;
+
+        if(isset($_POST['id']) && isset($_POST['from']) && isset($_POST['to'])){
+            $id = $_POST['id'];
+            $from = $_POST['from'];
+            $to = $_POST['to'];
+            $type = $_POST['vtype'];
+
+            $dateStart = strtotime($from);
+            $dateFinish = strtotime($to);
+            $sumDays = floor(($dateFinish - $dateStart) / (3600 * 24));
+
+            for($i=0; $i<=$sumDays; $i++){
+                $date =  date("o-m-d", $dateStart+((3600*24)*$i));
+                $res = $vacation->setVacation($id, $type, $date);
+            }
+            if ($res){
+                FlashMessages::addMessage("Отгул добавлен.", "info");
+            } else {
+                FlashMessages::addMessage("Произошла ошибка. Отгул не был добавлен.", "error");
+            }
+
+            $this->redirect('/users/show?id='.$id);
+        }
     }
 
     public function searchAction(){
@@ -137,7 +166,7 @@ class Users extends Controller{
             $this->showAction();
         } else {
             $users = new UsersModel;
-            $search = $users->getSearchUsers($_GET['text']);
+            $search = $users->searchByName($_GET['text']);
             $this->render("Users/search.tpl", array('search' => $search));
         }
     }

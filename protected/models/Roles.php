@@ -68,6 +68,21 @@ class Roles extends Model {
         $result = $this->execute($q, $params);
         return $result;
     }
+
+    function deleteRoleWithPermissions($roleId){
+        $this->deleteRolePermissions($roleId);
+        $q = "DELETE
+              FROM role
+              WHERE id = (:roleId)";
+        $q1 = "DELETE
+               FROM users_roles
+               WHERE id_role = (:roleId)";
+        $params = array();
+        $params['roleId'] = $roleId;
+        $result = $this->execute($q, $params);
+        $result1 = $this->execute($q1, $params);
+        return $result;
+    }
 }
 
 ?>
