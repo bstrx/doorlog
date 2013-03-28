@@ -20,10 +20,10 @@ class Users extends Controller {
         $elementsCount = $val['items_per_page'];
 
         if (isset($_GET['page']) && $_GET['page'] != 1) {
-            $firstElement = ($_GET['page'] - 1) * 10;
+            $firstElement = ($_GET['page'] - 1) * $elementsCount;
         }
         $registeredCount = $users->getAllRegisteredCount();
-        $pagesCount = ceil($registeredCount['count'] / 10);
+        $pagesCount = ceil($registeredCount['count'] / $elementsCount);
         $registeredUsers = $users->getRegistered($firstElement, $elementsCount);
 
 
