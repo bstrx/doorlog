@@ -167,8 +167,7 @@ class Users extends Controller{
         } else {
             $users = new UsersModel;
             $search = $users->searchByName($_GET['text']);
-            $text = $_GET['text'];
-            $this->render("Users/search.tpl", array('search' => $search, 'text' => $text));
+            $this->render("Users/search.tpl", array('search' => $search, 'text' => $_GET['text']));
         }
     }
 }
