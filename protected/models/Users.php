@@ -18,7 +18,8 @@ class Users extends Model{
 
     public function getRegistered($firstElement, $elementsCount){
         $q= "SELECT
-              t.id,
+              u.id,
+              t.id as personal_id,
               t.NAME as name,
               d.name as department,
               p.name as position,
@@ -49,7 +50,7 @@ class Users extends Model{
     public function searchByName($name){
         $searchName = '%' . $name . '%';
         $q="SELECT t.NAME as name,
-                t.id
+                u.id
             FROM `user` u
             JOIN `tc-db-main`.`personal` t
               ON u.personal_id = t.id
@@ -64,7 +65,6 @@ class Users extends Model{
     }
 
     public function insertUsers($user, $email, $hash, $salt, $position, $department, $tel, $bday){
-        $db = Db::getInstance();
         $add="INSERT INTO user(personal_id, position_id, email, password, salt, department_id, created, birthday, phone)
             VALUES (:user,:position,:email,:hash,:salt,:department, NOW(), :bday, :tel)";
         $params=array();
@@ -180,8 +180,11 @@ class Users extends Model{
         return $result;
     }
 
-    public function getUserInfo($id){
-        $q = "SELECT t.id, t.name,
+    public function getUserInfo($userId){
+        $q = "SELECT
+              u.id,
+              u.personal_id,
+              t.name,
               d.name as department,
               p.name as position
             FROM `tc-db-main`.`personal` t
@@ -191,10 +194,10 @@ class Users extends Model{
               ON u.position_id = p.id
             LEFT JOIN `department` d
               ON u.department_id = d.id
-            WHERE u.personal_id = :id
+            WHERE u.id = :id
             ";
         $params=array();
-        $params['id']=$id;
+        $params['id']=$userId;
 
         $result = $this->fetchOne($q,$params);
         return $result;

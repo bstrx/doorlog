@@ -63,18 +63,15 @@ class Departments extends Model {
     }
 
     public function getUsers($depId){
-      $attr = array();
-        $depId = (int) $depId;
-        $q = "SELECT p.name , d.name as position, r.user_id as chief, u.personal_id
+        $attr = array();
+        $q = "SELECT p.name , pos.name as position, u.personal_id, u.id
             FROM `tc-db-main`.personal as p
             LEFT JOIN `savage-db`.user as u
-            ON u.personal_id = p.id
-            LEFT JOIN `savage-db`.position as d
-            ON u.position_id = d.id
-            LEFT JOIN `savage-db`.users_roles as r
-            ON u.personal_id = r.user_id
+                   ON u.personal_id = p.id
+            LEFT JOIN `savage-db`.position as pos
+                   ON u.position_id = pos.id
             WHERE u.department_id = :depId";
-            $attr['depId'] = $depId;
+        $attr['depId'] = $depId;
         $result = $this->fetchAll($q, $attr);
         return $result;
     }

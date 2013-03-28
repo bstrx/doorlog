@@ -25,13 +25,14 @@ class Users extends Controller {
             $currentPage = 1;
         }
 
-        $registeredCount = $users->getAllRegisteredCount();      
+        $registeredCount = $users->getAllRegisteredCount();
         $pagesCount = ceil($registeredCount['count'] / $elementsCount);
-        
+
         $registeredUsers = $users->getRegistered($firstElement, $elementsCount);
 
 
-        $this->render("Users/index.tpl", array('users' => $registeredUsers,
+        $this->render("Users/index.tpl", array(
+            'users' => $registeredUsers,
             'pagesCount' => $pagesCount,
             'currentPage' => $currentPage));
     }
@@ -118,7 +119,7 @@ class Users extends Controller {
                 FlashMessages::addMessage("Неверный пользователь.", "error");
             }
         }
-        
+
         $this->render("Users/login.tpl");
     }
 
@@ -145,7 +146,7 @@ class Users extends Controller {
         }
 
         if ($userInfo) {
-            $userStatus = $getUser->getUserStatus($id);
+            $userStatus = $getUser->getUserStatus($userInfo['personal_id']);
             $userInfo['status'] = $userStatus['status'];
         } else {
             FlashMessages::addMessage("Неверный id пользователя", "error");
