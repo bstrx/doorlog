@@ -52,13 +52,13 @@ class Positions extends Controller{
         if (isset($_POST['id'])){
             $id = $_POST['id'];
             $positions=new PositionModel();
-            $this->redirect("/positions");
             
             if ($positions->deletePosition($id)){
                 FlashMessages::addMessage("Должность успешно удалена.", "info");
             } else {
                 FlashMessages::addMessage("Произошла ошибка. Должность не была удалена.", "error");
             }
+            $this->redirect("/positions");
         }
     }
     
