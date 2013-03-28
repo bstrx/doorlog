@@ -53,11 +53,12 @@ class Departments extends Model {
       return $result;
     }
 
-    public function editDep($newname, $id){
+    public function editDep($newname, $id, $chief){
       $params = array();
       $params['id'] = $id;
       $params['newname'] = $newname;
-      $q = "UPDATE department SET name = (:newname) WHERE id = (:id) ";
+      $params['chief'] = $chief;
+      $q = "UPDATE department SET name = (:newname), chief_id = (:chief) WHERE id = (:id) ";
       $result = $this->execute($q, $params);
       return $result;
     }

@@ -27,7 +27,11 @@
 </script>
     <div class="span7">
         <form method='post' id="edit-department">
-            <input type="text" name="depName" value="{$departments['name']}">
+            <input type="text" name="depName" value="{$departments['name']}"><br>
+            <p>Начальник отдела:</p>
+            <select name="chief">
+                {html_options options=$users}
+            </select>
         </form>
 
         <form action = "/departments/delete" method='post' id="del-department">

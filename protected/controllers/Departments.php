@@ -33,14 +33,20 @@ class Departments extends Controller {
     public function editAction() {
         $id = $_GET['id'];
         $obj =  new DepartmentModel();
-        if(isset($_POST['depName']) && $_POST['depName']){
+        if((isset($_POST['depName']) && $_POST['depName']) || (isset($_POST['chief']) && $_POST['chief'])){
             $depName = $_POST['depName'];
-            $obj->editDep($depName, $id);
+            $obj->editDep($depName, $id, $_POST['chief']);
             $this->redirect("/departments");
             FlashMessages::addMessage("Отдел успешно отредактирован.", "info");
         } else {
             $departments = $obj->getDepById($id);
-            $this->render("Departments/edit.tpl" , array('departments' => $departments));
+            $users = $obj->getUsers($id);
+
+            $sortedUsers = array();
+            foreach ($users as $user) {
+                $sortedUsers[$user['id']] = $user['name'];
+            }
+            $this->render("Departments/edit.tpl" , array('departments' => $departments, 'users' => $sortedUsers));
         }
     }
 
