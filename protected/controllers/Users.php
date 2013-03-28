@@ -14,7 +14,6 @@ class Users extends Controller {
 
     public function indexAction() {
         $users = new UsersModel();
-        $registeredUsers = array();
         $firstElement = 0;
         $val = Registry::getValue('config');
         $elementsCount = $val['items_per_page'];
@@ -113,7 +112,7 @@ class Users extends Controller {
                 FlashMessages::addMessage("Неверный пользователь.", "error");
             }
         }
-
+        
         $this->render("Users/login.tpl");
     }
 
@@ -121,7 +120,7 @@ class Users extends Controller {
         return sha1($salt . $password);
     }
 
-    public function searchAction() {
+    public function autocompleteAction(){
         $autocomplete = new UsersModel;
         $name = $_GET['name'];
         $result = $autocomplete->searchByName($name);
@@ -130,7 +129,10 @@ class Users extends Controller {
 
     public function showAction() {
         $userInfo = null;
-        if (isset($_GET['id'])) {
+        $vacation = new UsersModel;
+        $statuses = $vacation->getUserStatuses();
+
+        if(isset($_GET['id'])){
             $id = $_GET['id'];
             $getUser = new UsersModel;
             $userInfo = $getUser->getUserInfo($id);
@@ -142,8 +144,44 @@ class Users extends Controller {
         } else {
             FlashMessages::addMessage("Неверный id пользователя", "error");
         }
+        $this->render("Users/show.tpl", array('userInfo' => $userInfo, 'statuses'=> $statuses, 'id' => $id));
+    }
 
-        $this->render("Users/show.tpl", array('userInfo' => $userInfo));
+    public function vacationAction(){
+        $vacation = new UsersModel;
+
+        if(isset($_POST['id']) && isset($_POST['from']) && isset($_POST['to'])){
+            $id = $_POST['id'];
+            $from = $_POST['from'];
+            $to = $_POST['to'];
+            $type = $_POST['vtype'];
+
+            $dateStart = strtotime($from);
+            $dateFinish = strtotime($to);
+            $sumDays = floor(($dateFinish - $dateStart) / (3600 * 24));
+
+            for($i=0; $i<=$sumDays; $i++){
+                $date =  date("o-m-d", $dateStart+((3600*24)*$i));
+                $res = $vacation->setVacation($id, $type, $date);
+            }
+            if ($res){
+                FlashMessages::addMessage("Отгул добавлен.", "info");
+            } else {
+                FlashMessages::addMessage("Произошла ошибка. Отгул не был добавлен.", "error");
+            }
+
+            $this->redirect('/users/show?id='.$id);
+        }
+    }
+
+    public function searchAction(){
+        if(isset($_GET['id']) && $_GET['id']){
+            $this->showAction();
+        } else {
+            $users = new UsersModel;
+            $search = $users->searchByName($_GET['text']);
+            $this->render("Users/search.tpl", array('search' => $search));
+        }
     }
 
 }

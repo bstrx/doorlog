@@ -29,6 +29,9 @@ h3 {
     background-color: whitesmoke;
 }
 
+form#add-department input {
+    margin: 0px;
+}
 
 .right-calendar {
     position: absolute;
@@ -78,3 +81,6 @@ input[type = "checkbox"]{
     font-style: italic;
 }
 
+#vacation{
+   margin-top: 110px;
+}
