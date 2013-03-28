@@ -27,7 +27,7 @@
                                     {$period['exit']|date_format:"%H:%M"}
                                 {/if}
                             {else}
-                                в офисе
+                                <span class="label label-success">В офисе</span>
                             {/if}
                         </td>
 

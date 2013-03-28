@@ -23,9 +23,9 @@
                                  {/if}
                             </td>
                             <td>{if $userInfo['status']==2}
-                                    В офисе
+                                    <span class="label label-success">В офисе</span>
                                 {else}
-                                    Не в офисе
+                                    <span class="label">Не в офисе</span>
                                 {/if}
                             </td>
                             <td> </td>
