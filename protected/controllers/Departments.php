@@ -64,10 +64,10 @@ class Departments extends Controller {
         $users = $department->getUsers($depId);
         sort($users);
         for ($i=0; $i <count($users) ; $i++) {
-            $userId = $users[$i]['id'];
-            $weekTime = $user->getUserStatus($userId);
+            $userPersonalId = $users[$i]['personal_id'];
+            $weekTime = $user->getUserStatus($userPersonalId);
             $users[$i]['status'] = $weekTime['status'];
-            $users[$i]['time'] = $time->getWeekInfo($userId, date('Y-m-d'));
+            $users[$i]['time'] = $time->getWeekInfo($userPersonalId, date('Y-m-d'));
         }
         $name = $department->getDepById($depId);
         $this->render("Departments/show.tpl" , array('users' => $users, 'depName' => $name));

@@ -23,21 +23,10 @@
     $auth = new Authentication();
     $auth->checkAccess();
 
-    try{
+    try {
         $controllerManager = new ControllersManager();
         $controllerManager->runController();
-    }
-    catch (Exception $e) {
+    } catch (Exception $e) {
         Utils::showException($e);
     }
-
-//        $_SESSION['NAME'] = 'Маслов Святослав';
-//
-//        $rolesPermissions = Acl::getUserPermissions("name");
-//
-//        foreach ($rolesPermissions as $role => $permissions) {
-//            foreach ($permissions as $permission) {
-//                echo $role . " " . $permission . "<br>";
-//            }
-//        }
 ?>

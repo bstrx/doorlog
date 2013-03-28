@@ -9,7 +9,7 @@ class Departments extends Model {
         $q = "SELECT
               d.id,
               d.name,
-              count(personal_id) as total_users,
+              count(u.id) as total_users,
               t.name as chief_name
             FROM department as d
             LEFT JOIN user as u ON u.department_id = d.id
@@ -29,7 +29,7 @@ class Departments extends Model {
     public function getDepById($id){
       $q = "SELECT * FROM department WHERE id = (:id)";
       $params = array();
-      $params['id'] = $id; 
+      $params['id'] = $id;
       $result = $this->fetchOne($q, $params);
       return $result;
     }
@@ -65,14 +65,14 @@ class Departments extends Model {
     public function getUsers($depId){
       $attr = array();
         $depId = (int) $depId;
-        $q = "SELECT p.name , d.name as position, r.id_person as chief, u.personal_id as id
+        $q = "SELECT p.name , d.name as position, r.user_id as chief, u.personal_id
             FROM `tc-db-main`.personal as p
             LEFT JOIN `savage-db`.user as u
             ON u.personal_id = p.id
             LEFT JOIN `savage-db`.position as d
             ON u.position_id = d.id
             LEFT JOIN `savage-db`.users_roles as r
-            ON u.personal_id = r.id_person
+            ON u.personal_id = r.user_id
             WHERE u.department_id = :depId";
             $attr['depId'] = $depId;
         $result = $this->fetchAll($q, $attr);

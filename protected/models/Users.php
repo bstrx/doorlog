@@ -76,7 +76,7 @@ class Users extends Model{
         $params['department'] = $department;
         $params['bday'] = $bday;
         $params['tel'] = $tel;
-        
+
         $result = $this->execute($add,$params);
         return $result;
     }
@@ -169,11 +169,11 @@ class Users extends Model{
     }
 
     public function getUserRoles($userId){
-        $q = "SELECT role.name
-            FROM users_roles
-            INNER JOIN role ON users_roles.id_role = role.id
-            INNER JOIN user ON users_roles.id_person = user.personal_id
-            WHERE user.personal_id =  :userId";
+        $q = "SELECT r.name
+            FROM users_roles as ur
+            JOIN role as r ON ur.role_id = r.id
+            JOIN user as u ON ur.user_id = u.id
+            WHERE u.personal_id = :userId";
         $params=array();
         $params['userId']=$userId;
         $result = $this->fetchAll($q,$params);
@@ -239,6 +239,6 @@ class Users extends Model{
         $params['type'] = $type;
         $params['date'] = $data;
         $result = $this->execute($q, $params);
-        return $result; 
+        return $result;
     }
 }
