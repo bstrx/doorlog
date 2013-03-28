@@ -229,6 +229,26 @@ class Users extends Model{
         $params['type'] = $type;
         $params['date'] = $data;
         $result = $this->execute($q, $params);
-        return $result; 
+        return $result;
+    }
+    
+    public function getRestDaysById($id, $date, $type){
+
+        $date1 = $date.'-00';
+        $date2 = $date.'-31';
+        $params = array();
+        $params['id'] = $id;
+        $params['date1'] = $date1;
+        $params['date2'] = $date2;
+        
+        if($type != -1){
+        $params['type'] = $type;
+            $q = "SELECT * FROM users_statuses WHERE user_id = :id AND status_id = :type AND date BETWEEN :date1 AND :date2" ;
+            $result = $this->fetchAll($q, $params);
+        } else {
+            $q = "SELECT * FROM users_statuses WHERE user_id = :id AND date BETWEEN :date1 AND :date2" ;
+            $result = $this->fetchAll($q, $params);
+        }
+        return $result;
     }
 }

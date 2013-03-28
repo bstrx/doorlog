@@ -20,12 +20,12 @@
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <s>Отчёты</s> <span class="caret"></span>
+                        Отчёты <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
                         <li><a href="#"><s>По себе</s></a></li>
                         <li><a href="#"><s>Графический</s></a></li>
-                        <li><a href="#"><s>По дням</s></a></li>
+                        <li><a href="{$_root}/reports/timeoffs">По дням</a></li>
                         <li><a href="#"><s>По отделам</s></a></li>
                     </ul>
                 </li>
