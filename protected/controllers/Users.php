@@ -1,4 +1,5 @@
 <?php
+
 namespace controllers;
 
 use core\Controller;
@@ -9,27 +10,25 @@ use core\Authentication;
 use core\Registry;
 use core\Db;
 
+class Users extends Controller {
 
-class Users extends Controller{
     public function indexAction() {
         $users = new UsersModel();
         $registeredUsers = array();
-        $point = 0;
-        $pagePoint = 10;
-        
-        if(isset($_GET['page']) && $_GET['page']!=1){
-            $point = ($_GET['page']-1)*10;
-            $val = Registry::getValue('config');
-            $pagePoint = $val['pcount'];
+        $firstElement = 0;
+        $val = Registry::getValue('config');
+        $elementsCount = $val['items_per_page'];
+
+        if (isset($_GET['page']) && $_GET['page'] != 1) {
+            $firstElement = ($_GET['page'] - 1) * 10;
         }
         $registeredCount = $users->getAllRegisteredCount();
-        $pagesCount = ceil($registeredCount['count']/10);
-        $registeredUsers = $users->getRegistered($point, $pagePoint);
+        $pagesCount = ceil($registeredCount['count'] / 10);
+        $registeredUsers = $users->getRegistered($firstElement, $elementsCount);
 
-        
-        $this->render("Users/index.tpl" , array('users' => $registeredUsers,
-                                                'pagesCount'=>$pagesCount) );
-        
+
+        $this->render("Users/index.tpl", array('users' => $registeredUsers,
+            'pagesCount' => $pagesCount));
     }
 
     public function logoutAction() {
@@ -38,10 +37,10 @@ class Users extends Controller{
         $this->redirect('/');
     }
 
-    public function addAction(){
+    public function addAction() {
         $users = new UsersModel();
 
-        if (isset($_POST['userId']) && isset($_POST['department']) && isset($_POST['position']) && isset($_POST['email']) && isset($_POST['tel']) && isset($_POST['bday'])){
+        if (isset($_POST['userId']) && isset($_POST['department']) && isset($_POST['position']) && isset($_POST['email']) && isset($_POST['tel']) && isset($_POST['bday'])) {
             $user = $_POST['userId'];
             $position = $_POST['position'];
             $department = $_POST['department'];
@@ -49,11 +48,11 @@ class Users extends Controller{
             $tel = $_POST['tel'];
             $bday = $_POST['bday'];
             $attr = $users->checkUserAttr($email, $tel);
-            if (!$attr){
-                $salt = Utils::createRandomString(5,5);
+            if (!$attr) {
+                $salt = Utils::createRandomString(5, 5);
                 $password = Utils::createRandomString(8, 10);
                 $hash = $this->generateHash($password, $salt);
-                if($users->insertUsers($user, $email, $hash, $salt, $position, $department, $tel, $bday)){
+                if ($users->insertUsers($user, $email, $hash, $salt, $position, $department, $tel, $bday)) {
                     FlashMessages::addMessage("Пользователь успешно добавлен.", "info");
                 } else {
                     FlashMessages::addMessage("Произошла ошибка. Пользователь не был добавлен.", "error");
@@ -63,8 +62,8 @@ class Users extends Controller{
                 foreach ($attr as $val) {
                     FlashMessages::addMessage($val, "error");
                 }
-                }
             }
+        }
 
         $unregisteredUsers = $users->getAllUnregistered();
         $posList = $users->getPositionsList();
@@ -77,23 +76,23 @@ class Users extends Controller{
         }
 
         $sortedPositions = array();
-        foreach ($posList as $position){
-           $sortedPositions[$position['id']] = $position['name'];
+        foreach ($posList as $position) {
+            $sortedPositions[$position['id']] = $position['name'];
         }
 
         foreach ($unregisteredUsers as $user) {
             $sortedUsers[$user['id']] = $user['name'];
         }
 
-        $this->render("Users/add.tpl" , array(
+        $this->render("Users/add.tpl", array(
             'users' => $sortedUsers,
-            'positions'=> $sortedPositions,
-            'departments'=> $sortedDepartments)
+            'positions' => $sortedPositions,
+            'departments' => $sortedDepartments)
         );
     }
 
-    public function loginAction(){
-        if (isset($_POST['login']) && isset($_POST['password'])){
+    public function loginAction() {
+        if (isset($_POST['login']) && isset($_POST['password'])) {
             $usersModel = new UsersModel();
             if (filter_var($_POST['login'], FILTER_VALIDATE_EMAIL)) {
                 $userInfo = $usersModel->getInfoByEmail($_POST['login']);
@@ -122,22 +121,22 @@ class Users extends Controller{
         return sha1($salt . $password);
     }
 
-    public function searchAction(){
+    public function searchAction() {
         $autocomplete = new UsersModel;
         $name = $_GET['name'];
         $result = $autocomplete->searchByName($name);
         echo (json_encode($result));
     }
 
-    public function showAction(){
+    public function showAction() {
         $userInfo = null;
-        if(isset($_GET['id'])){
+        if (isset($_GET['id'])) {
             $id = $_GET['id'];
             $getUser = new UsersModel;
             $userInfo = $getUser->getUserInfo($id);
         }
 
-        if($userInfo){
+        if ($userInfo) {
             $userStatus = $getUser->getUserStatus($id);
             $userInfo['status'] = $userStatus['status'];
         } else {
@@ -146,4 +145,5 @@ class Users extends Controller{
 
         $this->render("Users/show.tpl", array('userInfo' => $userInfo));
     }
+
 }

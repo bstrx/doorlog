@@ -9,6 +9,6 @@ return array(
         'password'=> '',
         'port' => 3306,
     ),
-    'pcount'=>''
+    'items_per_page'=>''
 );
 ?>
