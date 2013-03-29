@@ -24,7 +24,7 @@ class Positions extends Model{
         $result=$this->execute($add, $params);
         return $result;
     }
-    
+
     public function getPosition($id){
         $q= "SELECT name,id
             FROM position
@@ -34,11 +34,10 @@ class Positions extends Model{
         $result = $this->fetchOne($q,$params);
         return $result;
     }
-    
+
     public function savePosition($id,$position){
-        $db = Db::getInstance();
         $edit = "UPDATE position
-            SET name=:position 
+            SET name=:position
             WHERE id = :id";
         $params=array();
         $params['position']=$position;
@@ -46,19 +45,21 @@ class Positions extends Model{
         $result=$this->execute($edit, $params);
         return $result;
     }
-    
+
     public function deletePosition($id){
-        $db = Db::getInstance();
         $update = "UPDATE user
             SET position_id=0
             WHERE position_id=:id";
-        $delete ="DELETE 
+        $delete ="DELETE
             FROM position
             WHERE id=:id";
         $params = array();
         $params['id']=$id;
-        $result = $this->execute($update, $params);
-        $result = $this->execute($delete, $params);
+        $update = $this->execute($update, $params);
+        $result = false;
+        if ($update) {
+            $result = $this->execute($delete, $params);
+        }
 
         return $result;
     }

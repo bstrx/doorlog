@@ -23,9 +23,9 @@
                                  {/if}
                             </td>
                             <td>{if $userInfo['status']==2}
-                                    В офисе
+                                    <span class="label label-success">В офисе</span>
                                 {else}
-                                    Не в офисе
+                                    <span class="label">Не в офисе</span>
                                 {/if}
                             </td>
                             <td> </td>
@@ -33,8 +33,10 @@
                         </tr>
                     {/foreach}
                 </table>
+                <a href="{$_root}/users/edit?id={$userInfo['id']}">Редактировать пользователя</a>
             {/if}
         </div>
+        <br>
         <div id='vacation'>{include file='protected/views/Users/timeoff.tpl'}</div>
     {/block}
 {/extends}

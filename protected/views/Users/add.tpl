@@ -14,7 +14,7 @@
   </script>
         <div class="users">
             <form method="POST">
-                
+
                 <p>Выберите пользователя:</p>
                 <select name="userId">
                     {html_options options=$users}
@@ -22,13 +22,13 @@
 
                 <p>Выберите отдел:</p>
                 <select name="department">
-                    <option value='null'></option>
+                    <option value=0></option>
                     {html_options options=$departments }
                 </select> </br>
 
                 <p>Выберите должность:</p>
                 <select name="position">
-                    <option value='null'></option>
+                    <option value=0</option>
                     {html_options options=$positions}
                 </select> </br>
 

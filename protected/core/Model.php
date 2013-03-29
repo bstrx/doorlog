@@ -59,7 +59,7 @@ abstract class Model {
         $db = Db::getInstance();
         $stmt = $db->prepare($queryString);
         $ans = $stmt->execute($params);
-        return $ans;   
+        return $ans;
     }
 
 }

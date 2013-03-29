@@ -33,23 +33,31 @@ class Departments extends Controller {
     public function editAction() {
         $id = $_GET['id'];
         $obj =  new DepartmentModel();
-        if(isset($_POST['depName']) && $_POST['depName']){
+        if((isset($_POST['depName']) && $_POST['depName']) || (isset($_POST['chief']) && $_POST['chief'])){
             $depName = $_POST['depName'];
-            $obj->editDep($depName, $id);
-            $this->redirect("/departments");
+            $obj->editDep($depName, $id, $_POST['chief']);
             FlashMessages::addMessage("Отдел успешно отредактирован.", "info");
+            $this->redirect("/departments");
         } else {
             $departments = $obj->getDepById($id);
-            $this->render("Departments/edit.tpl" , array('departments' => $departments));
+            $users = $obj->getUsers($id);
+
+            $sortedUsers = array();
+            foreach ($users as $user) {
+                $sortedUsers[$user['id']] = $user['name'];
+            }
+            $this->render("Departments/edit.tpl" , array('departments' => $departments, 'users' => $sortedUsers));
         }
     }
 
     public function deleteAction(){
         $id = $_POST[id];
         $obj =  new DepartmentModel();
-        $obj->dellDep($id);
-        $this->redirect("/departments");
-        FlashMessages::addMessage("Отдел успешно удален.", "info");
+        $delete = $obj->dellDep($id);
+        if ($delete) {
+            FlashMessages::addMessage("Отдел успешно удален.", "info");
+            $this->redirect("/departments");
+        } else FlashMessages::addMessage("При удалении отдела произошла ошибка.", "error");
     }
 
     public function showAction(){
@@ -62,10 +70,10 @@ class Departments extends Controller {
         $users = $department->getUsers($depId);
         sort($users);
         for ($i=0; $i <count($users) ; $i++) {
-            $userId = $users[$i]['id'];
-            $weekTime = $user->getUserStatus($userId);
+            $userPersonalId = $users[$i]['personal_id'];
+            $weekTime = $user->getUserStatus($userPersonalId);
             $users[$i]['status'] = $weekTime['status'];
-            $users[$i]['time'] = $time->getWeekInfo($userId, date('Y-m-d'));
+            $users[$i]['time'] = $time->getWeekInfo($userPersonalId, date('Y-m-d'));
         }
         $name = $department->getDepById($depId);
         $this->render("Departments/show.tpl" , array('users' => $users, 'depName' => $name));

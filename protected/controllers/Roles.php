@@ -33,34 +33,32 @@ class Roles extends Controller{
     function editAction(){
         $obj = new RolesModel();
 
-        $rolePermissions = array();
-        $allPermissions = array();
-        $sortedPermissions = array();
-        $sortedRolePermissions = array();
-
         if(isset($_GET['id']) && $_GET['id']){
             $roleId = $_GET['id'];
         }
-           if(isset($_POST['changes'])){
-               if(isset($_POST['checkbox'])){
-                    $newPermissions = $_POST['checkbox'];
+
+        if(isset($_POST['changes'])){
+           if(isset($_POST['checkbox'])){
+                $newPermissions = $_POST['checkbox'];
+                $obj->deleteRolePermissions($roleId);
+                foreach($newPermissions as $permission){
+                    $obj->addRolePermissions($roleId, $permission);
+                }
+                }else{
                     $obj->deleteRolePermissions($roleId);
-                    foreach($newPermissions as $permission){
-                        $obj->addRolePermissions($roleId, $permission);
-                    }                
-                    }else{
-                        $obj->deleteRolePermissions($roleId);
-                    }
+                }
             FlashMessages::addMessage("Роль успешно изменена.", "info");
         }
-        
+
         $rolePermissions = $obj->getRolePermissions($roleId);
         $allPermissions = $obj->getAllPermissions();
-        
+
+        $sortedRolePermissions = array();
         foreach($rolePermissions as $rolePermission){
-            $sortedRolePermissions[] = $rolePermission['id_permission'];
+            $sortedRolePermissions[] = $rolePermission['permission_id'];
         }
-        
+
+        $sortedPermissions = array();
         foreach($allPermissions as $row){
             $sortedPermissions[$row['id']]['group_name'] = $row['group_name'];
             $select = in_array($row['perm_id'], $sortedRolePermissions);
@@ -71,9 +69,11 @@ class Roles extends Controller{
             );
         }
 
-        $this->render("Roles/edit.tpl", array('rolePermissions'=>$sortedRolePermissions,
-                                              'allPermissions'=>$sortedPermissions,
-                                              'roleId'=>$roleId));
+        $this->render("Roles/edit.tpl", array(
+            'rolePermissions' => $sortedRolePermissions,
+            'allPermissions' => $sortedPermissions,
+            'roleId' => $roleId
+        ));
     }
 
     function deleteAction(){
@@ -81,7 +81,7 @@ class Roles extends Controller{
             $roleId = $_POST['id'];
         }
         $obj = new RolesModel();
-           
+
         if($obj->deleteRoleWithPermissions($roleId)){
             FlashMessages::addMessage("Роль успешно удалена.", "info");
         } else {

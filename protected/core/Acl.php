@@ -31,7 +31,7 @@ class Acl {
             foreach ($result as $row) {
                 $rolePermissions[] = $row;
             }
-            
+
             return $rolePermissions;
 
         }
@@ -40,8 +40,8 @@ class Acl {
     }
 
     static function getUserPermissions($user){
-        $permissionsArr = Array();
-        $rolePermissions = Array();
+        $permissionsArr = array();
+        $rolePermissions = array();
         $userRoles = self::getUserRoles($user);
 
         if ($userRoles){
@@ -54,7 +54,7 @@ class Acl {
             foreach($rolePermissions as $permissions){
                 foreach($permissions as $permission){
                     $permissionsArr[] = $permission;
-                }               
+                }
             }
 
             $permissionsArr = array_unique($permissionsArr);
