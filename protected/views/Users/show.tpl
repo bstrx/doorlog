@@ -33,8 +33,10 @@
                         </tr>
                     {/foreach}
                 </table>
+                <a href="{$_root}/users/edit?id={$userInfo['id']}">Редактировать пользователя</a>
             {/if}
         </div>
+        <br>
         <div id='vacation'>{include file='protected/views/Users/timeoff.tpl'}</div>
     {/block}
 {/extends}
