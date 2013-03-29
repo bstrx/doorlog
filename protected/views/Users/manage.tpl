@@ -35,11 +35,23 @@
                     {html_options options=$positions selected={$userInfo['position_id']}}
                 </select> </br>
 
-                <p>Укажите Email:</p> <input type="text" maxlength="45" size="40" name="email" {if isset($id)}value={$userInfo['email']}{/if}></p>
+                <p>Укажите Email:</p>
+                <input type="text" maxlength="45" size="40" name="email"
+                    {if isset($id)}
+                        value={$userInfo['email']}
+                    {/if}></p>
 
-                <p>Укажите Телефон:</p> <input type="text" maxlength="11" name="phone" {if isset($id)}value={$userInfo['phone']}{/if}></p>
+                <p>Укажите Телефон:</p>
+                <input type="text" maxlength="11" name="phone"
+                    {if isset($id)}
+                        value={$userInfo['phone']}
+                    {/if}></p>
 
-                <p>Дата рождения:</p><input name="birthday" id="datepicker" type="text" placeholder="ГГГГ.ММ.ДД" {if isset($id)}value="{$userInfo['birthday']}" {/if}/></p>
+                <p>Дата рождения:</p>
+                <input name="birthday" id="datepicker" type="text" placeholder="ГГГГ.ММ.ДД"
+                    {if isset($id)}
+                        value="{$userInfo['birthday']}"
+                    {/if}/></p>
 
                 <input type=submit class="btn" value="Выполнить">
             </form>
