@@ -241,11 +241,11 @@ class Users extends Controller {
             if (!$inputErrors) {
                 if(isset($_GET['id']) && $_GET['id']){
                     $id = $_GET['id'];
-                    Users::update($id, $position, $email, $department, $birthday, $phone);
+                    $this->update($id, $position, $email, $department, $birthday, $phone);
                 } else {
                     if(isset($_POST['userId'])){
                         $user = $_POST['userId'];
-                        Users::add($user, $email, $position, $department, $birthday, $phone);
+                        $this->add($user, $email, $position, $department, $birthday, $phone);
                     }
                 }
             } else {
@@ -276,9 +276,9 @@ class Users extends Controller {
 
         if(isset($_GET['id']) && $_GET['id']){
             $id = $_GET['id'];
-            $userInfo = null;
             $userInfo = $users->getUserInfo($id);
-            $this->render("Users/manage.tpl", array('id'=> $id,
+            $this->render("Users/manage.tpl", array(
+            'id'=> $id,
             'userInfo'=>$userInfo,
             'positions' => $sortedPositions,
             'departments' => $sortedDepartments));
@@ -299,13 +299,16 @@ class Users extends Controller {
         } else {
             FlashMessages::addMessage("Произошла ошибка. Пользователь не был добавлен.", "error");
         }
-    Utils::sendMail($email, "Создан аккаунт в системе Opensoft Savage", "Ваш пароль: $password");
+        Utils::sendMail($email, "Создан аккаунт в системе Opensoft Savage", "Ваш пароль: $password");
     }
 
     public function update($id, $position, $email, $department, $birthday, $phone){
         $users = new UsersModel;
-        $users->editUser($id, $position, $email, $department, $birthday, $phone);
-        FlashMessages::addMessage("Пользователь успешно отредактирован.", "info");
+        if($users->editUser($id, $position, $email, $department, $birthday, $phone)){
+            FlashMessages::addMessage("Пользователь успешно отредактирован.", "info");
+        } else {
+            FlashMessages::addMessage("Произошла ошибка. Пользователь не был отредактирован", "error");
+        }
         $this->redirect("/users");
     }
 }
