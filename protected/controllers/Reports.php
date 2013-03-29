@@ -16,7 +16,7 @@ class Reports extends Controller {
         $timeoffs = array();
         $user = new UsersModel();
         if (isset($_GET['date']) && isset($_GET['id']) && !empty($_GET['date']) && !empty($_GET['id']) ){
-        	$timeoffs = $user->getRestDaysById($_GET['id'], $_GET['date'], $_GET['type']);		
+            $timeoffs = $user->getRestDaysById($_GET['id'], $_GET['date'], $_GET['type']);        
         }
         $statuses = $user->getUserStatuses();
         $this->render("Reports/index.tpl" , array('statuses' => $statuses, 'timeoffs' => $timeoffs) );
