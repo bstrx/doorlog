@@ -33,7 +33,7 @@
                         </tr>
                     {/foreach}
                 </table>
-                <a href="{$_root}/users/edit?id={$userInfo['id']}">Редактировать пользователя</a>
+                <a href="{$_root}/users/manage?id={$userInfo['id']}">Редактировать пользователя</a>
             {/if}
         </div>
         <br>
