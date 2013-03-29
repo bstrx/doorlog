@@ -191,9 +191,14 @@ class Users extends Model{
         $q = "SELECT
               u.id,
               u.personal_id,
+              u.position_id,
+              u.department_id,
               t.name,
+              u.email,
               d.name as department,
-              p.name as position
+              p.name as position,
+              u.birthday,
+              u.phone
             FROM `tc-db-main`.`personal` t
             JOIN `user` u
               ON t.id = u.personal_id
@@ -248,6 +253,19 @@ class Users extends Model{
         $params['id'] = $id;
         $params['type'] = $type;
         $params['date'] = $data;
+        $result = $this->execute($q, $params);
+        return $result;
+    }
+    
+    public function editUser($id, $position, $email, $department, $birthday, $phone){
+        $params = array();
+        $params['id'] = $id;
+        $params['position'] = $position;
+        $params['email'] = $email;
+        $params['department'] = $department;
+        $params['birthday'] = $birthday;
+        $params['phone'] = $phone;
+        $q= "UPDATE user SET position_id = (:position), email = (:email), department_id = (:department), birthday = (:birthday), phone = (:phone) WHERE id = (:id)";
         $result = $this->execute($q, $params);
         return $result;
     }
