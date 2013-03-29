@@ -278,16 +278,18 @@ class Users extends Controller {
             $id = $_GET['id'];
             $userInfo = $users->getUserInfo($id);
             $this->render("Users/manage.tpl", array(
-            'id'=> $id,
-            'userInfo'=>$userInfo,
-            'positions' => $sortedPositions,
-            'departments' => $sortedDepartments));
+                'userId' => $id,
+                'userInfo' => $userInfo,
+                'positions' => $sortedPositions,
+                'departments' => $sortedDepartments
+            ));
         } else {
             $this->render("Users/manage.tpl", array(
-            'users' => $sortedUsers,
-            'positions' => $sortedPositions,
-            'departments' => $sortedDepartments)
-        );}
+                'users' => $sortedUsers,
+                'positions' => $sortedPositions,
+                'departments' => $sortedDepartments
+            ));
+        }
     }
     public function add($user, $email, $position, $department, $birthday, $phone){
         $users = new UsersModel;

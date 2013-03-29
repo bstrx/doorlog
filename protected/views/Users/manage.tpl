@@ -17,12 +17,13 @@
         });
         </script>
         <form method="POST">
-            {if !isset($id)}
-            <p>Выберите пользователя:</p>
-            <select name="userId">
-                {html_options options=$users}
-            </select> </br>
+            {if !isset($UserId)}
+                <p>Выберите пользователя:</p>
+                <select name="userId">
+                    {html_options options=$users}
+                </select> </br>
             {/if}
+            
             <p>Выберите отдел:</p>
             <select name="department">
                 <option value=0></option>
@@ -37,19 +38,19 @@
 
             <p>Укажите Email:</p>
             <input type="text" maxlength="45" size="40" name="email"
-                {if isset($id)}
+                {if isset($userId)}
                     value={$userInfo['email']}
                 {/if}>
 
             <p>Укажите Телефон:</p>
             <input type="text" maxlength="11" name="phone"
-                {if isset($id)}
+                {if isset($userId)}
                     value={$userInfo['phone']}
                 {/if}>
 
             <p>Дата рождения:</p>
             <input name="birthday" id="datepicker" type="text" placeholder="ГГГГ.ММ.ДД"
-                {if isset($id)}
+                {if isset($userId)}
                     value="{$userInfo['birthday']}"
                 {/if}/>
 
