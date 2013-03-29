@@ -265,13 +265,13 @@ class Users extends Model{
         $params['id'] = $id;
         $params['date1'] = $date1;
         $params['date2'] = $date2;
+        $q = "SELECT * FROM users_statuses WHERE user_id = :id AND date BETWEEN :date1 AND :date2" ;
 
-        if($type != 0){
-        $params['type'] = $type;
-            $q = "SELECT * FROM users_statuses WHERE user_id = :id AND status_id = :type AND date BETWEEN :date1 AND :date2" ;
+        if($type){
+            $params['type'] = $type;
+            $q = $q." AND status_id = :type";
             $result = $this->fetchAll($q, $params);
         } else {
-            $q = "SELECT * FROM users_statuses WHERE user_id = :id AND date BETWEEN :date1 AND :date2" ;
             $result = $this->fetchAll($q, $params);
         }
     }

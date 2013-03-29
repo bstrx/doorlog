@@ -12,22 +12,13 @@ class Reports extends Controller {
     }
 
     function timeoffsAction() {
-        $user = new UsersModel();
         $flag = false;
-        $restDays = array();
-        $statuses = $user->getUserStatuses();
+        $timeoffs = array();
+        $user = new UsersModel();
         if (isset($_GET['date']) && isset($_GET['id']) && !empty($_GET['date']) && !empty($_GET['id']) ){
-        	$date = $_GET['date'];
-        	$id = $_GET['id'];
-        	$type = $_GET['type'];
-        	$restDays = $user->getRestDaysById($id, $date, $type);
-        	if (!$restDays){
-        		FlashMessages::addMessage("В этом месяце отгулов нет", "error");
-        		$flag = false;
-        	} else{
-        		$flag = true;
-        	}		
+        	$timeoffs = $user->getRestDaysById($_GET['id'], $_GET['date'], $_GET['type']);		
         }
-        $this->render("Reports/index.tpl" , array('statuses' => $statuses, 'otgul' => $flag, 'rest' => $restDays) );
+        $statuses = $user->getUserStatuses();
+        $this->render("Reports/index.tpl" , array('statuses' => $statuses, 'timeoffs' => $timeoffs) );
     }
 }

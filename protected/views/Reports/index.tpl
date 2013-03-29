@@ -40,19 +40,20 @@ $(function() {
     <br>
     <br>
     <div class="span7">
-    {if $otgul}
+    {if $timeoffs}
     <table class="table table-bordered">
         	<th> Дата </th>
         	<th> Тип </th>
 
-        {foreach from=$rest item=restDay}
+        {foreach from=$timeoffs item=timeoff}
 
         <tr>
-        	<td>{$restDay['date']}</td>
-        	<td>{$restDay['status_id']}</td>
+        	<td>{$timeoff['date']}</td>
+        	<td>{$timeoff['status_id']}</td>
         </tr>
         {/foreach}
 	</table>
+    {else}<h3>В этом месяце отгулов нет</h3>
 	{/if}
 </div>
     {/block}
