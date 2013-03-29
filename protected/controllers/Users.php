@@ -192,4 +192,39 @@ class Users extends Controller {
         }
     }
 
+    public function editAction(){
+        $id = $_GET['id'];
+        $user = new UsersModel;
+        $userInfo = null;
+        $userInfo = $user->getUserInfo($id);
+               
+        if(isset($_POST['position']) && isset($_POST['department']) && isset($_POST['email']) && isset($_POST['phone']) && isset($_POST['birthday'])){
+            $position = $_POST['position'];
+            $department = $_POST['department'];
+            $email = $_POST['email'];
+            $phone = $_POST['phone'];
+            $birthday = $_POST['birthday'];
+            $user->editUser($id, $position, $email, $department, $birthday, $phone);
+            FlashMessages::addMessage("Пользователь успешно отредактирован.", "info");
+            $this->redirect("/users");
+        } else {
+
+        $sortedDepartments = array();
+        $depList = $user->getDepartmentsList();
+        foreach ($depList as $department) {
+            $sortedDepartments[$department['id']] = $department['name'];
+        }
+
+        $sortedPositions = array();
+        $posList = $user->getPositionsList();
+        foreach ($posList as $position) {
+            $sortedPositions[$position['id']] = $position['name'];
+        }
+
+        }
+        $this->render("Users/edit.tpl", array('id'=> $id, 
+            'userInfo'=>$userInfo,
+            'positions' => $sortedPositions,
+            'departments' => $sortedDepartments));
+    }
 }
