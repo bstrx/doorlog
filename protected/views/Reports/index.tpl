@@ -29,7 +29,7 @@ $(function() {
         <input name = "date" type="text" id="datepicker" />
         <br>
         <select name = "type">
-            <option value = "-1"> Все </option>
+            <option value = "0"> Все </option>
             {foreach from=$statuses item=stat}
                 <option value = "{$stat['id']}"> {$stat['name']} </option>
             {/foreach}

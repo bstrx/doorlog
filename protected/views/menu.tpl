@@ -25,7 +25,7 @@
                     <ul class="dropdown-menu">
                         <li><a href="#"><s>По себе</s></a></li>
                         <li><a href="#"><s>Графический</s></a></li>
-                        <li><a href="{$_root}/reports/timeoffs">По дням</a></li>
+                        <li><a href="{$_root}/reports/timeoffs">По отгулам</a></li>
                         <li><a href="#"><s>По отделам</s></a></li>
                     </ul>
                 </li>

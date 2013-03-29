@@ -256,17 +256,17 @@ class Users extends Model{
         $result = $this->execute($q, $params);
         return $result;
     }
-    
+
     public function getRestDaysById($id, $date, $type){
 
-        $date1 = $date.'-00';
-        $date2 = $date.'-31';
+        $date1 = date("y-m-d", strtotime($date));
+        $date2 = date("y-m-d", (strtotime($date) + 30*24*60*60 ));
         $params = array();
         $params['id'] = $id;
         $params['date1'] = $date1;
         $params['date2'] = $date2;
-        
-        if($type != -1){
+
+        if($type != 0){
         $params['type'] = $type;
             $q = "SELECT * FROM users_statuses WHERE user_id = :id AND status_id = :type AND date BETWEEN :date1 AND :date2" ;
             $result = $this->fetchAll($q, $params);
@@ -274,6 +274,7 @@ class Users extends Model{
             $q = "SELECT * FROM users_statuses WHERE user_id = :id AND date BETWEEN :date1 AND :date2" ;
             $result = $this->fetchAll($q, $params);
         }
+    }
 
     public function editUser($id, $position, $email, $department, $birthday, $phone){
         $params = array();
