@@ -227,4 +227,76 @@ class Users extends Controller {
             'positions' => $sortedPositions,
             'departments' => $sortedDepartments));
     }
+    
+    public function manageAction() {
+        $users = new UsersModel();
+
+        if (isset($_POST['department']) && isset($_POST['position']) && isset($_POST['email']) && isset($_POST['phone']) && isset($_POST['birthday'])) {
+            $user = $_POST['userId'];
+            $position = $_POST['position'];
+            $department = $_POST['department'];
+            $email = $_POST['email'];
+            $phone = $_POST['phone'];
+            $birthday = $_POST['birthday'];
+            $attr = $users->checkUserAttr($email, $phone);
+            if (!$attr) {
+                if(isset($_GET['id']) && $_GET['id']){
+                    $id = $_GET['id'];
+                    $users->editUser($id, $position, $email, $department, $birthday, $phone);
+                    FlashMessages::addMessage("Пользователь успешно отредактирован.", "info");
+                    $this->redirect("/users");
+                } else {
+                    if(isset($_POST['userId'])){
+                        $salt = Utils::createRandomString(5, 5);
+                        $password = Utils::createRandomString(8, 10);
+                        $hash = $this->generateHash($password, $salt);
+                        if ($users->insertUsers($user, $email, $hash, $salt, $position, $department, $phone, $birthday)) {
+                            FlashMessages::addMessage("Пользователь успешно добавлен.", "info");
+                        } else {
+                            FlashMessages::addMessage("Произошла ошибка. Пользователь не был добавлен.", "error");
+                        }
+                        Utils::sendMail($email, "Создан аккаунт в системе Opensoft Savage", "Ваш пароль: $password");
+                    }
+                }
+            } else {
+                foreach ($attr as $val) {
+                    FlashMessages::addMessage($val, "error");
+                }
+            }
+        }
+
+        $unregisteredUsers = $users->getAllUnregistered();
+        $posList = $users->getPositionsList();
+        $sortedUsers = array();
+        $depList = $users->getDepartmentsList();
+
+        $sortedDepartments = array();
+        foreach ($depList as $department) {
+            $sortedDepartments[$department['id']] = $department['name'];
+        }
+
+        $sortedPositions = array();
+        foreach ($posList as $position) {
+            $sortedPositions[$position['id']] = $position['name'];
+        }
+
+        foreach ($unregisteredUsers as $user) {
+            $sortedUsers[$user['id']] = $user['name'];
+        }
+
+        if(isset($_GET['id']) && $_GET['id']){
+            $id = $_GET['id'];
+            $userInfo = null;
+            $userInfo = $users->getUserInfo($id);
+            $this->render("Users/manage.tpl", array('id'=> $id,
+            'userInfo'=>$userInfo,
+            'positions' => $sortedPositions,
+            'departments' => $sortedDepartments));
+        } else {
+            $this->render("Users/manage.tpl", array(
+            'users' => $sortedUsers,
+            'positions' => $sortedPositions,
+            'departments' => $sortedDepartments)
+        );}
+    }
 }
