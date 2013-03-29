@@ -4,7 +4,7 @@
     {block name="content"}
 
         <div class='span7'>
-            <a href="{$_root}/users/add">Добавить пользователя</a>
+            <a href="{$_root}/users/manage">Добавить пользователя</a>
             <table class="table table-bordered">
                 <thead>
                     <th>Имя</th>
