@@ -104,7 +104,7 @@ class Users extends Model{
             FROM `user` u
             JOIN `tc-db-main`.`personal` t
               ON u.personal_id = t.id
-            WHERE t.id = :id
+            WHERE u.id = :id
         ";
         $params=array();
         $params['id']=$id;
@@ -125,14 +125,14 @@ class Users extends Model{
     }
 
     public function getInfoByCodeKey($codekey){
-        $q="SELECT u.personal_id, u.password, u.salt
+        $q="SELECT u.id, u.personal_id, u.password, u.salt
             FROM `user` u
             JOIN `tc-db-main`.`personal` t ON u.personal_id = t.id
             WHERE SUBSTRING( HEX(`CODEKEY`) , 5, 4 ) = HEX(:codekey)";
         $params=array();
         $params['codekey']=$codekey;
-        $result = $this->fetchOne($q,$params);
-
+        $result = $this->fetchOne($q, $params);
+print_r($result);
         return $result;
     }
 

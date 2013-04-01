@@ -110,7 +110,7 @@ class Users extends Controller {
 
                 if ($hash == $userInfo['password']) {
                     $auth = new Authentication();
-                    $auth->grantAccess($userInfo['personal_id'], $hash);
+                    $auth->grantAccess($userInfo['id'], $hash);
                     $this->redirect('/');
                 } else {
                     FlashMessages::addMessage("Неверный пароль.", "error");
@@ -197,7 +197,7 @@ class Users extends Controller {
         $user = new UsersModel;
         $userInfo = null;
         $userInfo = $user->getUserInfo($id);
-               
+
         if(isset($_POST['position']) && isset($_POST['department']) && isset($_POST['email']) && isset($_POST['phone']) && isset($_POST['birthday'])){
             $position = $_POST['position'];
             $department = $_POST['department'];
@@ -222,12 +222,12 @@ class Users extends Controller {
         }
 
         }
-        $this->render("Users/edit.tpl", array('id'=> $id, 
+        $this->render("Users/edit.tpl", array('id'=> $id,
             'userInfo'=>$userInfo,
             'positions' => $sortedPositions,
             'departments' => $sortedDepartments));
     }
-    
+
     public function manageAction() {
         $users = new UsersModel();
 
