@@ -98,7 +98,7 @@ class Main extends Controller
             } else {
                 $actionTime = strtotime($actions[$i]['logtime']);
 
-                if ($actions[$i]['direction'] == self::IN_OFFICE) {
+                if ($actions[$i]['direction'] == self::IN_OFFICE && $day != $offsetDate) {
                     $enterTime = $actionTime;
 
                     if (!isset($actions[$i+1]) && ($day == $currentDate  || $day == $previousDate)) {

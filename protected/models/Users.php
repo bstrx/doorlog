@@ -117,7 +117,7 @@ class Users extends Model{
         $q="SELECT *
             FROM `user`
             WHERE email=:email";
-        $params=array();
+        $params = array();
         $params['email']=$email;
         $result = $this->fetchOne($q,$params);
 
@@ -125,14 +125,12 @@ class Users extends Model{
     }
 
     public function getInfoByCodeKey($codekey){
+        $codekey = (int) $codekey;
         $q="SELECT u.id, u.personal_id, u.password, u.salt
             FROM `user` u
             JOIN `tc-db-main`.`personal` t ON u.personal_id = t.id
-            WHERE SUBSTRING( HEX(`CODEKEY`) , 5, 4 ) = HEX(:codekey)";
-        $params=array();
-        $params['codekey']=$codekey;
-        $result = $this->fetchOne($q, $params);
-print_r($result);
+            WHERE SUBSTRING( HEX(`CODEKEY`) , 5, 4 ) = HEX($codekey)";
+        $result = $this->fetchOne($q);
         return $result;
     }
 
