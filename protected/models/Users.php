@@ -286,4 +286,12 @@ class Users extends Model{
         $result = $this->execute($q, $params);
         return $result;
     }
+
+    public function deleteUser($id){
+      $params = array();
+      $params['id'] = $id;
+      $q = "DELETE FROM user WHERE id = (:id)";
+      $result = $this->execute($q, $params);
+      return $result;
+    }
 }

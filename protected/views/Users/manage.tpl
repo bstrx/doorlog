@@ -1,11 +1,35 @@
 {extends "protected/views/index.tpl"}
     
     {block name="content"}
-        {if isset($id)}
-            {block name="pagetitle"}<h1>Редактировать пользователя {$userInfo['name']}</h1>{/block}
+        {if isset($userId)}
+            {block name="pagetitle"}<h1>Изменить пользователя {$userInfo['name']}</h1>{/block}
         {else}
             {block name="pagetitle"}<h1>Добавить пользователя</h1>{/block}
         {/if}
+        
+        <script>
+            $(document).ready(function()
+            {
+                    $("#dialog").dialog({
+                        autoOpen: false,
+                        modal: true,
+                        position: ["center"],
+                        buttons: {
+                            "Ок": function() {
+                                $("#del-user").submit();
+                            },
+                            "Отмена": function() {
+                                $(this).dialog("close");
+                            }
+                        }
+                    });
+                $("#delete").click(function(e){
+                    e.preventDefault();
+                    $('#dialog').dialog('open');
+                });
+            });
+        </script>
+        
         <script>
         $(function() {
           $( "#datepicker" ).datepicker({
@@ -16,8 +40,8 @@
           });
         });
         </script>
-        <form method="POST">
-            {if !isset($UserId)}
+        <form method="POST" id="user">
+            {if !isset($userId)}
                 <p>Выберите пользователя:</p>
                 <select name="userId">
                     {html_options options=$users}
@@ -49,12 +73,35 @@
                 {/if}>
 
             <p>Дата рождения:</p>
-            <input name="birthday" id="datepicker" type="text" placeholder="ГГГГ.ММ.ДД"
+            <input name="birthday" id="datepicker" type="text"
                 {if isset($userId)}
                     value="{$userInfo['birthday']}"
                 {/if}/>
-
-            <input type=submit class="btn" value="Выполнить">
+            <br>
+            
         </form>
+
+        <form action = "{$_root}/users/delete" method='post'  id="del-user">
+            <input type="hidden" name="id" value="{$userId}">
+        </form>
+
+        <button type=submit class="btn btn-success" form="user">
+            {if isset($userId)}
+                Сохранить
+            {else}
+                Добавить
+            {/if}
+        </button>
+
+        <a class="btn" href="{$_root}/users"> Отмена </a>
+
+        {if isset($userId)}
+            <button type="submit" class="btn btn-danger" id="delete" form="del-user"> Удалить </button>
+        {/if}
+
+        <div id="dialog">
+            <p>Дейсвительно хотите удалить?</p>
+        </div>
+
     {/block}
 {/extends}
