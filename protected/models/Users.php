@@ -219,7 +219,7 @@ class Users extends Model{
         $q = "SELECT SUBSTRING( HEX(`logdata`) , 10, 1 ) as status
             FROM `tc-db-log`.`logs`
             WHERE emphint = :id
-              AND logtime <= NOW() - INTERVAL 1 DAY
+            AND logtime  >= NOW() - INTERVAL 1 DAY
             ORDER BY logtime DESC
             LIMIT 1";
         $params=array();
