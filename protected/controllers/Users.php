@@ -313,4 +313,14 @@ class Users extends Controller {
         }
         $this->redirect("/users");
     }
+
+    public function deleteAction(){
+        $id = $_POST[id];
+        $user =  new UsersModel();
+        $delete = $user->deleteUser($id);
+        if ($delete) {
+            FlashMessages::addMessage("Пользователь успешно удален.", "info");
+            $this->redirect("/users");
+        } else FlashMessages::addMessage("При удалении пользователя произошла ошибка.", "error");
+    }
 }
