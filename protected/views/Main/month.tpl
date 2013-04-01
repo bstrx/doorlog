@@ -8,7 +8,7 @@
         <tr>
             <td> Всего </td>
             <td>
-                {if isset($month['days'][$currentDate]['setTimer']) && {$month['days'][$currentDate]['setTimer']}}
+                {if isset($month['days'][$currentDate]['setTimer']) && {$month['days'][$currentDate]['setTimer']} && {$date|date_format:"m"} == {$currentDate|date_format:"m"}}
                     <span class='timer' data-unixtime="{$month['total_sum']}"> </span>
                 {else}{$month['total_sum']|formatDate}
                 {/if}

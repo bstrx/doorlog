@@ -20,6 +20,7 @@ class Main extends Controller
         $weekInfo = $this->getWeekInfo($userPersonalId, $date);
         $monthInfo = $this->getMonthInfo($userPersonalId, $date);
 
+
         if (isset($weekInfo['days'][$date])) {
             $dayInfo = $weekInfo['days'][$date];
         }
@@ -50,7 +51,7 @@ class Main extends Controller
         $uDay = 24 * 60 * 60;
         $uTime = strtotime($date);
         $uMonthFirstDay = strtotime('first day of this month', $uTime) - $uDay;
-        $uOffsetDay = strtotime('last day of this month', $uTime);
+        $uOffsetDay = strtotime('last day of this month', $uTime) + $uDay;
 
         $usersModel = new UsersModel();
         $monthActions = $usersModel->getActions($userPersonalId, $uMonthFirstDay, $uOffsetDay);
@@ -97,7 +98,7 @@ class Main extends Controller
             } else {
                 $actionTime = strtotime($actions[$i]['logtime']);
 
-                if ($actions[$i]['direction'] == self::IN_OFFICE) {
+                if ($actions[$i]['direction'] == self::IN_OFFICE && $day != $offsetDate) {
                     $enterTime = $actionTime;
 
                     if (!isset($actions[$i+1]) && ($day == $currentDate || $day == $previousDate)) {

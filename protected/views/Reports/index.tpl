@@ -18,16 +18,56 @@ $(function() {
     });
 });
 </script>
+
+<script type="text/javascript">
+    $(function() {
+        $("#autocomplete1").autocomplete({
+            minLength: 3,
+            source: function( request, response ) {
+                $.ajax({
+                    url: "{$_root}/users/autocomplete",
+                    dataType: "json",
+                    data:{
+                        name:request.term
+                    },
+
+                    success: function(data) {
+                        response($.map(data, function(item) {
+                            return {
+                                label:item.name,
+                                id:item.id
+                            };
+                        }));
+                    }
+                });
+            },
+            select: function( event, ui ) {
+                $("#id1").val(ui.item.id);
+            },
+            messages: {
+                noResults: '',
+                results: function() {
+                }
+            }
+        });
+    });
+</script>
+
 <style>
 .ui-datepicker-calendar {
     display: none;
     }
 </style>
         <form id = "reports" type='GET' action = "{$_root}/reports/timeoffs">
-        <input name = "id" type="hidden" value = "122"/>
+
+        <label for = "autocomplete1"> Имя </label>
+        <input type="text" id="autocomplete1">
+        <input type="hidden" id="id1" name="id">
+
         <label for = "datepicker"> Дата </label>
         <input name = "date" type="text" id="datepicker" />
-        <br>
+
+        <label for = "type"> Тип </label>
         <select name = "type">
             <option value = "0"> Все </option>
             {foreach from=$statuses item=stat}
