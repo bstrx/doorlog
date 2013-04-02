@@ -2,9 +2,9 @@
 
 {block name="breadcrumbs"}
     <ul class="breadcrumb">
-      <li><a href="/">Главная</a> <span class="divider">/</span></li>
-      <li><a href="{$_root}/positions/">Должности</a> <span class="divider">/</span></li>
-      <li class="active">Редактировать</li>
+      <li><a href="{$_root}/"> Главная </a> <span class="divider"> / </span></li>
+      <li><a href="{$_root}/positions/"> Должности </a> <span class="divider"> / </span> </li>
+      <li class="active"> Редактировать </li>
     </ul>
 {/block}
 
