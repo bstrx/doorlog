@@ -21,7 +21,7 @@ $(function() {
 
 <script type="text/javascript">
     $(function() {
-        $("#timeoff_autocomplete_id").autocomplete({
+        $("#timeoff_autocomplete").autocomplete({
             minLength: 3,
             source: function( request, response ) {
                 $.ajax({
@@ -42,7 +42,7 @@ $(function() {
                 });
             },
             select: function( event, ui ) {
-                $("#timeoff_id").val(ui.item.id);
+                $("#timeoff_autocomplete_id").val(ui.item.id);
             },
             messages: {
                 noResults: '',
@@ -52,9 +52,9 @@ $(function() {
         });
     });
     $(document).ready(function () {
-        $('#timeoff_autocomplete_id').keyup(function (e) {
+        $('#timeoff_autocomplete').keyup(function (e) {
             if((e.keyCode!=37) && (e.keyCode!=38) && (e.keyCode!=39) && (e.keyCode!=40) && (e.keyCode!=13)){
-                $("#timeoff_id").val('');
+                $("#timeoff_autocomplete_id").val('');
             }
         });
     });
@@ -66,9 +66,9 @@ $(function() {
 </style>
         <form id = "reports" type='GET' action = "{$_root}/reports/timeoffs">
 
-        <label for = "timeoff_autocomplete_id"> Имя </label>
-        <input type="text" id="timeoff_autocomplete_id">
-        <input type="hidden" id="timeoff_id" name="id" value = "" >
+        <label for = "timeoff_autocomplete"> Имя </label>
+        <input type="text" id="timeoff_autocomplete">
+        <input type="hidden" id="timeoff_autocomplete_id" name="id" value = "" >
 
         <label for = "datepicker"> Дата </label>
         <input name = "date" type="text" id="datepicker" />
