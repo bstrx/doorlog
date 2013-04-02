@@ -15,22 +15,19 @@ class Reports extends Controller {
         $flag = false;
         $timeoffs = array();
         $user = new UsersModel();
-        if (isset($_GET['date'])){
-            $date = $_GET['date'];
-        } else {
-            $date = '';
-        }
         if (isset($_GET['date']) && isset($_GET['id']) && !empty($_GET['date']) && !empty($_GET['id']) ){
-            $timeoffs = $user->getRestDaysById($_GET['id'], $_GET['date'], $_GET['type']); 
+            $timeoffs = $user->getRestDaysById($_GET['id'], $_GET['date'], $_GET['type']);
+            $date = $_GET['date'];
+            $name = $user->getInfo($_GET['id']);
+            $name = $name['name'];
+            $id = $_GET['id'];
+        } else {
+            $name = "";
+            $date = date('Y-m');
+            $id = '';
         }
         $statuses = $user->getUserStatuses();
-
-        if (isset($_GET['id'])){
-            $name = $user->getNameById($_GET['id']);
-            $name = $name['name'];
-        } else {
-            $name = '';
-        }
-        $this->render("Reports/index.tpl" , array('statuses' => $statuses, 'timeoffs' => $timeoffs, 'date' => $date, 'name' => $name) );
+        $timeoffsAttr = array('date' => $date, 'name' => $name, 'id' => $id);
+        $this->render("Reports/index.tpl" , array('statuses' => $statuses, 'timeoffs' => $timeoffs, 'timeoffsAttr' => $timeoffsAttr) );
     }
 }

@@ -123,13 +123,6 @@ class Users extends Model{
 
         return $result;
     }
-    public function getNameById($id){
-        $q = "SELECT name FROM user AS u LEFT JOIN `tc-db-main`.`personal` AS p ON u.personal_id = p.id WHERE u.id = :id";
-        $params=array();
-        $params['id']=$id;
-        $result = $this->fetchOne($q,$params);
-        return $result;
-    }
 
     public function getInfoByCodeKey($codekey){
         $codekey = (int) $codekey;

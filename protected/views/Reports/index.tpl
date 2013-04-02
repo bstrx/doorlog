@@ -73,11 +73,11 @@ $(function() {
         <form id = "reports" type='GET' action = "{$_root}/reports/timeoffs">
 
         <label for = "timeoff_autocomplete"> Имя </label>
-        <input type="text" id="timeoff_autocomplete" value = "{$name}">
-        <input type="hidden" id="timeoff_autocomplete_id" name="id" value = "" >
+        <input type="text" id="timeoff_autocomplete" value = "{$timeoffsAttr['name']}">
+        <input type="hidden" id="timeoff_autocomplete_id" name="id" value = "{$timeoffsAttr['id']}" >
 
         <label for = "datepicker"> Дата </label>
-        <input name = "date" type="text" id="datepicker" value = "{$date}" />
+        <input name = "date" type="text" id="datepicker" value = "{$timeoffsAttr['date']}" />
 
         <label for = "type"> Тип </label>
         <select name = "type">
