@@ -110,7 +110,7 @@ class Users extends Controller {
 
                 if ($hash == $userInfo['password']) {
                     $auth = new Authentication();
-                    $auth->grantAccess($userInfo['personal_id'], $hash);
+                    $auth->grantAccess($userInfo['id'], $hash);
                     $this->redirect('/');
                 } else {
                     FlashMessages::addMessage("Неверный пароль.", "error");
@@ -197,7 +197,7 @@ class Users extends Controller {
         $user = new UsersModel;
         $userInfo = null;
         $userInfo = $user->getUserInfo($id);
-               
+
         if(isset($_POST['position']) && isset($_POST['department']) && isset($_POST['email']) && isset($_POST['phone']) && isset($_POST['birthday'])){
             $position = $_POST['position'];
             $department = $_POST['department'];
@@ -222,12 +222,12 @@ class Users extends Controller {
         }
 
         }
-        $this->render("Users/edit.tpl", array('id'=> $id, 
+        $this->render("Users/edit.tpl", array('id'=> $id,
             'userInfo'=>$userInfo,
             'positions' => $sortedPositions,
             'departments' => $sortedDepartments));
     }
-    
+
     public function manageAction() {
         $users = new UsersModel();
 
@@ -312,5 +312,15 @@ class Users extends Controller {
             FlashMessages::addMessage("Произошла ошибка. Пользователь не был отредактирован", "error");
         }
         $this->redirect("/users");
+    }
+
+    public function deleteAction(){
+        $id = $_POST[id];
+        $user =  new UsersModel();
+        $delete = $user->deleteUser($id);
+        if ($delete) {
+            FlashMessages::addMessage("Пользователь успешно удален.", "info");
+            $this->redirect("/users");
+        } else FlashMessages::addMessage("При удалении пользователя произошла ошибка.", "error");
     }
 }

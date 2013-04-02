@@ -1,4 +1,12 @@
 {extends "protected/views/index.tpl"}
+
+    {block name="breadcrumbs"}
+        <ul class="breadcrumb">
+          <li><a href="{$_root}/"> Главная </a> <span class="divider">/</span></li>
+          <li class="active"> Отдел {$depName['name']} </li>
+        </ul>
+    {/block}
+
     {block name="pagetitle"}<h1>Просмотр отдела "{$depName['name']}"</h1>{/block}
 
     {block name="content"}

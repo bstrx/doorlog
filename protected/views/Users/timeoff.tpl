@@ -24,23 +24,22 @@
 </script>
 
 <script>
-           $(document).ready(function()
-                   {
-                          $('#delete').bind('click',function(){
-                                if(confirm("действительно хотите удалить?")){
-                                        return true;
-                                  }
-                                else{
-                                        return false;
-                                   }
-                           });
-            });
-        </script>
+   $(document).ready(function()
+   {
+        $('#delete').bind('click',function(){
+            if(confirm("действительно хотите удалить?")){
+                    return true;
+              }
+            else {
+                    return false;
+            }
+        });
+    });
+</script>
 <div>
-    <h1> Добавить отгул </h1>
+    <h3> Добавить отгул </h3>
 
     <form method="POST" action='{$_root}/users/vacation'>
-        <p>
             <input type="hidden" id="id" name="id" value='{$id}'/>
             <label for="from"> Выберите начало периода: </label>
             <input type="text" id="from" name="from" />
@@ -53,7 +52,6 @@
                     <option value = "{$stat['id']}"> {$stat['name']} </option>
                 {/foreach}
             </select>
-        </p>
 
         <input type="submit" value="Добавить" name="submit" id="add" class="btn btn-success">
     </form>

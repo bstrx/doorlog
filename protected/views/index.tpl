@@ -21,6 +21,7 @@
         {/if}
 
         <div id="content">
+            {block name="breadcrumbs"}{/block}
             {block name="pagetitle"}{/block}
 
             {block name="FlashMessages"}

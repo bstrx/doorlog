@@ -104,7 +104,7 @@ class Users extends Model{
             FROM `user` u
             JOIN `tc-db-main`.`personal` t
               ON u.personal_id = t.id
-            WHERE t.id = :id
+            WHERE u.id = :id
         ";
         $params=array();
         $params['id']=$id;
@@ -117,7 +117,7 @@ class Users extends Model{
         $q="SELECT *
             FROM `user`
             WHERE email=:email";
-        $params=array();
+        $params = array();
         $params['email']=$email;
         $result = $this->fetchOne($q,$params);
 
@@ -132,14 +132,12 @@ class Users extends Model{
     }
 
     public function getInfoByCodeKey($codekey){
-        $q="SELECT u.personal_id, u.password, u.salt
+        $codekey = (int) $codekey;
+        $q="SELECT u.id, u.personal_id, u.password, u.salt
             FROM `user` u
             JOIN `tc-db-main`.`personal` t ON u.personal_id = t.id
-            WHERE SUBSTRING( HEX(`CODEKEY`) , 5, 4 ) = HEX(:codekey)";
-        $params=array();
-        $params['codekey']=$codekey;
-        $result = $this->fetchOne($q,$params);
-
+            WHERE SUBSTRING( HEX(`CODEKEY`) , 5, 4 ) = HEX($codekey)";
+        $result = $this->fetchOne($q);
         return $result;
     }
 
@@ -293,5 +291,13 @@ class Users extends Model{
         $q= "UPDATE user SET position_id = (:position), email = (:email), department_id = (:department), birthday = (:birthday), phone = (:phone) WHERE id = (:id)";
         $result = $this->execute($q, $params);
         return $result;
+    }
+
+    public function deleteUser($id){
+      $params = array();
+      $params['id'] = $id;
+      $q = "DELETE FROM user WHERE id = (:id)";
+      $result = $this->execute($q, $params);
+      return $result;
     }
 }
