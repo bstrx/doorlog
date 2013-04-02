@@ -270,6 +270,7 @@ class Users extends Model{
             $q = $q." AND status_id = :type";
         }
         $result = $this->fetchAll($q, $params);
+        return $result;
     }
 
     public function editUser($id, $position, $email, $department, $birthday, $phone){
