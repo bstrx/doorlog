@@ -51,6 +51,13 @@ $(function() {
             }
         });
     });
+    $(document).ready(function () {
+        $('#autocomplete1').keyup(function (e) {
+            if((e.keyCode!=37) && (e.keyCode!=38) && (e.keyCode!=39) && (e.keyCode!=40) && (e.keyCode!=13)){
+                $("#id1").val('');
+            }
+        });
+    });
 </script>
 <script>
 function someFunc(){
@@ -67,7 +74,7 @@ document.getElementById("add").onclick = someFunc;
         <form id = "reports" type='GET' action = "{$_root}/reports/timeoffs">
 
         <label for = "autocomplete1"> Имя </label>
-        <input type="text" id="autocomplete1" onclick="document.getElementById('id1').value='';">
+        <input type="text" id="autocomplete1">
         <input type="hidden" id="id1" name="id" value = "" >
 
         <label for = "datepicker"> Дата </label>
