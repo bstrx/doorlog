@@ -81,15 +81,26 @@ class Users extends Model{
         return $result;
     }
 
-    public function checkUserAttr($email, $tel){
-        $attr = array();
+    public function checkUserAttr($email, $tel, $position, $department){
+        $errorSting = 'Ошибка заполнения поля: ';
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
-            $attr[0] = 'Ошибка заполнения поля Email';
+            $errorSting = $errorSting.'Email, ';
         }
+
         if (!is_numeric($tel)){
-            $attr[1] = 'Ошибка заполнения поля Телефон';
+            $errorSting = $errorSting.'Телефон, ';
         }
-        return $attr;
+
+        if (!$position){
+            $errorSting = $errorSting.'Должность, ';
+        }
+
+        if (!$department){
+            $errorSting = $errorSting.'Отдел. ';
+        }
+        $errorSting = substr($errorSting, 0, strlen($errorSting)-2);
+        $errorSting = $errorSting.'.';
+        return $errorSting;
     }
 
     public function getInfo($id){
