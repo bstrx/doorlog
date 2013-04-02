@@ -1,5 +1,12 @@
 {extends "protected/views/index.tpl"}
     {block name="pagetitle"}<h1>Пользователи</h1>{/block}
+    
+    {block name="breadcrumbs"}
+        <ul class="breadcrumb">
+          <li><a href="{$_root}/"> Главная </a> <span class="divider">/</span></li>
+          <li class="active"> Пользователи </li>
+        </ul>
+    {/block}
 
     {block name="content"}
 

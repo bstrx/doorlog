@@ -1,4 +1,16 @@
 {extends "protected/views/index.tpl"}
+
+    {block name="breadcrumbs"}
+        <ul class="breadcrumb">
+          <li><a href="/"> Главная </a> <span class="divider">/</span></li>
+          <li><a href="{$_root}/users/"> Пользователи </a> <span class="divider"> / </span></li>
+          {if isset($userId)}
+              <li class="active"> Редактировать </li>
+          {else}
+              <li class="active"> Создать </li>
+          {/if}
+        </ul>
+    {/block}
     
     {block name="content"}
         {if isset($userId)}

@@ -19,7 +19,9 @@
         {if $_user}
             {block name="menu"}{include file='protected/views/menu.tpl'}{/block}
         {/if}
+
         {block name="breadcrumbs"}{/block}
+
         <div id="content">
             {block name="pagetitle"}{/block}
 
