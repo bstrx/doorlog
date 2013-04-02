@@ -35,6 +35,8 @@
                 </table>
             {/if}
         </div>
-        <div id='vacation'>{include file='protected/views/Users/timeoff.tpl'}</div>
+        <div class="span5">
+            {include file='protected/views/Users/timeoff.tpl'}
+        </div>
     {/block}
 {/extends}

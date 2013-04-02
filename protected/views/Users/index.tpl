@@ -3,7 +3,7 @@
 
     {block name="content"}
 
-        <div class='span7'>
+        <div class='span10'>
             <a href="{$_root}/users/manage">Добавить пользователя</a>
             <table class="table table-bordered">
                 <thead>
@@ -11,16 +11,14 @@
                     <th>Email</th>
                     <th>Отдел</th>
                     <th>Должность</th>
-                    <th></th>
                 </thead>
                 <tbody>
                     {foreach from=$users item=user}
                         <tr>
-                            <td> <a href="{$_root}/users/show?id={$user['id']}"> {$user['name']} </a></td>
+                            <td> <a href="{$_root}/users/manage?id={$user['id']}"> {$user['name']} </a></td>
                             <td> {$user['email']} </td>
                             <td> {$user['department']} </td>
                             <td> {$user['position']} </td>
-                            <td> <a href="{$_root}/users/manage?id={$user['id']}"> Редактировать пользователя </a> </td>
                         </tr>
                     {/foreach}
                 </tbody>

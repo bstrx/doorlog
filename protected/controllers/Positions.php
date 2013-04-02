@@ -8,11 +8,11 @@ use core\FlashMessages;
 class Positions extends Controller{
     public function indexAction() {
         $obj =  new PositionModel();
-        
+
         $positions =  $obj->getAll();
         $this->render("Positions/index.tpl" , array('positions' => $positions));
     }
-    
+
     public function addAction(){
         $positions = new PositionModel();
 
@@ -24,15 +24,16 @@ class Positions extends Controller{
                 FlashMessages::addMessage("Произошла ошибка. Должность не была добавлена.", "error");
             }
         }
-            $this->render("Positions/add.tpl");
+        
+        $this->redirect("/positions");
     }
-    
+
     public function editAction(){
         if (isset($_GET['id'])){
             $id = $_GET['id'];
             $positions = new PositionModel();
             $position = $positions->getPosition($id);
-                
+
             if (isset($_POST['position'])){
                 $set=$_POST['position'];
                 if($positions->savePosition($id,$set)){
@@ -47,12 +48,12 @@ class Positions extends Controller{
             }
         }
     }
-    
+
     public function deleteAction(){
         if (isset($_POST['id'])){
             $id = $_POST['id'];
             $positions=new PositionModel();
-            
+
             if ($positions->deletePosition($id)){
                 FlashMessages::addMessage("Должность успешно удалена.", "info");
             } else {
@@ -61,6 +62,6 @@ class Positions extends Controller{
             $this->redirect("/positions");
         }
     }
-    
+
 }
 ?>
