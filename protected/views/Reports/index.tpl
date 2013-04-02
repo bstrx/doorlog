@@ -59,13 +59,6 @@ $(function() {
         });
     });
 </script>
-<script>
-function someFunc(){
-alert(document.getElementById("id1").value);
-}
-document.getElementById("add").onclick = someFunc;
-</script>
-
 <style>
 .ui-datepicker-calendar {
     display: none;
