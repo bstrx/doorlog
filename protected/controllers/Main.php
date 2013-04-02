@@ -20,6 +20,7 @@ class Main extends Controller
         $weekInfo = $this->getWeekInfo($userPersonalId, $date);
         $monthInfo = $this->getMonthInfo($userPersonalId, $date);
 
+
         if (isset($weekInfo['days'][$date])) {
             $dayInfo = $weekInfo['days'][$date];
         }
@@ -49,13 +50,12 @@ class Main extends Controller
     public function getMonthInfo($userPersonalId, $date) {
         $uDay = 24 * 60 * 60;
         $uTime = strtotime($date);
-        $uMonthFirstDay = strtotime('first day of this month', $uTime)  - $uDay;
+        $uMonthFirstDay = strtotime('first day of this month', $uTime) - $uDay;
         $uOffsetDay = strtotime('last day of this month', $uTime) + $uDay;
 
         $usersModel = new UsersModel();
         $monthActions = $usersModel->getActions($userPersonalId, $uMonthFirstDay, $uOffsetDay);
         $monthPeriods = $this->formPeriods($monthActions, date('Y-m-d', $uOffsetDay));
-
         return $monthPeriods;
     }
 
@@ -101,7 +101,7 @@ class Main extends Controller
                 if ($actions[$i]['direction'] == self::IN_OFFICE && $day != $offsetDate) {
                     $enterTime = $actionTime;
 
-                    if (!isset($actions[$i+1]) && ($day == $currentDate  || $day == $previousDate)) {
+                    if (!isset($actions[$i+1]) && ($day == $currentDate || $day == $previousDate)) {
                         $setTimer = true;
                         $exitTime = time();
                         $diff = $exitTime - $enterTime;
