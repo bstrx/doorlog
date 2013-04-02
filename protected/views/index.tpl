@@ -20,9 +20,8 @@
             {block name="menu"}{include file='protected/views/menu.tpl'}{/block}
         {/if}
 
-        {block name="breadcrumbs"}{/block}
-
         <div id="content">
+            {block name="breadcrumbs"}{/block}
             {block name="pagetitle"}{/block}
 
             {block name="FlashMessages"}
