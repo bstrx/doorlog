@@ -52,6 +52,12 @@ $(function() {
         });
     });
 </script>
+<script>
+function someFunc(){
+alert(document.getElementById("id1").value);
+}
+document.getElementById("add").onclick = someFunc;
+</script>
 
 <style>
 .ui-datepicker-calendar {
@@ -61,8 +67,8 @@ $(function() {
         <form id = "reports" type='GET' action = "{$_root}/reports/timeoffs">
 
         <label for = "autocomplete1"> Имя </label>
-        <input type="text" id="autocomplete1">
-        <input type="hidden" id="id1" name="id">
+        <input type="text" id="autocomplete1" onclick="document.getElementById('id1').value='';">
+        <input type="hidden" id="id1" name="id" value = "" >
 
         <label for = "datepicker"> Дата </label>
         <input name = "date" type="text" id="datepicker" />
@@ -94,5 +100,6 @@ $(function() {
     {else}<h3>В этом месяце отгулов нет</h3>
     {/if}
 </div>
+
     {/block}
 {/extends}
