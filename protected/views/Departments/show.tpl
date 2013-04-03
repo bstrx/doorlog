@@ -20,7 +20,7 @@
             {foreach from=$users item=user}
                 <tr>
                     <td><a href='{$_root}/users/show?id={$user['id']}'> {$user['name']}</a> 
-                        {if ($user['chief_id']==$user['id'])}
+                        {if isset($depName['chief_id']) && ($depName['chief_id']==$user['id'])}
                             <span id="chief">начальник</span>
                         {/if}
                     </td>
