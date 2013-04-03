@@ -13,6 +13,7 @@
     {/block}
     
     {block name="content"}
+    {include file='protected/views/dialog.tpl'}
         {if isset($userId)}
             {block name="pagetitle"}<h1>Изменить пользователя {$userInfo['name']}</h1>{/block}
         {else}
