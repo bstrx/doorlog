@@ -1,4 +1,10 @@
 {extends "protected/views/index.tpl"}
+{block name="javascript"}
+<link href="{$_root}/assets/css/jquery.jqplot.min.css" rel="stylesheet" type="text/css">
+<script src="{$_root}/assets/js/jquery.jqplot.min.js"></script>
+<script src="{$_root}/assets/js/jqplot.canvasAxisLabelRenderer.min.js"></script>
+<script src="{$_root}/assets/js/jqplot.canvasTextRenderer.min.js"></script>
+{/block}
 {block name="pagetitle"}<h1>Загрузка офиса</h1>{/block}
 
 {block name="content"}

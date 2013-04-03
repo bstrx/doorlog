@@ -33,29 +33,16 @@ class Reports extends Controller {
         $this->render("Reports/index.tpl" , array('statuses' => $statuses, 'timeoffs' => $timeoffs, 'timeoffsAttr' => $timeoffsAttr) );
     }
 
-
-    public function getDate() {
-        if (!empty($_GET['date'])) {
-            $unixtime = strtotime($_GET['date']);
-            $date = date('Y-m-d', $unixtime);
-        } else
-            $date = date('Y-m-d');
-
-        return $date;
-    }
-
-    function loadofficeAction() {
+    function officeloadAction() {
         $obj = new ReportsModel;
 
         if (isset($_GET['date'])) {
             $date = $_GET['date'];
         } else {
-            $date = $this->getDate();
+            $date = date('Y-m-d');
         }
 
         $desiredDate = $obj->getTimesList($date);
-
-        $null = 0;
 
         $sortedTimes = array();
         $stringForGraph = "";
@@ -63,14 +50,15 @@ class Reports extends Controller {
             $sortedTimes[$hour['hour']] = $hour['count'];
         }
         for ($i = 0; $i <= 23; $i++) {
-            if (!empty($sortedTimes[$i])) {
-                $stringForGraph .= "[" . $i . "," . $sortedTimes[$i] . "]" . ",";
+            if (isset($sortedTimes[$i])) {
+                $entersCount = $sortedTimes[$i];
             } else {
-                $stringForGraph .= "[" . $i . "," . $null . "]" . ",";
+                $entersCount = 0;
             }
+            $stringForGraph .= "[".$i.",".$entersCount."]".",";
         }
         $stringForGraph = "[".substr($stringForGraph, 0, -1)."]";
-        $this->render("Reports/loadoffice.tpl", array('date' => $date,
+        $this->render("Reports/officeload.tpl", array('date' => $date,
                                                       'stringForGraph' => $stringForGraph));
     }
 }
