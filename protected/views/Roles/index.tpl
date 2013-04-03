@@ -1,28 +1,37 @@
- {extends "protected/views/index.tpl"}
+{extends "protected/views/index.tpl"}
+
+    {block name="pagetitle"}<h1>Права доступа</h1>{/block}
+
+    {block name="breadcrumbs"}
+        <ul class="breadcrumb">
+          <li><a href="{$_root}/"> Главная </a> <span class="divider">/</span></li>
+          <li class="active"> Права доступа </li>
+        </ul>
+    {/block}
 
     {block name="content"}
     <div class="span7">
-        <h1>Права доступа</h1>
-        <a href="{$_root}/roles/add">Добавить роль</a>
-        <br>
-        <br>
         <table class="table table-bordered">
+            <colgroup>
+                <col class="col-large">
+            </colgroup>
             <thead>
                 <th>Роль</th>
-                <th>Кол-во сотрудников</th>
-                <th></th>
+                <th>Сотрудников</th>
             </thead>
             <tbody>
                 {foreach from=$roles item=role}
                     <tr>
-                       <td> {$role['name']} </td>
+                       <td><a href="{$_root}/roles/edit?id={$role['id']}"> {$role['name']} </a></td>
                        <td> {$role['users_count']} </td>
-                       <td><a href="{$_root}/roles/edit?id={$role['id']}">Редактировать</a></td>
                     </tr>
                 {/foreach}
             </tbody>
         </table>
     </div>
+    <div class="span4 additional">
+        {include file='protected/views/Roles/add.tpl'}
+    </div>
     {/block}
 
-{/extends}    
+{/extends}

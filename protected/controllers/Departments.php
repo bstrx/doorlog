@@ -26,8 +26,7 @@ class Departments extends Controller {
                 FlashMessages::addMessage("Произошла ошибка. Отдел не был добавлен.", "error");
             }
         }
-
-        $this->render("Departments/add.tpl" , array());
+        $this->redirect("/departments");
     }
 
     public function editAction() {

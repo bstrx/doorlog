@@ -1,5 +1,13 @@
 {extends "protected/views/index.tpl"}
-    {block name="pagetitle"}<h1>Просмотр пользователя</h1>{/block}
+    {block name="pagetitle"}<h1>Просмотр пользователя {$userInfo['name']}</h1>{/block}
+
+    {block name="breadcrumbs"}
+        <ul class="breadcrumb">
+          <li><a href="{$_root}/"> Главная </a> <span class="divider">/</span></li>
+          <li><a href="{$_root}/departments/show?id={$userInfo['department_id']}"> Отдел {$userInfo['department']} </a> <span class="divider"> / </span> </li>
+          <li class="active"> Пользователь {$userInfo['name']} </li>
+        </ul>
+    {/block}
 
     {block name="content"}
         <div class="span7">
@@ -11,6 +19,7 @@
                     <th> Статус </th>
                     <th> Телефон </th>
                     <th> Дата рождения </th>
+                    <th> Дата создания </th>
                     {foreach from=userInfo item=user}
                         <tr>
                             <td>{$userInfo['name']}</td>
@@ -28,13 +37,18 @@
                                     <span class="label">Не в офисе</span>
                                 {/if}
                             </td>
-                            <td> </td>
-                            <td> </td>
+                            <td> {$userInfo['phone']} </td>
+                            <td> {$userInfo['birthday']} </td>
+                            <td> {$userInfo['created']} </td>
                         </tr>
                     {/foreach}
                 </table>
             {/if}
+        <a class="btn btn-success" href="{$_root}/users/manage?id={$userInfo['id']}"> Редактировать </a>
+        <a class="btn" href="{$_root}/users"> Отмена </a>
         </div>
-        <div id='vacation'>{include file='protected/views/Users/timeoff.tpl'}</div>
+        <div class="span5">
+            {include file='protected/views/Users/timeoff.tpl'}
+        </div>
     {/block}
 {/extends}

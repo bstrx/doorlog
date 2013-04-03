@@ -17,12 +17,22 @@ class Reports extends Controller {
         $flag = false;
         $timeoffs = array();
         $user = new UsersModel();
-        if (isset($_GET['date']) && isset($_GET['id']) && !empty($_GET['date']) && !empty($_GET['id'])) {
-            $timeoffs = $user->getRestDaysById($_GET['id'], $_GET['date'], $_GET['type']);
+        if (isset($_GET['date']) && isset($_GET['id']) && !empty($_GET['date']) && !empty($_GET['id']) ){
+            $timeoffs = $user->getTimeoffsById($_GET['id'], $_GET['date'], $_GET['type']);
+            $date = $_GET['date'];
+            $name = $user->getInfo($_GET['id']);
+            $name = $name['name'];
+            $id = $_GET['id'];
+        } else {
+            $name = "";
+            $date = date('Y-m');
+            $id = '';
         }
         $statuses = $user->getUserStatuses();
-        $this->render("Reports/index.tpl", array('statuses' => $statuses, 'timeoffs' => $timeoffs));
+        $timeoffsAttr = array('date' => $date, 'name' => $name, 'id' => $id);
+        $this->render("Reports/index.tpl" , array('statuses' => $statuses, 'timeoffs' => $timeoffs, 'timeoffsAttr' => $timeoffsAttr) );
     }
+
 
     public function getDate() {
         if (!empty($_GET['date'])) {
@@ -63,5 +73,4 @@ class Reports extends Controller {
         $this->render("Reports/loadoffice.tpl", array('date' => $date,
                                                       'stringForGraph' => $stringForGraph));
     }
-
 }

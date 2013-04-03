@@ -13,7 +13,8 @@ class Departments extends Model {
               t.name as chief_name
             FROM department as d
             LEFT JOIN user as u ON u.department_id = d.id
-            LEFT JOIN `tc-db-main`.personal as t ON d.chief_id = t.id
+            LEFT JOIN user as us ON us.id = d.chief_id
+            LEFT JOIN `tc-db-main`.personal as t ON t.id = us.personal_id
             GROUP BY d.id";
         $result = $this->fetchAll($q);
         return $result;

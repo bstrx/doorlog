@@ -50,10 +50,16 @@ class Users extends Model{
     public function searchByName($name){
         $searchName = '%' . $name . '%';
         $q="SELECT t.NAME as name,
-                u.id
+                u.id,
+                d.name as dep,
+                p.name as pos
             FROM `user` u
             JOIN `tc-db-main`.`personal` t
               ON u.personal_id = t.id
+            LEFT JOIN department as d
+              ON u.department_id = d.id
+            LEFT JOIN position as p
+              ON u.position_id = p.id
             WHERE t.NAME LIKE :searchName
             ORDER BY t.NAME
         ";
@@ -81,15 +87,24 @@ class Users extends Model{
         return $result;
     }
 
-    public function checkUserAttr($email, $tel){
-        $attr = array();
+    public function checkUserAttr($email, $tel, $position, $department){
+        $errors = array();
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
-            $attr[0] = 'Ошибка заполнения поля Email';
+            $errors[] = 'Email';
         }
+
         if (!is_numeric($tel)){
-            $attr[1] = 'Ошибка заполнения поля Телефон';
+            $errors[] = 'Телефон';
         }
-        return $attr;
+
+        if (!$position){
+            $errors[] = 'Должность';
+        }
+
+        if (!$department){
+            $errors[] = 'Отдел';
+        }
+        return $errors;
     }
 
     public function getInfo($id){
@@ -104,7 +119,7 @@ class Users extends Model{
             FROM `user` u
             JOIN `tc-db-main`.`personal` t
               ON u.personal_id = t.id
-            WHERE t.id = :id
+            WHERE u.id = :id
         ";
         $params=array();
         $params['id']=$id;
@@ -117,7 +132,7 @@ class Users extends Model{
         $q="SELECT *
             FROM `user`
             WHERE email=:email";
-        $params=array();
+        $params = array();
         $params['email']=$email;
         $result = $this->fetchOne($q,$params);
 
@@ -125,14 +140,12 @@ class Users extends Model{
     }
 
     public function getInfoByCodeKey($codekey){
-        $q="SELECT u.personal_id, u.password, u.salt
+        $codekey = (int) $codekey;
+        $q="SELECT u.id, u.personal_id, u.password, u.salt
             FROM `user` u
             JOIN `tc-db-main`.`personal` t ON u.personal_id = t.id
-            WHERE SUBSTRING( HEX(`CODEKEY`) , 5, 4 ) = HEX(:codekey)";
-        $params=array();
-        $params['codekey']=$codekey;
-        $result = $this->fetchOne($q,$params);
-
+            WHERE SUBSTRING( HEX(`CODEKEY`) , 5, 4 ) = HEX($codekey)";
+        $result = $this->fetchOne($q);
         return $result;
     }
 
@@ -198,7 +211,8 @@ class Users extends Model{
               d.name as department,
               p.name as position,
               u.birthday,
-              u.phone
+              u.phone,
+              u.created
             FROM `tc-db-main`.`personal` t
             JOIN `user` u
               ON t.id = u.personal_id
@@ -247,7 +261,7 @@ class Users extends Model{
         return $result;
     }
 
-    public function setVacation($id, $type, $data){
+    public function setTimeoffs($id, $type, $data){
         $q = 'INSERT INTO users_statuses(user_id, status_id, date) VALUES (:id, :type, :date) ';
         $params = array();
         $params['id'] = $id;
@@ -257,7 +271,7 @@ class Users extends Model{
         return $result;
     }
 
-    public function getRestDaysById($id, $date, $type){
+    public function getTimeoffsById($id, $date, $type){
 
         $date1 = date("y-m-d", strtotime($date));
         $date2 = date("y-m-d", (strtotime($date) + 30*24*60*60 ));
@@ -265,13 +279,17 @@ class Users extends Model{
         $params['id'] = $id;
         $params['date1'] = $date1;
         $params['date2'] = $date2;
-        $q = "SELECT * FROM users_statuses WHERE user_id = :id AND date BETWEEN :date1 AND :date2" ;
+        $q = "SELECT * FROM users_statuses AS u 
+        LEFT JOIN status AS s ON u.status_id = s.id
+        WHERE u.user_id = :id 
+        AND u.date BETWEEN :date1 AND :date2 " ;
 
         if($type){
             $params['type'] = $type;
-            $q = $q." AND status_id = :type";
+            $q = $q." AND u.status_id = :type";
         }
         $result = $this->fetchAll($q, $params);
+        return $result;
     }
 
     public function editUser($id, $position, $email, $department, $birthday, $phone){

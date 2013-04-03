@@ -1,4 +1,10 @@
 {extends "protected/views/index.tpl"}
+    {block name="breadcrumbs"}
+        <ul class="breadcrumb">
+          <li><a href="{$_root}/"> Главная </a> <span class="divider">/</span></li>
+          <li class="active"> Отгулы </li>
+        </ul>
+    {/block}
     {block name="pagetitle"}<h1>Отгулы</h1>{/block}
     {block name="content"}
 <script type="text/javascript">
@@ -18,16 +24,62 @@ $(function() {
     });
 });
 </script>
+
+<script type="text/javascript">
+    $(function() {
+        $("#timeoff_autocomplete").autocomplete({
+            minLength: 3,
+            source: function( request, response ) {
+                $.ajax({
+                    url: "{$_root}/users/autocomplete",
+                    dataType: "json",
+                    data:{
+                        name:request.term
+                    },
+
+                    success: function(data) {
+                        response($.map(data, function(item) {
+                            return {
+                                label:item.name,
+                                id:item.id
+                            };
+                        }));
+                    }
+                });
+            },
+            select: function( event, ui ) {
+                $("#timeoff_autocomplete_id").val(ui.item.id);
+            },
+            messages: {
+                noResults: '',
+                results: function() {
+                }
+            }
+        });
+    });
+    $(document).ready(function () {
+        $('#timeoff_autocomplete').keyup(function (e) {
+            if((e.keyCode!=37) && (e.keyCode!=38) && (e.keyCode!=39) && (e.keyCode!=40) && (e.keyCode!=13)){
+                $("#timeoff_autocomplete_id").val('');
+            }
+        });
+    });
+</script>
 <style>
 .ui-datepicker-calendar {
     display: none;
     }
 </style>
         <form id = "reports" type='GET' action = "{$_root}/reports/timeoffs">
-        <input name = "id" type="hidden" value = "122"/>
+
+        <label for = "timeoff_autocomplete"> Имя </label>
+        <input type="text" id="timeoff_autocomplete" value = "{$timeoffsAttr['name']}">
+        <input type="hidden" id="timeoff_autocomplete_id" name="id" value = "{$timeoffsAttr['id']}" >
+
         <label for = "datepicker"> Дата </label>
-        <input name = "date" type="text" id="datepicker" />
-        <br>
+        <input name = "date" type="text" id="datepicker" value = "{$timeoffsAttr['date']}" />
+
+        <label for = "type"> Тип </label>
         <select name = "type">
             <option value = "0"> Все </option>
             {foreach from=$statuses item=stat}
@@ -36,7 +88,7 @@ $(function() {
         </select>
 
     </form>
-    <input form = "reports" type="submit" id="add" value = "Сформировать" class="btn btn-success">
+    <input form = "reports" type="submit" id="add" value = "Сформировать" class="btn btn-success" >
     <br>
     <br>
     <div class="span7">
@@ -47,7 +99,7 @@ $(function() {
         {foreach from=$timeoffs item=timeoff}
         <tr>
             <td>{$timeoff['date']}</td>
-            <td>{$timeoff['status_id']}</td>
+            <td>{$timeoff['name']}</td>
         </tr>
         {/foreach}
     </table>
