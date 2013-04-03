@@ -56,9 +56,9 @@ class Users extends Model{
             FROM `user` u
             JOIN `tc-db-main`.`personal` t
               ON u.personal_id = t.id
-            JOIN department as d
+            LEFT JOIN department as d
               ON u.department_id = d.id
-            JOIN position as p
+            LEFT JOIN position as p
               ON u.position_id = p.id
             WHERE t.NAME LIKE :searchName
             ORDER BY t.NAME
