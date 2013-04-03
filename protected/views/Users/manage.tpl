@@ -20,29 +20,6 @@
         {/if}
         
         <script>
-            $(document).ready(function()
-            {
-                    $("#dialog").dialog({
-                        autoOpen: false,
-                        modal: true,
-                        position: ["center"],
-                        buttons: {
-                            "Ок": function() {
-                                $("#del-user").submit();
-                            },
-                            "Отмена": function() {
-                                $(this).dialog("close");
-                            }
-                        }
-                    });
-                $("#delete").click(function(e){
-                    e.preventDefault();
-                    $('#dialog').dialog('open');
-                });
-            });
-        </script>
-        
-        <script>
         $(function() {
           $( "#datepicker" ).datepicker({
             changeMonth: true,
@@ -108,12 +85,21 @@
         <a class="btn" href="{$_root}/users"> Отмена </a>
 
         {if isset($userId)}
-            <button type="submit" class="btn btn-danger" id="delete" form="del-user"> Удалить </button>
+            <a href="#myModal" role="button" class="btn btn-danger" data-toggle="modal">Удалить</a>
         {/if}
-
-        <div id="dialog">
-            <p>Дейсвительно хотите удалить?</p>
+        
+        <div id="myModal" class="modal hide fade">
+            <div class="modal-header">
+              <button type="button" class="close"></button>
+              <h3 id="myModalLabel">Подтверждение удаления</h3>
+            </div>
+            <div class="modal-body">
+              <p>Вы действительно хотите удалить пользователя?</p>
+            </div>
+            <div class="modal-footer">
+              <button class="btn" data-dismiss="modal" aria-hidden="true">Отмена</button>
+              <button class="btn btn-primary" type="submit" id="delete" form="del-user">Удалить</button>
+            </div>
         </div>
-
     {/block}
 {/extends}
