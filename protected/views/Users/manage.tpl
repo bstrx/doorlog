@@ -1,4 +1,5 @@
 {extends "protected/views/index.tpl"}
+{block name="dialog"}{include file='protected/views/dialog.tpl'}{/block}
 
     {block name="breadcrumbs"}
         <ul class="breadcrumb">

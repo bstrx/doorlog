@@ -1,5 +1,5 @@
 {extends "protected/views/index.tpl"}
-
+{block name="dialog"}{include file='protected/views/dialog.tpl'}{/block}
 {block name="breadcrumbs"}
     <ul class="breadcrumb">
       <li><a href="{$_root}/"> Главная </a> <span class="divider"> / </span></li>
@@ -28,8 +28,7 @@
 
         <button type="submit" class="btn btn-success" form="edit-department"> Сохранить </button>
         <a class="btn" href="{$_root}/departments"> Отмена </a>
-        <button type="submit" class="btn btn-danger" id="delete" form="del-department"> Удалить </button>
-        <a href="#myModal" role="button" class="btn btn-danger" data-toggle="modal" form="del-department">Удалить</a>
+        <a href="#myModal" role="button" class="btn btn-danger" data-toggle="modal" form="delete">Удалить</a>
     </div>
             
 
