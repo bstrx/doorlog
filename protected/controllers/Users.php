@@ -150,13 +150,13 @@ class Users extends Controller {
             FlashMessages::addMessage("Неверный id пользователя", "error");
         }
 
-        $vacation = new UsersModel;
-        $statuses = $vacation->getUserStatuses();
+        $timeoffs = new UsersModel;
+        $statuses = $timeoffs->getUserStatuses();
         $this->render("Users/show.tpl", array('userInfo' => $userInfo, 'statuses'=> $statuses, 'id' => $id));
     }
 
     public function vacationAction(){
-        $vacation = new UsersModel;
+        $timeoffs = new UsersModel;
 
         if(isset($_POST['id']) && isset($_POST['from']) && isset($_POST['to'])){
             $id = $_POST['id'];
@@ -170,7 +170,7 @@ class Users extends Controller {
 
             for($i=0; $i<=$sumDays; $i++){
                 $date =  date("o-m-d", $dateStart+((3600*24)*$i));
-                $res = $vacation->setVacation($id, $type, $date);
+                $res = $timeoffs->setTimeoffs($id, $type, $date);
             }
             if ($res){
                 FlashMessages::addMessage("Отгул добавлен.", "info");
@@ -237,8 +237,11 @@ class Users extends Controller {
             $email = $_POST['email'];
             $phone = $_POST['phone'];
             $birthday = $_POST['birthday'];
-            $inputErrors = $users->checkUserAttr($email, $phone);
-            if (!$inputErrors) {
+            $inputErrors = $users->checkUserAttr($email, $phone, $position, $department);
+            if ($inputErrors){
+                $errorString = 'Ошибка заполнения поля: ' . implode(', ', $inputErrors).'.';
+                FlashMessages::addMessage($errorString, "error");
+            } else {
                 if(isset($_GET['id']) && $_GET['id']){
                     $id = $_GET['id'];
                     $this->update($id, $position, $email, $department, $birthday, $phone);
@@ -248,11 +251,7 @@ class Users extends Controller {
                         $this->add($user, $email, $position, $department, $birthday, $phone);
                     }
                 }
-            } else {
-                foreach ($inputErrors as $val) {
-                    FlashMessages::addMessage($val, "error");
-                }
-            }
+            }   
         }
 
         $unregisteredUsers = $users->getAllUnregistered();
