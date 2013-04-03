@@ -105,7 +105,7 @@
             {/if}
         </button>
 
-        <a class="btn" href="{$_root}/users"> Отмена </a>
+        <a class="btn" href="{$_root}/users/show?id={$userInfo['id']}"> Отмена </a>
 
         {if isset($userId)}
             <button type="submit" class="btn btn-danger" id="delete" form="del-user"> Удалить </button>
