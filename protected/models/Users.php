@@ -81,15 +81,24 @@ class Users extends Model{
         return $result;
     }
 
-    public function checkUserAttr($email, $tel){
-        $attr = array();
+    public function checkUserAttr($email, $tel, $position, $department){
+        $errors = array();
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
-            $attr[0] = 'Ошибка заполнения поля Email';
+            $errors[] = 'Email';
         }
+
         if (!is_numeric($tel)){
-            $attr[1] = 'Ошибка заполнения поля Телефон';
+            $errors[] = 'Телефон';
         }
-        return $attr;
+
+        if (!$position){
+            $errors[] = 'Должность';
+        }
+
+        if (!$department){
+            $errors[] = 'Отдел';
+        }
+        return $errors;
     }
 
     public function getInfo($id){
@@ -246,7 +255,7 @@ class Users extends Model{
         return $result;
     }
 
-    public function setVacation($id, $type, $data){
+    public function setTimeoffs($id, $type, $data){
         $q = 'INSERT INTO users_statuses(user_id, status_id, date) VALUES (:id, :type, :date) ';
         $params = array();
         $params['id'] = $id;
@@ -256,7 +265,7 @@ class Users extends Model{
         return $result;
     }
 
-    public function getRestDaysById($id, $date, $type){
+    public function getTimeoffsById($id, $date, $type){
 
         $date1 = date("y-m-d", strtotime($date));
         $date2 = date("y-m-d", (strtotime($date) + 30*24*60*60 ));
@@ -264,11 +273,14 @@ class Users extends Model{
         $params['id'] = $id;
         $params['date1'] = $date1;
         $params['date2'] = $date2;
-        $q = "SELECT * FROM users_statuses WHERE user_id = :id AND date BETWEEN :date1 AND :date2" ;
+        $q = "SELECT * FROM users_statuses AS u 
+        LEFT JOIN status AS s ON u.status_id = s.id
+        WHERE u.user_id = :id 
+        AND u.date BETWEEN :date1 AND :date2 " ;
 
         if($type){
             $params['type'] = $type;
-            $q = $q." AND status_id = :type";
+            $q = $q." AND u.status_id = :type";
         }
         $result = $this->fetchAll($q, $params);
         return $result;

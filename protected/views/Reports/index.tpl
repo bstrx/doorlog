@@ -73,11 +73,11 @@ $(function() {
         <form id = "reports" type='GET' action = "{$_root}/reports/timeoffs">
 
         <label for = "timeoff_autocomplete"> Имя </label>
-        <input type="text" id="timeoff_autocomplete">
-        <input type="hidden" id="timeoff_autocomplete_id" name="id" value = "" >
+        <input type="text" id="timeoff_autocomplete" value = "{$timeoffsAttr['name']}">
+        <input type="hidden" id="timeoff_autocomplete_id" name="id" value = "{$timeoffsAttr['id']}" >
 
         <label for = "datepicker"> Дата </label>
-        <input name = "date" type="text" id="datepicker" />
+        <input name = "date" type="text" id="datepicker" value = "{$timeoffsAttr['date']}" />
 
         <label for = "type"> Тип </label>
         <select name = "type">
@@ -88,7 +88,7 @@ $(function() {
         </select>
 
     </form>
-    <input form = "reports" type="submit" id="add" value = "Сформировать" class="btn btn-success">
+    <input form = "reports" type="submit" id="add" value = "Сформировать" class="btn btn-success" >
     <br>
     <br>
     <div class="span7">
@@ -99,13 +99,12 @@ $(function() {
         {foreach from=$timeoffs item=timeoff}
         <tr>
             <td>{$timeoff['date']}</td>
-            <td>{$timeoff['status_id']}</td>
+            <td>{$timeoff['name']}</td>
         </tr>
         {/foreach}
     </table>
     {else}<h3>В этом месяце отгулов нет</h3>
     {/if}
 </div>
-
     {/block}
 {/extends}
