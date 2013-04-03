@@ -196,7 +196,8 @@ class Users extends Model{
               d.name as department,
               p.name as position,
               u.birthday,
-              u.phone
+              u.phone,
+              u.created
             FROM `tc-db-main`.`personal` t
             JOIN `user` u
               ON t.id = u.personal_id
