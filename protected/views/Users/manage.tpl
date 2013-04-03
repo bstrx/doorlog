@@ -45,7 +45,7 @@
 
             <p>Выберите должность:</p>
             <select name="position">
-                <option value=0</option>
+                <option value=0></option>
                 {html_options options=$positions selected={$userInfo['position_id']}}
             </select> </br>
 

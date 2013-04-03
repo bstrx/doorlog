@@ -81,15 +81,24 @@ class Users extends Model{
         return $result;
     }
 
-    public function checkUserAttr($email, $tel){
-        $attr = array();
+    public function checkUserAttr($email, $tel, $position, $department){
+        $errors = array();
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
-            $attr[0] = 'Ошибка заполнения поля Email';
+            $errors[0] = 'Email';
         }
+
         if (!is_numeric($tel)){
-            $attr[1] = 'Ошибка заполнения поля Телефон';
+            $errors[1] = 'Телефон';
         }
-        return $attr;
+
+        if (!$position){
+            $errors[2] = 'Должность';
+        }
+
+        if (!$department){
+            $errors[3] = 'Отдел';
+        }
+        return $errors;
     }
 
     public function getInfo($id){

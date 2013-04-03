@@ -237,8 +237,11 @@ class Users extends Controller {
             $email = $_POST['email'];
             $phone = $_POST['phone'];
             $birthday = $_POST['birthday'];
-            $inputErrors = $users->checkUserAttr($email, $phone);
-            if (!$inputErrors) {
+            $inputErrors = $users->checkUserAttr($email, $phone, $position, $department);
+            if ($inputErrors){
+                $errorString = 'Ошибка заполнения поля: ' . implode(', ', $inputErrors).'.';
+                FlashMessages::addMessage($errorString, "error");
+            } else {
                 if(isset($_GET['id']) && $_GET['id']){
                     $id = $_GET['id'];
                     $this->update($id, $position, $email, $department, $birthday, $phone);
@@ -248,11 +251,7 @@ class Users extends Controller {
                         $this->add($user, $email, $position, $department, $birthday, $phone);
                     }
                 }
-            } else {
-                foreach ($inputErrors as $val) {
-                    FlashMessages::addMessage($val, "error");
-                }
-            }
+            }   
         }
 
         $unregisteredUsers = $users->getAllUnregistered();
