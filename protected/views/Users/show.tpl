@@ -44,6 +44,8 @@
                     {/foreach}
                 </table>
             {/if}
+        <a class="btn btn-success" href="{$_root}/users/manage?id={$userInfo['id']}"> Редактировать </a>
+        <a class="btn" href="{$_root}/users"> Отмена </a>
         </div>
         <div class="span5">
             {include file='protected/views/Users/timeoff.tpl'}
