@@ -238,8 +238,9 @@ class Users extends Controller {
             $phone = $_POST['phone'];
             $birthday = $_POST['birthday'];
             $inputErrors = $users->checkUserAttr($email, $phone, $position, $department);
-            if ($inputErrors != "Ошибка заполнения поля."){
-                FlashMessages::addMessage($inputErrors, "error");
+            if ($inputErrors){
+                $errorString = 'Ошибка заполнения поля: ' . implode(', ', $inputErrors).'.';
+                FlashMessages::addMessage($errorString, "error");
             } else {
                 if(isset($_GET['id']) && $_GET['id']){
                     $id = $_GET['id'];
