@@ -26,8 +26,8 @@ class Users extends Controller {
         }
 
         $registeredCount = $users->getAllRegisteredCount();
-        var_dump($registeredCount);
-        $pagesCount = ceil(($registeredCount['count']-1) / $elementsCount);
+        print_r($registeredCount);
+        $pagesCount = ceil($registeredCount['count'] / $elementsCount);
 
         $registeredUsers = $users->getRegistered($firstElement, $elementsCount);
 
