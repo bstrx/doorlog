@@ -1,5 +1,4 @@
 {extends "protected/views/index.tpl"}
-{block name="dialog"}{include file='protected/views/dialog.tpl'}{/block}
     {block name="breadcrumbs"}
         <ul class="breadcrumb">
           <li><a href="{$_root}/"> Главная </a> <span class="divider"> / </span></li>
@@ -9,6 +8,7 @@
     {/block}
 
     {block name="content"}
+    {include file='protected/views/dialog.tpl'}
     <div class="span7">
         <h1>Редактирование роли</h1>
         <form method='post' id="change-permissions">                
