@@ -26,10 +26,10 @@ class Users extends Controller {
         }
 
         $registeredCount = $users->getAllRegisteredCount();
-        $pagesCount = ceil($registeredCount['count'] / $elementsCount);
+        var_dump($registeredCount);
+        $pagesCount = ceil(($registeredCount['count']-1) / $elementsCount);
 
         $registeredUsers = $users->getRegistered($firstElement, $elementsCount);
-
 
         $this->render("Users/index.tpl", array(
             'users' => $registeredUsers,
