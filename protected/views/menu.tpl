@@ -70,7 +70,7 @@
                     success: function(data) {
                         response($.map(data, function(item) {
                             return {
-                                label:item.name,
+                                label:item.name + " | " + item.dep + " | " + item.pos,
                                 id:item.id
                             };
                         }));
