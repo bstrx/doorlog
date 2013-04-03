@@ -99,16 +99,12 @@ $(function() {
         {foreach from=$timeoffs item=timeoff}
         <tr>
             <td>{$timeoff['date']}</td>
-            {foreach from=$statuses item=stat}
-                <td>{if {$stat['id']} == {$timeoff['status_id']}} {$stat['name']} {/if}</td>
-            {/foreach}
-            
+            <td>{$timeoff['name']}</td>
         </tr>
         {/foreach}
     </table>
     {else}<h3>В этом месяце отгулов нет</h3>
     {/if}
 </div>
-
     {/block}
 {/extends}

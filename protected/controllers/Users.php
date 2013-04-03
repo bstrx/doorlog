@@ -150,13 +150,13 @@ class Users extends Controller {
             FlashMessages::addMessage("Неверный id пользователя", "error");
         }
 
-        $vacation = new UsersModel;
-        $statuses = $vacation->getUserStatuses();
+        $timeoffs = new UsersModel;
+        $statuses = $timeoffs->getUserStatuses();
         $this->render("Users/show.tpl", array('userInfo' => $userInfo, 'statuses'=> $statuses, 'id' => $id));
     }
 
     public function vacationAction(){
-        $vacation = new UsersModel;
+        $timeoffs = new UsersModel;
 
         if(isset($_POST['id']) && isset($_POST['from']) && isset($_POST['to'])){
             $id = $_POST['id'];
@@ -170,7 +170,7 @@ class Users extends Controller {
 
             for($i=0; $i<=$sumDays; $i++){
                 $date =  date("o-m-d", $dateStart+((3600*24)*$i));
-                $res = $vacation->setVacation($id, $type, $date);
+                $res = $timeoffs->setTimeoffs($id, $type, $date);
             }
             if ($res){
                 FlashMessages::addMessage("Отгул добавлен.", "info");

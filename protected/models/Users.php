@@ -84,19 +84,19 @@ class Users extends Model{
     public function checkUserAttr($email, $tel, $position, $department){
         $errors = array();
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
-            $errors[0] = 'Email';
+            $errors[] = 'Email';
         }
 
         if (!is_numeric($tel)){
-            $errors[1] = 'Телефон';
+            $errors[] = 'Телефон';
         }
 
         if (!$position){
-            $errors[2] = 'Должность';
+            $errors[] = 'Должность';
         }
 
         if (!$department){
-            $errors[3] = 'Отдел';
+            $errors[] = 'Отдел';
         }
         return $errors;
     }
@@ -254,7 +254,7 @@ class Users extends Model{
         return $result;
     }
 
-    public function setVacation($id, $type, $data){
+    public function setTimeoffs($id, $type, $data){
         $q = 'INSERT INTO users_statuses(user_id, status_id, date) VALUES (:id, :type, :date) ';
         $params = array();
         $params['id'] = $id;
@@ -264,7 +264,7 @@ class Users extends Model{
         return $result;
     }
 
-    public function getRestDaysById($id, $date, $type){
+    public function getTimeoffsById($id, $date, $type){
 
         $date1 = date("y-m-d", strtotime($date));
         $date2 = date("y-m-d", (strtotime($date) + 30*24*60*60 ));
@@ -272,11 +272,14 @@ class Users extends Model{
         $params['id'] = $id;
         $params['date1'] = $date1;
         $params['date2'] = $date2;
-        $q = "SELECT * FROM users_statuses WHERE user_id = :id AND date BETWEEN :date1 AND :date2" ;
+        $q = "SELECT * FROM users_statuses AS u 
+        LEFT JOIN status AS s ON u.status_id = s.id
+        WHERE u.user_id = :id 
+        AND u.date BETWEEN :date1 AND :date2 " ;
 
         if($type){
             $params['type'] = $type;
-            $q = $q." AND status_id = :type";
+            $q = $q." AND u.status_id = :type";
         }
         $result = $this->fetchAll($q, $params);
         return $result;
