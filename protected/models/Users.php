@@ -50,10 +50,16 @@ class Users extends Model{
     public function searchByName($name){
         $searchName = '%' . $name . '%';
         $q="SELECT t.NAME as name,
-                u.id
+                u.id,
+                d.name as dep,
+                p.name as pos
             FROM `user` u
             JOIN `tc-db-main`.`personal` t
               ON u.personal_id = t.id
+            JOIN department as d
+              ON u.department_id = d.id
+            JOIN position as p
+              ON u.position_id = p.id
             WHERE t.NAME LIKE :searchName
             ORDER BY t.NAME
         ";
@@ -205,7 +211,8 @@ class Users extends Model{
               d.name as department,
               p.name as position,
               u.birthday,
-              u.phone
+              u.phone,
+              u.created
             FROM `tc-db-main`.`personal` t
             JOIN `user` u
               ON t.id = u.personal_id

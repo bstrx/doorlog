@@ -1,5 +1,4 @@
 {extends "protected/views/index.tpl"}
-
 {block name="breadcrumbs"}
     <ul class="breadcrumb">
       <li><a href="{$_root}/"> Главная </a> <span class="divider"> / </span></li>
@@ -12,28 +11,7 @@
 {block name="pagetitle"}<h1>Редактировать отдел</h1>{/block}
 
 {block name="content"}
-<script>
-        $(document).ready(function()
-        {
-                $("#dialog").dialog({
-                    autoOpen: false,
-                    modal: true,
-                    position: ["center"],
-                    buttons: {
-                        "Ок": function() {
-                            $("#del-department").submit();
-                        },
-                        "Отмена": function() {
-                            $(this).dialog("close");
-                        }
-                    }
-                });
-            $("#delete").click(function(e){
-                e.preventDefault();
-                $('#dialog').dialog('open');
-            });
-        });
-</script>
+{include file='protected/views/dialog.tpl'}
     <div class="span7">
         <form method='post' id="edit-department">
             <input type="text" name="depName" value="{$departments['name']}"><br>
@@ -44,20 +22,15 @@
             </select>
         </form>
 
-        <form action = "{$_root}/departments/delete" method='post' id="del-department">
+        <form action = "{$_root}/departments/delete" method='post' id="delete">
             <input type="hidden" name="id" value="{$departments['id']}">
         </form>
 
         <button type="submit" class="btn btn-success" form="edit-department"> Сохранить </button>
         <a class="btn" href="{$_root}/departments"> Отмена </a>
-        <button type="submit" class="btn btn-danger" id="delete" form="del-department"> Удалить </button>
-
+        <a href="#myModal" role="button" class="btn btn-danger" data-toggle="modal" form="delete">Удалить</a>
     </div>
-<div id="dialog">
-    <p>Дейсвительно хотите удалить?</p>
-</div>
-
-
+            
 
 {/block}
 

@@ -13,34 +13,12 @@
     {/block}
     
     {block name="content"}
+    {include file='protected/views/dialog.tpl'}
         {if isset($userId)}
             {block name="pagetitle"}<h1>Изменить пользователя {$userInfo['name']}</h1>{/block}
         {else}
             {block name="pagetitle"}<h1>Добавить пользователя</h1>{/block}
         {/if}
-        
-        <script>
-            $(document).ready(function()
-            {
-                    $("#dialog").dialog({
-                        autoOpen: false,
-                        modal: true,
-                        position: ["center"],
-                        buttons: {
-                            "Ок": function() {
-                                $("#del-user").submit();
-                            },
-                            "Отмена": function() {
-                                $(this).dialog("close");
-                            }
-                        }
-                    });
-                $("#delete").click(function(e){
-                    e.preventDefault();
-                    $('#dialog').dialog('open');
-                });
-            });
-        </script>
         
         <script>
         $(function() {
@@ -93,7 +71,7 @@
             
         </form>
 
-        <form action = "{$_root}/users/delete" method='post'  id="del-user">
+        <form action = "{$_root}/users/delete" method='post'  id="delete">
             <input type="hidden" name="id" value="{$userId}">
         </form>
 
@@ -108,12 +86,7 @@
         <a class="btn" href="{$_root}/users/show?id={$userInfo['id']}"> Отмена </a>
 
         {if isset($userId)}
-            <button type="submit" class="btn btn-danger" id="delete" form="del-user"> Удалить </button>
+            <a href="#myModal" role="button" class="btn btn-danger" data-toggle="modal">Удалить</a>
         {/if}
-
-        <div id="dialog">
-            <p>Дейсвительно хотите удалить?</p>
-        </div>
-
     {/block}
 {/extends}

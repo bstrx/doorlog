@@ -1,5 +1,5 @@
 {extends "protected/views/index.tpl"}
-    {block name="pagetitle"}<h1>Просмотр пользователя</h1>{/block}
+    {block name="pagetitle"}<h1>Просмотр пользователя {$userInfo['name']}</h1>{/block}
 
     {block name="breadcrumbs"}
         <ul class="breadcrumb">
@@ -19,6 +19,7 @@
                     <th> Статус </th>
                     <th> Телефон </th>
                     <th> Дата рождения </th>
+                    <th> Дата создания </th>
                     {foreach from=userInfo item=user}
                         <tr>
                             <td>{$userInfo['name']}</td>
@@ -36,8 +37,9 @@
                                     <span class="label">Не в офисе</span>
                                 {/if}
                             </td>
-                            <td> </td>
-                            <td> </td>
+                            <td> {$userInfo['phone']} </td>
+                            <td> {$userInfo['birthday']} </td>
+                            <td> {$userInfo['created']} </td>
                         </tr>
                     {/foreach}
                 </table>

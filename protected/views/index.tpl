@@ -23,7 +23,6 @@
         <div id="content">
             {block name="breadcrumbs"}{/block}
             {block name="pagetitle"}{/block}
-
             {block name="FlashMessages"}
                 {if isset($_flashMessages)}
                     {foreach key=type item=messageArr from=$_flashMessages}
@@ -33,7 +32,7 @@
                     {/foreach}
                 {/if}
             {/block}
-
+            
             {block name="content"} {/block}
         </div>
     </body>
