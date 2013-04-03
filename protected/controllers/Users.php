@@ -16,7 +16,8 @@ class Users extends Controller {
         $users = new UsersModel();
         $firstElement = 0;
         $val = Registry::getValue('config');
-        $elementsCount = $val['items_per_page'];
+        $elementsCount = 10;
+        #$val['items_per_page'];
 
         if (isset($_GET['page']) && $_GET['page'] != 1) {
             $firstElement = ($_GET['page'] - 1) * $elementsCount;
@@ -26,7 +27,6 @@ class Users extends Controller {
         }
 
         $registeredCount = $users->getAllRegisteredCount();
-        print_r($registeredCount);
         $pagesCount = ceil($registeredCount['count'] / $elementsCount);
 
         $registeredUsers = $users->getRegistered($firstElement, $elementsCount);
