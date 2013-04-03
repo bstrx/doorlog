@@ -19,7 +19,11 @@
 
             {foreach from=$users item=user}
                 <tr>
-                    <td><a href='{$_root}/users/show?id={$user['id']}'> {$user['name']}</a> {if isset($user['chief'])} <span id="chief">начальник</span> {/if}</td>
+                    <td><a href='{$_root}/users/show?id={$user['id']}'> {$user['name']}</a> 
+                        {if ($user['chief_id']==$user['id'])}
+                            <span id="chief">начальник</span>
+                        {/if}
+                    </td>
                     <td>{$user['position']}</td>
                     <td>{$user['time']['total_sum']|formatDate}</td>
                     <td>
