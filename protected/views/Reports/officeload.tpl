@@ -4,6 +4,8 @@
 <script src="{$_root}/assets/js/jquery.jqplot.min.js"></script>
 <script src="{$_root}/assets/js/jqplot.canvasAxisLabelRenderer.min.js"></script>
 <script src="{$_root}/assets/js/jqplot.canvasTextRenderer.min.js"></script>
+<script src="{$_root}/assets/js/jqplot.canvasAxisLabelRenderer.min.js"></script>
+<script src="{$_root}/assets/js/jqplot.highlighter.min.js"></script>
 {/block}
 {block name="pagetitle"}<h1>Загрузка офиса</h1>{/block}
 
@@ -33,17 +35,41 @@
         });
 
         $(document).ready(function(){
-            var plot1 = $.jqplot ('office-load', [{$stringForGraph}]);
+            var plot1 = $.jqplot ('office-load', [{$stringForGraph}],{
+            axesDefaults: {
+                labelRenderer: $.jqplot.CanvasAxisLabelRenderer
+                    },
+             axes: {
+                yaxis: {
+                 label:"Кол-во входов",
+                 padMin: 0
+                 },
+                 xaxis: {
+                    label: "Время",
+                    pad:0,
+                    max:23,
+                    min:0,
+                    tickInterval: 1,
+                    tickOptions: {
+                    formatString: '%d'
+                 }}
+            },
+            highlighter:{
+            show: true,
+            tooltipAxes: 'y'
+            }});
+            
         });
 </script>
-<div class='calendar'>
+<div class="span9">
+<div class='calendar' align="right">
   <form>
     <input type="hidden" name="date" id="datepicker">
     <span>{$date|date_format:"%d.%m.%Y"}</span>
 
   </form>
 </div>
-<div class="span9">
+
 <div id="office-load"></div>
 </div>
     
