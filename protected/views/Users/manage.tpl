@@ -68,6 +68,20 @@
                     value="{$userInfo['birthday']}"
                 {/if}/>
             <br>
+            {if isset($userId)}
+                {if $userInfo['is_shown']==0}
+                    <input name="is_shown" type="checkbox" value="1">Выводить при отчётах
+                    <br>
+                {else}
+                    <input name="is_shown" type="checkbox" value="1" checked>Выводить при отчётах
+                    <br>
+                {/if}
+
+            {else}
+                    <input name="is_shown" type="checkbox" value="1" checked>Выводить при отчётах
+                    <br>
+            {/if}
+                    
 
             {if isset($userId)}
                 <p>Изменить пароль(не обязательно):</p>
