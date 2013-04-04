@@ -98,7 +98,7 @@ class Users extends Controller {
     }
 
     public function loginAction() {
-        if (isset($_POST['login']) && isset($_POST['password'])) {
+        if (isset($_POST['login']) && $_POST['login'] && isset($_POST['password']) && $_POST['password']) {
             $usersModel = new UsersModel();
             if (filter_var($_POST['login'], FILTER_VALIDATE_EMAIL)) {
                 $userInfo = $usersModel->getInfoByEmail($_POST['login']);
@@ -117,6 +117,29 @@ class Users extends Controller {
                 }
             } else {
                 FlashMessages::addMessage("Неверный пользователь.", "error");
+            }
+        }
+        
+        if(isset($_POST['loginForForgotPassword']) && $_POST['loginForForgotPassword']){
+            $login = $_POST['loginForForgotPassword'];
+            $usersModel = new UsersModel();
+                $salt = Utils::createRandomString(5, 5);
+                $password = Utils::createRandomString(8, 10);
+                $hash = $this->generateHash($password, $salt);
+            if (filter_var($login, FILTER_VALIDATE_EMAIL)) {
+                $email = $login;
+                $mailSended = Utils::sendMail($email, "Ваш новый пароль в системе Opensoft Savage", "Ваш пароль: $password");
+            } else {
+                $email = $userInfo['email'];
+                $userInfo = $usersModel->getInfoByCodeKey((int) $login);
+                $mailSended = Utils::sendMail($email, "Ваш новый пароль в системе Opensoft Savage", "Ваш пароль: $password");
+            }
+            if($mailSended){
+                $userInfo = $userModel->getInfoByEmail($email);
+                $usersModel->editUserPass($userInfo['id'], $newPass);
+                FlashMessages::addMessage("Ваш новый пароль отправлен вам на почту", "success");
+            } else {
+                FlashMessages::addMessage("Произошла ошибка. Пароль отправлен не был.", "error");
             }
         }
 
