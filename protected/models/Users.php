@@ -305,6 +305,15 @@ class Users extends Model{
         return $result;
     }
 
+    public function editUserPass($id,$newPass){
+        $params = array();
+        $params['id'] = $id;
+        $params['newPass'] = $newPass;
+        $q = "UPDATE user SET password = (:newPass) WHERE id = (:id)";
+        $result = $this->execute($q, $params);
+        return $result;
+    }
+
     public function deleteUser($id){
       $params = array();
       $params['id'] = $id;

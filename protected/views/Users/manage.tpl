@@ -68,7 +68,14 @@
                     value="{$userInfo['birthday']}"
                 {/if}/>
             <br>
-            
+
+            {if isset($userId)}
+                <p>Изменить пароль(не обязательно):</p>
+                    <p>Старый пароль:</p>
+                    <input type="password" name="oldPass">
+                    <p>Новый пароль:</p>
+                    <input type="password" name="newPass">
+            {/if}
         </form>
 
         <form action = "{$_root}/users/delete" method='post'  id="delete">
@@ -82,11 +89,15 @@
                 Добавить
             {/if}
         </button>
-
-        <a class="btn" href="{$_root}/users/show?id={$userInfo['id']}"> Отмена </a>
-
         {if isset($userId)}
+            <a class="btn" href="{$_root}/users/show?id={$userInfo['id']}"> Отмена </a>
             <a href="#myModal" role="button" class="btn btn-danger" data-toggle="modal">Удалить</a>
+        {else}
+            <a class="btn" href="{$_root}/users"> Отмена </a>
+        {/if}
+        
+        {if isset($userId)}
+            
         {/if}
     {/block}
 {/extends}
