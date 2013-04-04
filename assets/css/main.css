@@ -15,7 +15,7 @@ h3 {
     margin: 10px;
 }
 
-.span7, .span10 {
+.span7, .span10, .span9 {
     margin-left:0px;
     position: relative;
 
@@ -111,5 +111,10 @@ input[type = "checkbox"]{
 .calendar span{
     color:#0088CC;
     border-bottom: #0088CC dotted 1px;
+    cursor: pointer;
+    margin-right: 0px;
 }
 
+.calendar{
+    padding-right: 10px;
+}

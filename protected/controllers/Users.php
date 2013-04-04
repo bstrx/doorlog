@@ -98,7 +98,7 @@ class Users extends Controller {
     }
 
     public function loginAction() {
-        if (isset($_POST['login']) && isset($_POST['password'])) {
+        if (isset($_POST['login']) && $_POST['login'] && isset($_POST['password']) && $_POST['password']) {
             $usersModel = new UsersModel();
             if (filter_var($_POST['login'], FILTER_VALIDATE_EMAIL)) {
                 $userInfo = $usersModel->getInfoByEmail($_POST['login']);
@@ -117,6 +117,36 @@ class Users extends Controller {
                 }
             } else {
                 FlashMessages::addMessage("Неверный пользователь.", "error");
+            }
+        }
+        
+        if(isset($_POST['loginForForgotPassword']) && $_POST['loginForForgotPassword']){
+            $login = $_POST['loginForForgotPassword'];
+            $usersModel = new UsersModel();
+                $salt = Utils::createRandomString(5, 5);
+                $password = Utils::createRandomString(8, 10);
+                $hash = $this->generateHash($password, $salt);
+            if (filter_var($login, FILTER_VALIDATE_EMAIL)) {
+                $user = $userModel->getInfoByEmail($login);
+                if($user){
+                    $email = $login;
+                } else {
+                    FlashMessages::addMessage("Не правильно введен Email", "error");
+                }
+            } else {
+                $user = $usersModel->getInfoByCodeKey((int) $login);
+                if($user){
+                    $email = $user['email'];
+                } else {
+                    FlashMessages::addMessage("Не правильно введен номер карты", "error");
+                }
+            }
+            $mailSended = Utils::sendMail($email, "Ваш новый пароль в системе Opensoft Savage", "Ваш пароль: $password");
+            if($mailSended){
+                $usersModel->editUserPass($user['id'], $newPass);
+                FlashMessages::addMessage("Ваш новый пароль отправлен вам на почту", "success");
+            } else {
+                FlashMessages::addMessage("Произошла ошибка. Пароль отправлен не был.", "error");
             }
         }
 

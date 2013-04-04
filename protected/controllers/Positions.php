@@ -16,7 +16,7 @@ class Positions extends Controller{
     public function addAction(){
         $positions = new PositionModel();
 
-        if( isset($_POST['posName'])){
+        if(isset($_POST['posName']) && $_POST['posName']){
             $positionName = $_POST['posName'];
             if($positions->insertPosition($positionName)){
                 FlashMessages::addMessage("Должность успешно добавлена.", "info");
@@ -34,7 +34,7 @@ class Positions extends Controller{
             $positions = new PositionModel();
             $position = $positions->getPosition($id);
 
-            if (isset($_POST['position'])){
+            if (isset($_POST['position']) && $_POST['position']){
                 $set=$_POST['position'];
                 if($positions->savePosition($id,$set)){
                     $this->redirect("/positions");
