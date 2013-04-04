@@ -3,7 +3,7 @@
 
     {block name="content"}
         <div id="auth">
-            <form method="POST" action="." id="login">
+            <form method="POST" id="login">
                 <p>
                     <label for="login"> Введите email или номер пропуска: </label>
                     <input type="text" size="40" id="login" name="login">
