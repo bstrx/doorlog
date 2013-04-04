@@ -95,9 +95,5 @@
         {else}
             <a class="btn" href="{$_root}/users"> Отмена </a>
         {/if}
-        
-        {if isset($userId)}
-            
-        {/if}
     {/block}
 {/extends}
