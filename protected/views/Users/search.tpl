@@ -11,12 +11,14 @@
         <table class="table table-bordered">
             {if $search}
                 <th> Имя </th>
+                <th> Отдел </th>
+                <th> Должность </th>
                 {foreach from=$search item=user key=key}
-                
                     <tr>
                         <td><a href='{$_root}/users/show?id={$search[$key]['id']}'> {$search[$key]['name']}</a></td>
+                        <td> {$search[$key]['dep']} </td>
+                        <td> {$search[$key]['pos']} </td>
                     </tr>
-                
             {/foreach}
             {else}
             <h3>По запросу "{$text}" пользователей не найдено</h3>
