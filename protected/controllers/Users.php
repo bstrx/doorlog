@@ -244,7 +244,18 @@ class Users extends Controller {
             } else {
                 if(isset($_GET['id']) && $_GET['id']){
                     $id = $_GET['id'];
-                    $this->update($id, $position, $email, $department, $birthday, $phone);
+                    if (isset($_POST['oldPass']) && $_POST['oldPass'] && isset($_POST['newPass']) && $_POST['newPass']){
+                        $oldPass = $_POST['oldPass'];
+                        $newPass = $_POST['newPass'];
+                        $info = $users->getInfo($id);
+                        $hash = $this->generateHash($oldPass, $info['salt']);
+                        if($hash == $info['password']){
+                            $newHash = $this->generateHash($newPass, $info['salt']);
+                        } else {
+                            FlashMessages::addMessage("Старый пароль введен не верно и изменен не был.", "error");
+                        }
+                    }
+                    $this->update($id, $position, $email, $department, $birthday, $phone, $newHash);
                 } else {
                     if(isset($_POST['userId'])){
                         $user = $_POST['userId'];
@@ -303,8 +314,11 @@ class Users extends Controller {
         Utils::sendMail($email, "Создан аккаунт в системе Opensoft Savage", "Ваш пароль: $password");
     }
 
-    public function update($id, $position, $email, $department, $birthday, $phone){
+    public function update($id, $position, $email, $department, $birthday, $phone, $newPass){
         $users = new UsersModel;
+        if(isset($newPass)){
+            $users->editUserPass($id, $newPass);
+        }
         if($users->editUser($id, $position, $email, $department, $birthday, $phone)){
             FlashMessages::addMessage("Пользователь успешно отредактирован.", "info");
         } else {
