@@ -17,7 +17,7 @@ class Reports extends Controller {
         $flag = false;
         $timeoffs = array();
         $user = new UsersModel();
-        if (isset($_GET['date']) && isset($_GET['id']) && !empty($_GET['date']) && !empty($_GET['id']) ){
+        if (isset($_GET['date']) && $_GET['date'] && isset($_GET['id']) && !empty($_GET['date']) && !empty($_GET['id']) ){
             $timeoffs = $user->getTimeoffsById($_GET['id'], $_GET['date'], $_GET['type']);
             $date = $_GET['date'];
             $name = $user->getInfo($_GET['id']);
