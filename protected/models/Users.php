@@ -141,7 +141,7 @@ class Users extends Model{
 
     public function getInfoByCodeKey($codekey){
         $codekey = (int) $codekey;
-        $q="SELECT u.id, u.personal_id, u.password, u.salt
+        $q="SELECT u.id, u.personal_id, u.email, u.password, u.salt
             FROM `user` u
             JOIN `tc-db-main`.`personal` t ON u.personal_id = t.id
             WHERE SUBSTRING( HEX(`CODEKEY`) , 5, 4 ) = HEX($codekey)";
