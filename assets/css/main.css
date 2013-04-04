@@ -108,3 +108,8 @@ input[type = "checkbox"]{
     background-color: whitesmoke;
 }
 
+.calendar span{
+    color:#0088CC;
+    border-bottom: #0088CC dotted 1px;
+}
+
