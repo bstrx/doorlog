@@ -43,8 +43,9 @@
 
   </form>
 </div>
-
+<div class="span9">
 <div id="office-load"></div>
+</div>
     
 {/block}
 
