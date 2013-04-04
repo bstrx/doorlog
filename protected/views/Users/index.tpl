@@ -14,19 +14,23 @@
             <a href="{$_root}/users/manage">Добавить пользователя</a>
             <table class="table table-bordered">
                 <thead>
+                    <th>№</th>
                     <th>Имя</th>
                     <th>Email</th>
                     <th>Отдел</th>
                     <th>Должность</th>
                 </thead>
                 <tbody>
+                    {$num=10*$currentPage-9}
                     {foreach from=$users item=user}
                         <tr>
+                            <td>{$num}</td>
                             <td> <a href="{$_root}/users/show?id={$user['id']}"> {$user['name']} </a></td>
                             <td> {$user['email']} </td>
                             <td> {$user['department']} </td>
                             <td> {$user['position']} </td>
                         </tr>
+                        {$num=$num+1}
                     {/foreach}
                 </tbody>
             </table>
