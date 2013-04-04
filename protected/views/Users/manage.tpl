@@ -70,15 +70,15 @@
             <br>
             {if isset($userId)}
                 {if $userInfo['is_shown']==0}
-                    <input name="check" type="checkbox" value="1">Выводить при отчётах
+                    <input name="is_shown" type="checkbox" value="1">Выводить при отчётах
                     <br>
                 {else}
-                    <input name="check" type="checkbox" value="1" checked>Выводить при отчётах
+                    <input name="is_shown" type="checkbox" value="1" checked>Выводить при отчётах
                     <br>
                 {/if}
 
             {else}
-                    <input name="check" type="checkbox" value="1" checked>Выводить при отчётах
+                    <input name="is_shown" type="checkbox" value="1" checked>Выводить при отчётах
                     <br>
             {/if}
                     

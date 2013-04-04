@@ -70,9 +70,9 @@ class Users extends Model{
         return $result;
     }
 
-    public function insertUsers($user, $email, $hash, $salt, $position, $department, $tel, $bday,$check){
+    public function insertUsers($user, $email, $hash, $salt, $position, $department, $tel, $bday, $is_shown){
         $add="INSERT INTO user(personal_id, position_id, email, password, salt, department_id, created, birthday, phone,is_shown)
-            VALUES (:user,:position,:email,:hash,:salt,:department, NOW(), :bday, :tel, :check)";
+            VALUES (:user,:position,:email,:hash,:salt,:department, NOW(), :bday, :tel, :is_shown)";
         $params=array();
         $params['user'] = $user;
         $params['position'] = $position;
@@ -82,7 +82,7 @@ class Users extends Model{
         $params['department'] = $department;
         $params['bday'] = $bday;
         $params['tel'] = $tel;
-        $params['check'] = $check;
+        $params['is_shown'] = $is_shown;
 
         $result = $this->execute($add,$params);
         return $result;
@@ -281,10 +281,13 @@ class Users extends Model{
         $params['id'] = $id;
         $params['date1'] = $date1;
         $params['date2'] = $date2;
-        $q = "SELECT * FROM users_statuses AS u
+        $q = "SELECT * 
+            FROM users_statuses AS u
         LEFT JOIN status AS s ON u.status_id = s.id
-        WHERE u.user_id in (SELECT id FROM user WHERE id = :id AND is_shown = 1 )
-        AND u.date BETWEEN :date1 AND :date2 " ;
+        WHERE u.user_id in 
+        (SELECT id FROM user WHERE id = :id AND is_shown = 1 )
+        AND u.date 
+        BETWEEN :date1 AND :date2 " ;
 
         if($type){
             $params['type'] = $type;
@@ -294,7 +297,7 @@ class Users extends Model{
         return $result;
     }
 
-    public function editUser($id, $position, $email, $department, $birthday, $phone,$check){
+    public function editUser($id, $position, $email, $department, $birthday, $phone, $is_shown){
         $params = array();
         $params['id'] = $id;
         $params['position'] = $position;
@@ -302,8 +305,8 @@ class Users extends Model{
         $params['department'] = $department;
         $params['birthday'] = $birthday;
         $params['phone'] = $phone;
-        $params['check'] = $check;
-        $q= "UPDATE user SET position_id = (:position), email = (:email), department_id = (:department), birthday = (:birthday), phone = (:phone), is_shown = (:check) WHERE id = (:id)";
+        $params['is_shown'] = $is_shown;
+        $q= "UPDATE user SET position_id = (:position), email = (:email), department_id = (:department), birthday = (:birthday), phone = (:phone), is_shown = (:is_shown) WHERE id = (:id)";
         $result = $this->execute($q, $params);
         return $result;
     }
