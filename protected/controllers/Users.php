@@ -135,6 +135,23 @@ class Users extends Controller {
     }
 
     public function showAction() {
+        $timeoffs = array();
+        $user = new UsersModel();
+
+        if (isset($_GET['date']) && isset($_GET['id']) && !empty($_GET['date']) && !empty($_GET['id']) ){
+            $timeoffs = $user->getTimeoffsById($_GET['id'], $_GET['date'], $_GET['type']);
+            $date = $_GET['date'];
+            $name = $user->getInfo($_GET['id']);
+            $name = $name['name'];
+            $id = $_GET['id'];
+        } else {
+            $name = "";
+            $date = date('Y-m');
+            $id = '';
+        }
+        $statuses = $user->getUserStatuses();
+        $timeoffsAttr = array('date' => $date, 'name' => $name, 'id' => $id);
+
         $userInfo = null;
 
         if(isset($_GET['id'])){
@@ -150,9 +167,7 @@ class Users extends Controller {
             FlashMessages::addMessage("Неверный id пользователя", "error");
         }
 
-        $timeoffs = new UsersModel;
-        $statuses = $timeoffs->getUserStatuses();
-        $this->render("Users/show.tpl", array('userInfo' => $userInfo, 'statuses'=> $statuses, 'id' => $id));
+        $this->render("Users/show.tpl", array('userInfo' => $userInfo, 'statuses'=> $statuses, 'id' => $id, 'timeoffs' => $timeoffs, 'timeoffsAttr' => $timeoffsAttr));
     }
 
     public function vacationAction(){

@@ -312,4 +312,11 @@ class Users extends Model{
       $result = $this->execute($q, $params);
       return $result;
     }
+    public function getUsersByDepId($depId){
+        $params = array('depId' => $depId);
+        $q = "SELECT p.name, u.id, u.position_id FROM `savage-db`.`user` AS u LEFT JOIN `tc-db-main`.`personal` AS p
+        ON u.personal_id = p.id WHERE u.department_id = :depId";
+        $result = $this->fetchAll($q, $params);
+        return $result;
+    }
 }

@@ -64,17 +64,66 @@ $(function() {
             }
         });
     });
+    function func(){
+        asd = document.getElementById('slc').value;
+        if (asd == 1) {
+            selectuser = document.getElementById('selectuser');
+            selectuser.style.display='block';
+            selectdep = document.getElementById('selectdep');
+            selectdep.style.display='none';
+
+        } else if(asd == 2) {
+            selectdep = document.getElementById('selectdep');
+            selectdep.style.display='block';
+            selectuser = document.getElementById('selectuser');
+            selectuser.style.display='none';
+
+        } else {
+            selectdep = document.getElementById('selectdep');
+            selectdep.style.display='none';
+            selectuser = document.getElementById('selectuser');
+            selectuser.style.display='none';
+
+        }
+    }
+
 </script>
 <style>
 .ui-datepicker-calendar {
     display: none;
     }
+#selectuser{
+    display: none; 
+}
+#selectdep{
+    display: none;
+}
 </style>
         <form id = "reports" type='GET' action = "{$_root}/reports/timeoffs">
 
-        <label for = "timeoff_autocomplete"> Имя </label>
-        <input type="text" id="timeoff_autocomplete" value = "{$timeoffsAttr['name']}">
-        <input type="hidden" id="timeoff_autocomplete_id" name="id" value = "{$timeoffsAttr['id']}" >
+        <select id = 'slc' onClick="func()">
+            <option id='all' value='0'> Все </option>
+            <option value='1' > Пользователь </option>
+            <option value='2'> Отделы </option>
+        </select>
+        <div id="selectuser">
+            <select name = 'userid'>
+            <option value='0'></option>
+            {foreach from=$allUsers item=user}
+                <option value = "{$user['id']}"> {$user['name']} </option>
+            {/foreach}
+            </select>
+        </div>
+
+        <div id="selectdep">
+            <select name = 'depid'>
+            <option value='0'></option>
+            {foreach from=$allDep item=dep}
+                <option value = "{$dep['id']}"> {$dep['name']} </option>
+            {/foreach}
+            </select>
+        </div>
+
 
         <label for = "datepicker"> Дата </label>
         <input name = "date" type="text" id="datepicker" value = "{$timeoffsAttr['date']}" />
@@ -93,17 +142,36 @@ $(function() {
     <br>
     <div class="span7">
     {if $timeoffs}
-    <table class="table table-bordered">
-        <th> Дата </th>
-        <th> Тип </th>
-        {foreach from=$timeoffs item=timeoff}
-        <tr>
-            <td>{$timeoff['date']}</td>
-            <td>{$timeoff['name']}</td>
-        </tr>
+        <table class="table table-bordered">
+            <th> Дата </th>
+            <th> Тип </th>
+            {foreach from=$timeoffs item=timeoff}
+            <tr>
+                <td>{$timeoff['date']}</td>
+                <td>{$timeoff['name']}</td>
+            </tr>
+            {/foreach}
+        </table>
+    {else}
+    {if $timeoffsAllUsers}
+        {foreach from=$timeoffsAllUsers item=allUsers}
+            <h3>{$allUsers['name']}</h3>
+            {if $allUsers['timeoffs']}
+            <table class="table table-bordered">
+                <th> Дата </th>
+                <th> Тип </th>
+                <tr>
+                    {foreach from=$allUsers['timeoffs'] item=timeoffUser}
+                    <tr>
+                        <td>{$timeoffUser['date']}</td>
+                        <td>{$timeoffUser['name']}</td>
+                    {/foreach}
+                </tr>
+            </table>
+            {else}<h5>Отгулов нет</h5>
+            {/if}
         {/foreach}
-    </table>
-    {else}<h3>В этом месяце отгулов нет</h3>
+    {/if}
     {/if}
 </div>
     {/block}
