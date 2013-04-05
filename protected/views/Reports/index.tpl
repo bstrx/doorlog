@@ -63,18 +63,58 @@ $(function() {
                 $("#timeoff_autocomplete_id").val('');
             }
         });
-    });
+
+        $("select#type").change(function(){
+            selectedVal = $(this).find(":selected").val();
+            if (selectedVal == 2) {
+                $("div#dep").show();
+                $("div#user").hide();
+            } else if (selectedVal == 1) {
+                $("div#user").show();
+                $("div#dep").hide();
+            } else {
+                $("div#user").hide();
+                $("div#dep").hide();
+            }
+        });
+ });
 </script>
 <style>
 .ui-datepicker-calendar {
     display: none;
     }
+#user{
+    display: none; 
+}
+#dep{
+    display: none;
+}
 </style>
         <form id = "reports" type='GET' action = "{$_root}/reports/timeoffs">
 
-        <label for = "timeoff_autocomplete"> Имя </label>
-        <input type="text" id="timeoff_autocomplete" value = "{$timeoffsAttr['name']}">
-        <input type="hidden" id="timeoff_autocomplete_id" name="id" value = "{$timeoffsAttr['id']}" >
+        <select id = 'type'>
+            <option id = 'all' value='0'> Все </option>
+            <option id = 'users1' value='1' > Пользователь </option>
+            <option value='2'> Отделы </option>
+        </select>
+        <div id="user">
+            <select name = 'user_id'>
+            <option value='0'></option>
+            {foreach from=$allUsers item=user}
+                <option value = "{$user['id']}"> {$user['name']} </option>
+            {/foreach}
+            </select>
+        </div>
+
+        <div id="dep">
+            <select name = 'dep_id'>
+            <option value='0'></option>
+            {foreach from=$allDep item=dep}
+                <option value = "{$dep['id']}"> {$dep['name']} </option>
+            {/foreach}
+            </select>
+        </div>
+
 
         <label for = "datepicker"> Дата </label>
         <input name = "date" type="text" id="datepicker" value = "{$timeoffsAttr['date']}" />
@@ -93,17 +133,36 @@ $(function() {
     <br>
     <div class="span7">
     {if $timeoffs}
-    <table class="table table-bordered">
-        <th> Дата </th>
-        <th> Тип </th>
-        {foreach from=$timeoffs item=timeoff}
-        <tr>
-            <td>{$timeoff['date']}</td>
-            <td>{$timeoff['name']}</td>
-        </tr>
-        {/foreach}
-    </table>
-    {else}<h3>В этом месяце отгулов нет</h3>
+        <table class="table table-bordered">
+            <th> Дата </th>
+            <th> Тип </th>
+            {foreach from=$timeoffs item=timeoff}
+            <tr>
+                <td>{$timeoff['date']}</td>
+                <td>{$timeoff['name']}</td>
+            </tr>
+            {/foreach}
+        </table>
+    {else}
+    {if $timeoffsAllUsers}
+        {foreach from=$timeoffsAllUsers item=allUsers}
+            <h3>{$allUsers['name']}</h3>
+            {if $allUsers['timeoffs']}
+            <table class="table table-bordered">
+                <th> Дата </th>
+                <th> Тип </th>
+                <tr>
+                    {foreach from=$allUsers['timeoffs'] item=timeoffUser}
+                    <tr>
+                        <td>{$timeoffUser['date']}</td>
+                        <td>{$timeoffUser['name']}</td>
+                    {/foreach}
+                </tr>
+            </table>
+            {else}<h5>Отгулов нет</h5>
+            {/if}
+        {/foreach}{else}<h5>Отгулов нет<h5>
+    {/if}
     {/if}
 </div>
     {/block}
