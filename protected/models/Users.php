@@ -16,7 +16,8 @@ class Users extends Model{
         return $result;
     }
 
-    public function getRegistered($firstElement, $elementsCount){
+    public function getRegistered($firstElement=0, $elementsCount=0){
+        $params = array();
         $q= "SELECT
               u.id,
               t.id as personal_id,
@@ -31,11 +32,14 @@ class Users extends Model{
               ON u.position_id = p.id
             LEFT JOIN `department` d
               ON u.department_id = d.id
-            ORDER BY t.NAME
-            LIMIT :firstElement, :elementsCount";
-        $params = array();
-        $params['firstElement'] = $firstElement;
-        $params['elementsCount'] = $elementsCount;
+            ORDER BY t.NAME ";
+
+        if ($firstElement != 0 && $elementsCount != 0){
+            $q.="LIMIT :firstElement, :elementsCount";
+            $params['firstElement'] = $firstElement;
+            $params['elementsCount'] = $elementsCount;
+        }
+
         $result = $this->fetchAll($q, $params);
         return $result;
     }
@@ -311,12 +315,5 @@ class Users extends Model{
       $q = "DELETE FROM user WHERE id = (:id)";
       $result = $this->execute($q, $params);
       return $result;
-    }
-    public function getUsersByDepId($depId){
-        $params = array('depId' => $depId);
-        $q = "SELECT p.name, u.id, u.position_id FROM `savage-db`.`user` AS u LEFT JOIN `tc-db-main`.`personal` AS p
-        ON u.personal_id = p.id WHERE u.department_id = :depId";
-        $result = $this->fetchAll($q, $params);
-        return $result;
     }
 }

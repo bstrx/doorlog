@@ -16,8 +16,7 @@ class Users extends Controller {
         $users = new UsersModel();
         $firstElement = 0;
         $val = Registry::getValue('config');
-        $elementsCount = 10;
-        #$val['items_per_page'];
+        $elementsCount = $val['items_per_page'];
 
         if (isset($_GET['page']) && $_GET['page'] != 1) {
             $firstElement = ($_GET['page'] - 1) * $elementsCount;
@@ -141,9 +140,14 @@ class Users extends Controller {
         if (isset($_GET['date']) && isset($_GET['id']) && !empty($_GET['date']) && !empty($_GET['id']) ){
             $timeoffs = $user->getTimeoffsById($_GET['id'], $_GET['date'], $_GET['type']);
             $date = $_GET['date'];
-            $name = $user->getInfo($_GET['id']);
-            $name = $name['name'];
-            $id = $_GET['id'];
+            $userInfo = $user->getInfo($_GET['id']);
+            if ($userInfo) {
+                $name = $userInfo['name'];
+                $id = $_GET['id'];
+            } else {
+                FlashMessages::addMessage("Неверный id пользователя", "error");
+            }
+
         } else {
             $name = "";
             $date = date('Y-m');

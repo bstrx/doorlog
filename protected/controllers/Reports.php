@@ -18,20 +18,20 @@ class Reports extends Controller {
         $timeoffsAllUsers = array();
         $user = new UsersModel();
         $dep = new DepartmentModel();
-        if (isset($_GET['date']) && isset($_GET['userid']) && !empty($_GET['date']) && $_GET['userid'] != 0 ){
-            $timeoffs = $user->getTimeoffsById($_GET['userid'], $_GET['date'], $_GET['type']);
+        if (isset($_GET['date']) && isset($_GET['user_id']) && !empty($_GET['date']) && $_GET['user_id'] != 0 ){
+            $timeoffs = $user->getTimeoffsById($_GET['user_id'], $_GET['date'], $_GET['type']);
             $date = $_GET['date'];
-            $name = $user->getInfo($_GET['userid']);
+            $name = $user->getInfo($_GET['user_id']);
             $name = $name['name'];
-            $id = $_GET['userid'];
+            $id = $_GET['user_id'];
         } else {
             $name = "";
             $date = date('Y-m');
             $id = '';
         }
 
-        if (isset($_GET['date']) && isset($_GET['depid']) && !empty($_GET['date']) && $_GET['depid'] != 0 ){
-            $users = $user->getUsersByDepId($_GET['depid']);
+        if (isset($_GET['date']) && isset($_GET['dep_id']) && !empty($_GET['date']) && $_GET['dep_id'] != 0 ){
+            $users = $dep->getUsers($_GET['dep_id']);
             for ($i=0; $i < count($users) ; $i++) {
                 $timeoffsAllUsers[$i]['timeoffs'] = $user->getTimeoffsById($users[$i]['id'], $_GET['date'], $_GET['type']);
                 $timeoffsAllUsers[$i]['id'] = $users[$i]['id'];
@@ -44,7 +44,7 @@ class Reports extends Controller {
 
         $count = $user->getAllRegisteredCount();
         $count = $count['count'];
-        $allUsers = $user->getRegistered(0, $count+1);
+        $allUsers = $user->getRegistered();
 
         $allDep = $dep->getMenuDepartments();
 

@@ -63,16 +63,16 @@ $(function() {
                 $("#timeoff_autocomplete_id").val('');
             }
         });
-    });
-    function func(){
-        asd = document.getElementById('slc').value;
-        if (asd == 1) {
+
+        $("#selectType").click(function(){
+        selectType = document.getElementById('selectType').value;
+        if (selectType == 1) {
             selectuser = document.getElementById('selectuser');
             selectuser.style.display='block';
             selectdep = document.getElementById('selectdep');
             selectdep.style.display='none';
 
-        } else if(asd == 2) {
+        } else if(selectType == 2) {
             selectdep = document.getElementById('selectdep');
             selectdep.style.display='block';
             selectuser = document.getElementById('selectuser');
@@ -85,7 +85,9 @@ $(function() {
             selectuser.style.display='none';
 
         }
-    }
+
+        });
+            });
 
 </script>
 <style>
@@ -101,13 +103,13 @@ $(function() {
 </style>
         <form id = "reports" type='GET' action = "{$_root}/reports/timeoffs">
 
-        <select id = 'slc' onClick="func()">
+        <select id = 'selectType'>
             <option id='all' value='0'> Все </option>
             <option value='1' > Пользователь </option>
             <option value='2'> Отделы </option>
         </select>
         <div id="selectuser">
-            <select name = 'userid'>
+            <select name = 'user_id'>
             <option value='0'></option>
             {foreach from=$allUsers item=user}
                 <option value = "{$user['id']}"> {$user['name']} </option>
@@ -116,7 +118,7 @@ $(function() {
         </div>
 
         <div id="selectdep">
-            <select name = 'depid'>
+            <select name = 'dep_id'>
             <option value='0'></option>
             {foreach from=$allDep item=dep}
                 <option value = "{$dep['id']}"> {$dep['name']} </option>
