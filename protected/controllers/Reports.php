@@ -21,8 +21,8 @@ class Reports extends Controller {
         if (isset($_GET['date']) && isset($_GET['user_id']) && !empty($_GET['date']) && $_GET['user_id'] != 0 ){
             $timeoffs = $user->getTimeoffsById($_GET['user_id'], $_GET['date'], $_GET['type']);
             $date = $_GET['date'];
-            $name = $user->getInfo($_GET['user_id']);
-            $name = $name['name'];
+            $userInfo = $user->getInfo($_GET['user_id']);
+            $name = $userInfo['name'];
             $id = $_GET['user_id'];
         } else {
             $name = "";
