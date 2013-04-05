@@ -6,7 +6,7 @@
         <meta name="description" content="Система учёта рабочего времени, v2">
         <link href="{$_root}/protected/vendor/twitter/bootstrap/docs/assets/css/bootstrap.css" rel="stylesheet">
         <link href="{$_root}/protected/vendor/twitter/bootstrap/docs/assets/css/bootstrap-responsive.css" rel="stylesheet">
-        <link href="{$_root}/assets/css/main.css" rel="stylesheet" type="text/css">
+        <link href="{$_root}/assets/css/main.css" rel="stylesheet" type="text/css">        
         <link href="{$_root}/assets/images/i.ico" rel="icon" type="images/x-icon">
         <script src="{$_root}/assets/js/jquery-1.9.1.min.js"></script>
         <script src="{$_root}/protected/vendor/twitter/bootstrap/docs/assets/js/bootstrap.min.js"></script>

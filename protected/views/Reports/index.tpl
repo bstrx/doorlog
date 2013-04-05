@@ -74,13 +74,10 @@ $(function() {
                 $("div#dep").hide();
             } else {
                 $("div#user").hide();
-                $("div#dep").hide(); 
+                $("div#dep").hide();
             }
         });
-        
  });
-            
-
 </script>
 <style>
 .ui-datepicker-calendar {
@@ -164,7 +161,7 @@ $(function() {
             </table>
             {else}<h5>Отгулов нет</h5>
             {/if}
-        {/foreach}
+        {/foreach}{else}<h5>Отгулов нет<h5>
     {/if}
     {/if}
 </div>

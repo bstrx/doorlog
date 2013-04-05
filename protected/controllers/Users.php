@@ -97,7 +97,7 @@ class Users extends Controller {
     }
 
     public function loginAction() {
-        if (isset($_POST['login']) && isset($_POST['password'])) {
+        if (isset($_POST['login']) && $_POST['login'] && isset($_POST['password']) && $_POST['password']) {
             $usersModel = new UsersModel();
             if (filter_var($_POST['login'], FILTER_VALIDATE_EMAIL)) {
                 $userInfo = $usersModel->getInfoByEmail($_POST['login']);
@@ -116,6 +116,36 @@ class Users extends Controller {
                 }
             } else {
                 FlashMessages::addMessage("Неверный пользователь.", "error");
+            }
+        }
+        
+        if(isset($_POST['loginForForgotPassword']) && $_POST['loginForForgotPassword']){
+            $login = $_POST['loginForForgotPassword'];
+            $usersModel = new UsersModel();
+                $salt = Utils::createRandomString(5, 5);
+                $password = Utils::createRandomString(8, 10);
+                $hash = $this->generateHash($password, $salt);
+            if (filter_var($login, FILTER_VALIDATE_EMAIL)) {
+                $user = $userModel->getInfoByEmail($login);
+                if($user){
+                    $email = $login;
+                } else {
+                    FlashMessages::addMessage("Не правильно введен Email", "error");
+                }
+            } else {
+                $user = $usersModel->getInfoByCodeKey((int) $login);
+                if($user){
+                    $email = $user['email'];
+                } else {
+                    FlashMessages::addMessage("Не правильно введен номер карты", "error");
+                }
+            }
+            $mailSended = Utils::sendMail($email, "Ваш новый пароль в системе Opensoft Savage", "Ваш пароль: $password");
+            if($mailSended){
+                $usersModel->editUserPass($user['id'], $newPass);
+                FlashMessages::addMessage("Ваш новый пароль отправлен вам на почту", "success");
+            } else {
+                FlashMessages::addMessage("Произошла ошибка. Пароль отправлен не был.", "error");
             }
         }
 
@@ -256,6 +286,11 @@ class Users extends Controller {
             $email = $_POST['email'];
             $phone = $_POST['phone'];
             $birthday = $_POST['birthday'];
+            if (isset($_POST['is_shown'])){
+                $is_shown=$_POST['is_shown'];
+            }
+            else
+                $is_shown=0;
             $inputErrors = $users->checkUserAttr($email, $phone, $position, $department);
             if ($inputErrors){
                 $errorString = 'Ошибка заполнения поля: ' . implode(', ', $inputErrors).'.';
@@ -263,11 +298,22 @@ class Users extends Controller {
             } else {
                 if(isset($_GET['id']) && $_GET['id']){
                     $id = $_GET['id'];
-                    $this->update($id, $position, $email, $department, $birthday, $phone);
+                    if (isset($_POST['oldPass']) && $_POST['oldPass'] && isset($_POST['newPass']) && $_POST['newPass']){
+                        $oldPass = $_POST['oldPass'];
+                        $newPass = $_POST['newPass'];
+                        $info = $users->getInfo($id);
+                        $hash = $this->generateHash($oldPass, $info['salt']);
+                        if($hash == $info['password']){
+                            $newHash = $this->generateHash($newPass, $info['salt']);
+                        } else {
+                            FlashMessages::addMessage("Старый пароль введен не верно и изменен не был.", "error");
+                        }
+                    }
+                    $this->update($id, $position, $email, $department, $birthday, $phone, $newHash, $is_shown);
                 } else {
                     if(isset($_POST['userId'])){
                         $user = $_POST['userId'];
-                        $this->add($user, $email, $position, $department, $birthday, $phone);
+                        $this->add($user, $email, $position, $department, $birthday, $phone, $is_shown);
                     }
                 }
             }   
@@ -309,12 +355,12 @@ class Users extends Controller {
             ));
         }
     }
-    public function add($user, $email, $position, $department, $birthday, $phone){
+    public function add($user, $email, $position, $department, $birthday, $phone, $is_shown){
         $users = new UsersModel;
         $salt = Utils::createRandomString(5, 5);
         $password = Utils::createRandomString(8, 10);
         $hash = $this->generateHash($password, $salt);
-        if ($users->insertUsers($user, $email, $hash, $salt, $position, $department, $phone, $birthday)) {
+        if ($users->insertUsers($user, $email, $hash, $salt, $position, $department, $phone, $birthday, $is_shown)) {
             FlashMessages::addMessage("Пользователь успешно добавлен.", "info");
         } else {
             FlashMessages::addMessage("Произошла ошибка. Пользователь не был добавлен.", "error");
@@ -322,9 +368,12 @@ class Users extends Controller {
         Utils::sendMail($email, "Создан аккаунт в системе Opensoft Savage", "Ваш пароль: $password");
     }
 
-    public function update($id, $position, $email, $department, $birthday, $phone){
+    public function update($id, $position, $email, $department, $birthday, $phone, $newPass, $is_shown){
         $users = new UsersModel;
-        if($users->editUser($id, $position, $email, $department, $birthday, $phone)){
+        if(isset($newPass)){
+            $users->editUserPass($id, $newPass);
+        }
+        if($users->editUser($id, $position, $email, $department, $birthday, $phone, $is_shown)){
             FlashMessages::addMessage("Пользователь успешно отредактирован.", "info");
         } else {
             FlashMessages::addMessage("Произошла ошибка. Пользователь не был отредактирован", "error");
