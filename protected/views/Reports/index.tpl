@@ -64,51 +64,43 @@ $(function() {
             }
         });
 
-        $("#selectType").click(function(){
-        selectType = document.getElementById('selectType').value;
-        if (selectType == 1) {
-            selectuser = document.getElementById('selectuser');
-            selectuser.style.display='block';
-            selectdep = document.getElementById('selectdep');
-            selectdep.style.display='none';
-
-        } else if(selectType == 2) {
-            selectdep = document.getElementById('selectdep');
-            selectdep.style.display='block';
-            selectuser = document.getElementById('selectuser');
-            selectuser.style.display='none';
-
-        } else {
-            selectdep = document.getElementById('selectdep');
-            selectdep.style.display='none';
-            selectuser = document.getElementById('selectuser');
-            selectuser.style.display='none';
-
-        }
-
+        $("select#type").change(function(){
+            selectedVal = $(this).find(":selected").val();
+            if (selectedVal == 2) {
+                $("div#dep").show();
+                $("div#user").hide();
+            } else if (selectedVal == 1) {
+                $("div#user").show();
+                $("div#dep").hide();
+            } else {
+                $("div#user").hide();
+                $("div#dep").hide(); 
+            }
         });
-            });
+        
+ });
+            
 
 </script>
 <style>
 .ui-datepicker-calendar {
     display: none;
     }
-#selectuser{
+#user{
     display: none; 
 }
-#selectdep{
+#dep{
     display: none;
 }
 </style>
         <form id = "reports" type='GET' action = "{$_root}/reports/timeoffs">
 
-        <select id = 'selectType'>
-            <option id='all' value='0'> Все </option>
-            <option value='1' > Пользователь </option>
+        <select id = 'type'>
+            <option id = 'all' value='0'> Все </option>
+            <option id = 'users1' value='1' > Пользователь </option>
             <option value='2'> Отделы </option>
         </select>
-        <div id="selectuser">
+        <div id="user">
             <select name = 'user_id'>
             <option value='0'></option>
             {foreach from=$allUsers item=user}
@@ -117,7 +109,7 @@ $(function() {
             </select>
         </div>
 
-        <div id="selectdep">
+        <div id="dep">
             <select name = 'dep_id'>
             <option value='0'></option>
             {foreach from=$allDep item=dep}

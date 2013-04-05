@@ -42,8 +42,6 @@ class Reports extends Controller {
             $date = date('Y-m');
         }
 
-        $count = $user->getAllRegisteredCount();
-        $count = $count['count'];
         $allUsers = $user->getRegistered();
 
         $allDep = $dep->getMenuDepartments();
