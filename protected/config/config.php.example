@@ -1,6 +1,11 @@
 <?php
+//This file is public. Copy it in this same directory and rename it to 'config.php' (this one is ignored by git).
+//Fill in all items in new file.
+
 return array(
-    //f.e. if you access your page localhost/doorlog/... then value shoold be /doorlog
+    //root url for your project. Mainly used for easy forming correct url's.
+    //f.e. if you access your page localhost/doorlog/... then value should be /doorlog.
+    //if url is localhost/ or project-name.ru/, use default empty value ('')
     'root' => '',
     'db' => array(
         'host' => '',
@@ -11,4 +16,3 @@ return array(
     ),
     'items_per_page'=>'10'
 );
-?>
