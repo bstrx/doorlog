@@ -79,17 +79,6 @@ $(function() {
         });
  });
 </script>
-<style>
-.ui-datepicker-calendar {
-    display: none;
-    }
-#user{
-    display: none; 
-}
-#dep{
-    display: none;
-}
-</style>
         <form id = "reports" type='GET' action = "{$_root}/reports/timeoffs">
 
         <select id = 'type'>

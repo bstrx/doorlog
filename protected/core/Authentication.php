@@ -10,7 +10,7 @@ use core\Registry;
 class Authentication{
     /**
      * Checks if user have correct info in cookies. Proceed if true, else shows login page.
-     * @return true|void
+     * @return bool|void
      */
     public function checkAccess() {
         if(isset($_COOKIE['id']) && isset($_COOKIE['hash'])){
@@ -26,6 +26,7 @@ class Authentication{
 
         $auth = new Users;
         $auth ->loginAction();
+        return false;
     }
 
     /**

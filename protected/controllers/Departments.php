@@ -50,7 +50,7 @@ class Departments extends Controller {
     }
 
     public function deleteAction(){
-        $id = $_POST[id];
+        $id = $_POST['id'];
         $obj =  new DepartmentModel();
         $delete = $obj->dellDep($id);
         if ($delete) {

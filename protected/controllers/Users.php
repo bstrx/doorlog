@@ -122,9 +122,10 @@ class Users extends Controller {
         if(isset($_POST['loginForForgotPassword']) && $_POST['loginForForgotPassword']){
             $login = $_POST['loginForForgotPassword'];
             $usersModel = new UsersModel();
-                $salt = Utils::createRandomString(5, 5);
-                $password = Utils::createRandomString(8, 10);
-                $hash = $this->generateHash($password, $salt);
+            $salt = Utils::createRandomString(5, 5);
+            $password = Utils::createRandomString(8, 10);
+            $hash = $this->generateHash($password, $salt);
+
             if (filter_var($login, FILTER_VALIDATE_EMAIL)) {
                 $user = $userModel->getInfoByEmail($login);
                 if($user){
@@ -140,6 +141,7 @@ class Users extends Controller {
                     FlashMessages::addMessage("Не правильно введен номер карты", "error");
                 }
             }
+
             $mailSended = Utils::sendMail($email, "Ваш новый пароль в системе Opensoft Savage", "Ваш пароль: $password");
             if($mailSended){
                 $usersModel->editUserPass($user['id'], $newPass);
@@ -271,10 +273,12 @@ class Users extends Controller {
         }
 
         }
-        $this->render("Users/edit.tpl", array('id'=> $id,
+        $this->render("Users/edit.tpl", array(
+            'id'=> $id,
             'userInfo'=>$userInfo,
             'positions' => $sortedPositions,
-            'departments' => $sortedDepartments));
+            'departments' => $sortedDepartments)
+        );
     }
 
     public function manageAction() {
@@ -287,10 +291,9 @@ class Users extends Controller {
             $phone = $_POST['phone'];
             $birthday = $_POST['birthday'];
             if (isset($_POST['is_shown'])){
-                $is_shown=$_POST['is_shown'];
-            }
-            else
-                $is_shown=0;
+                $isShown = $_POST['is_shown'];
+            } else $isShown = 0;
+
             $inputErrors = $users->checkUserAttr($email, $phone, $position, $department);
             if ($inputErrors){
                 $errorString = 'Ошибка заполнения поля: ' . implode(', ', $inputErrors).'.';
@@ -309,11 +312,11 @@ class Users extends Controller {
                             FlashMessages::addMessage("Старый пароль введен не верно и изменен не был.", "error");
                         }
                     }
-                    $this->update($id, $position, $email, $department, $birthday, $phone, $newHash, $is_shown);
+                    $this->update($id, $position, $email, $department, $birthday, $phone, $newHash, $isShown);
                 } else {
                     if(isset($_POST['userId'])){
                         $user = $_POST['userId'];
-                        $this->add($user, $email, $position, $department, $birthday, $phone, $is_shown);
+                        $this->add($user, $email, $position, $department, $birthday, $phone, $isShown);
                     }
                 }
             }   
@@ -382,7 +385,7 @@ class Users extends Controller {
     }
 
     public function deleteAction(){
-        $id = $_POST[id];
+        $id = $_POST['id'];
         $user =  new UsersModel();
         $delete = $user->deleteUser($id);
         if ($delete) {
