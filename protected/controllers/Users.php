@@ -127,7 +127,7 @@ class Users extends Controller {
             $hash = $this->generateHash($password, $salt);
 
             if (filter_var($login, FILTER_VALIDATE_EMAIL)) {
-                $user = $userModel->getInfoByEmail($login);
+                $user = $usersModel->getInfoByEmail($login);
                 if($user){
                     $email = $login;
                 } else {
@@ -142,12 +142,13 @@ class Users extends Controller {
                 }
             }
 
-            $mailSended = Utils::sendMail($email, "Ваш новый пароль в системе Opensoft Savage", "Ваш пароль: $password");
-            if($mailSended){
-                $usersModel->editUserPass($user['id'], $newPass);
-                FlashMessages::addMessage("Ваш новый пароль отправлен вам на почту", "success");
-            } else {
-                FlashMessages::addMessage("Произошла ошибка. Пароль отправлен не был.", "error");
+            if(isset($email)){
+                if($mailSended = Utils::sendMail($email, "Ваш новый пароль в системе Opensoft Savage", "Ваш пароль: $password")){
+                    $usersModel->editUserPass($user['id'], $hash);
+                    FlashMessages::addMessage("Ваш новый пароль отправлен вам на почту", "success");
+                } else {
+                    FlashMessages::addMessage("Произошла ошибка. Пароль отправлен не был.", "error");
+                }
             }
         }
 
