@@ -14,34 +14,14 @@
                     <tr>
                         <td>{$holiday['Days']}</td>
                         <td> {$holiday['date']}</td>
-                        {if $holiday['type']==1}
                         <td>
                         <form method="POST">
-                                <select name="тип" class="text-error">
-                                    {html_options values=$values output=$types selected=$value[1]}
+                                <select name="тип" {if $holiday['type']==1 or $holiday['type']==2} class="text-error"{/if}>
+                                    {html_options values=$values output=$types selected=$values[$holiday['type']]}
                                 </select>
                                 <input type="hidden" value="{$holiday['date']}">
                        </form>
                        </td>
-                       {elseif $holiday['type']==2}
-                        <td>
-                        <form method="POST">
-                                <select name="тип" class="text-error">
-                                    {html_options values=$values output=$types selected=$value[2]}
-                                </select>
-                                <input type="hidden" value="{$holiday['date']}">
-                       </form>
-                       </td>
-                       {elseif $holiday['type']==0}
-                       <td>
-                       <form method="POST">
-                                <select name="тип">
-                                    {html_options values=$values output=$types selected=$value[3]}
-                                </select>
-                                <input type="hidden" value="{$holiday['date']}">
-                       </form>
-                       </td>
-                       {/if}
                     </tr>
                 {/foreach}
             </tbody>

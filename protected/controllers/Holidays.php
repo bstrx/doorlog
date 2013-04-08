@@ -14,7 +14,7 @@ class Holidays extends Controller{
         $obj = new HolidayModel();
         $holidays = $obj->getAllDays($date);
         
-        $types = array('Выходной','Короткий','Рабочий');
+        $types = array('Рабочий','Выходной','Короткий');
         $values = array('0','1','2');
         
         $this->render("Holidays/index.tpl", array('holidays' => $holidays, 'types' => $types, 'values' => $values));
