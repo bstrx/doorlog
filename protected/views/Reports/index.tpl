@@ -69,11 +69,8 @@ $(function() {
             if (selectedVal == 2) {
                 $("div#dep").show();
                 $("div#user").hide();
-            } else if (selectedVal == 1) {
-                $("div#user").show();
-                $("div#dep").hide();
             } else {
-                $("div#user").hide();
+                $("div#user").show();
                 $("div#dep").hide();
             }
         });
@@ -82,8 +79,8 @@ $(function() {
         <form id = "reports" type='GET' action = "{$_root}/reports/timeoffs">
 
         <select id = 'type'>
-            <option id = 'all' value='0'> Все </option>
-            <option id = 'users1' value='1' > Пользователь </option>
+            <option></option>
+            <option value='1' > Пользователь </option>
             <option value='2'> Отделы </option>
         </select>
         <div id="user">
@@ -121,14 +118,16 @@ $(function() {
     <br>
     <br>
     <div class="span7">
-    {if $timeoffs}
+    {if $report}
         <table class="table table-bordered">
             <th> Дата </th>
             <th> Тип </th>
-            {foreach from=$timeoffs item=timeoff}
+            <th> Время </th>
+            {foreach from=$report item=timeoff}
             <tr>
                 <td>{$timeoff['date']}</td>
-                <td>{$timeoff['name']}</td>
+                <td>{$timeoff['timeoffName']}</td>
+                <td>{$timeoff['time']|formatDate}</td>
             </tr>
             {/foreach}
         </table>
@@ -140,11 +139,13 @@ $(function() {
             <table class="table table-bordered">
                 <th> Дата </th>
                 <th> Тип </th>
+                <th> Время </th>
                 <tr>
                     {foreach from=$allUsers['timeoffs'] item=timeoffUser}
                     <tr>
                         <td>{$timeoffUser['date']}</td>
                         <td>{$timeoffUser['name']}</td>
+                        <td></td>
                     {/foreach}
                 </tr>
             </table>
