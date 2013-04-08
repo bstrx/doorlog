@@ -18,7 +18,7 @@
                         <td>
                         <form method="POST">
                                 <select name="тип" class="text-error">
-                                    {html_options values=$values output=$types selected=$first}
+                                    {html_options values=$values output=$types selected=$value[1]}
                                 </select>
                                 <input type="hidden" value="{$holiday['date']}">
                        </form>
@@ -27,7 +27,7 @@
                         <td>
                         <form method="POST">
                                 <select name="тип" class="text-error">
-                                    {html_options values=$values output=$types selected=$second}
+                                    {html_options values=$values output=$types selected=$value[2]}
                                 </select>
                                 <input type="hidden" value="{$holiday['date']}">
                        </form>
@@ -36,7 +36,7 @@
                        <td>
                        <form method="POST">
                                 <select name="тип">
-                                    {html_options values=$values output=$types selected=$third}
+                                    {html_options values=$values output=$types selected=$value[3]}
                                 </select>
                                 <input type="hidden" value="{$holiday['date']}">
                        </form>
