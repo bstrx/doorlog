@@ -3,7 +3,7 @@ namespace controllers;
 
 use core\Controller;
 use core\FlashMessages;
-use models\Holidays as Holidaymodel;
+use models\Holidays as HolidayModel;
 use controllers\Main as Time;
 
 class Holidays extends Controller{
@@ -11,9 +11,15 @@ class Holidays extends Controller{
         $time = new Time();
         
         $date = date("Y-m-d");
-        $obj = new Holidaymodel();
-        $holiday = $obj->GetAllDays($date);
+        $obj = new HolidayModel();
+        $holidays = $obj->getAllDays($date);
         
-        $this->render("Holidays/index.tpl", array('holidays' => $holiday));
+        $types = array('Выходной','Короткий','Рабочий');
+        $values = array('t1','t2','t3');
+        $third='t3';
+        $second='t2';
+        $first='t1';
+        
+        $this->render("Holidays/index.tpl", array('holidays' => $holidays, 'types' => $types, 'values' => $values,'first' => $first,'second' => $second, 'third' => $third));
     }
 }

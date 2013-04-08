@@ -14,37 +14,34 @@
                     <tr>
                         <td>{$holiday['Days']}</td>
                         <td> {$holiday['date']}</td>
-                        {if $holiday['type'] ==1}
-                            <td>
-                            <form method="POST">
+                        {if $holiday['type']==1}
+                        <td>
+                        <form method="POST">
                                 <select name="тип" class="text-error">
-                                    <option class="text-error" value="t1" selected>Выходной</option>
-                                    <option class="text-error" value="t2">короткий</option>
-                                    <option value="t3" class="text-black">рабочий</option>
+                                    {html_options values=$values output=$types selected=$first}
                                 </select>
-                            </form>
-                            </td>
-                        {elseif $holiday['type']==0}
-                            <td>
-                            <form method="POST">
+                                <input type="hidden" value="{$holiday['date']}">
+                       </form>
+                       </td>
+                       {elseif $holiday['type']==2}
+                        <td>
+                        <form method="POST">
+                                <select name="тип" class="text-error">
+                                    {html_options values=$values output=$types selected=$second}
+                                </select>
+                                <input type="hidden" value="{$holiday['date']}">
+                       </form>
+                       </td>
+                       {elseif $holiday['type']==0}
+                       <td>
+                       <form method="POST">
                                 <select name="тип">
-                                    <option class="text-error" value="t1">Выходной</option>
-                                    <option class="text-error" value="t2">короткий</option>
-                                    <option class="text-black" value="t3" selected>рабочий</option>
+                                    {html_options values=$values output=$types selected=$third}
                                 </select>
-                            </form>
-                            </td>
-                        {elseif $holiday['type']==2}
-                            <td>
-                            <form method="POST">
-                                <select name="тип" class="text-error">
-                                    <option class="text-error" value="t1">Выходной</option>
-                                    <option class="text-error" value="t2" selected>короткий</option>
-                                    <option class="text-black" value="t3">рабочий</option>
-                                </select>
-                            </form>
-                            </td>    
-                        {/if}
+                                <input type="hidden" value="{$holiday['date']}">
+                       </form>
+                       </td>
+                       {/if}
                     </tr>
                 {/foreach}
             </tbody>
