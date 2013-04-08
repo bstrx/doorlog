@@ -331,4 +331,12 @@ class Users extends Model{
       $result = $this->execute($q, $params);
       return $result;
     }
+
+    public function getPersonalId($id){
+        $params =array();
+        $params['id'] = $id;
+        $q = "SELECT personal_id FROM user WHERE id = :id";
+        $result = $this->fetchOne($q, $params);
+        return $result['personal_id'];
+    }
 }
