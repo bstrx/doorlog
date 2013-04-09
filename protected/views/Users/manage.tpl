@@ -1,4 +1,5 @@
 {extends "protected/views/index.tpl"}
+{if 3|checkPermission}
 
     {block name="breadcrumbs"}
         <ul class="breadcrumb">
@@ -13,6 +14,8 @@
     {/block}
     
     {block name="content"}
+    {if 'access_to_user_add'|checkPermission}
+
     {include file='protected/views/dialog.tpl'}
         {if isset($userId)}
             {block name="pagetitle"}<h1>Изменить пользователя {$userInfo['name']}</h1>{/block}
@@ -88,5 +91,10 @@
         {if isset($userId)}
             <a href="#myModal" role="button" class="btn btn-danger" data-toggle="modal">Удалить</a>
         {/if}
+        {else}
+        <h3>Ошибка доступа!</h3>
+    {/if}
     {/block}
+
+
 {/extends}
