@@ -9,6 +9,7 @@ use core\FlashMessages;
 use core\Authentication;
 use core\Registry;
 use core\Db;
+use core\Acl;
 
 class Users extends Controller {
 
@@ -325,6 +326,8 @@ class Users extends Controller {
                 'departments' => $sortedDepartments
             ));
         }
+
+
     }
     public function add($user, $email, $position, $department, $birthday, $phone, $is_shown){
         $users = new UsersModel;

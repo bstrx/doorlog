@@ -31,8 +31,10 @@ class Roles extends Model {
     public function getRolePermissions($roleId){
         $params = array();
         $params['roleId'] = $roleId;
-        $q = "SELECT permission_id
-              FROM roles_permissions
+        $q = "SELECT rp.permission_id, p.key
+              FROM roles_permissions rp
+              JOIN permission p
+              ON p.id = rp.permission_id
               WHERE role_id = :roleId";
         $result = $this->fetchAll($q, $params);
         return $result;
