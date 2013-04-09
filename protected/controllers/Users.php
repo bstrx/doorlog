@@ -119,39 +119,6 @@ class Users extends Controller {
             }
         }
         
-        if(isset($_POST['loginForForgotPassword']) && $_POST['loginForForgotPassword']){
-            $login = $_POST['loginForForgotPassword'];
-            $usersModel = new UsersModel();
-            $salt = Utils::createRandomString(5, 5);
-            $password = Utils::createRandomString(8, 10);
-            $hash = $this->generateHash($password, $salt);
-
-            if (filter_var($login, FILTER_VALIDATE_EMAIL)) {
-                $user = $usersModel->getInfoByEmail($login);
-                if($user){
-                    $email = $login;
-                } else {
-                    FlashMessages::addMessage("Не правильно введен Email", "error");
-                }
-            } else {
-                $user = $usersModel->getInfoByCodeKey((int) $login);
-                if($user){
-                    $email = $user['email'];
-                } else {
-                    FlashMessages::addMessage("Не правильно введен номер карты", "error");
-                }
-            }
-
-            if(isset($email)){
-                if($mailSended = Utils::sendMail($email, "Ваш новый пароль в системе Opensoft Savage", "Ваш пароль: $password")){
-                    $usersModel->editUserPass($user['id'], $hash);
-                    FlashMessages::addMessage("Ваш новый пароль отправлен вам на почту", "success");
-                } else {
-                    FlashMessages::addMessage("Произошла ошибка. Пароль отправлен не был.", "error");
-                }
-            }
-        }
-
         $this->render("Users/login.tpl");
     }
 
@@ -393,5 +360,42 @@ class Users extends Controller {
             FlashMessages::addMessage("Пользователь успешно удален.", "info");
             $this->redirect("/users");
         } else FlashMessages::addMessage("При удалении пользователя произошла ошибка.", "error");
+    }
+
+    public function forgotPasswordAction(){
+        if(isset($_POST['loginForForgotPassword']) && $_POST['loginForForgotPassword']){
+            $login = $_POST['loginForForgotPassword'];
+            $usersModel = new UsersModel();
+            $salt = Utils::createRandomString(5, 5);
+            $password = Utils::createRandomString(8, 10);
+            $hash = $this->generateHash($password, $salt);
+
+            if (filter_var($login, FILTER_VALIDATE_EMAIL)) {
+                $user = $usersModel->getInfoByEmail($login);
+                if($user){
+                    $email = $login;
+                } else {
+                    FlashMessages::addMessage("Не правильно введен Email", "error");
+                }
+            } else {
+                $user = $usersModel->getInfoByCodeKey((int) $login);
+                if($user){
+                    $email = $user['email'];
+                } else {
+                    FlashMessages::addMessage("Не правильно введен номер карты", "error");
+                }
+            }
+
+            if(isset($email)){
+                if($mailSended = Utils::sendMail($email, "Ваш новый пароль в системе Opensoft Savage", "Ваш пароль: $password")){
+                    $usersModel->editUserPass($user['id'], $hash);
+                    FlashMessages::addMessage("Ваш новый пароль отправлен вам на почту", "success");
+                    $this->redirect("/users/login");
+                } else {
+                    FlashMessages::addMessage("Произошла ошибка. Пароль отправлен не был.", "error");
+                }
+                }
+        }
+        $this->render("Users/forgotPassword.tpl");
     }
 }

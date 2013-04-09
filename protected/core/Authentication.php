@@ -12,7 +12,7 @@ class Authentication{
      * Checks if user have correct info in cookies. Proceed if true, else shows login page.
      * @return bool|void
      */
-    public function checkAccess() {
+    public function checkAccess($class, $method) {
         if(isset($_COOKIE['id']) && isset($_COOKIE['hash'])){
             $user = new UsersModel();
             $userInfo = $user->getInfo((int) $_COOKIE['id']);
@@ -23,9 +23,6 @@ class Authentication{
                 return true;
             }
         }
-
-        $auth = new Users;
-        $auth ->loginAction();
         return false;
     }
 
