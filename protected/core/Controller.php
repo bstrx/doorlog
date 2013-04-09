@@ -46,12 +46,4 @@ abstract class Controller {
      * @param string $url
      * @return void
      */
-    protected function redirect($url = '/') {
-        $cfg = Registry::getValue('config');
-        header('Location: ' . $cfg['root'] . $url);
-        die();
-    }
-
-
-
 }

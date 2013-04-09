@@ -26,7 +26,7 @@ class Roles extends Controller{
                FlashMessages::addMessage("Ошибка добавления.", "error");
            }
         }
-        $this->redirect("/roles");
+        Utils::redirect("/roles");
     }
 
     function editAction(){
@@ -86,7 +86,7 @@ class Roles extends Controller{
         } else {
             FlashMessages::addMessage("Ошибка удаления", "error");
         }
-        $this->redirect("/roles");
+        Utils::redirect("/roles");
     }
 }
 
