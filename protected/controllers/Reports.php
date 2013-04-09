@@ -33,19 +33,18 @@ class Reports extends Controller {
             $lastMonthDay = strtotime($selectedDate) + date("t", strtotime($selectedDate))*24*60*60 ;
 
             $timeoffs = $user->getTimeoffsById($_GET['user_id'], $selectedDate, $_GET['type']);
-            for ($i=0; $i < count($timeoffs); $i++) {
-                $timeoffsArray[$timeoffs[$i]['date']]['name'] = $timeoffs[$i]['name'];
+            foreach ($timeoffs as $timeOff) {
+                $timeoffsArray[$timeOff['date']]['name'] = $timeOff['name'];
             }
-
+            
             $personalId = $user->getPersonalId($_GET['user_id']);
             if ($personalId){
                 $userMonthTime = $monthTime->getMonthInfo($personalId, $selectedDate);
                 $userMonthTime = $userMonthTime['days'];
-                
-                $workDays = array_keys($userMonthTime);
 
-                for ($i=0; $i < count($workDays); $i++) { 
-                    $userMonthTimeArray[$workDays[$i]]['time'] = $userMonthTime[$workDays[$i]]['sum'];
+                $workDays = array_keys($userMonthTime);
+                foreach ($workDays as $workDay) {
+                    $userMonthTimeArray[$workDay]['time'] = $userMonthTime[$workDay]['sum'];
                 }
 
                 for ($date = $firstMonthDay; $date < $lastMonthDay; $date += 86400) {
@@ -77,7 +76,8 @@ class Reports extends Controller {
         if (isset($_GET['date']) && isset($_GET['dep_id']) && !empty($_GET['date']) && $_GET['dep_id'] != 0 ){
             $users = $dep->getUsers($_GET['dep_id']);
             $selectedDate = $_GET['date'];
-            for ($i=0; $i < count($users) ; $i++) {
+            $countUsers = count($users);
+            for ($i=0; $i < $countUsers ; $i++) {
                 $timeoffsAllUsers[$i]['timeoffs'] = $user->getTimeoffsById($users[$i]['id'], $selectedDate, $_GET['type']);
                 $timeoffsAllUsers[$i]['id'] = $users[$i]['id'];
                 $timeoffsAllUsers[$i]['name'] = $users[$i]['name'];
