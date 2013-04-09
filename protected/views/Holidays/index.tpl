@@ -1,5 +1,5 @@
 {extends "protected/views/index.tpl"}
-{block name="pagetitle"}<h1>Учёт рабочего времени</h1>{/block}
+{block name="pagetitle"}<h1>Выходые дни</h1>{/block}
 
 {block name="content"}
     <div class="span7">
