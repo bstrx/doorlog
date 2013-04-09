@@ -26,8 +26,7 @@ class Holidays extends Model{
         return $Month;
     }
     
-    public function insertHoliday($month,$new_month){
-
+    public function insertHoliday($month, $new_month){
         if($month['type']!=$new_month['type']){
                 $q="SELECT id,date FROM holiday";
                 $result=$this->fetchAll($q);
