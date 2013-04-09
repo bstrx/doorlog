@@ -39,7 +39,7 @@ class Users extends Controller {
     public function logoutAction() {
         $auth = new Authentication;
         $auth->logout();
-        $this->redirect('/');
+        Utils::redirect('/');
     }
 
     public function addAction() {
@@ -110,7 +110,7 @@ class Users extends Controller {
                 if ($hash == $userInfo['password']) {
                     $auth = new Authentication();
                     $auth->grantAccess($userInfo['id'], $hash);
-                    $this->redirect('/');
+                    Utils::redirect('/');
                 } else {
                     FlashMessages::addMessage("Неверный пароль.", "error");
                 }
@@ -197,7 +197,7 @@ class Users extends Controller {
                 FlashMessages::addMessage("Произошла ошибка. Отгул не был добавлен.", "error");
             }
 
-            $this->redirect('/users/show?id='.$id);
+            Utils::redirect('/users/show?id='.$id);
         }
     }
 
@@ -225,7 +225,7 @@ class Users extends Controller {
             $birthday = $_POST['birthday'];
             $user->editUser($id, $position, $email, $department, $birthday, $phone);
             FlashMessages::addMessage("Пользователь успешно отредактирован.", "info");
-            $this->redirect("/users");
+            Utils::redirect("/users");
         } else {
 
         $sortedDepartments = array();
@@ -349,7 +349,7 @@ class Users extends Controller {
         } else {
             FlashMessages::addMessage("Произошла ошибка. Пользователь не был отредактирован", "error");
         }
-        $this->redirect("/users");
+        Utils::redirect("/users");
     }
 
     public function deleteAction(){
@@ -358,7 +358,7 @@ class Users extends Controller {
         $delete = $user->deleteUser($id);
         if ($delete) {
             FlashMessages::addMessage("Пользователь успешно удален.", "info");
-            $this->redirect("/users");
+            Utils::redirect("/users");
         } else FlashMessages::addMessage("При удалении пользователя произошла ошибка.", "error");
     }
 
@@ -390,7 +390,7 @@ class Users extends Controller {
                 if(Utils::sendMail($email, "Ваш новый пароль в системе Opensoft Savage", "Ваш пароль: $password")){
                     $usersModel->editUserPass($user['id'], $hash);
                     FlashMessages::addMessage("Ваш новый пароль отправлен вам на почту", "success");
-                    $this->redirect("/users/login");
+                    Utils::redirect("/users/login");
                 } else {
                     FlashMessages::addMessage("Произошла ошибка. Пароль отправлен не был.", "error");
                 }

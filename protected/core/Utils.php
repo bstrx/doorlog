@@ -128,4 +128,10 @@ class Utils{
 
         return $firstDay;
     }
+
+    public static function redirect($url = '/') {
+        $cfg = Registry::getValue('config');
+        header('Location: ' . $cfg['root'] . $url);
+        die();
+    }
 }
