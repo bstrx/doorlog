@@ -37,6 +37,11 @@ abstract class Controller {
             array('core\Utils', 'formatDate')
         );
 
+        $smarty->registerPlugin('modifier',
+                                'checkPermission',
+                                 array('core\Acl', 'checkPermission')
+        );
+
         $smarty->display('protected/views/'.$path);
         exit();
     }
