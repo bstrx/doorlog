@@ -20,9 +20,6 @@
     $cfg = require 'protected/config/config.php';
     Registry::setValue('config', $cfg);
 
-    $auth = new Authentication();
-    $auth->checkAccess();
-
     try {
         $controllerManager = new ControllersManager();
         $controllerManager->runController();
