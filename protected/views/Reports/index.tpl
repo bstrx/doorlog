@@ -129,12 +129,12 @@ $(function() {
     <br>
     <br>
     <div class="span7">
-    {if $report}
+    {if $reportAllDaysArray}
         <table class="table table-bordered">
             <th> Дата </th>
             <th> Тип </th>
             <th> Время </th>
-            {foreach from=$report item=timeoff}
+            {foreach from=$reportAllDaysArray item=timeoff}
             <tr>
                 <td>{$timeoff['date']}</td>
                 <td>{$timeoff['timeoffName']}</td>

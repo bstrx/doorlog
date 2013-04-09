@@ -17,7 +17,9 @@ class Reports extends Controller {
         $timeoffs = array();
         $users = array();
 
-        $report = array();
+        $timeoffsArray = array();
+        $userMonthTimeArray = array();
+        $reportAllDaysArray = array();
 
         $timeoffsAllUsers = array();
         $user = new UsersModel();
@@ -26,48 +28,42 @@ class Reports extends Controller {
 
         if (isset($_GET['date']) && isset($_GET['user_id']) && !empty($_GET['date']) && $_GET['user_id'] != 0 ){
             $selectedDate = $_GET['date'];
+
             $firstMonthDay = strtotime($selectedDate);
             $lastMonthDay = strtotime($selectedDate) + date("t", strtotime($selectedDate))*24*60*60 ;
+
             $timeoffs = $user->getTimeoffsById($_GET['user_id'], $selectedDate, $_GET['type']);
+            for ($i=0; $i < count($timeoffs); $i++) {
+                $timeoffsArray[$timeoffs[$i]['date']]['name'] = $timeoffs[$i]['name'];
+            }
+
             $personalId = $user->getPersonalId($_GET['user_id']);
             if ($personalId){
+                $userMonthTime = $monthTime->getMonthInfo($personalId, $selectedDate);
+                $userMonthTime = $userMonthTime['days'];
+                
+                $workDays = array_keys($userMonthTime);
 
-            $userMonthTime = $monthTime->getMonthInfo($personalId, $selectedDate);
-            $workDays = array_keys($userMonthTime['days']);
+                for ($i=0; $i < count($workDays); $i++) { 
+                    $userMonthTimeArray[$workDays[$i]]['time'] = $userMonthTime[$workDays[$i]]['sum'];
+                }
 
-            for ($date = $firstMonthDay; $date < $lastMonthDay; $date += 86400) {
-                $currentDate = date('y-m-d', $date);
-                for ($j=0; $j<count($timeoffs); $j++) {
-                    if ($timeoffs[$j]['date'] == date('Y-m-d', $date)){
-                        $report[$currentDate]['date'] = $currentDate;
-                        $report[$currentDate]['user_id'] = $timeoffs[$j]['user_id'];
-                        $report[$currentDate]['timeoffName'] = $timeoffs[$j]['name'];
-                        $report[$currentDate]['time'] = 0;
-                        break;
-                    } else {
-                        $report[$currentDate]['date'] = $currentDate;
-                        $report[$currentDate]['user_id'] = $timeoffs[$j]['user_id'];
-                        $report[$currentDate]['timeoffName'] = 'Пусто';
-                        $report[$currentDate]['time'] = 0;
+                for ($date = $firstMonthDay; $date < $lastMonthDay; $date += 86400) {
+                    $currentDate = date('Y-m-d', $date);
+                    $oneDay = array('date'=> $currentDate, 'timeoffName' => 'Пусто', 'time' => 0);
+                    $reportAllDaysArray[$currentDate] = $oneDay;
+                    if(isset($timeoffsArray[$currentDate])){
+                        $reportAllDaysArray[$currentDate]['timeoffName'] = $timeoffsArray[$currentDate]['name'];
+                    }
+
+                    if(isset($userMonthTimeArray[$currentDate])){
+                        $reportAllDaysArray[$currentDate]['timeoffName'] = '--';
+                        $reportAllDaysArray[$currentDate]['time'] = $userMonthTimeArray[$currentDate]['time'];
                     }
                 }
-            }
-
-            for ($date = $firstMonthDay; $date < $lastMonthDay; $date += 86400) {
-                $currentDate = date('y-m-d', $date);
-                for ($j=0; $j<count($workDays) ; $j++) {
-                    if ($workDays[$j] == date('Y-m-d', $date)) {
-                        $report[$currentDate]['date'] = $currentDate;
-                        $report[$currentDate]['user_id'] = 6;
-                        $report[$currentDate]['timeoffName'] = '--';
-                        $report[$currentDate]['time'] = $userMonthTime['days'][date('Y-m-d', $date)]['sum'];
-                    }
-                }
-            }
         } else {
             FlashMessages::addMessage("Пользователь с данным id не найден", "error");
         }
-
             $date = $selectedDate;
             $userInfo = $user->getInfo($_GET['user_id']);
             $name = $userInfo['name'];
@@ -103,7 +99,7 @@ class Reports extends Controller {
         'allDep'=>$allDep,
         'timeoffsAllUsers' => $timeoffsAllUsers,
         'users'=>$users,
-        'report' => $report) );
+        'reportAllDaysArray' => $reportAllDaysArray) );
     }
 
     function officeloadAction() {
