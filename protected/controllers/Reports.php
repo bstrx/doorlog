@@ -51,15 +51,15 @@ class Reports extends Controller {
                 for ($date = $firstMonthDay; $date < $lastMonthDay; $date += 86400) {
                     $currentDate = date('Y-m-d', $date);
                     $oneDay = array('date'=> $currentDate, 'timeoffName' => 'Пусто', 'time' => 0);
-                    $reportAllDaysArray[$currentDate] = array('date'=> $currentDate, 'timeoffName' => 'Пусто', 'time' => 0);
                     if(isset($timeoffsArray[$currentDate])){
-                        $reportAllDaysArray[$currentDate]['timeoffName'] = $timeoffsArray[$currentDate]['name'];
+                        $oneDay['timeoffName'] = $timeoffsArray[$currentDate]['name'];
                     }
 
                     if(isset($userMonthTimeArray[$currentDate])){
-                        $reportAllDaysArray[$currentDate]['timeoffName'] = '--';
-                        $reportAllDaysArray[$currentDate]['time'] = $userMonthTimeArray[$currentDate]['time'];
+                        $oneDay['timeoffName'] = '--';
+                        $oneDay['time'] = $userMonthTimeArray[$currentDate]['time'];
                     }
+                    $reportAllDaysArray[$currentDate] = $oneDay;
                 }
         } else {
             FlashMessages::addMessage("Пользователь с данным id не найден", "error");
