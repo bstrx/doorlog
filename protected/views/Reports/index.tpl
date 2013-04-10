@@ -24,7 +24,6 @@ $(function() {
     });
 });
 </script>
-
 <script type="text/javascript">
     $(function() {
         $("#timeoff_autocomplete").autocomplete({
@@ -63,12 +62,13 @@ $(function() {
                 $("#timeoff_autocomplete_id").val('');
             }
         });
-
+    $("select#dep_id").find(":selected").val(0);
         $("select#type").change(function(){
             selectedVal = $(this).find(":selected").val();
             if (selectedVal == 2) {
                 $("div#dep").show();
                 $("div#user").hide();
+                $("select#user_id").find(":selected").val(0);
             } else {
                 $("div#user").show();
                 $("div#dep").hide();
@@ -76,16 +76,22 @@ $(function() {
         });
  });
 </script>
+<style>
+.ui-datepicker-calendar {
+    display: none;
+    }
+#dep{
+    display: none;
+}
+</style>
         <form id = "reports" type='GET' action = "{$_root}/reports/timeoffs">
 
         <select id = 'type'>
-            <option></option>
-            <option value='1' > Пользователь </option>
+            <option value='1'> Пользователь </option>
             <option value='2'> Отделы </option>
         </select>
         <div id="user">
-            <select name = 'user_id'>
-            <option value='0'></option>
+            <select id='user_id' name = 'user_id'>
             {foreach from=$allUsers item=user}
                 <option value = "{$user['id']}"> {$user['name']} </option>
             {/foreach}
@@ -93,8 +99,7 @@ $(function() {
         </div>
 
         <div id="dep">
-            <select name = 'dep_id'>
-            <option value='0'></option>
+            <select id='dep_id' name = 'dep_id'>
             {foreach from=$allDep item=dep}
                 <option value = "{$dep['id']}"> {$dep['name']} </option>
             {/foreach}
@@ -120,12 +125,14 @@ $(function() {
     <div class="span7">
     {if $reportAllDaysArray}
         <table class="table table-bordered">
+            <th> День недели </th>
             <th> Дата </th>
             <th> Тип </th>
             <th> Время </th>
             {foreach from=$reportAllDaysArray item=timeoff}
             <tr>
-                <td>{$timeoff['date']}</td>
+                <td>{$timeoff['dayName']}</td>
+                <td>{$timeoff['date']|date_format:"%d.%m.%Y"}</td>
                 <td>{$timeoff['timeoffName']}</td>
                 <td>{$timeoff['time']|formatDate}</td>
             </tr>
@@ -143,7 +150,8 @@ $(function() {
                 <tr>
                     {foreach from=$allUsers['reports'] item=report}
                     <tr>
-                        <td>{$report['date']}</td>
+                        <td>{$report['dayName']}</td>
+                        <td>{$report['date']|date_format:"%d.%m.%Y"}</td>
                         <td>{$report['timeoffName']}</td>
                         <td>{$report['time']|formatDate}</td>
                     {/foreach}

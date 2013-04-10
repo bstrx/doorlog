@@ -114,7 +114,7 @@ class Reports extends Controller {
 
             for ($date = $firstMonthDay; $date < $lastMonthDay; $date += 86400) {
                 $currentDate = date('Y-m-d', $date);
-                $oneDay = array('date'=> $currentDate, 'timeoffName' => 'Пусто', 'time' => 0);
+                $oneDay = array('date'=> $currentDate,'dayName' => strftime("%A", $date), 'timeoffName' => 'Пусто', 'time' => 0);
                 if(isset($timeoffsArray[$currentDate])){
                     $oneDay['timeoffName'] = $timeoffsArray[$currentDate]['name'];
                 }
