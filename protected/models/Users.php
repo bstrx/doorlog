@@ -310,8 +310,10 @@ class Users extends Model{
             SET position_id = (:position), 
             email = (:email), 
             department_id = (:department), 
-            birthday = (:birthday), phone = (:phone), 
-            is_shown = (:is_shown) WHERE id = (:id)";
+            birthday = (:birthday), 
+            phone = (:phone), 
+            is_shown = (:is_shown) 
+            WHERE id = (:id)";
         $result = $this->execute($q, $params);
         return $result;
     }

@@ -14,16 +14,16 @@ class Holidays extends Controller{
         $obj = new HolidayModel();
         $holidays = $obj->getAllDays($date);
         
-        $types = array('Рабочий','Выходной','Короткий');
-        $values = array('0','1','2');
+        $types = array('Выходной','Короткий','Рабочий');
+        $values = $obj->getAllType();
         if(isset($_POST[$holidays['0']['date']])){
             $num = date("t",strtotime(substr($date,0,-2)))-2;
             for($i=0;$i<=$num;$i++){
-               $new_holidays[$i]['type'] = $_POST[$holidays[$i]['date']];
-               $new_holidays[$i]['date'] = $holidays[$i]['date'];
+               $newHolidays[$i]['type'] = $_POST[$holidays[$i]['date']];
+               $newHolidays[$i]['date'] = $holidays[$i]['date'];
             }
             for($i=0;$i<=$num;$i++){
-               $result[]=$obj->insertHoliday($holidays[$i], $new_holidays[$i]);
+               $result[]=$obj->insertHoliday($holidays[$i], $newHolidays[$i]);
             }
             if($result){
                  FlashMessages::addMessage("Табель успешно отредактирован.", "info");

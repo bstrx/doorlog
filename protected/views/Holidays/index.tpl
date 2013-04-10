@@ -16,11 +16,9 @@
                         <td>{$holiday['Days']}</td>
                         <td> {$holiday['date']}</td>
                         <td>
-
-                                <select name="{$holiday['date']}" {if $holiday['type']==1 or $holiday['type']==2} class="text-error"{/if}>
-                                    {html_options values=$values output=$types selected=$values[$holiday['type']]}
-                                </select>
-                                <input type="hidden" id="date" value="{$holiday['date']}">
+                            <select name="{$holiday['date']}" {if $holiday['type']==1 or $holiday['type']==2} class="text-error"{/if}>
+                                {html_options values=$values output=$types selected=$holiday['type']}
+                            </select>
                       
                        </td>
                     </tr>
