@@ -26,19 +26,19 @@ class Reports extends Controller {
         $id = '';
         if (isset($_GET['date']) && !empty($_GET['date'])){
             $date = $_GET['date'];
-            if (isset($_GET['date']) && isset($_GET['user_id']) && !empty($_GET['date']) && $_GET['user_id'] != 0 ){
+            if (isset($_GET['user_id']) && $_GET['user_id'] != 0 ){
                 $reportAllDaysArray = $this->getMonthReport($_GET['user_id'], $_GET['date'], $_GET['type']);
                 $userInfo = $user->getInfo($_GET['user_id']);
                 $name = $userInfo['name'];
                 $id = $_GET['user_id'];
             }
 
-            if (isset($_GET['date']) && isset($_GET['dep_id']) && !empty($_GET['date']) && $_GET['dep_id'] != 0 ){
+            if (isset($_GET['dep_id']) && $_GET['dep_id'] != 0 ){
                 $users = $dep->getUsers($_GET['dep_id']);
                 foreach ($users as $currentUser) {
                     $timeoffsAllUsers[] = array('reports' => $this->getMonthReport($currentUser['id'], $_GET['date'], $_GET['type']),
-                                                'id' => $currentUser['id'],
-                                                'name' => $currentUser['name']);
+                        'id' => $currentUser['id'],
+                        'name' => $currentUser['name']);
                 }
             }
         }
@@ -47,12 +47,12 @@ class Reports extends Controller {
         $statuses = $user->getUserStatuses();
         $timeoffsAttr = array('date' => $date, 'name' => $name, 'id' => $id);
         $this->render("Reports/index.tpl" , array('statuses' => $statuses,
-                                                  'timeoffsAttr' => $timeoffsAttr,
-                                                  'allUsers' => $allUsers,
-                                                  'allDep'=>$allDep,
-                                                  'timeoffsAllUsers' => $timeoffsAllUsers,
-                                                  'users'=>$users,
-                                                  'reportAllDaysArray' => $reportAllDaysArray));
+            'timeoffsAttr' => $timeoffsAttr,
+            'allUsers' => $allUsers,
+            'allDep'=>$allDep,
+            'timeoffsAllUsers' => $timeoffsAllUsers,
+            'users'=>$users,
+            'reportAllDaysArray' => $reportAllDaysArray));
     }
 
     function officeloadAction() {
