@@ -9,7 +9,6 @@
     {/block}
 
     {block name="content"}
-        {if 'user_add'|checkPermission}
         <div class='span10'>
             <a href="{$_root}/users/manage">Добавить пользователя</a>
             <table class="table table-bordered">
@@ -58,9 +57,6 @@
                 {/if}
            {/if}
         </div>
-        {else}
-            <h3>Ошибка доступа!</h3>
-        {/if}
     {/block}
 
 {/extends}

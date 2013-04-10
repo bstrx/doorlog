@@ -15,6 +15,9 @@ use models\Roles as RolesModel;
 class Users extends Controller {
 
     public function indexAction() {
+        if(!Acl::checkPermission('user_view')){
+            $this->render("errorAccess.tpl");
+        }
         $users = new UsersModel();
         $firstElement = 0;
         $val = Registry::getValue('config');
@@ -136,6 +139,9 @@ class Users extends Controller {
     }
 
     public function showAction() {
+        if(!Acl::checkPermission('user_view')){
+            $this->render("errorAccess.tpl");
+        }
         $timeoffs = array();
         $user = new UsersModel();
 
@@ -252,6 +258,9 @@ class Users extends Controller {
     }
 
     public function manageAction() {
+        if(!Acl::checkPermission('user_manage')){
+            $this->render("errorAccess.tpl");
+        }
         $users = new UsersModel();
         $roles = new RolesModel();
 
@@ -291,7 +300,7 @@ class Users extends Controller {
                         $this->add($user, $email, $position, $role, $department, $birthday, $phone, $isShown);
                     }
                 }
-            }   
+            }
         }
 
         $unregisteredUsers = $users->getAllUnregistered();
@@ -299,7 +308,7 @@ class Users extends Controller {
         $sortedUsers = array();
         $depList = $users->getDepartmentsList();
         $rolesList = $roles->getAll();
-        
+
         $sortedDepartments = array();
         foreach ($depList as $department) {
             $sortedDepartments[$department['id']] = $department['name'];
@@ -313,7 +322,7 @@ class Users extends Controller {
         foreach ($unregisteredUsers as $user) {
             $sortedUsers[$user['id']] = $user['name'];
         }
-        
+
         $sortedRoles = array();
         foreach ($rolesList as $role) {
             $sortedRoles[$role['id']] = $role['name'];
@@ -369,6 +378,9 @@ class Users extends Controller {
     }
 
     public function deleteAction(){
+        if(!Acl::checkPermission('user_delete')){
+            $this->render("errorAccess.tpl");
+        }
         $id = $_POST['id'];
         $user =  new UsersModel();
         $delete = $user->deleteUser($id);
