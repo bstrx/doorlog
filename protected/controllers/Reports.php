@@ -45,20 +45,17 @@ class Reports extends Controller {
         } else {
             $date = date('Y-m');
         }
-
         $allUsers = $user->getRegistered();
-
         $allDep = $dep->getMenuDepartments();
-
         $statuses = $user->getUserStatuses();
         $timeoffsAttr = array('date' => $date, 'name' => $name, 'id' => $id);
         $this->render("Reports/index.tpl" , array('statuses' => $statuses,
-        'timeoffsAttr' => $timeoffsAttr,
-        'allUsers' => $allUsers,
-        'allDep'=>$allDep,
-        'timeoffsAllUsers' => $timeoffsAllUsers,
-        'users'=>$users,
-        'reportAllDaysArray' => $reportAllDaysArray) );
+                                                  'timeoffsAttr' => $timeoffsAttr,
+                                                  'allUsers' => $allUsers,
+                                                  'allDep'=>$allDep,
+                                                  'timeoffsAllUsers' => $timeoffsAllUsers,
+                                                  'users'=>$users,
+                                                  'reportAllDaysArray' => $reportAllDaysArray));
     }
 
     function officeloadAction() {
