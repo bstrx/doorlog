@@ -34,7 +34,7 @@
                     <ul class="dropdown-menu">
                         <li><a href="{$_root}/departments">Отделы</a></li>
                         <li><a href="{$_root}/roles">Права доступа</a></li>
-                        <li><a href="{$_root}/users">Пользователи</a></li>
+                        {if 'user_add'|checkPermission}<li><a href="{$_root}/users">Пользователи</a></li>{/if}
                         <li><a href="{$_root}/positions">Должности</a></li>
                     </ul>
                 </li>
