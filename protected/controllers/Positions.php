@@ -3,6 +3,7 @@ namespace controllers;
 use core\Controller;
 use models\Positions as PositionModel;
 use core\FlashMessages;
+use core\Utils;
 
 
 class Positions extends Controller{
@@ -24,7 +25,7 @@ class Positions extends Controller{
                 FlashMessages::addMessage("Произошла ошибка. Должность не была добавлена.", "error");
             }
         }
-        
+
         Utils::redirect("/positions");
     }
 

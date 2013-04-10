@@ -9,7 +9,6 @@ use core\FlashMessages;
 use core\Authentication;
 use core\Registry;
 use core\Db;
-use core\Acl;
 use models\Roles as RolesModel;
 
 class Users extends Controller {
@@ -115,7 +114,7 @@ class Users extends Controller {
                 if ($hash == $userInfo['password']) {
                     $auth = new Authentication();
                     $auth->grantAccess($userInfo['id'], $hash);
-                    Utils::redirect('/');
+                    $this->redirect('/');
                 } else {
                     FlashMessages::addMessage("Неверный пароль.", "error");
                 }
@@ -123,7 +122,7 @@ class Users extends Controller {
                 FlashMessages::addMessage("Неверный пользователь.", "error");
             }
         }
-        
+
         $this->render("Users/login.tpl");
     }
 
@@ -330,7 +329,6 @@ class Users extends Controller {
 
         if(isset($_GET['id']) && $_GET['id']){
             $id = $_GET['id'];
-            $userRole = $roles->getUserRole($id);
             $userInfo = $users->getUserInfo($id);
             $this->render("Users/manage.tpl", array(
                 'userId' => $id,

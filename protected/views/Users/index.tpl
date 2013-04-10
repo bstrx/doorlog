@@ -1,6 +1,6 @@
 {extends "protected/views/index.tpl"}
     {block name="pagetitle"}<h1>Пользователи</h1>{/block}
-    
+
     {block name="breadcrumbs"}
         <ul class="breadcrumb">
           <li><a href="{$_root}/"> Главная </a> <span class="divider">/</span></li>
@@ -10,7 +10,13 @@
 
     {block name="content"}
         <div class='span10'>
+<<<<<<< Updated upstream
             <a href="{$_root}/users/manage">Добавить пользователя</a>
+=======
+            {if 'user_add'|checkPermission}
+                <a href="{$_root}/users/manage">Добавить пользователя</a>
+            {/if}
+>>>>>>> Stashed changes
             <table class="table table-bordered">
                 <thead>
                     <th>№</th>
