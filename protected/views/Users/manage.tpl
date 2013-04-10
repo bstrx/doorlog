@@ -14,8 +14,8 @@
     {/block}
     
     {block name="content"}
-    {if 'access_to_user_add'|checkPermission}
-
+    
+    {if 'user_add'|checkPermission}
     {include file='protected/views/dialog.tpl'}
         {if isset($userId)}
             {block name="pagetitle"}<h1>Изменить пользователя {$userInfo['name']}</h1>{/block}
@@ -52,7 +52,10 @@
                 <option value=0></option>
                 {html_options options=$positions selected={$userInfo['position_id']}}
             </select> </br>
-
+            <p>Права доступа:</p>
+            <select name="role">
+                {html_options options=$roles selected={$userRole['0']['id']}}
+            </select>
             <p>Укажите Email:</p>
             <input type="text" maxlength="45" size="40" name="email"
                 {if isset($userId)}
