@@ -40,11 +40,12 @@ class Reports extends Controller {
             $personalId = $user->getPersonalId($_GET['user_id']);
             if ($personalId){
                 $userMonthTime = $monthTime->getMonthInfo($personalId, $selectedDate);
-                $userMonthTime = $userMonthTime['days'];
-
-                $workDays = array_keys($userMonthTime);
-                foreach ($workDays as $workDay) {
-                    $userMonthTimeArray[$workDay]['time'] = $userMonthTime[$workDay]['sum'];
+                if (isset($userMonthTime['days'])){
+                    $userMonthTime = $userMonthTime['days'];
+                    $workDays = array_keys($userMonthTime);
+                    foreach ($workDays as $workDay) {
+                        $userMonthTimeArray[$workDay]['time'] = $userMonthTime[$workDay]['sum'];
+                    }
                 }
 
                 for ($date = $firstMonthDay; $date < $lastMonthDay; $date += 86400) {
