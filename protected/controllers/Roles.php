@@ -22,12 +22,11 @@ class Roles extends Controller{
            $roleName = $_POST['roleName'];
            if($obj->addRole($roleName)){
                FlashMessages::addMessage("Роль успешно добавлена.", "success");
-               $this->redirect("/roles");
            } else {
                FlashMessages::addMessage("Ошибка добавления.", "error");
            }
         }
-        $this->render("Roles/add.tpl");
+        Utils::redirect("/roles");
     }
 
     function editAction(){
@@ -87,7 +86,7 @@ class Roles extends Controller{
         } else {
             FlashMessages::addMessage("Ошибка удаления", "error");
         }
-        $this->redirect("/roles");
+        Utils::redirect("/roles");
     }
 }
 

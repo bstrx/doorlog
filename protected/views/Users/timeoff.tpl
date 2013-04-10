@@ -27,12 +27,7 @@
    $(document).ready(function()
    {
         $('#delete').bind('click',function(){
-            if(confirm("действительно хотите удалить?")){
-                    return true;
-              }
-            else {
-                    return false;
-            }
+            return confirm("действительно хотите удалить?");
         });
     });
 </script>
@@ -52,7 +47,7 @@
                     <option value = "{$stat['id']}"> {$stat['name']} </option>
                 {/foreach}
             </select>
-
+        <br>
         <input type="submit" value="Добавить" name="submit" id="add" class="btn btn-success">
     </form>
 </div>

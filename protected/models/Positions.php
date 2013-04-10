@@ -16,7 +16,6 @@ class Positions extends Model{
     }
 
     public function insertPosition($positionName){
-        $db = Db::getInstance();
         $add= "INSERT INTO `position` (`name`)
             VALUES (:positionName)";
         $params=array();

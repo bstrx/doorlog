@@ -10,6 +10,24 @@
     {/block}
 
     {block name="content"}
+        <script type="text/javascript">
+            $(function() {
+                $('#datepicker').datepicker( {
+                    changeMonth: true,
+                    changeYear: true,
+                    showButtonPanel: true,
+                    dateFormat: 'yy-mm',
+                    closeText : "Готово",
+                    currentText: "Сегодня",
+                    onClose: function(dateText, inst) {
+                        var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+                        var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                        $(this).datepicker('setDate', new Date(year, month, 1));
+                    }
+                });
+            });
+        </script>
+
         <div class="span7">
             {if $userInfo}
                 <table class="table table-bordered">
@@ -44,10 +62,10 @@
                     {/foreach}
                 </table>
             {/if}
-        <a class="btn btn-success" href="{$_root}/users/manage?id={$userInfo['id']}"> Редактировать </a>
-        <a class="btn" href="{$_root}/users"> Отмена </a>
+            <a class="btn btn-success" href="{$_root}/users/manage?id={$userInfo['id']}"> Редактировать </a>
+            <a class="btn" href="{$_root}/users"> Отмена </a>
         </div>
-        <div class="span5">
+        <div class="span4 additional">
             {include file='protected/views/Users/timeoff.tpl'}
         </div>
     {/block}

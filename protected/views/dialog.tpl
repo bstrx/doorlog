@@ -8,7 +8,7 @@
           <p>Вы действительно хотите удалить?</p>
         </div>
         <div class="modal-footer">
-          <button class="btn btn-danger" type="submit" id="delete" form="delete">Удалить</button>
+          <button class="btn btn-danger" type="submit" form="delete">Удалить</button>
           <button class="btn" data-dismiss="modal" aria-hidden="true">Отмена</button>
         </div>
     </div>

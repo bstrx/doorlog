@@ -37,6 +37,11 @@ abstract class Controller {
             array('core\Utils', 'formatDate')
         );
 
+        $smarty->registerPlugin('modifier',
+                                'checkPermission',
+                                 array('core\Acl', 'checkPermission')
+        );
+
         $smarty->display('protected/views/'.$path);
         exit();
     }
@@ -46,12 +51,4 @@ abstract class Controller {
      * @param string $url
      * @return void
      */
-    protected function redirect($url = '/') {
-        $cfg = Registry::getValue('config');
-        header('Location: ' . $cfg['root'] . $url);
-        die();
-    }
-
-
-
 }

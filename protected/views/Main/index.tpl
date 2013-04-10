@@ -4,10 +4,10 @@
 
     <script type="text/javascript">
         $(function() {
-                var elements = $('.timer')
+                var elements = $('.timer');
                 elements.each( function() {
                     setDate(this)
-                })
+                });
 
                 if (elements.length) {
                     setInterval( function() {

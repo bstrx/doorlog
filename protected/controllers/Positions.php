@@ -16,7 +16,7 @@ class Positions extends Controller{
     public function addAction(){
         $positions = new PositionModel();
 
-        if( isset($_POST['posName'])){
+        if(isset($_POST['posName']) && $_POST['posName']){
             $positionName = $_POST['posName'];
             if($positions->insertPosition($positionName)){
                 FlashMessages::addMessage("Должность успешно добавлена.", "info");
@@ -25,7 +25,7 @@ class Positions extends Controller{
             }
         }
         
-        $this->redirect("/positions");
+        Utils::redirect("/positions");
     }
 
     public function editAction(){
@@ -34,10 +34,10 @@ class Positions extends Controller{
             $positions = new PositionModel();
             $position = $positions->getPosition($id);
 
-            if (isset($_POST['position'])){
+            if (isset($_POST['position']) && $_POST['position']){
                 $set=$_POST['position'];
                 if($positions->savePosition($id,$set)){
-                    $this->redirect("/positions");
+                    Utils::redirect("/positions");
                     FlashMessages::addMessage("Должность успешно отредактирована.", "info");
                 } else {
                     FlashMessages::addMessage("Произошла ошибка. Должность не была отредактирована.", "error");
@@ -59,7 +59,7 @@ class Positions extends Controller{
             } else {
                 FlashMessages::addMessage("Произошла ошибка. Должность не была удалена.", "error");
             }
-            $this->redirect("/positions");
+            Utils::redirect("/positions");
         }
     }
 
