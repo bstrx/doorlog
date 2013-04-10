@@ -10,6 +10,7 @@ use core\Authentication;
 use core\Registry;
 use core\Db;
 use core\Acl;
+use models\Roles as RolesModel;
 
 class Users extends Controller {
 
@@ -252,10 +253,12 @@ class Users extends Controller {
 
     public function manageAction() {
         $users = new UsersModel();
+        $roles = new RolesModel();
 
         if (isset($_POST['department']) && isset($_POST['position']) && isset($_POST['email']) && isset($_POST['phone']) && isset($_POST['birthday'])) {
             $position = $_POST['position'];
             $department = $_POST['department'];
+            $role = $_POST['role'];
             $email = $_POST['email'];
             $phone = $_POST['phone'];
             $birthday = $_POST['birthday'];
@@ -281,11 +284,11 @@ class Users extends Controller {
                             FlashMessages::addMessage("Старый пароль введен не верно и изменен не был.", "error");
                         }
                     }
-                    $this->update($id, $position, $email, $department, $birthday, $phone, $newHash, $isShown);
+                    $this->update($id, $position, $role, $email, $department, $birthday, $phone, $newHash, $isShown);
                 } else {
                     if(isset($_POST['userId'])){
                         $user = $_POST['userId'];
-                        $this->add($user, $email, $position, $department, $birthday, $phone, $isShown);
+                        $this->add($user, $email, $position, $role, $department, $birthday, $phone, $isShown);
                     }
                 }
             }   
@@ -295,7 +298,8 @@ class Users extends Controller {
         $posList = $users->getPositionsList();
         $sortedUsers = array();
         $depList = $users->getDepartmentsList();
-
+        $rolesList = $roles->getAll();
+        
         $sortedDepartments = array();
         foreach ($depList as $department) {
             $sortedDepartments[$department['id']] = $department['name'];
@@ -309,32 +313,40 @@ class Users extends Controller {
         foreach ($unregisteredUsers as $user) {
             $sortedUsers[$user['id']] = $user['name'];
         }
+        
+        $sortedRoles = array();
+        foreach ($rolesList as $role) {
+            $sortedRoles[$role['id']] = $role['name'];
+        }
 
         if(isset($_GET['id']) && $_GET['id']){
             $id = $_GET['id'];
+            $userRole = $roles->getUserRole($id);
             $userInfo = $users->getUserInfo($id);
             $this->render("Users/manage.tpl", array(
                 'userId' => $id,
                 'userInfo' => $userInfo,
                 'positions' => $sortedPositions,
-                'departments' => $sortedDepartments
+                'departments' => $sortedDepartments,
+                'roles' => $sortedRoles,
+                'userRole' => $userRole
             ));
         } else {
             $this->render("Users/manage.tpl", array(
                 'users' => $sortedUsers,
                 'positions' => $sortedPositions,
-                'departments' => $sortedDepartments
+                'departments' => $sortedDepartments,
+                'roles' => $sortedRoles
             ));
         }
-
-
     }
-    public function add($user, $email, $position, $department, $birthday, $phone, $is_shown){
+    public function add($user, $email, $position, $role, $department, $birthday, $phone, $is_shown){
         $users = new UsersModel;
+        $roles = new RolesModel();
         $salt = Utils::createRandomString(5, 5);
         $password = Utils::createRandomString(8, 10);
         $hash = $this->generateHash($password, $salt);
-        if ($users->insertUsers($user, $email, $hash, $salt, $position, $department, $phone, $birthday, $is_shown)) {
+        if (($users->insertUsers($user, $email, $hash, $salt, $position, $department, $phone, $birthday, $is_shown)) && ($roles->insertUserRole($id, $role))) {
             FlashMessages::addMessage("Пользователь успешно добавлен.", "info");
         } else {
             FlashMessages::addMessage("Произошла ошибка. Пользователь не был добавлен.", "error");
@@ -342,12 +354,13 @@ class Users extends Controller {
         Utils::sendMail($email, "Создан аккаунт в системе Opensoft Savage", "Ваш пароль: $password");
     }
 
-    public function update($id, $position, $email, $department, $birthday, $phone, $newPass, $is_shown){
+    public function update($id, $position, $role, $email, $department, $birthday, $phone, $newPass, $is_shown){
         $users = new UsersModel;
+        $roles = new RolesModel();
         if(isset($newPass)){
             $users->editUserPass($id, $newPass);
         }
-        if($users->editUser($id, $position, $email, $department, $birthday, $phone, $is_shown)){
+        if(($users->editUser($id, $position, $email, $department, $birthday, $phone, $is_shown)) && ($roles->insertUserRole($id, $role))){
             FlashMessages::addMessage("Пользователь успешно отредактирован.", "info");
         } else {
             FlashMessages::addMessage("Произошла ошибка. Пользователь не был отредактирован", "error");
