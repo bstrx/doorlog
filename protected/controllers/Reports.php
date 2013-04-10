@@ -16,55 +16,15 @@ class Reports extends Controller {
     function timeoffsAction() {
         $timeoffs = array();
         $users = array();
-
-        $timeoffsArray = array();
-        $userMonthTimeArray = array();
         $reportAllDaysArray = array();
 
         $timeoffsAllUsers = array();
         $user = new UsersModel();
         $dep = new DepartmentModel();
-        $monthTime = new Time();
 
         if (isset($_GET['date']) && isset($_GET['user_id']) && !empty($_GET['date']) && $_GET['user_id'] != 0 ){
-            $selectedDate = $_GET['date'];
-
-            $firstMonthDay = strtotime($selectedDate);
-            $lastMonthDay = strtotime($selectedDate) + date("t", strtotime($selectedDate))*24*60*60 ;
-
-            $timeoffs = $user->getTimeoffsById($_GET['user_id'], $selectedDate, $_GET['type']);
-            foreach ($timeoffs as $timeOff) {
-                $timeoffsArray[$timeOff['date']]['name'] = $timeOff['name'];
-            }
-            
-            $personalId = $user->getPersonalId($_GET['user_id']);
-            if ($personalId){
-                $userMonthTime = $monthTime->getMonthInfo($personalId, $selectedDate);
-                if (isset($userMonthTime['days'])){
-                    $userMonthTime = $userMonthTime['days'];
-                    $workDays = array_keys($userMonthTime);
-                    foreach ($workDays as $workDay) {
-                        $userMonthTimeArray[$workDay]['time'] = $userMonthTime[$workDay]['sum'];
-                    }
-                }
-
-                for ($date = $firstMonthDay; $date < $lastMonthDay; $date += 86400) {
-                    $currentDate = date('Y-m-d', $date);
-                    $oneDay = array('date'=> $currentDate, 'timeoffName' => 'Пусто', 'time' => 0);
-                    if(isset($timeoffsArray[$currentDate])){
-                        $oneDay['timeoffName'] = $timeoffsArray[$currentDate]['name'];
-                    }
-
-                    if(isset($userMonthTimeArray[$currentDate])){
-                        $oneDay['timeoffName'] = '--';
-                        $oneDay['time'] = $userMonthTimeArray[$currentDate]['time'];
-                    }
-                    $reportAllDaysArray[$currentDate] = $oneDay;
-                }
-        } else {
-            FlashMessages::addMessage("Пользователь с данным id не найден", "error");
-        }
-            $date = $selectedDate;
+            $reportAllDaysArray = $this->getMonthReport($_GET['user_id'], $_GET['date'], $_GET['type']);
+            $date = $_GET['date'];
             $userInfo = $user->getInfo($_GET['user_id']);
             $name = $userInfo['name'];
             $id = $_GET['user_id'];
@@ -76,13 +36,12 @@ class Reports extends Controller {
 
         if (isset($_GET['date']) && isset($_GET['dep_id']) && !empty($_GET['date']) && $_GET['dep_id'] != 0 ){
             $users = $dep->getUsers($_GET['dep_id']);
-            $selectedDate = $_GET['date'];
             foreach ($users as $currentUser) {
-                $timeoffsAllUsers[] = array('timeoffs' => $user->getTimeoffsById($currentUser['id'], $selectedDate, $_GET['type']),
-                'id' => $currentUser['id'],
-                'name' => $currentUser['name']);
+                $timeoffsAllUsers[] = array('reports' => $this->getMonthReport($currentUser['id'], $_GET['date'], $_GET['type']),
+                                            'id' => $currentUser['id'],
+                                            'name' => $currentUser['name']);
             }
-            $date = $selectedDate;
+            $date = $_GET['date'];
         } else {
             $date = date('Y-m');
         }
@@ -129,5 +88,50 @@ class Reports extends Controller {
         $stringForGraph = "[".substr($stringForGraph, 0, -1)."]";
         $this->render("Reports/officeload.tpl", array('date' => $date,
                                                       'stringForGraph' => $stringForGraph));
+    }
+
+    public function getMonthReport($id, $selectedDate, $timeoffType){
+        $user = new UsersModel();
+        $dep = new DepartmentModel();
+        $monthTime = new Time();
+
+        $timeoffsArray = array();
+        $userMonthTimeArray = array();
+        $reportAllDaysArray = array();
+
+        $firstMonthDay = strtotime($selectedDate);
+        $lastMonthDay = strtotime($selectedDate) + date("t", strtotime($selectedDate))*24*60*60 ;
+
+        $timeoffs = $user->getTimeoffsById($id, $selectedDate, $timeoffType);
+        foreach ($timeoffs as $timeOff) {
+            $timeoffsArray[$timeOff['date']]['name'] = $timeOff['name'];
+        }
+
+        $personalId = $user->getPersonalId($id);
+        if ($personalId){
+            $userMonthTime = $monthTime->getMonthInfo($personalId, $selectedDate);
+            if (isset($userMonthTime['days'])){
+                $userMonthTime = $userMonthTime['days'];
+                $workDays = array_keys($userMonthTime);
+                foreach ($workDays as $workDay) {
+                    $userMonthTimeArray[$workDay]['time'] = $userMonthTime[$workDay]['sum'];
+                }
+            }
+
+            for ($date = $firstMonthDay; $date < $lastMonthDay; $date += 86400) {
+                $currentDate = date('Y-m-d', $date);
+                $oneDay = array('date'=> $currentDate, 'timeoffName' => 'Пусто', 'time' => 0);
+                if(isset($timeoffsArray[$currentDate])){
+                    $oneDay['timeoffName'] = $timeoffsArray[$currentDate]['name'];
+                }
+
+                if(isset($userMonthTimeArray[$currentDate])){
+                    $oneDay['timeoffName'] = '--';
+                    $oneDay['time'] = $userMonthTimeArray[$currentDate]['time'];
+                }
+                    $reportAllDaysArray[$currentDate] = $oneDay;
+            } 
+        }
+    return $reportAllDaysArray;
     }
 }

@@ -146,17 +146,17 @@ $(function() {
     {if $timeoffsAllUsers}
         {foreach from=$timeoffsAllUsers item=allUsers}
             <h3>{$allUsers['name']}</h3>
-            {if $allUsers['timeoffs']}
+            {if $allUsers['reports']}
             <table class="table table-bordered">
                 <th> Дата </th>
                 <th> Тип </th>
                 <th> Время </th>
                 <tr>
-                    {foreach from=$allUsers['timeoffs'] item=timeoffUser}
+                    {foreach from=$allUsers['reports'] item=report}
                     <tr>
-                        <td>{$timeoffUser['date']}</td>
-                        <td>{$timeoffUser['name']}</td>
-                        <td></td>
+                        <td>{$report['date']}</td>
+                        <td>{$report['timeoffName']}</td>
+                        <td>{$report['time']|formatDate}</td>
                     {/foreach}
                 </tr>
             </table>
