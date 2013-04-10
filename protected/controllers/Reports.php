@@ -21,29 +21,26 @@ class Reports extends Controller {
         $timeoffsAllUsers = array();
         $user = new UsersModel();
         $dep = new DepartmentModel();
-
-        if (isset($_GET['date']) && isset($_GET['user_id']) && !empty($_GET['date']) && $_GET['user_id'] != 0 ){
-            $reportAllDaysArray = $this->getMonthReport($_GET['user_id'], $_GET['date'], $_GET['type']);
+        $date = date('Y-m');
+        $name = "";
+        $id = '';
+        if (isset($_GET['date']) && !empty($_GET['date'])){
             $date = $_GET['date'];
-            $userInfo = $user->getInfo($_GET['user_id']);
-            $name = $userInfo['name'];
-            $id = $_GET['user_id'];
-        } else {
-            $name = "";
-            $date = date('Y-m');
-            $id = '';
-        }
-
-        if (isset($_GET['date']) && isset($_GET['dep_id']) && !empty($_GET['date']) && $_GET['dep_id'] != 0 ){
-            $users = $dep->getUsers($_GET['dep_id']);
-            foreach ($users as $currentUser) {
-                $timeoffsAllUsers[] = array('reports' => $this->getMonthReport($currentUser['id'], $_GET['date'], $_GET['type']),
-                                            'id' => $currentUser['id'],
-                                            'name' => $currentUser['name']);
+            if (isset($_GET['date']) && isset($_GET['user_id']) && !empty($_GET['date']) && $_GET['user_id'] != 0 ){
+                $reportAllDaysArray = $this->getMonthReport($_GET['user_id'], $_GET['date'], $_GET['type']);
+                $userInfo = $user->getInfo($_GET['user_id']);
+                $name = $userInfo['name'];
+                $id = $_GET['user_id'];
             }
-            $date = $_GET['date'];
-        } else {
-            $date = date('Y-m');
+
+            if (isset($_GET['date']) && isset($_GET['dep_id']) && !empty($_GET['date']) && $_GET['dep_id'] != 0 ){
+                $users = $dep->getUsers($_GET['dep_id']);
+                foreach ($users as $currentUser) {
+                    $timeoffsAllUsers[] = array('reports' => $this->getMonthReport($currentUser['id'], $_GET['date'], $_GET['type']),
+                                                'id' => $currentUser['id'],
+                                                'name' => $currentUser['name']);
+                }
+            }
         }
         $allUsers = $user->getRegistered();
         $allDep = $dep->getMenuDepartments();
