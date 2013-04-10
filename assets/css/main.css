@@ -16,7 +16,7 @@ h3 {
 }
 
 .span7, .span10, .span9 {
-    margin-left:0px;
+    margin-left:0;
     position: relative;
 
 }
@@ -30,17 +30,17 @@ div.additional {
 }
 
 div.additional h3{
-    margin:0px 0px 10px 0px;
+    margin:0 0 10px 0;
     line-height: 20px;
 }
 
 div.additional input {
-    margin-bottom: 0px !important;
+    margin-bottom: 0 !important;
 }
 
 
 #content {
-    padding: 0px 20px 0px 20px;
+    padding: 0 20px 0 20px;
 }
 
 
@@ -53,18 +53,18 @@ div.additional input {
 }
 
 form#add-department input {
-    margin: 0px;
+    margin: 0;
 }
 
 .right-calendar {
     position: absolute;
     top: 12px;
-    right: 0px;
+    right: 0;
     cursor: pointer;
 }
 
 .right-calendar form{
-    margin: 0px;
+    margin: 0;
 }
 
 .right-calendar span{
@@ -85,7 +85,7 @@ form#add-department input {
 }
 
 form{
-    margin: 0px;
+    margin: 0;
 }
 
 .tbl-span {
@@ -112,9 +112,16 @@ input[type = "checkbox"]{
     color:#0088CC;
     border-bottom: #0088CC dotted 1px;
     cursor: pointer;
-    margin-right: 0px;
+    margin-right: 0;
 }
 
 .calendar{
     padding-right: 10px;
+}
+
+#user{
+    
+}
+#dep{
+    display: none;
 }

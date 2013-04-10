@@ -23,10 +23,8 @@
                         Отчёты <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="#"><s>По себе</s></a></li>
                         <li><a href="{$_root}/reports/officeload">По загрузке</a></li>
                         <li><a href="{$_root}/reports/timeoffs">По отгулам</a></li>
-                        <li><a href="#"><s>По отделам</s></a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
@@ -36,7 +34,7 @@
                     <ul class="dropdown-menu">
                         <li><a href="{$_root}/departments">Отделы</a></li>
                         <li><a href="{$_root}/roles">Права доступа</a></li>
-                        <li><a href="{$_root}/users">Пользователи</a></li>
+                        {if 'user_view'|checkPermission}<li><a href="{$_root}/users">Пользователи</a></li>{/if}
                         <li><a href="{$_root}/positions">Должности</a></li>
                     </ul>
                 </li>

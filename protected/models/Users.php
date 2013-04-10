@@ -194,11 +194,11 @@ class Users extends Model{
     }
 
     public function getUserRoles($userId){
-        $q = "SELECT r.name
+        $q = "SELECT r.name, r.id
             FROM users_roles as ur
             JOIN role as r ON ur.role_id = r.id
             JOIN user as u ON ur.user_id = u.id
-            WHERE u.personal_id = :userId";
+            WHERE u.id = :userId";
         $params=array();
         $params['userId']=$userId;
         $result = $this->fetchAll($q,$params);
@@ -258,8 +258,8 @@ class Users extends Model{
     public function getRolePermissions($roleId){
         $q = "SELECT p.key
                 FROM roles_permissions rp
-                INNER JOIN role r ON rp.id_role = r.id
-                INNER JOIN permission p ON rp.id_permission = p.id
+                INNER JOIN role r ON rp.role_id = r.id
+                INNER JOIN permission p ON rp.permission_id = p.id
                 WHERE role.id = :roleId";
         $params=array();
         $params['roleId']=$roleId;

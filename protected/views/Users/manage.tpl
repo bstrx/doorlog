@@ -1,5 +1,6 @@
 {extends "protected/views/index.tpl"}
 
+
     {block name="breadcrumbs"}
         <ul class="breadcrumb">
           <li><a href="{$_root}/"> Главная </a> <span class="divider"> / </span></li>
@@ -49,7 +50,10 @@
                 <option value=0></option>
                 {html_options options=$positions selected={$userInfo['position_id']}}
             </select> </br>
-
+            <p>Права доступа:</p>
+            <select name="role">
+                {html_options options=$roles selected={$userRole['0']['id']}}
+            </select>
             <p>Укажите Email:</p>
             <input type="text" maxlength="45" size="40" name="email"
                 {if isset($userId)}

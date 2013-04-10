@@ -25,7 +25,7 @@ class Positions extends Controller{
             }
         }
         
-        $this->redirect("/positions");
+        Utils::redirect("/positions");
     }
 
     public function editAction(){
@@ -37,7 +37,7 @@ class Positions extends Controller{
             if (isset($_POST['position']) && $_POST['position']){
                 $set=$_POST['position'];
                 if($positions->savePosition($id,$set)){
-                    $this->redirect("/positions");
+                    Utils::redirect("/positions");
                     FlashMessages::addMessage("Должность успешно отредактирована.", "info");
                 } else {
                     FlashMessages::addMessage("Произошла ошибка. Должность не была отредактирована.", "error");
@@ -59,7 +59,7 @@ class Positions extends Controller{
             } else {
                 FlashMessages::addMessage("Произошла ошибка. Должность не была удалена.", "error");
             }
-            $this->redirect("/positions");
+            Utils::redirect("/positions");
         }
     }
 

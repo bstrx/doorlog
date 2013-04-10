@@ -9,7 +9,6 @@
     {/block}
 
     {block name="content"}
-
         <div class='span10'>
             <a href="{$_root}/users/manage">Добавить пользователя</a>
             <table class="table table-bordered">

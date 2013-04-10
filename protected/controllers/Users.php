@@ -9,10 +9,15 @@ use core\FlashMessages;
 use core\Authentication;
 use core\Registry;
 use core\Db;
+use core\Acl;
+use models\Roles as RolesModel;
 
 class Users extends Controller {
 
     public function indexAction() {
+        if(!Acl::checkPermission('user_view')){
+            $this->render("errorAccess.tpl");
+        }
         $users = new UsersModel();
         $firstElement = 0;
         $val = Registry::getValue('config');
@@ -39,7 +44,7 @@ class Users extends Controller {
     public function logoutAction() {
         $auth = new Authentication;
         $auth->logout();
-        $this->redirect('/');
+        Utils::redirect('/');
     }
 
     public function addAction() {
@@ -110,7 +115,7 @@ class Users extends Controller {
                 if ($hash == $userInfo['password']) {
                     $auth = new Authentication();
                     $auth->grantAccess($userInfo['id'], $hash);
-                    $this->redirect('/');
+                    Utils::redirect('/');
                 } else {
                     FlashMessages::addMessage("Неверный пароль.", "error");
                 }
@@ -119,36 +124,6 @@ class Users extends Controller {
             }
         }
         
-        if(isset($_POST['loginForForgotPassword']) && $_POST['loginForForgotPassword']){
-            $login = $_POST['loginForForgotPassword'];
-            $usersModel = new UsersModel();
-                $salt = Utils::createRandomString(5, 5);
-                $password = Utils::createRandomString(8, 10);
-                $hash = $this->generateHash($password, $salt);
-            if (filter_var($login, FILTER_VALIDATE_EMAIL)) {
-                $user = $userModel->getInfoByEmail($login);
-                if($user){
-                    $email = $login;
-                } else {
-                    FlashMessages::addMessage("Не правильно введен Email", "error");
-                }
-            } else {
-                $user = $usersModel->getInfoByCodeKey((int) $login);
-                if($user){
-                    $email = $user['email'];
-                } else {
-                    FlashMessages::addMessage("Не правильно введен номер карты", "error");
-                }
-            }
-            $mailSended = Utils::sendMail($email, "Ваш новый пароль в системе Opensoft Savage", "Ваш пароль: $password");
-            if($mailSended){
-                $usersModel->editUserPass($user['id'], $newPass);
-                FlashMessages::addMessage("Ваш новый пароль отправлен вам на почту", "success");
-            } else {
-                FlashMessages::addMessage("Произошла ошибка. Пароль отправлен не был.", "error");
-            }
-        }
-
         $this->render("Users/login.tpl");
     }
 
@@ -164,6 +139,9 @@ class Users extends Controller {
     }
 
     public function showAction() {
+        if(!Acl::checkPermission('user_view')){
+            $this->render("errorAccess.tpl");
+        }
         $timeoffs = array();
         $user = new UsersModel();
 
@@ -227,7 +205,7 @@ class Users extends Controller {
                 FlashMessages::addMessage("Произошла ошибка. Отгул не был добавлен.", "error");
             }
 
-            $this->redirect('/users/show?id='.$id);
+            Utils::redirect('/users/show?id='.$id);
         }
     }
 
@@ -255,7 +233,7 @@ class Users extends Controller {
             $birthday = $_POST['birthday'];
             $user->editUser($id, $position, $email, $department, $birthday, $phone);
             FlashMessages::addMessage("Пользователь успешно отредактирован.", "info");
-            $this->redirect("/users");
+            Utils::redirect("/users");
         } else {
 
         $sortedDepartments = array();
@@ -271,26 +249,32 @@ class Users extends Controller {
         }
 
         }
-        $this->render("Users/edit.tpl", array('id'=> $id,
+        $this->render("Users/edit.tpl", array(
+            'id'=> $id,
             'userInfo'=>$userInfo,
             'positions' => $sortedPositions,
-            'departments' => $sortedDepartments));
+            'departments' => $sortedDepartments)
+        );
     }
 
     public function manageAction() {
+        if(!Acl::checkPermission('user_manage')){
+            $this->render("errorAccess.tpl");
+        }
         $users = new UsersModel();
+        $roles = new RolesModel();
 
         if (isset($_POST['department']) && isset($_POST['position']) && isset($_POST['email']) && isset($_POST['phone']) && isset($_POST['birthday'])) {
             $position = $_POST['position'];
             $department = $_POST['department'];
+            $role = $_POST['role'];
             $email = $_POST['email'];
             $phone = $_POST['phone'];
             $birthday = $_POST['birthday'];
             if (isset($_POST['is_shown'])){
-                $is_shown=$_POST['is_shown'];
-            }
-            else
-                $is_shown=0;
+                $isShown = $_POST['is_shown'];
+            } else $isShown = 0;
+
             $inputErrors = $users->checkUserAttr($email, $phone, $position, $department);
             if ($inputErrors){
                 $errorString = 'Ошибка заполнения поля: ' . implode(', ', $inputErrors).'.';
@@ -309,20 +293,21 @@ class Users extends Controller {
                             FlashMessages::addMessage("Старый пароль введен не верно и изменен не был.", "error");
                         }
                     }
-                    $this->update($id, $position, $email, $department, $birthday, $phone, $newHash, $is_shown);
+                    $this->update($id, $position, $role, $email, $department, $birthday, $phone, $newHash, $isShown);
                 } else {
                     if(isset($_POST['userId'])){
                         $user = $_POST['userId'];
-                        $this->add($user, $email, $position, $department, $birthday, $phone, $is_shown);
+                        $this->add($user, $email, $position, $role, $department, $birthday, $phone, $isShown);
                     }
                 }
-            }   
+            }
         }
 
         $unregisteredUsers = $users->getAllUnregistered();
         $posList = $users->getPositionsList();
         $sortedUsers = array();
         $depList = $users->getDepartmentsList();
+        $rolesList = $roles->getAll();
 
         $sortedDepartments = array();
         foreach ($depList as $department) {
@@ -338,29 +323,39 @@ class Users extends Controller {
             $sortedUsers[$user['id']] = $user['name'];
         }
 
+        $sortedRoles = array();
+        foreach ($rolesList as $role) {
+            $sortedRoles[$role['id']] = $role['name'];
+        }
+
         if(isset($_GET['id']) && $_GET['id']){
             $id = $_GET['id'];
+            $userRole = $roles->getUserRole($id);
             $userInfo = $users->getUserInfo($id);
             $this->render("Users/manage.tpl", array(
                 'userId' => $id,
                 'userInfo' => $userInfo,
                 'positions' => $sortedPositions,
-                'departments' => $sortedDepartments
+                'departments' => $sortedDepartments,
+                'roles' => $sortedRoles,
+                'userRole' => $userRole
             ));
         } else {
             $this->render("Users/manage.tpl", array(
                 'users' => $sortedUsers,
                 'positions' => $sortedPositions,
-                'departments' => $sortedDepartments
+                'departments' => $sortedDepartments,
+                'roles' => $sortedRoles
             ));
         }
     }
-    public function add($user, $email, $position, $department, $birthday, $phone, $is_shown){
+    public function add($user, $email, $position, $role, $department, $birthday, $phone, $is_shown){
         $users = new UsersModel;
+        $roles = new RolesModel();
         $salt = Utils::createRandomString(5, 5);
         $password = Utils::createRandomString(8, 10);
         $hash = $this->generateHash($password, $salt);
-        if ($users->insertUsers($user, $email, $hash, $salt, $position, $department, $phone, $birthday, $is_shown)) {
+        if (($users->insertUsers($user, $email, $hash, $salt, $position, $department, $phone, $birthday, $is_shown)) && ($roles->insertUserRole($id, $role))) {
             FlashMessages::addMessage("Пользователь успешно добавлен.", "info");
         } else {
             FlashMessages::addMessage("Произошла ошибка. Пользователь не был добавлен.", "error");
@@ -368,26 +363,67 @@ class Users extends Controller {
         Utils::sendMail($email, "Создан аккаунт в системе Opensoft Savage", "Ваш пароль: $password");
     }
 
-    public function update($id, $position, $email, $department, $birthday, $phone, $newPass, $is_shown){
+    public function update($id, $position, $role, $email, $department, $birthday, $phone, $newPass, $is_shown){
         $users = new UsersModel;
+        $roles = new RolesModel();
         if(isset($newPass)){
             $users->editUserPass($id, $newPass);
         }
-        if($users->editUser($id, $position, $email, $department, $birthday, $phone, $is_shown)){
+        if(($users->editUser($id, $position, $email, $department, $birthday, $phone, $is_shown)) && ($roles->insertUserRole($id, $role))){
             FlashMessages::addMessage("Пользователь успешно отредактирован.", "info");
         } else {
             FlashMessages::addMessage("Произошла ошибка. Пользователь не был отредактирован", "error");
         }
-        $this->redirect("/users");
+        Utils::redirect("/users");
     }
 
     public function deleteAction(){
-        $id = $_POST[id];
+        if(!Acl::checkPermission('user_delete')){
+            $this->render("errorAccess.tpl");
+        }
+        $id = $_POST['id'];
         $user =  new UsersModel();
         $delete = $user->deleteUser($id);
         if ($delete) {
             FlashMessages::addMessage("Пользователь успешно удален.", "info");
-            $this->redirect("/users");
+            Utils::redirect("/users");
         } else FlashMessages::addMessage("При удалении пользователя произошла ошибка.", "error");
+    }
+
+    public function forgotPasswordAction(){
+        if(isset($_POST['loginForForgotPassword']) && $_POST['loginForForgotPassword']){
+            $login = $_POST['loginForForgotPassword'];
+            $usersModel = new UsersModel();
+            $salt = Utils::createRandomString(5, 5);
+            $password = Utils::createRandomString(8, 10);
+            $hash = $this->generateHash($password, $salt);
+
+            if (filter_var($login, FILTER_VALIDATE_EMAIL)) {
+                $user = $usersModel->getInfoByEmail($login);
+                if($user){
+                    $email = $login;
+                } else {
+                    FlashMessages::addMessage("Не правильно введен Email", "error");
+                }
+            } else {
+                $user = $usersModel->getInfoByCodeKey((int) $login);
+                if($user){
+                    $email = $user['email'];
+                } else {
+                    FlashMessages::addMessage("Не правильно введен номер карты", "error");
+                }
+            }
+
+            if(isset($email)){
+                if(Utils::sendMail($email, "Ваш новый пароль в системе Opensoft Savage", "Ваш пароль: $password")){
+                    $usersModel->editUserPass($user['id'], $hash);
+                    FlashMessages::addMessage("Ваш новый пароль отправлен вам на почту", "success");
+                    Utils::redirect("/users/login");
+                } else {
+                    FlashMessages::addMessage("Произошла ошибка. Пароль отправлен не был.", "error");
+                }
+                }
+        }
+        $this->render("Users/forgotPassword.tpl");
     }
 }

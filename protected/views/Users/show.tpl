@@ -10,29 +10,23 @@
     {/block}
 
     {block name="content"}
-<script type="text/javascript">
-$(function() {
-    $('#datepicker').datepicker( {
-        changeMonth: true,
-        changeYear: true,
-        showButtonPanel: true,
-        dateFormat: 'yy-mm',
-        closeText : "Готово",
-        currentText: "Сегодня",
-        onClose: function(dateText, inst) { 
-            var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
-            var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
-            $(this).datepicker('setDate', new Date(year, month, 1));
-        }
-    });
-});
-</script>
-<style>
-#reportsdiv > .ui-datepicker-calendar{
-    display: none;
-    }
-</style>
-
+        <script type="text/javascript">
+            $(function() {
+                $('#datepicker').datepicker( {
+                    changeMonth: true,
+                    changeYear: true,
+                    showButtonPanel: true,
+                    dateFormat: 'yy-mm',
+                    closeText : "Готово",
+                    currentText: "Сегодня",
+                    onClose: function(dateText, inst) {
+                        var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+                        var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                        $(this).datepicker('setDate', new Date(year, month, 1));
+                    }
+                });
+            });
+        </script>
 
         <div class="span7">
             {if $userInfo}
@@ -68,47 +62,13 @@ $(function() {
                     {/foreach}
                 </table>
             {/if}
-        <a class="btn btn-success" href="{$_root}/users/manage?id={$userInfo['id']}"> Редактировать </a>
-        <a class="btn" href="{$_root}/users"> Отмена </a>
-        <br>
-        <br>
-
-        {if $timeoffs}
-        <table class="table table-bordered">
-            <th> Дата </th>
-            <th> Тип </th>
-            {foreach from=$timeoffs item=timeoff}
-            <tr>
-                <td>{$timeoff['date']}</td>
-                <td>{$timeoff['name']}</td>
-            </tr>
-            {/foreach}
-        </table>
-        {else}<h3>В этом месяце отгулов нет</h3>
-        {/if}
+            {if 'user_manage'|checkPermission}
+                <a class="btn btn-success" href="{$_root}/users/manage?id={$userInfo['id']}"> Редактировать </a>
+                <a class="btn" href="{$_root}/users"> Отмена </a>
+            {/if}
         </div>
-        <div class="span5">
+        <div class="span4 additional">
             {include file='protected/views/Users/timeoff.tpl'}
-            <br>
-            <h3>Посмотреть отгулы</h3>
-    <form id = "reports" type='GET' action = "{$_root}/users/show">
-        <input type="hidden" name="id" value = "{$userInfo['id']}" > 
-        <label for = "datepicker"> Дата </label>
-        <input name = "date" type="text" id="datepicker" value = "{$timeoffsAttr['date']}" />
-
-        <label for = "type"> Тип </label>
-        <select name = "type">
-            <option value = "0"> Все </option>
-            {foreach from=$statuses item=stat}
-                <option value = "{$stat['id']}"> {$stat['name']} </option>
-            {/foreach}
-        </select>
-
-    </form>
-    <input form = "reports" type="submit" id="add" value = "Сформировать" class="btn btn-success" >
         </div>
-</div>
-
-
     {/block}
 {/extends}

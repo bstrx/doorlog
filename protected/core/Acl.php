@@ -13,9 +13,8 @@ class Acl {
 
         if (!empty( $result ) ){
             foreach ($result as $row) {
-                $userRoles[] = $row['name'];
+                $userRoles[$row['name']] = $row['id'];
             }
-
             return $userRoles;
         }
 
@@ -53,7 +52,7 @@ class Acl {
 
             foreach($rolePermissions as $permissions){
                 foreach($permissions as $permission){
-                    $permissionsArr[] = $permission;
+                    $permissionsArr[] = $permission['key'];
                 }
             }
 
@@ -66,13 +65,13 @@ class Acl {
 
     static function checkPermission($permission){
         $userInfo = Registry::getValue('user');
-
-        if(isset($userInfo['permissions']) && in_array($permission, $userInfo['permissions'])){
+        if(isset($userInfo['permissions']) && is_array($userInfo['permissions'])&& in_array($permission, $userInfo['permissions'])){
             return true;
         }
-
+        
             return false;
     }
+
 }
 
 ?>

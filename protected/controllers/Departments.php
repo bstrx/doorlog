@@ -26,7 +26,7 @@ class Departments extends Controller {
                 FlashMessages::addMessage("Произошла ошибка. Отдел не был добавлен.", "error");
             }
         }
-        $this->redirect("/departments");
+        Utils::redirect("/departments");
     }
 
     public function editAction() {
@@ -36,7 +36,7 @@ class Departments extends Controller {
             $depName = $_POST['depName'];
             $obj->editDep($depName, $id, $_POST['chief']);
             FlashMessages::addMessage("Отдел успешно отредактирован.", "info");
-            $this->redirect("/departments");
+            Utils::redirect("/departments");
         } else {
             $departments = $obj->getDepById($id);
             $users = $obj->getUsers($id);
@@ -50,12 +50,12 @@ class Departments extends Controller {
     }
 
     public function deleteAction(){
-        $id = $_POST[id];
+        $id = $_POST['id'];
         $obj =  new DepartmentModel();
         $delete = $obj->dellDep($id);
         if ($delete) {
             FlashMessages::addMessage("Отдел успешно удален.", "info");
-            $this->redirect("/departments");
+            Utils::redirect("/departments");
         } else FlashMessages::addMessage("При удалении отдела произошла ошибка.", "error");
     }
 

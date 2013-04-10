@@ -24,7 +24,6 @@ $(function() {
     });
 });
 </script>
-
 <script type="text/javascript">
     $(function() {
         $("#timeoff_autocomplete").autocomplete({
@@ -73,7 +72,6 @@ $(function() {
             } else {
                 $("div#user").show();
                 $("div#dep").hide();
-                $("select#dep_id").find(":selected").val(0);
             }
         });
  });

@@ -27,12 +27,7 @@
    $(document).ready(function()
    {
         $('#delete').bind('click',function(){
-            if(confirm("действительно хотите удалить?")){
-                    return true;
-              }
-            else {
-                    return false;
-            }
+            return confirm("действительно хотите удалить?");
         });
     });
 </script>

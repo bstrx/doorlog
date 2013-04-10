@@ -31,8 +31,10 @@ class Roles extends Model {
     public function getRolePermissions($roleId){
         $params = array();
         $params['roleId'] = $roleId;
-        $q = "SELECT permission_id
-              FROM roles_permissions
+        $q = "SELECT rp.permission_id, p.key
+              FROM roles_permissions rp
+              JOIN permission p
+              ON p.id = rp.permission_id
               WHERE role_id = :roleId";
         $result = $this->fetchAll($q, $params);
         return $result;
@@ -78,6 +80,37 @@ class Roles extends Model {
         $params['roleId'] = $roleId;
         $result = $this->execute($q, $params);
         $result1 = $this->execute($q1, $params);
+        return $result;
+    }
+
+    public function insertUserRole($user_id, $role_id){
+        $q="INSERT INTO users_roles(user_id, role_id)
+            VALUES (:user_id, :role_id)";
+        $params = array();
+        $params['user_id'] = $user_id;
+        $params['role_id'] = $role_id;
+        $result = $this->execute($q, $params);
+        return $result;
+    }
+
+    public function editUserRole($user_id, $role_id){
+        $q = "UPDATE users_roles SET role_id = (:role_id) WHERE user_id = (:user_id)";
+        $params = array();
+        $params['user_id'] = $user_id;
+        $params['role_id'] = $role_id;
+        $result = $this->execute($q, $params);
+        return $result;
+    }
+
+    public function getUserRole($user_id){
+        $q = "SELECT r.id, r.name
+            FROM role as r
+            JOIN users_roles as ur
+              ON ur.role_id = r.id
+            WHERE ur.user_id = :user_id";
+        $params = array();
+        $params['user_id'] = $user_id;
+        $result = $this->fetchAll($q, $params);
         return $result;
     }
 }

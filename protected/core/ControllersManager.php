@@ -7,21 +7,32 @@ class ControllersManager {
      * If route is 'users/add', then class of controller will be 'Users' and method will be 'AddAction'
      * @return void
      */
+    public $listUrl = array("Users\\forgotPassword", "Users\\login");
+    
     public function runController() {
         $typedUrl = isset($_GET['route']) ? $_GET['route'] : null;
         if ($typedUrl) {
             $urlArr = explode("/", $typedUrl);
-            $class = "controllers\\" . (ucfirst($urlArr[0]));
+            $class = ucfirst($urlArr[0]);
             if (empty($urlArr[1])) {
                 $method = "index";
             } else {
                 $method = $urlArr[1];
             }
         } else {
-            $class = "controllers\\Main";
+            $class = "Main";
             $method = "index";
         }
 
+        if(!in_array($class."\\".$method, $this->listUrl)){
+            $auth = new Authentication();
+            $check = $auth->checkAccess($class, $method);
+            if(!$check){
+                Utils::redirect("/users/login");
+            }
+        }
+
+        $class = "controllers\\" .$class;
         if (class_exists($class, TRUE)){
             $classInstance = new $class;
         } else {
