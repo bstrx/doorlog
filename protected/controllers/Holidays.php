@@ -25,7 +25,13 @@ class Holidays extends Controller{
             for($i=0;$i<=$num;$i++){
                $result[]=$obj->insertHoliday($holidays[$i], $newHolidays[$i]);
             }
-            if($result){
+            $insertError=false;
+            foreach($result as $flag){
+                if($flag==false){
+                    $insertError=true;
+                }
+            }
+            if(!$insertError){
                  FlashMessages::addMessage("Табель успешно отредактирован.", "info");
             }
             else{

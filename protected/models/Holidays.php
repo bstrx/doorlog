@@ -23,33 +23,40 @@ class Holidays extends Model{
         }
         return $month;
     }
-    
-    public function insertHoliday($month, $new_month){
-        if($month['type']!=$new_month['type']){
-                $q="SELECT id,
-                    date 
-                    FROM holiday";
-                $result=$this->fetchAll($q);
-                foreach($result as $day){
-                    if($day['date']==$month['date']){
-                        $q="UPDATE holiday
-                            SET holiday_type_id=(:type) 
-                            WHERE id=(:id)";
-                        $params['type']=$new_month['type'];
-                        $params['id']=$day['id'];
-                        $result=$this->execute($q,$params);
-                        return $result;
-                    }
-                }
-                $q="INSERT INTO holiday(date,holiday_type_id)
-                    VALUES(:date,:type)";
-                $params['date']=$new_month['date'];
-                $params['type']=$new_month['type'];
-                $result=$this->execute($q,$params);
-                return $result;
-        }
+
+    public function insertInBaseHoliday($date, $type){
+        $q="INSERT INTO holiday(date,holiday_type_id)
+            VALUES(:date, :iType)
+            ON DUPLICATE KEY UPDATE 
+            holiday_type_id = :uType";
+        $params['date']=$date;
+        $params['iType']=$type;
+        $params['uType']=$type;
+        $result=$this->execute($q,$params);
+        return $result;
     }
-    
+
+    public function deleteInBaseHoliday($date){
+        $q="DELETE FROM holiday 
+            WHERE date=(:date)";
+        $params['date']=$date;
+        $result=$this->execute($q,$params);
+        return $result;
+    }
+
+    public function insertHoliday($holiday, $newHoliday){
+        if($holiday['type']!=$newHoliday['type']){
+            print $newHoliday['type'];
+            if ($newHoliday['type']!=0){
+            $result=$this->insertInBaseHoliday($newHoliday['date'],$newHoliday['type']);
+            }
+            else{
+                $result = $this->deleteInBaseHoliday($newHoliday['date']);
+            }
+        return $result;
+    }
+    }
+
     public function getAllDays($date){
         $month = $this->getMonthDays($date);
         $num = date("t",strtotime(substr($date,0,-2)))-2;
@@ -70,7 +77,17 @@ class Holidays extends Model{
         }
         return $month;
     }
-    
+
+    public function autoHoliday($date){
+        $month=$this->getMonthDays($date);
+        $num = date("t",$mDay)-1;
+        for($i=0;$i<=$num;$i++){
+            if ($month[$i]['days']=="Суббота" or $month[$i]['days']=="Воскресенье"){
+                $result=$this->insertInBaseHoliday($date, 2);
+            }
+        }
+    }
+
     public function getAllType(){
         $q="SELECT id
             FROM holiday_type";
