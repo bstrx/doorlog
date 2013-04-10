@@ -50,7 +50,7 @@ class Reports extends Controller {
                 for ($date = $firstMonthDay; $date < $lastMonthDay; $date += 86400) {
                     $currentDate = date('Y-m-d', $date);
                     $oneDay = array('date'=> $currentDate, 'timeoffName' => 'Пусто', 'time' => 0);
-                    $reportAllDaysArray[$currentDate] = $oneDay;
+                    $reportAllDaysArray[$currentDate] = array('date'=> $currentDate, 'timeoffName' => 'Пусто', 'time' => 0);
                     if(isset($timeoffsArray[$currentDate])){
                         $reportAllDaysArray[$currentDate]['timeoffName'] = $timeoffsArray[$currentDate]['name'];
                     }
@@ -76,11 +76,10 @@ class Reports extends Controller {
         if (isset($_GET['date']) && isset($_GET['dep_id']) && !empty($_GET['date']) && $_GET['dep_id'] != 0 ){
             $users = $dep->getUsers($_GET['dep_id']);
             $selectedDate = $_GET['date'];
-            $countUsers = count($users);
-            for ($i=0; $i < $countUsers ; $i++) {
-                $timeoffsAllUsers[$i]['timeoffs'] = $user->getTimeoffsById($users[$i]['id'], $selectedDate, $_GET['type']);
-                $timeoffsAllUsers[$i]['id'] = $users[$i]['id'];
-                $timeoffsAllUsers[$i]['name'] = $users[$i]['name'];
+            foreach ($users as $currentUser) {
+                $timeoffsAllUsers[] = array('timeoffs' => $user->getTimeoffsById($currentUser['id'], $selectedDate, $_GET['type']),
+                'id' => $currentUser['id'],
+                'name' => $currentUser['name']);
             }
             $date = $selectedDate;
         } else {
