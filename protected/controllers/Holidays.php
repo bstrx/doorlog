@@ -14,16 +14,25 @@ class Holidays extends Controller{
         $obj = new HolidayModel();
         $holidays = $obj->getAllDays($date);
         
-        $types = array('Выходной','Короткий','Рабочий');
+        $types = $obj->getAllName();
         $values = $obj->getAllType();
         if(isset($_POST[$holidays['0']['date']])){
-            $num = date("t",strtotime(substr($date,0,-2)))-2;
+            $num=date("t",strtotime($date))-1;
             for($i=0;$i<=$num;$i++){
                $newHolidays[$i]['type'] = $_POST[$holidays[$i]['date']];
                $newHolidays[$i]['date'] = $holidays[$i]['date'];
             }
+            $result=array();
             for($i=0;$i<=$num;$i++){
-               $result[]=$obj->insertHoliday($holidays[$i], $newHolidays[$i]);
+                if($holidays[$i]['type']!=$newHolidays[$i]['type']){
+                    if($newHolidays[$i]['type']!=0){
+                        $result[]=$obj->insert($newHolidays[$i]['date'],$newHolidays[$i]['type']);
+                    }
+                    else{
+                        $result[]=$obj->delete($newHolidays[$i]['date']);
+                    }
+                }
+               
             }
             $insertError=false;
             foreach($result as $flag){

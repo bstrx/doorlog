@@ -24,7 +24,8 @@
                         <td>{$holiday['days']}</td>
                         <td> {$holiday['date']}</td>
                         <td>
-                            <select name="{$holiday['date']}"{if $holiday['days']=="Суббота" or $holiday['days']=="Воскресенье"} id="holiday"{/if} {if $holiday['type']==1 or $holiday['type']==2} class="text-error"{/if}>
+                            <select name="{$holiday['date']}"{if $holiday['trigger']==1} id="holiday"{/if} {if $holiday['type']==1 or $holiday['type']==2} class="text-error"{/if}>
+                                <option value="0"{if $holiday['trigger']==0} selected {/if}>Рабочий</option>
                                 {html_options values=$values output=$types selected=$holiday['type']}
                             </select>
                        </td>

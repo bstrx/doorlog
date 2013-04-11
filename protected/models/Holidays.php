@@ -16,15 +16,19 @@ class Holidays extends Model{
         $days = $uMonthFirstDay;
         while($days<=$uOffsetDay){
             $type = 0;
+            $trigger=0;
             $date = date("Y-m-d", $days);
             $name = strftime("%A", $days);
-            $month[] = array("days" =>$name, "date" => $date,"type" => $type);
+            if (date("w",$days)==0 or date("w",$days)==6){
+                $trigger=1;
+            }
+            $month[] = array("days" =>$name, "date" => $date,"type" => $type,"trigger"=>$trigger);
             $days = $days + $uDay;
         }
         return $month;
     }
 
-    public function insertInBaseHoliday($date, $type){
+    public function insert($date, $type){
         $q="INSERT INTO holiday(date,holiday_type_id)
             VALUES(:date, :iType)
             ON DUPLICATE KEY UPDATE 
@@ -36,25 +40,12 @@ class Holidays extends Model{
         return $result;
     }
 
-    public function deleteInBaseHoliday($date){
+    public function delete($date){
         $q="DELETE FROM holiday 
             WHERE date=(:date)";
         $params['date']=$date;
         $result=$this->execute($q,$params);
         return $result;
-    }
-
-    public function insertHoliday($holiday, $newHoliday){
-        if($holiday['type']!=$newHoliday['type']){
-            if ($newHoliday['type']!=0){
-            $result=$this->insertInBaseHoliday($newHoliday['date'],$newHoliday['type']);
-            }
-            else{
-                $result = $this->deleteInBaseHoliday($newHoliday['date']);
-            }
-        return $result;
-    }
-        return 1;
     }
 
     public function getAllDays($date){
@@ -78,23 +69,22 @@ class Holidays extends Model{
         return $month;
     }
 
-    public function autoHoliday($date){
-        $month=$this->getMonthDays($date);
-        $num = date("t",$mDay)-1;
-        for($i=0;$i<=$num;$i++){
-            if ($month[$i]['days']=="Суббота" or $month[$i]['days']=="Воскресенье"){
-                $result=$this->insertInBaseHoliday($date, 2);
-            }
-        }
-    }
-
     public function getAllType(){
         $q="SELECT id
             FROM holiday_type";
         $holiday=$this->fetchAll($q);
-        $holiday[]['id']=0;
         foreach ($holiday as $type){
             $result[]=$type['id'];
+        }
+        return $result;
+    }
+    
+    public function getAllName(){
+        $q="SELECT name
+            FROM holiday_type";
+        $holiday=$this->fetchAll($q);
+        foreach($holiday as $name){
+            $result[]=$name['name'];
         }
         return $result;
     }
