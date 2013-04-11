@@ -25,7 +25,11 @@
                         {/if}
                     </td>
                     <td>{$user['position']}</td>
-                    <td>{$user['time']['total_sum']|formatDate}</td>
+                    {if ('users_private_info'|checkPermission) || ($userId==$user['id'])}
+                        <td>{$user['time']['total_sum']|formatDate}</td>
+                    {else}
+                        <td>Нет доступа</td>
+                    {/if}
                     <td>
                         {if {$user['status']} == 2 }
                             <span class="label label-success">В офисе</span>

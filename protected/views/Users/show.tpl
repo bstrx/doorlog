@@ -35,8 +35,10 @@
                     <th> Отдел </th>
                     <th> Должность </th>
                     <th> Статус </th>
-                    <th> Телефон </th>
-                    <th> Дата рождения </th>
+                    {if ('users_private_info'|checkPermission) || ($permission==1)}
+                        <th> Телефон </th>
+                        <th> Дата рождения </th>
+                    {/if}
                     <th> Дата создания </th>
                     {foreach from=userInfo item=user}
                         <tr>
@@ -55,8 +57,10 @@
                                     <span class="label">Не в офисе</span>
                                 {/if}
                             </td>
-                            <td> {$userInfo['phone']} </td>
-                            <td> {$userInfo['birthday']} </td>
+                            {if ('users_private_info'|checkPermission) || ($permission==1)}
+                                <td> {$userInfo['phone']} </td>
+                                <td> {$userInfo['birthday']} </td>
+                            {/if}
                             <td> {$userInfo['created']} </td>
                         </tr>
                     {/foreach}
@@ -67,7 +71,7 @@
                 <a class="btn" href="{$_root}/users"> Отмена </a>
             {/if}
         </div>
-        {if 'timeoffs_add'|checkPermission}
+        {if $permission==1}
             <div class="span4 additional">
                 {include file='protected/views/Users/timeoff.tpl'}
             </div>

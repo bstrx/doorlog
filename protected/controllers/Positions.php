@@ -4,6 +4,7 @@ use core\Controller;
 use models\Positions as PositionModel;
 use core\FlashMessages;
 use core\Acl;
+use core\Utils;
 
 class Positions extends Controller{
     public function indexAction() {
