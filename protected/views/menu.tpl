@@ -41,6 +41,7 @@
                         <li><a href="{$_root}/roles">Права доступа</a></li>
                         <li><a href="{$_root}/users">Пользователи</a></li>
                         <li><a href="{$_root}/positions">Должности</a></li>
+                        <li><a href="{$_root}/holidays">Выходные дни</a></li>
                     </ul>
                 </li>
                 {/if}

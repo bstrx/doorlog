@@ -310,7 +310,14 @@ class Users extends Model{
         $params['birthday'] = $birthday;
         $params['phone'] = $phone;
         $params['is_shown'] = $is_shown;
-        $q= "UPDATE user SET position_id = (:position), email = (:email), department_id = (:department), birthday = (:birthday), phone = (:phone), is_shown = (:is_shown) WHERE id = (:id)";
+        $q= "UPDATE user 
+            SET position_id = (:position), 
+            email = (:email), 
+            department_id = (:department), 
+            birthday = (:birthday), 
+            phone = (:phone), 
+            is_shown = (:is_shown) 
+            WHERE id = (:id)";
         $result = $this->execute($q, $params);
         return $result;
     }
