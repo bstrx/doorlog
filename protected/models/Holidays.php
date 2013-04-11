@@ -46,7 +46,6 @@ class Holidays extends Model{
 
     public function insertHoliday($holiday, $newHoliday){
         if($holiday['type']!=$newHoliday['type']){
-            print $newHoliday['type'];
             if ($newHoliday['type']!=0){
             $result=$this->insertInBaseHoliday($newHoliday['date'],$newHoliday['type']);
             }
@@ -55,6 +54,7 @@ class Holidays extends Model{
             }
         return $result;
     }
+        return 1;
     }
 
     public function getAllDays($date){
