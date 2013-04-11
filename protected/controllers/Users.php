@@ -178,8 +178,11 @@ class Users extends Controller {
         } else {
             FlashMessages::addMessage("Неверный id пользователя", "error");
         }
-
-        $this->render("Users/show.tpl", array('userInfo' => $userInfo, 'statuses'=> $statuses, 'id' => $id, 'timeoffs' => $timeoffs, 'timeoffsAttr' => $timeoffsAttr));
+        $permission = null;
+        if ($_GET['id']==$_COOKIE['id']){
+            $permission = 1;
+        }
+        $this->render("Users/show.tpl", array('userInfo' => $userInfo, 'statuses'=> $statuses, 'id' => $id, 'timeoffs' => $timeoffs, 'timeoffsAttr' => $timeoffsAttr, 'permission' => $permission));
     }
 
     public function vacationAction(){

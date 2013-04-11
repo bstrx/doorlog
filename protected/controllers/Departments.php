@@ -7,6 +7,7 @@ use core\FlashMessages;
 use models\Departments as DepartmentModel;
 use models\Users as UserModel;
 use controllers\Main as Time;
+use core\Utils;
 
 class Departments extends Controller {
 
@@ -91,6 +92,7 @@ class Departments extends Controller {
             $users[$i]['time'] = $time->getWeekInfo($userPersonalId, date('Y-m-d'));
         }
         $name = $department->getDepById($depId);
-        $this->render("Departments/show.tpl" , array('users' => $users, 'depName' => $name));
+        $userId = $_COOKIE['id'];
+        $this->render("Departments/show.tpl" , array('users' => $users, 'depName' => $name, 'userId'=>$userId));
     }
 }
