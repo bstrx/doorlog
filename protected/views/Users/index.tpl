@@ -10,7 +10,9 @@
 
     {block name="content"}
         <div class='span10'>
-            <a href="{$_root}/users/manage">Добавить пользователя</a>
+            {if 'users_manage'|checkPermission}
+                <a href="{$_root}/users/manage">Добавить пользователя</a>
+            {/if}
             <table class="table table-bordered">
                 <thead>
                     <th>№</th>
