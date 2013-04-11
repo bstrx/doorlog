@@ -1,5 +1,6 @@
 <?php
 namespace controllers;
+use core\Acl;
 use core\Controller;
 use models\Users as UsersModel;
 use models\Departments as DepartmentModel;
@@ -10,10 +11,16 @@ use controllers\Main as Time;
 class Reports extends Controller {
 
     function indexAction() {
+        if(!Acl::checkPermission('reports')){
+            $this->render("errorAccess.tpl");
+        }
         $this->render("Reports/index.tpl");
     }
 
     function timeoffsAction() {
+        if(!Acl::checkPermission('timeoffs_reports')){
+            $this->render("errorAccess.tpl");
+        }
         $timeoffs = array();
         $users = array();
         $reportAllDaysArray = array();
@@ -56,6 +63,9 @@ class Reports extends Controller {
     }
 
     function officeloadAction() {
+        if(!Acl::checkPermission('officeload_reports')){
+            $this->render("errorAccess.tpl");
+        }
         $obj = new ReportsModel;
 
         if (isset($_GET['date'])) {

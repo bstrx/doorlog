@@ -4,6 +4,7 @@
  */
 namespace controllers;
 
+use core\Acl;
 use core\Controller;
 use models\Roles as RolesModel;
 use core\FlashMessages;
@@ -11,12 +12,18 @@ use core\FlashMessages;
 class Roles extends Controller{
 
     function indexAction(){
+        if(!Acl::checkPermission('roles_view')){
+            $this->render("errorAccess.tpl");
+        }
         $obj = new RolesModel();
         $roles = $obj->getAll();
         $this->render("Roles/index.tpl" , array('roles' => $roles));
     }
 
     function addAction(){
+        if(!Acl::checkPermission('roles_add')){
+            $this->render("errorAccess.tpl");
+        }
         $obj =  new RolesModel();
         if(isset($_POST['roleName']) && $_POST['roleName']){
            $roleName = $_POST['roleName'];
@@ -30,8 +37,10 @@ class Roles extends Controller{
     }
 
     function editAction(){
+        if(!Acl::checkPermission('roles_edit')){
+            $this->render("errorAccess.tpl");
+        }
         $obj = new RolesModel();
-
         if(isset($_GET['id']) && $_GET['id']){
             $roleId = $_GET['id'];
         }
@@ -76,6 +85,9 @@ class Roles extends Controller{
     }
 
     function deleteAction(){
+        if(!Acl::checkPermission('roles_delete')){
+            $this->render("errorAccess.tpl");
+        }
         if(isset($_POST['id'])){
             $roleId = $_POST['id'];
         }
