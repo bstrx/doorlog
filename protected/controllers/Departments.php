@@ -11,7 +11,7 @@ use controllers\Main as Time;
 class Departments extends Controller {
 
     public function indexAction() {
-        if(!Acl::checkPermission('dep_view')){
+        if(!Acl::checkPermission('department_view')){
             $this->render("errorAccess.tpl");
         }
         $obj =  new DepartmentModel();
@@ -21,7 +21,7 @@ class Departments extends Controller {
     }
 
     public function addAction() {
-        if(!Acl::checkPermission('dep_add')){
+        if(!Acl::checkPermission('department_add')){
             $this->render("errorAccess.tpl");
         }
         $obj =  new DepartmentModel();
@@ -37,7 +37,7 @@ class Departments extends Controller {
     }
 
     public function editAction() {
-        if(!Acl::checkPermission('dep_edit')){
+        if(!Acl::checkPermission('department_edit')){
             $this->render("errorAccess.tpl");
         }
         $id = $_GET['id'];
@@ -60,7 +60,7 @@ class Departments extends Controller {
     }
 
     public function deleteAction(){
-        if(!Acl::checkPermission('dep_delete')){
+        if(!Acl::checkPermission('department_delete')){
             $this->render("errorAccess.tpl");
         }
         $id = $_POST['id'];
@@ -73,7 +73,7 @@ class Departments extends Controller {
     }
 
     public function showAction(){
-        if(!Acl::checkPermission('dep_view')){
+        if(!Acl::checkPermission('department_view')){
             $this->render("errorAccess.tpl");
         }
         $time  = new Time();
