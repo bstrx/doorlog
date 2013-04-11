@@ -7,7 +7,7 @@ use core\Acl;
 
 class Positions extends Controller{
     public function indexAction() {
-        if(!Acl::checkPermission('position_view')){
+        if(!Acl::checkPermission('positions_view')){
             $this->render("errorAccess.tpl");
         }
         $obj =  new PositionModel();
@@ -16,7 +16,7 @@ class Positions extends Controller{
     }
 
     public function addAction(){
-        if(!Acl::checkPermission('position_add')){
+        if(!Acl::checkPermission('positions_add')){
             $this->render("errorAccess.tpl");
         }
         $positions = new PositionModel();
@@ -34,7 +34,7 @@ class Positions extends Controller{
     }
 
     public function editAction(){
-        if(!Acl::checkPermission('position_edit')){
+        if(!Acl::checkPermission('positions_edit')){
             $this->render("errorAccess.tpl");
         }
         if (isset($_GET['id'])){
@@ -58,7 +58,7 @@ class Positions extends Controller{
     }
 
     public function deleteAction(){
-        if(!Acl::checkPermission('position_delete')){
+        if(!Acl::checkPermission('positions_delete')){
             $this->render("errorAccess.tpl");
         }
         if (isset($_POST['id'])){
