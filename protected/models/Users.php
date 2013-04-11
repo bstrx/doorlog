@@ -285,12 +285,12 @@ class Users extends Model{
         $params['id'] = $id;
         $params['date1'] = $date1;
         $params['date2'] = $date2;
-        $q = "SELECT * 
+        $q = "SELECT *
             FROM users_statuses AS u
         LEFT JOIN status AS s ON u.status_id = s.id
-        WHERE u.user_id in 
+        WHERE u.user_id in
         (SELECT id FROM user WHERE id = :id AND is_shown = 1 )
-        AND u.date 
+        AND u.date
         BETWEEN :date1 AND :date2 " ;
 
         if($type){

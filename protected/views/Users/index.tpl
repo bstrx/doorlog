@@ -10,13 +10,9 @@
 
     {block name="content"}
         <div class='span10'>
-<<<<<<< Updated upstream
-            <a href="{$_root}/users/manage">Добавить пользователя</a>
-=======
-            {if 'user_add'|checkPermission}
+            {if 'users_manage'|checkPermission}
                 <a href="{$_root}/users/manage">Добавить пользователя</a>
             {/if}
->>>>>>> Stashed changes
             <table class="table table-bordered">
                 <thead>
                     <th>№</th>
