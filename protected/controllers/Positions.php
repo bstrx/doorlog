@@ -3,17 +3,22 @@ namespace controllers;
 use core\Controller;
 use models\Positions as PositionModel;
 use core\FlashMessages;
-
+use core\Acl;
 
 class Positions extends Controller{
     public function indexAction() {
+        if(!Acl::checkPermission('pos_view')){
+            $this->render("errorAccess.tpl");
+        }
         $obj =  new PositionModel();
-
         $positions =  $obj->getAll();
         $this->render("Positions/index.tpl" , array('positions' => $positions));
     }
 
     public function addAction(){
+        if(!Acl::checkPermission('pos_add')){
+            $this->render("errorAccess.tpl");
+        }
         $positions = new PositionModel();
 
         if(isset($_POST['posName']) && $_POST['posName']){
@@ -29,6 +34,9 @@ class Positions extends Controller{
     }
 
     public function editAction(){
+        if(!Acl::checkPermission('pos_edit')){
+            $this->render("errorAccess.tpl");
+        }
         if (isset($_GET['id'])){
             $id = $_GET['id'];
             $positions = new PositionModel();
@@ -50,6 +58,9 @@ class Positions extends Controller{
     }
 
     public function deleteAction(){
+        if(!Acl::checkPermission('pos_delete')){
+            $this->render("errorAccess.tpl");
+        }
         if (isset($_POST['id'])){
             $id = $_POST['id'];
             $positions=new PositionModel();

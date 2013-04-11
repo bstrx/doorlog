@@ -6,6 +6,7 @@
                 <li>
                     <a href="{$_root}/">Главная</a>
                 </li>
+                {if 'dep_view'|checkPermission}
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         Отделы <span class="caret"></span>
@@ -18,6 +19,9 @@
                         {/if}
                     </ul>
                 </li>
+                {/if}
+
+                {if ('timeoffs_reports'|checkPermission) || ('officeload_reports'|checkPermission)}
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         Отчёты <span class="caret"></span>
@@ -27,6 +31,9 @@
                         <li><a href="{$_root}/reports/timeoffs">По отгулам</a></li>
                     </ul>
                 </li>
+                {/if}
+
+                {if 'admin'|checkPermission}
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         Настройки <span class="caret"></span>
@@ -34,10 +41,12 @@
                     <ul class="dropdown-menu">
                         <li><a href="{$_root}/departments">Отделы</a></li>
                         <li><a href="{$_root}/roles">Права доступа</a></li>
-                        {if 'user_view'|checkPermission}<li><a href="{$_root}/users">Пользователи</a></li>{/if}
+                        <li><a href="{$_root}/users">Пользователи</a></li>
                         <li><a href="{$_root}/positions">Должности</a></li>
                     </ul>
                 </li>
+                {/if}
+
             </ul>
             <ul class="nav pull-right">
                 <li><a href="{$_root}/users/logout">Выйти</a></li>

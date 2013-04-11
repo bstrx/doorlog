@@ -183,6 +183,9 @@ class Users extends Controller {
     }
 
     public function vacationAction(){
+        if(!Acl::checkPermission('timeoffs_add')){
+            $this->render("errorAccess.tpl");
+        }
         $timeoffs = new UsersModel;
 
         if(isset($_POST['id']) && isset($_POST['from']) && isset($_POST['to'])){
