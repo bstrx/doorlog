@@ -3,9 +3,7 @@
     <div class="navbar-inner">
         <div class="container">
             <ul class="nav">
-                <li>
-                    <a href="{$_root}/">Главная</a>
-                </li>
+                <li><a href="{$_root}/"><i class="icon-home"></i></a></li>
                 {if 'menu_departments'|checkPermission}
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
