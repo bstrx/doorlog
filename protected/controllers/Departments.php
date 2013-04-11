@@ -1,6 +1,7 @@
 <?php
 namespace controllers;
 
+use core\Acl;
 use core\Controller;
 use core\FlashMessages;
 use models\Departments as DepartmentModel;
@@ -10,6 +11,9 @@ use controllers\Main as Time;
 class Departments extends Controller {
 
     public function indexAction() {
+        if(!Acl::checkPermission('departments_view')){
+            $this->render("errorAccess.tpl");
+        }
         $obj =  new DepartmentModel();
         $departments =  $obj->getAll();
 
@@ -17,6 +21,9 @@ class Departments extends Controller {
     }
 
     public function addAction() {
+        if(!Acl::checkPermission('departments_add')){
+            $this->render("errorAccess.tpl");
+        }
         $obj =  new DepartmentModel();
         if(isset($_POST['depName']) && $_POST['depName']){
             $depName = $_POST['depName'];
@@ -30,6 +37,9 @@ class Departments extends Controller {
     }
 
     public function editAction() {
+        if(!Acl::checkPermission('departments_edit')){
+            $this->render("errorAccess.tpl");
+        }
         $id = $_GET['id'];
         $obj =  new DepartmentModel();
         if((isset($_POST['depName']) && $_POST['depName']) || (isset($_POST['chief']) && $_POST['chief'])){
@@ -50,6 +60,9 @@ class Departments extends Controller {
     }
 
     public function deleteAction(){
+        if(!Acl::checkPermission('departments_delete')){
+            $this->render("errorAccess.tpl");
+        }
         $id = $_POST['id'];
         $obj =  new DepartmentModel();
         $delete = $obj->dellDep($id);
@@ -60,6 +73,9 @@ class Departments extends Controller {
     }
 
     public function showAction(){
+        if(!Acl::checkPermission('departments_view')){
+            $this->render("errorAccess.tpl");
+        }
         $time  = new Time();
         $department =  new DepartmentModel();
         $user = new UserModel();

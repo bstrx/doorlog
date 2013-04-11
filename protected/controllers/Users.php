@@ -15,7 +15,7 @@ use models\Roles as RolesModel;
 class Users extends Controller {
 
     public function indexAction() {
-        if(!Acl::checkPermission('user_view')){
+        if(!Acl::checkPermission('users_view')){
             $this->render("errorAccess.tpl");
         }
         $users = new UsersModel();
@@ -139,7 +139,7 @@ class Users extends Controller {
     }
 
     public function showAction() {
-        if(!Acl::checkPermission('user_view')){
+        if(!Acl::checkPermission('users_view')){
             $this->render("errorAccess.tpl");
         }
         $timeoffs = array();
@@ -183,6 +183,9 @@ class Users extends Controller {
     }
 
     public function vacationAction(){
+        if(!Acl::checkPermission('timeoffs_add')){
+            $this->render("errorAccess.tpl");
+        }
         $timeoffs = new UsersModel;
 
         if(isset($_POST['id']) && isset($_POST['from']) && isset($_POST['to'])){
@@ -258,7 +261,7 @@ class Users extends Controller {
     }
 
     public function manageAction() {
-        if(!Acl::checkPermission('user_manage')){
+        if(!Acl::checkPermission('users_manage')){
             $this->render("errorAccess.tpl");
         }
         $users = new UsersModel();
@@ -378,7 +381,7 @@ class Users extends Controller {
     }
 
     public function deleteAction(){
-        if(!Acl::checkPermission('user_delete')){
+        if(!Acl::checkPermission('users_delete')){
             $this->render("errorAccess.tpl");
         }
         $id = $_POST['id'];

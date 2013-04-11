@@ -67,8 +67,10 @@
                 <a class="btn" href="{$_root}/users"> Отмена </a>
             {/if}
         </div>
-        <div class="span4 additional">
-            {include file='protected/views/Users/timeoff.tpl'}
-        </div>
+        {if 'timeoffs_add'|checkPermission}
+            <div class="span4 additional">
+                {include file='protected/views/Users/timeoff.tpl'}
+            </div>
+        {/if}
     {/block}
 {/extends}
