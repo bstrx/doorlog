@@ -50,7 +50,7 @@ class Holidays extends Model{
 
     public function getAllDays($date){
         $month = $this->getMonthDays($date);
-        $num = date("t",strtotime($date))-2;
+        $num = date("t",strtotime($date))-1;
         $uFirst = $month[0]['date'];
         $uLast = $month[$num]['date'];
         $q="SELECT date,
