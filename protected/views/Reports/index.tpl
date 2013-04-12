@@ -13,10 +13,10 @@ $(function() {
         changeMonth: true,
         changeYear: true,
         showButtonPanel: true,
-        dateFormat: 'yy-mm',
+        dateFormat: 'mm.yy',
         closeText : "Готово",
         currentText: "Сегодня",
-        onClose: function(dateText, inst) { 
+        onClose: function(dateText, inst) {
             var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
             var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
             $(this).datepicker('setDate', new Date(year, month, 1));
@@ -62,6 +62,7 @@ $(function() {
                 $("#timeoff_autocomplete_id").val('');
             }
         });
+
     $("select#dep_id").find(":selected").val(0);
         $("select#type").change(function(){
             selectedVal = $(this).find(":selected").val();
@@ -74,6 +75,10 @@ $(function() {
                 $("div#dep").hide();
             }
         });
+    $(".asdasd").click(function(){
+        $(".panel").slideToggle("slow");
+        $(this).toggleClass("active");
+    });
  });
 </script>
 <style>
@@ -108,7 +113,7 @@ $(function() {
 
 
         <label for = "datepicker"> Дата </label>
-        <input name = "date" type="text" id="datepicker" value = "{$timeoffsAttr['date']}" />
+        <input name = "date" type="text" id="datepicker" value = "{$timeoffsAttr['date']|date_format:"%m.%Y"}" />
 
         <label for = "type"> Тип </label>
         <select name = "type">
@@ -124,44 +129,19 @@ $(function() {
     <br>
     <div class="span7">
     {if $reportAllDaysArray}
-        <table class="table table-bordered">
-            <th> День недели </th>
-            <th> Дата </th>
-            <th> Тип </th>
-            <th> Время </th>
-            {foreach from=$reportAllDaysArray item=timeoff}
-            <tr>
-                <td>{$timeoff['dayName']}</td>
-                <td>{$timeoff['date']|date_format:"%d.%m.%Y"}</td>
-                <td>{$timeoff['timeoffName']}</td>
-                <td>{$timeoff['time']|formatDate}</td>
-            </tr>
-            {/foreach}
-        </table>
+        <h3>{$name['user']}</h3>
+        {include file='protected/views/Reports/timeoffs.tpl' reportAllDaysArray = $reportAllDaysArray}
     {else}
-    {if $timeoffsAllUsers}
-        {foreach from=$timeoffsAllUsers item=allUsers}
-            <h3>{$allUsers['name']}</h3>
-            {if $allUsers['reports']}
-            <table class="table table-bordered">
-                <th> Дата </th>
-                <th> Тип </th>
-                <th> Время </th>
-                <tr>
-                    {foreach from=$allUsers['reports'] item=report}
-                    <tr>
-                        <td>{$report['dayName']}</td>
-                        <td>{$report['date']|date_format:"%d.%m.%Y"}</td>
-                        <td>{$report['timeoffName']}</td>
-                        <td>{$report['time']|formatDate}</td>
-                    {/foreach}
-                </tr>
-            </table>
-            {else}<h5>Отгулов нет</h5>
-            {/if}
-        {/foreach}{else}<h5>Отгулов нет<h5>
+        {if $timeoffsAllUsers}
+            <h3>{$name['dep']}</h3>
+            {foreach from=$timeoffsAllUsers item=allUsers}
+                {if $allUsers['reports']}
+                    {include file='protected/views/Reports/timeoffs.tpl' reportAllDaysArray = $allUsers['reports'] tableId=$allUsers['id'] userName = $allUsers['name']}
+                    {else}<h5>Отгулов нет</h5>
+                {/if}
+            {/foreach}
+        {else} <h5>Отгулов нет</h5>{/if}
     {/if}
-    {/if}
-</div>
+    </div>
     {/block}
 {/extends}
