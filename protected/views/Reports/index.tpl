@@ -75,10 +75,6 @@ $(function() {
                 $("div#dep").hide();
             }
         });
-    $(".asdasd").click(function(){
-        $(".panel").slideToggle("slow");
-        $(this).toggleClass("active");
-    });
  });
 </script>
 <style>
