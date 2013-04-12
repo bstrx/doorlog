@@ -56,7 +56,7 @@
                 </tbody>
             </table>
             <button form="type" class="btn btn-success" type="submit">Сохранить</button>
-            <button id="auto">Автозаполнение</button>
+            <button id="auto" class="btn">Автозаполнение</button>
         {/if}
     </div>
 {/block}
