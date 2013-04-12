@@ -136,4 +136,5 @@ input[type = "checkbox"]{
 
 .accordion {
     margin-top: -20px;
+    margin-bottom: 0px;
 }
