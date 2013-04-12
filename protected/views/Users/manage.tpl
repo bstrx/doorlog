@@ -1,8 +1,4 @@
 {extends "protected/views/index.tpl"}
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
 
     {block name="breadcrumbs"}
         <ul class="breadcrumb">
@@ -17,11 +13,7 @@
     {/block}
 
     {block name="content"}
-<<<<<<< Updated upstream
-=======
 
-    {if 'user_add'|checkPermission}
->>>>>>> Stashed changes
     {include file='protected/views/dialog.tpl'}
         {if isset($userId)}
             {block name="pagetitle"}<h1>Изменить пользователя {$userInfo['name']}</h1>{/block}

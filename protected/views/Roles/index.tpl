@@ -14,6 +14,7 @@
         <table class="table table-bordered">
             <colgroup>
                 <col class="col-large">
+                <col class="col-small">
             </colgroup>
             <thead>
                 <th>Роль</th>

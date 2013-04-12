@@ -125,3 +125,8 @@ input[type = "checkbox"]{
 #dep{
     display: none;
 }
+#footer{
+  height: 80px;
+  width: 100%;
+  float: left;
+}
