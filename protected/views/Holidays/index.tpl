@@ -14,7 +14,7 @@
         changeMonth: true,
         changeYear: true,
         showButtonPanel: true,
-        dateFormat: 'yy-mm',
+        dateFormat: 'mm.yy',
         closeText : "Готово",
         currentText: "Сегодня",
         onClose: function(dateText, inst) { 
@@ -31,7 +31,11 @@
         <input name = "date" type="text" id="datepicker" value = "{$date}" />
         </form>
         <button form="date" class="btn btn-success" type="submit">Сформировать</button>
-        {if $holidays}
+    </div>    
+    {if $holidays}
+    <div class="span7">
+
+
             <table class="table table-bordered">
                 <thead>
                     <th> День недели </th>
@@ -55,9 +59,14 @@
                 </form>
                 </tbody>
             </table>
-            <button form="type" class="btn btn-success" type="submit">Сохранить</button>
-            <button id="auto" class="btn">Автозаполнение</button>
-        {/if}
+
     </div>
+    <div class="span4 additional">
+            
+            <button form="type" class="btn btn-success" type="submit">Сохранить</button>
+            <p>Пометить все субботы и воскресенья как выходные. Для того, чтобы изменения вступили в силу, необходимо их сохранить</p>
+            <button id="auto" class="btn">Автозаполнение</button>
+    </div>
+    {/if}
 {/block}
 {/extends}
