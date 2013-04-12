@@ -34,7 +34,7 @@ class Users extends Model{
               ON u.department_id = d.id
             ORDER BY t.NAME ";
 
-        if ($firstElement != 0 && $elementsCount != 0){
+        if ($elementsCount){
             $q.="LIMIT :firstElement, :elementsCount";
             $params['firstElement'] = $firstElement;
             $params['elementsCount'] = $elementsCount;
@@ -310,13 +310,13 @@ class Users extends Model{
         $params['birthday'] = $birthday;
         $params['phone'] = $phone;
         $params['is_shown'] = $is_shown;
-        $q= "UPDATE user 
-            SET position_id = (:position), 
-            email = (:email), 
-            department_id = (:department), 
-            birthday = (:birthday), 
-            phone = (:phone), 
-            is_shown = (:is_shown) 
+        $q= "UPDATE user
+            SET position_id = (:position),
+            email = (:email),
+            department_id = (:department),
+            birthday = (:birthday),
+            phone = (:phone),
+            is_shown = (:is_shown)
             WHERE id = (:id)";
         $result = $this->execute($q, $params);
         return $result;
