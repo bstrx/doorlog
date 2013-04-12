@@ -125,3 +125,15 @@ input[type = "checkbox"]{
 #dep{
     display: none;
 }
+
+.reports{
+    width: 550px;
+}
+
+.accordion-group {
+    border: 0px;
+}
+
+.accordion {
+    margin-top: -20px;
+}
