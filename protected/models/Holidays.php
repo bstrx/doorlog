@@ -17,7 +17,7 @@ class Holidays extends Model{
         while($days<=$uOffsetDay){
             $type = 0;
             $trigger=0;
-            $date = date("Y-m-d", $days);
+            $date = date("d.m.Y", $days);
             $name = strftime("%A", $days);
             if (date("w",$days)==0 or date("w",$days)==6){
                 $trigger=1;
@@ -50,7 +50,7 @@ class Holidays extends Model{
 
     public function getAllDays($date){
         $month = $this->getMonthDays($date);
-        $num = date("t",strtotime(substr($date,0,-2)))-2;
+        $num = date("t",strtotime($date))-2;
         $uFirst = $month[0]['date'];
         $uLast = $month[$num]['date'];
         $q="SELECT date,
@@ -61,7 +61,9 @@ class Holidays extends Model{
         $result = $this->fetchAll($q);
         for ($i=0;$i<=$num;$i++){
             foreach ($result as $holiday){
-                if ($month[$i]['date']==$holiday['date']){
+                list($hDay,$hMonth,$hYear)=explode(".",$month[$i]["date"]);
+                $hDate=$hYear."-".$hMonth."-".$hDay;
+                if ($hDate==$holiday['date']){
                    $month[$i]['type']=$holiday['holiday_type_id'];
                 }
             }

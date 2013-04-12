@@ -1,5 +1,5 @@
 {extends "protected/views/index.tpl"}
-{block name="pagetitle"}<h1>Выходые дни</h1>{/block}
+{block name="pagetitle"}<h1>Выходные дни</h1>{/block}
 
 {block name="content"}
     <script type="text/javascript">
@@ -25,6 +25,11 @@
     });
 });
 </script>
+<style>
+.ui-datepicker-calendar {
+    display: none;
+    }
+</style>
     <div class="span7">
         <form method="GET" id="date">
         <label for = "datepicker"> Дата </label>
@@ -44,17 +49,19 @@
                 </thead>
                 <tbody>
                 <form method="POST" id="type">
+                    {$i=0}
                     {foreach from=$holidays item=holiday}
                         <tr>
                             <td>{$holiday['days']}</td>
                             <td> {$holiday['date']}</td>
                             <td>
-                                <select name="{$holiday['date']}"{if $holiday['trigger']==1} id="holiday"{/if} {if $holiday['type']==1 or $holiday['type']==2} class="text-error"{/if}>
+                                <select name="{$i}"{if $holiday['trigger']==1} id="holiday"{/if} {if $holiday['type']==1 or $holiday['type']==2} class="text-error"{/if}>
                                     <option value="0"{if $holiday['trigger']==0} selected {/if}>Рабочий</option>
                                     {html_options values=$values output=$types selected=$holiday['type']}
                                 </select>
                             </td>
                         </tr>
+                        {$i=$i+1}
                     {/foreach}
                 </form>
                 </tbody>
