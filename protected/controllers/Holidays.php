@@ -35,7 +35,6 @@ class Holidays extends Controller{
                     if($holidays[$i]['type']!=$newHolidays[$i]['type']){
                         list($uDay,$uMonth,$uYear)= explode(".",$newHolidays[$i]['date']);
                         $newHolidays[$i]['date']=$uYear."-".$uMonth."-".$uDay;
-                        print $newHolidays[$i]['date'];
                         if($newHolidays[$i]['type']!=0){
                             $result[]=$obj->insert($newHolidays[$i]['date'],$newHolidays[$i]['type']);
                         }
