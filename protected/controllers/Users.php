@@ -115,7 +115,7 @@ class Users extends Controller {
                 if ($hash == $userInfo['password']) {
                     $auth = new Authentication();
                     $auth->grantAccess($userInfo['id'], $hash);
-                    $this->redirect('/');
+                    Utils::redirect('/');
                 } else {
                     FlashMessages::addMessage("Неверный пароль.", "error");
                 }
