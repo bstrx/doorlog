@@ -1,3 +1,15 @@
+<div class="accordion" id="accordion2">
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <p class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse">
+      </p>
+    </div>
+    <div id="collapse" class="accordion-body collapse out">
+      <div class="accordion-inner">
+            </div>
+    </div>
+  </div>
+</div>
 {if isset($userName)}
 <div class="accordion" id="accordion2">
   <div class="accordion-group">
