@@ -13,6 +13,11 @@ class Holidays extends Controller{
         
         $date = date("m.Y");
         list($hMonth,$hYear)=explode(".",$date);
+        $date=$hYear."-".$hMonth;
+        $types = $obj->getAllName();
+        $values = $obj->getAllType();
+        $holidays = $obj->getAllDays($date);
+        $date=$hMonth.".".$hYear;
         if (isset($_GET['date'])){
             $date=$_GET['date'];
             list($hMonth,$hYear)=explode(".",$date);
@@ -55,11 +60,6 @@ class Holidays extends Controller{
             }
             $date=$hMonth.".".$hYear;
         }
-        $date=$hYear."-".$hMonth;
-        $types = $obj->getAllName();
-        $values = $obj->getAllType();
-        $holidays = $obj->getAllDays($date);
-        $date=$hMonth.".".$hYear;
         $this->render("Holidays/index.tpl", array('holidays' => $holidays, 'types' => $types, 'values' => $values, 'date'=>$date));
     }
 }
