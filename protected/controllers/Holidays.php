@@ -8,19 +8,17 @@ use controllers\Main as Time;
 
 class Holidays extends Controller{
     public function indexAction(){
+        $obj = new HolidayModel();
         $time = new Time();
         
         $date = date("m.Y");
+        list($hMonth,$hYear)=explode(".",$date);
         if (isset($_GET['date'])){
             $date=$_GET['date'];
             list($hMonth,$hYear)=explode(".",$date);
             $date=$hYear."-".$hMonth;
-            $obj = new HolidayModel();
             $num=date("t",strtotime($date))-1;
             $holidays = $obj->getAllDays($date);
-        
-            $types = $obj->getAllName();
-            $values = $obj->getAllType();
             if(isset($_POST['0'])){
                 $num=date("t",strtotime($date))-1;
                 for($i=0;$i<=$num;$i++){
@@ -57,11 +55,11 @@ class Holidays extends Controller{
             }
             $date=$hMonth.".".$hYear;
         }
-        else{
-            $holidays=0;
-            $types=0;
-            $values=0;
-        }
+        $date=$hYear."-".$hMonth;
+        $types = $obj->getAllName();
+        $values = $obj->getAllType();
+        $holidays = $obj->getAllDays($date);
+        $date=$hMonth.".".$hYear;
         $this->render("Holidays/index.tpl", array('holidays' => $holidays, 'types' => $types, 'values' => $values, 'date'=>$date));
     }
 }
