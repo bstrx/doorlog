@@ -50,7 +50,7 @@ class Reports extends Controller {
         $allDep = $dep->getMenuDepartments();
         $statuses = $user->getUserStatuses();
         $timeoffsAttr = array('date' => $date, 'name' => $name, 'id' => $id);
-        $this->render("Reports/index.tpl" , array('statuses' => $statuses,
+        $this->render("Reports/timeoffs_list.tpl" , array('statuses' => $statuses,
             'timeoffsAttr' => $timeoffsAttr,
             'allUsers' => $allUsers,
             'allDep'=>$allDep,
