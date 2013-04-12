@@ -15,14 +15,12 @@
             <th> Тип </th>
             <th> Время </th>
             {foreach from=$reportAllDaysArray item=timeoff}
-                {if $timeoff['timeoffName']}
-                    <tr>
-                        <td>{$timeoff['dayName']}</td>
-                        <td>{$timeoff['date']|date_format:"%d.%m.%Y"}</td>
-                        <td>{$timeoff['timeoffName']}</td>
-                        <td>{$timeoff['time']|formatDate}</td>
-                    </tr>
-                {/if}
+                <tr>
+                    <td>{$timeoff['dayName']}</td>
+                    <td>{$timeoff['date']|date_format:"%d.%m.%Y"}</td>
+                    <td>{$timeoff['timeoffName']}</td>
+                    <td>{$timeoff['time']|formatDate}</td>
+                </tr>
             {/foreach}
     </table>
 {if isset($userName)}
