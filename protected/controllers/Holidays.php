@@ -28,24 +28,19 @@ class Holidays extends Controller{
         if(!empty($_POST)){
             $num=date("t",strtotime($date))-1;
             for($i=0;$i<=$num;$i++){
-                $newHolidays[$i]['type'] = $_POST[$i];
-                $newHolidays[$i]['date'] = $holidays[$i]['date'];
+                if ($holidays[$i]['type'] != $_POST[$i]){
+                    $newHolidays[$holidays[$i]['date']]=$_POST[$i];
+               }
             }
             $result=array();
-            foreach($newHolidays as $newHoliday){
-                foreach($holidays as $holiday){
-                    if($holiday['date']==$newHoliday['date']){
-                        if($holiday['type']!=$newHoliday['type']){
-                            list($uDay,$uMonth,$uYear)= explode(".",$newHoliday['date']);
-                            $newHoliday['date']=$uYear."-".$uMonth."-".$uDay;
-                            if($newHoliday['type']!=0){
-                                $result[]=$obj->insert($newHoliday['date'],$newHoliday['type']);
-                            }
-                            else{
-                                $result[]=$obj->delete($newHoliday['date']);
-                            }
-                        }
-                    }
+            foreach($newHolidays as $key=>$newHoliday){
+                list($uDay,$uMonth,$uYear)= explode(".",$key);
+                $key=$uYear."-".$uMonth."-".$uDay;
+                if($newHoliday!=0){
+                    $result[]=$obj->insert($key,$newHoliday);
+                }
+                else{
+                    $result[]=$obj->delete($key);
                 }
             }
             $insertError=false;
