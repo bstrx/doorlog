@@ -12,8 +12,12 @@
 {block name="content"}
     <div class="span7">
         <table class="table table-bordered">
+            <colgroup>
+                <col class="col-large">
+                <col class="col-small">
+            </colgroup>
             <th> Название отдела </th>
-            <th> Кол-во сотрудников </th>
+            <th> Сотрудников </th>
             <th> Начальник </th>
 
             {foreach from=$departments item=department}
