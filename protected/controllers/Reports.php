@@ -24,26 +24,30 @@ class Reports extends Controller {
         $timeoffs = array();
         $users = array();
         $reportAllDaysArray = array();
+        $name = array();
 
         $timeoffsAllUsers = array();
         $user = new UsersModel();
         $dep = new DepartmentModel();
-        $date = date('Y-m');
-        $name = "";
+        $date = date('m-Y');
         $id = '';
         if (isset($_GET['date']) && !empty($_GET['date'])){
             $date = $_GET['date'];
+            $date = strtotime(strrev(strrev($date).'.10'));
+            $date = date('Y-m', $date);
             if (isset($_GET['user_id']) && $_GET['user_id'] != 0 ){
-                $reportAllDaysArray = $this->getMonthReport($_GET['user_id'], $_GET['date'], $_GET['type']);
+                $reportAllDaysArray = $this->getMonthReport($_GET['user_id'], $date, $_GET['type']);
                 $userInfo = $user->getInfo($_GET['user_id']);
-                $name = $userInfo['name'];
+                $name['user'] = $userInfo['name'];
                 $id = $_GET['user_id'];
             }
 
             if (isset($_GET['dep_id']) && $_GET['dep_id'] != 0 ){
+                $depInfo = $dep->getDepById($_GET['dep_id']);
+                $name['dep'] = $depInfo['name'];
                 $users = $dep->getUsers($_GET['dep_id']);
                 foreach ($users as $currentUser) {
-                    $timeoffsAllUsers[] = array('reports' => $this->getMonthReport($currentUser['id'], $_GET['date'], $_GET['type']),
+                    $timeoffsAllUsers[] = array('reports' => $this->getMonthReport($currentUser['id'], $date, $_GET['type']),
                         'id' => $currentUser['id'],
                         'name' => $currentUser['name']);
                 }
@@ -53,13 +57,14 @@ class Reports extends Controller {
         $allDep = $dep->getMenuDepartments();
         $statuses = $user->getUserStatuses();
         $timeoffsAttr = array('date' => $date, 'name' => $name, 'id' => $id);
-        $this->render("Reports/index.tpl" , array('statuses' => $statuses,
+        $this->render("Reports/timeoffs_list.tpl" , array('statuses' => $statuses,
             'timeoffsAttr' => $timeoffsAttr,
             'allUsers' => $allUsers,
             'allDep'=>$allDep,
             'timeoffsAllUsers' => $timeoffsAllUsers,
             'users'=>$users,
-            'reportAllDaysArray' => $reportAllDaysArray));
+            'reportAllDaysArray' => $reportAllDaysArray,
+            'name' => $name));
     }
 
     function officeloadAction() {
@@ -124,7 +129,7 @@ class Reports extends Controller {
 
             for ($date = $firstMonthDay; $date < $lastMonthDay; $date += 86400) {
                 $currentDate = date('Y-m-d', $date);
-                $oneDay = array('date'=> $currentDate,'dayName' => strftime("%A", $date), 'timeoffName' => 'Пусто', 'time' => 0);
+                $oneDay = array('date'=> $currentDate,'dayName' => strftime("%A", $date), 'timeoffName' => '', 'time' => 0);
                 if(isset($timeoffsArray[$currentDate])){
                     $oneDay['timeoffName'] = $timeoffsArray[$currentDate]['name'];
                 }
