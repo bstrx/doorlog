@@ -36,7 +36,9 @@
                     <th> Должность </th>
                     <th> Статус </th>
                     <th> Телефон </th>
+                    {if $userInfo['birthday']!=NULL}
                     <th> Дата рождения </th>
+                    {/if}
                     <th> Дата создания </th>
                     {foreach from=userInfo item=user}
                         <tr>
@@ -56,7 +58,9 @@
                                 {/if}
                             </td>
                             <td> {$userInfo['phone']} </td>
+                            {if $userInfo['birthday']!=NULL}
                             <td> {$userInfo['birthday']} </td>
+                            {/if}
                             <td> {$userInfo['created']} </td>
                         </tr>
                     {/foreach}
