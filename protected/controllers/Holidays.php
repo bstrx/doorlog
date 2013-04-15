@@ -32,19 +32,21 @@ class Holidays extends Controller{
                 $newHolidays[$i]['date'] = $holidays[$i]['date'];
             }
             $result=array();
-            $i=0;
             foreach($newHolidays as $newHoliday){
-                if($holidays[$i]['type']!=$newHoliday['type']){
-                    list($uDay,$uMonth,$uYear)= explode(".",$newHoliday['date']);
-                    $newHoliday['date']=$uYear."-".$uMonth."-".$uDay;
-                    if($newHoliday['type']!=0){
-                        $result[]=$obj->insert($newHoliday['date'],$newHoliday['type']);
+                foreach($holidays as $holiday){
+                    if($holiday['date']==$newHoliday['date']){
+                        if($holiday['type']!=$newHoliday['type']){
+                            list($uDay,$uMonth,$uYear)= explode(".",$newHoliday['date']);
+                            $newHoliday['date']=$uYear."-".$uMonth."-".$uDay;
+                            if($newHoliday['type']!=0){
+                                $result[]=$obj->insert($newHoliday['date'],$newHoliday['type']);
+                            }
+                            else{
+                                $result[]=$obj->delete($newHoliday['date']);
+                            }
+                        }
                     }
-                    else{
-                        $result[]=$obj->delete($newHoliday['date']);
-                    }
-                    }
-               $i=$i+1;     
+                }
             }
             $insertError=false;
             foreach($result as $flag){
