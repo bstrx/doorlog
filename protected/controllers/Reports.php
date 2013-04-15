@@ -7,7 +7,7 @@ use models\Departments as DepartmentModel;
 use core\FlashMessages;
 use models\Reports as ReportsModel;
 use controllers\Main as Time;
-use models\Holidays as Holidays;
+use models\Holidays;
 
 class Reports extends Controller {
 
@@ -104,7 +104,7 @@ class Reports extends Controller {
         $user = new UsersModel();
         $dep = new DepartmentModel();
         $monthTime = new Time();
-        $Holidays = new Holidays();
+        $holidays = new Holidays();
 
         $timeoffsArray = array();
         $userMonthTimeArray = array();
@@ -114,7 +114,7 @@ class Reports extends Controller {
 
         $firstMonthDay = strtotime($selectedDate);
         $lastMonthDay = strtotime($selectedDate) + date("t", strtotime($selectedDate))*24*60*60 ;
-        $vacation = $Holidays->getAllDays($selectedDate);
+        $vacation = $holidays->getAllDays($selectedDate);
 
         $timeoffs = $user->getTimeoffsById($id, $selectedDate, $timeoffType);
         foreach ($timeoffs as $timeOff) {
@@ -142,7 +142,7 @@ class Reports extends Controller {
                     'dayName' => strftime("%A", $date),
                     'timeoffName' => '',
                     'time' => 0,
-                    'dayType' => $oneDay['dayType'] = (int)$currVacation[$currentDate]['type']);
+                    'dayType' => (int)$currVacation[$currentDate]['type']);
                 if(isset($timeoffsArray[$currentDate])){
                     $oneDay['timeoffName'] = $timeoffsArray[$currentDate]['name'];
                     $oneDay['dayType'] = (int)$currVacation[$currentDate]['type'];
