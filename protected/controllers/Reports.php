@@ -110,6 +110,7 @@ class Reports extends Controller {
         $userMonthTimeArray = array();
         $reportAllDaysArray = array();
         $vacation = array();
+        $currVacation = array();
 
         $firstMonthDay = strtotime($selectedDate);
         $lastMonthDay = strtotime($selectedDate) + date("t", strtotime($selectedDate))*24*60*60 ;
@@ -120,11 +121,8 @@ class Reports extends Controller {
             $timeoffsArray[$timeOff['date']]['name'] = $timeOff['name'];
         }
 
-        for ($i=0; $i < count($vacation); $i++) {
-            $curr = $vacation[$i]['date'];
-            $curr = strtotime($curr);
-            $curr = date('Y-m-d', $curr);
-            $currVacation[$curr] = $vacation[$i];
+        foreach ($vacation as $curr) {
+            $currVacation[date('Y-m-d', strtotime($curr['date']))] = $curr;
         }
 
         $personalId = $user->getPersonalId($id);
