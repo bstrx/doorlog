@@ -365,7 +365,7 @@ class Users extends Controller {
         $salt = Utils::createRandomString(5, 5);
         $password = Utils::createRandomString(8, 10);
         $hash = $this->generateHash($password, $salt);
-        if (($users->insertUsers($user, $email, $hash, $salt, $position, $department, $phone, $birthday, $is_shown)) && ($roles->insertUserRole($id, $role))) {
+        if (($users->insertUsers($user, $email, $hash, $salt, $position, $department, $phone, $birthday, $is_shown)) && ( $roles->insertUserRole( $users->getId($user), $role) )) {
             FlashMessages::addMessage("Пользователь успешно добавлен.", "info");
         } else {
             FlashMessages::addMessage("Произошла ошибка. Пользователь не был добавлен.", "error");
