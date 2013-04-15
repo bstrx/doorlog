@@ -36,7 +36,7 @@
                     <th> Должность </th>
                     <th> Статус </th>
                     <th> Телефон </th>
-                    {if $userInfo['birthday']!=NULL}
+                    {if $userInfo['birthday']}
                     <th> Дата рождения </th>
                     {/if}
                     <th> Дата создания </th>
@@ -58,7 +58,7 @@
                                 {/if}
                             </td>
                             <td> {$userInfo['phone']} </td>
-                            {if $userInfo['birthday']!=NULL}
+                            {if $userInfo['birthday']}
                             <td> {$userInfo['birthday']} </td>
                             {/if}
                             <td> {$userInfo['created']} </td>
