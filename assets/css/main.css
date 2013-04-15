@@ -146,3 +146,12 @@ input[type = "checkbox"]{
 .disableDays .ui-datepicker-calendar{
     display: none;
 }
+
+#footer{
+  height: 80px;
+  width: 100%;
+}
+
+.clear{
+    clear: both;
+}

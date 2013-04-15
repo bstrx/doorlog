@@ -8,11 +8,11 @@
                     <label for="login"> Введите email или номер пропуска: </label>
                     <input type="text" size="40" id="login" name="login">
                     <label for="pass"> Введите пароль: </label>
-                    <input type="password" id="pass" size="40" name="password">
+                    <input type="password" id="pass" size="40" name="password"><br>
+                    <small><a href="{$_root}/users/forgotPassword"> Забыли пароль? </a></small>
                 </p>
                 <input type="submit" value="Войти" class="btn btn-success">
             </form>
-            <a href="{$_root}/users/forgotPassword"> Забыли пароль? </a>
         </div>
     {/block}
 

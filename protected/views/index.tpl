@@ -35,5 +35,11 @@
             
             {block name="content"} {/block}
         </div>
+
+        <div class="clear"></div>
+        
+        <div id="footer">
+            {block name="footer"} {/block}
+        </div>
     </body>
 </html>

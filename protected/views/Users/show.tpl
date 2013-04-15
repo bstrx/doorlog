@@ -66,7 +66,7 @@
                     {/foreach}
                 </table>
             {/if}
-            {if 'user_manage'|checkPermission}
+            {if 'users_edit'|checkPermission}
                 <a class="btn btn-success" href="{$_root}/users/manage?id={$userInfo['id']}"> Редактировать </a>
                 <a class="btn" href="{$_root}/users"> Отмена </a>
             {/if}

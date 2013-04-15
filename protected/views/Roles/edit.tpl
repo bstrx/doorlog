@@ -35,4 +35,5 @@
         <a href="#myModal" role="button" class="btn btn-danger" data-toggle="modal" form="delete">Удалить</a>
    </div>
    {/block}
+   {block name="footer"}{/block}
 {/extends}
