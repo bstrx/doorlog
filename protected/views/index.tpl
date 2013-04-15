@@ -36,7 +36,7 @@
             {block name="content"} {/block}
         </div>
 
-        <div style="clear:both"></div>
+        <div class="clear"></div>
         
         <div id="footer">
             {block name="footer"} {/block}

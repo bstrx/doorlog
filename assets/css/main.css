@@ -151,3 +151,7 @@ input[type = "checkbox"]{
   height: 80px;
   width: 100%;
 }
+
+.clear{
+    clear: both;
+}
