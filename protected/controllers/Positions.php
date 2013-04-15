@@ -25,7 +25,7 @@ class Positions extends Controller{
         if(isset($_POST['posName']) && $_POST['posName']){
             $positionName = $_POST['posName'];
             if($positions->insertPosition($positionName)){
-                FlashMessages::addMessage("Должность успешно добавлена.", "info");
+                FlashMessages::addMessage("Должность успешно добавлена.", "success");
             } else {
                 FlashMessages::addMessage("Произошла ошибка. Должность не была добавлена.", "error");
             }
@@ -47,7 +47,7 @@ class Positions extends Controller{
                 $set=$_POST['position'];
                 if($positions->savePosition($id,$set)){
                     Utils::redirect("/positions");
-                    FlashMessages::addMessage("Должность успешно отредактирована.", "info");
+                    FlashMessages::addMessage("Должность успешно отредактирована.", "success");
                 } else {
                     FlashMessages::addMessage("Произошла ошибка. Должность не была отредактирована.", "error");
                     }
@@ -67,7 +67,7 @@ class Positions extends Controller{
             $positions=new PositionModel();
 
             if ($positions->deletePosition($id)){
-                FlashMessages::addMessage("Должность успешно удалена.", "info");
+                FlashMessages::addMessage("Должность успешно удалена.", "success");
             } else {
                 FlashMessages::addMessage("Произошла ошибка. Должность не была удалена.", "error");
             }

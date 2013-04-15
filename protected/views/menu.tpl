@@ -6,7 +6,7 @@
                 <li><a href="{$_root}/"><i class="icon-home"></i></a></li>
                 {if 'menu_departments'|checkPermission}
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <a href="" class="dropdown-toggle" data-toggle="dropdown">
                         Отделы <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
@@ -21,7 +21,7 @@
 
                 {if 'menu_reports'|checkPermission}
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <a href="" class="dropdown-toggle" data-toggle="dropdown">
                         Отчёты <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
@@ -33,7 +33,7 @@
 
                 {if 'menu_settings'|checkPermission}
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <a href="" class="dropdown-toggle" data-toggle="dropdown">
                         Настройки <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">

@@ -1,7 +1,5 @@
 <?php
-/**
- * @author adrenaline
- */
+
 namespace controllers;
 
 use core\Acl;
@@ -56,7 +54,7 @@ class Roles extends Controller{
                 }else{
                     $obj->deleteRolePermissions($roleId);
                 }
-            FlashMessages::addMessage("Роль успешно изменена.", "info");
+            FlashMessages::addMessage("Роль успешно изменена.", "success");
         }
 
         $rolePermissions = $obj->getRolePermissions($roleId);
@@ -95,7 +93,7 @@ class Roles extends Controller{
         $obj = new RolesModel();
 
         if($obj->deleteRoleWithPermissions($roleId)){
-            FlashMessages::addMessage("Роль успешно удалена.", "info");
+            FlashMessages::addMessage("Роль успешно удалена.", "success");
         } else {
             FlashMessages::addMessage("Ошибка удаления", "error");
         }

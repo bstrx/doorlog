@@ -29,7 +29,7 @@ class Departments extends Controller {
         if(isset($_POST['depName']) && $_POST['depName']){
             $depName = $_POST['depName'];
             if ($obj->createDep($depName)){
-                FlashMessages::addMessage("Отдел успешно добавлен.", "info");
+                FlashMessages::addMessage("Отдел успешно добавлен.", "success");
             } else {
                 FlashMessages::addMessage("Произошла ошибка. Отдел не был добавлен.", "error");
             }
@@ -46,7 +46,7 @@ class Departments extends Controller {
         if((isset($_POST['depName']) && $_POST['depName']) || (isset($_POST['chief']) && $_POST['chief'])){
             $depName = $_POST['depName'];
             $obj->editDep($depName, $id, $_POST['chief']);
-            FlashMessages::addMessage("Отдел успешно отредактирован.", "info");
+            FlashMessages::addMessage("Отдел успешно отредактирован.", "success");
             Utils::redirect("/departments");
         } else {
             $departments = $obj->getDepById($id);
@@ -68,7 +68,7 @@ class Departments extends Controller {
         $obj =  new DepartmentModel();
         $delete = $obj->dellDep($id);
         if ($delete) {
-            FlashMessages::addMessage("Отдел успешно удален.", "info");
+            FlashMessages::addMessage("Отдел успешно удален.", "success");
             Utils::redirect("/departments");
         } else FlashMessages::addMessage("При удалении отдела произошла ошибка.", "error");
     }
