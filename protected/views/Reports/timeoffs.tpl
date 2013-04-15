@@ -27,7 +27,11 @@
             <th> Тип </th>
             <th> Время </th>
             {foreach from=$reportAllDaysArray item=timeoff}
-                <tr>
+            {$timeoff['dayType']}
+              {if $timeoff['dayType']}
+                <tr class='alert-error'>
+                  {else} <tr>
+              {/if}
                     <td>{$timeoff['dayName']}</td>
                     <td>{$timeoff['date']|date_format:"%d.%m.%Y"}</td>
                     <td>{$timeoff['timeoffName']}</td>
