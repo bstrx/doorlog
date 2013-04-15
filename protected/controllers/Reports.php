@@ -7,6 +7,7 @@ use models\Departments as DepartmentModel;
 use core\FlashMessages;
 use models\Reports as ReportsModel;
 use controllers\Main as Time;
+use models\Holidays;
 
 class Reports extends Controller {
 
@@ -103,17 +104,25 @@ class Reports extends Controller {
         $user = new UsersModel();
         $dep = new DepartmentModel();
         $monthTime = new Time();
+        $holidays = new Holidays();
 
         $timeoffsArray = array();
         $userMonthTimeArray = array();
         $reportAllDaysArray = array();
+        $vacation = array();
+        $currVacation = array();
 
         $firstMonthDay = strtotime($selectedDate);
         $lastMonthDay = strtotime($selectedDate) + date("t", strtotime($selectedDate))*24*60*60 ;
+        $vacation = $holidays->getAllDays($selectedDate);
 
         $timeoffs = $user->getTimeoffsById($id, $selectedDate, $timeoffType);
         foreach ($timeoffs as $timeOff) {
             $timeoffsArray[$timeOff['date']]['name'] = $timeOff['name'];
+        }
+
+        foreach ($vacation as $curr) {
+            $currVacation[date('Y-m-d', strtotime($curr['date']))] = $curr;
         }
 
         $personalId = $user->getPersonalId($id);
@@ -129,9 +138,14 @@ class Reports extends Controller {
 
             for ($date = $firstMonthDay; $date < $lastMonthDay; $date += 86400) {
                 $currentDate = date('Y-m-d', $date);
-                $oneDay = array('date'=> $currentDate,'dayName' => strftime("%A", $date), 'timeoffName' => '', 'time' => 0);
+                $oneDay = array('date'=> $currentDate,
+                    'dayName' => strftime("%A", $date),
+                    'timeoffName' => '',
+                    'time' => 0,
+                    'dayType' => (int)$currVacation[$currentDate]['type']);
                 if(isset($timeoffsArray[$currentDate])){
                     $oneDay['timeoffName'] = $timeoffsArray[$currentDate]['name'];
+                    $oneDay['dayType'] = (int)$currVacation[$currentDate]['type'];
                 }
 
                 if(isset($userMonthTimeArray[$currentDate])){
