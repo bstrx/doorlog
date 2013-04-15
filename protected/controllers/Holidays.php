@@ -20,6 +20,7 @@ class Holidays extends Controller{
         $date=$hMonth.".".$hYear;
         if (isset($_GET['date'])){
             $date=$_GET['date'];
+        }
             list($hMonth,$hYear)=explode(".",$date);
             $date=$hYear."-".$hMonth;
             $num=date("t",strtotime($date))-1;
@@ -58,7 +59,6 @@ class Holidays extends Controller{
                 $holidays = $obj->getAllDays($date);
             }
             $date=$hMonth.".".$hYear;
-        }
         $this->render("Holidays/index.tpl", array('holidays' => $holidays, 'types' => $types, 'values' => $values, 'date'=>$date));
     }
 }
