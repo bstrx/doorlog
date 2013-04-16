@@ -1,17 +1,10 @@
 {extends "protected/views/index.tpl"}
+{block name="javascript"}
+    <script src="{$_root}/assets/js/userEdit.js"></script>
+{/block}
     {block name="pagetitle"}<h1>Редактировать пользователя {$userInfo['name']}</h1>{/block}
 
     {block name="content"}
-    <script>
-        $(function() {
-            $( "#datepicker" ).datepicker({
-                changeMonth: true,
-                changeYear: true,
-                yearRange: "1930:",
-                dateFormat: 'yy-mm-dd'
-            });
-        });
-    </script>
         <form method='post'>
             <p>Изменить Email:</p> <input type="text" maxlength="45" size="40" name="email" value="{$userInfo['email']}"></p>
             <p>Изменить отдел:</p>

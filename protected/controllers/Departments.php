@@ -15,8 +15,8 @@ class Departments extends Controller {
         if(!Acl::checkPermission('departments_view')){
             $this->render("errorAccess.tpl");
         }
-        $obj =  new DepartmentModel();
-        $departments =  $obj->getAll();
+        $departmentsModel =  new DepartmentModel();
+        $departments =  $departmentsModel->getAll();
 
         $this->render("Departments/index.tpl" , array('departments' => $departments));
     }
@@ -25,10 +25,10 @@ class Departments extends Controller {
         if(!Acl::checkPermission('departments_add')){
             $this->render("errorAccess.tpl");
         }
-        $obj =  new DepartmentModel();
+        $departmentsModel =  new DepartmentModel();
         if(isset($_POST['depName']) && $_POST['depName']){
             $depName = $_POST['depName'];
-            if ($obj->createDep($depName)){
+            if ($departmentsModel->createDep($depName)){
                 FlashMessages::addMessage("Отдел успешно добавлен.", "success");
             } else {
                 FlashMessages::addMessage("Произошла ошибка. Отдел не был добавлен.", "error");
@@ -42,15 +42,15 @@ class Departments extends Controller {
             $this->render("errorAccess.tpl");
         }
         $id = $_GET['id'];
-        $obj =  new DepartmentModel();
+        $departmentsModel =  new DepartmentModel();
         if((isset($_POST['depName']) && $_POST['depName']) || (isset($_POST['chief']) && $_POST['chief'])){
             $depName = $_POST['depName'];
-            $obj->editDep($depName, $id, $_POST['chief']);
+            $departmentsModel->editDep($depName, $id, $_POST['chief']);
             FlashMessages::addMessage("Отдел успешно отредактирован.", "success");
             Utils::redirect("/departments");
         } else {
-            $departments = $obj->getDepById($id);
-            $users = $obj->getUsers($id);
+            $departments = $departmentsModel->getDepById($id);
+            $users = $departmentsModel->getUsers($id);
 
             $sortedUsers = array();
             foreach ($users as $user) {
@@ -65,8 +65,8 @@ class Departments extends Controller {
             $this->render("errorAccess.tpl");
         }
         $id = $_POST['id'];
-        $obj =  new DepartmentModel();
-        $delete = $obj->dellDep($id);
+        $departmentsModel =  new DepartmentModel();
+        $delete = $departmentsModel->dellDep($id);
         if ($delete) {
             FlashMessages::addMessage("Отдел успешно удален.", "success");
             Utils::redirect("/departments");

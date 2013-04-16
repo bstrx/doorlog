@@ -11,8 +11,8 @@ class Positions extends Controller{
         if(!Acl::checkPermission('positions_view')){
             $this->render("errorAccess.tpl");
         }
-        $obj =  new PositionModel();
-        $positions =  $obj->getAll();
+        $positionsModel =  new PositionModel();
+        $positions =  $positionsModel->getAll();
         $this->render("Positions/index.tpl" , array('positions' => $positions));
     }
 
@@ -46,10 +46,11 @@ class Positions extends Controller{
             if (isset($_POST['position']) && $_POST['position']){
                 $set=$_POST['position'];
                 if($positions->savePosition($id,$set)){
-                    Utils::redirect("/positions");
                     FlashMessages::addMessage("Должность успешно отредактирована.", "success");
+                    Utils::redirect("/positions");
                 } else {
                     FlashMessages::addMessage("Произошла ошибка. Должность не была отредактирована.", "error");
+                    Utils::redirect("/positions");
                     }
                 }
             else{
