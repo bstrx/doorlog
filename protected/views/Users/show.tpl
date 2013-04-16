@@ -31,39 +31,39 @@
         <div class="span7">
             {if $userInfo}
                 <table class="table table-bordered">
+                {foreach from=userInfo item=user}
                     <th> Имя </th>
-                    <th> Отдел </th>
-                    <th> Должность </th>
-                    <th> Статус </th>
-                    {if ('users_private_info'|checkPermission) || ($permission==1)}
-                        <th> Телефон </th>
-                        <th> Дата рождения </th>
+                    <td>{$userInfo['name']}</td>
+                    <tr><th> Отдел </th>
+                    <td> {if (isset($userInfo['department']))}
+                            {$userInfo['department']}
+                         {/if}
+                    </td></tr>
+                    <tr><th> Должность </th>
+                    <td> {if (isset($userInfo['position']))}
+                            {$userInfo['position']}
+                         {/if}
+                    </td></tr>
+                    <tr><th> Статус </th>
+                    <td>{if $userInfo['status']==2}
+                        <span class="label label-success">В офисе</span>
+                    {else}
+                        <span class="label">Не в офисе</span>
                     {/if}
-                    <th> Дата создания </th>
-                    {foreach from=userInfo item=user}
-                        <tr>
-                            <td>{$userInfo['name']}</td>
-                            <td> {if (isset($userInfo['department']))}
-                                    {$userInfo['department']}
-                                 {/if}
-                            </td>
-                            <td> {if (isset($userInfo['position']))}
-                                    {$userInfo['position']}
-                                 {/if}
-                            </td>
-                            <td>{if $userInfo['status']==2}
-                                    <span class="label label-success">В офисе</span>
-                                {else}
-                                    <span class="label">Не в офисе</span>
-                                {/if}
-                            </td>
-                            {if ('users_private_info'|checkPermission) || ($permission==1)}
-                                <td> {$userInfo['phone']} </td>
-                                <td> {$userInfo['birthday']} </td>
-                            {/if}
-                            <td> {$userInfo['created']} </td>
-                        </tr>
-                    {/foreach}
+                    </td></tr>
+                    {if ('users_private_info'|checkPermission) || ($permission==1)}
+                    <tr><th> Телефон </th>
+                    <td> {$userInfo['phone']} </td>
+                    </tr>
+                    {if $userInfo['birthday']}
+                    <tr><th> Дата рождения </th>
+                    <td> {$userInfo['birthday']} </td></tr>
+                    {/if}
+                    {/if}
+                    <tr><th> Дата создания </th>
+                    <td> {$userInfo['created']} </td>
+                    </tr>
+                {/foreach}
                 </table>
             {/if}
             {if 'users_edit'|checkPermission}
