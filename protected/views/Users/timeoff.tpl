@@ -1,4 +1,7 @@
-<script type="text/javascript">
+{block name="javascript"}
+    <script src="{$_root}/assets/js/userTimeOff.js"></script>
+{/block}
+<!--<script type="text/javascript">
     $(function() {
         $( "#from" ).datepicker({
             defaultDate: "+1w",
@@ -30,7 +33,7 @@
             return confirm("действительно хотите удалить?");
         });
     });
-</script>
+</script>-->
 <div>
     <h3> Добавить отгул </h3>
 
