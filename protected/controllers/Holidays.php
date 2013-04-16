@@ -24,7 +24,7 @@ class Holidays extends Controller{
             $num=date("t",strtotime($date))-1;
             $holidays = $holidaysModel->getAllDays($date);
        }
-
+       $newHolidays=array();
         if(!empty($_POST)){
             $num=date("t",strtotime($date))-1;
             for($i=0;$i<=$num;$i++){
