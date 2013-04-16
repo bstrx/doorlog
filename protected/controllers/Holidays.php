@@ -8,22 +8,22 @@ use controllers\Main as Time;
 
 class Holidays extends Controller{
     public function indexAction(){
-        $obj = new HolidayModel();
+        $holidaysModel = new HolidayModel();
         $time = new Time();
-        
+
         $date = date("m.Y");
         list($hMonth,$hYear)=explode(".",$date);
         $date=$hYear."-".$hMonth;
-        $types = $obj->getAllName();
-        $values = $obj->getAllType();
-        $holidays = $obj->getAllDays($date);
+        $types = $holidaysModel->getAllName();
+        $values = $holidaysModel->getAllType();
+        $holidays = $holidaysModel->getAllDays($date);
         if (isset($_GET['date'])){
             $date=$_GET['date'];
             list($hMonth,$hYear)=explode(".",$date);
             $date=$hYear."-".$hMonth;
             $num=date("t",strtotime($date))-1;
-            $holidays = $obj->getAllDays($date);
-            
+            $holidays = $holidaysModel->getAllDays($date);
+
         }
         if(!empty($_POST)){
             $num=date("t",strtotime($date))-1;
@@ -33,14 +33,14 @@ class Holidays extends Controller{
                }
             }
             $result=array();
-            foreach($newHolidays as $key=>$newHoliday){
-                list($uDay,$uMonth,$uYear)= explode(".",$key);
-                $key=$uYear."-".$uMonth."-".$uDay;
+            foreach($newHolidays as $newHolidayDate=>$newHoliday){
+                list($uDay,$uMonth,$uYear)= explode(".",$newHolidayDate);
+                $newHolidayDate=$uYear."-".$uMonth."-".$uDay;
                 if($newHoliday!=0){
-                    $result[]=$obj->insert($key,$newHoliday);
+                    $result[]=$holidaysModel->insert($newHolidayDate,$newHoliday);
                 }
                 else{
-                    $result[]=$obj->delete($key);
+                    $result[]=$holidaysModel->delete($newHolidayDate);
                 }
             }
             $insertError=false;
@@ -55,7 +55,7 @@ class Holidays extends Controller{
             else{
                 FlashMessages::addMessage("Табель не был отредактирован.", "error");
             }
-            $holidays = $obj->getAllDays($date);
+            $holidays = $holidaysModel->getAllDays($date);
         }
         $date=$hMonth.".".$hYear;
         $this->render("Holidays/index.tpl", array('holidays' => $holidays, 'types' => $types, 'values' => $values, 'date'=>$date));
