@@ -11,14 +11,14 @@ use models\Holidays;
 
 class Reports extends Controller {
 
-    function indexAction() {
+   public function indexAction() {
         if(!Acl::checkPermission('reports')){
             $this->render("errorAccess.tpl");
         }
         $this->render("Reports/index.tpl");
     }
 
-    function timeoffsAction() {
+   public function timeoffsAction() {
         if(!Acl::checkPermission('timeoffs_reports')){
             $this->render("errorAccess.tpl");
         }
@@ -68,7 +68,7 @@ class Reports extends Controller {
             'name' => $name));
     }
 
-    function officeloadAction() {
+  public  function officeloadAction() {
         if(!Acl::checkPermission('officeload_reports')){
             $this->render("errorAccess.tpl");
         }
