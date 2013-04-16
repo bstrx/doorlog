@@ -35,9 +35,11 @@
                     <th> Отдел </th>
                     <th> Должность </th>
                     <th> Статус </th>
+                    {if ('users_private_info'|checkPermission) || ($permission==1)}
                     <th> Телефон </th>
                     {if $userInfo['birthday']}
                     <th> Дата рождения </th>
+                    {/if}
                     {/if}
                     <th> Дата создания </th>
                     {foreach from=userInfo item=user}
@@ -57,20 +59,26 @@
                                     <span class="label">Не в офисе</span>
                                 {/if}
                             </td>
+                            {if ('users_private_info'|checkPermission) || ($permission==1)}
                             <td> {$userInfo['phone']} </td>
                             {if $userInfo['birthday']}
                             <td> {$userInfo['birthday']} </td>
                             {/if}
                             <td> {$userInfo['created']} </td>
+                            {/if}
                         </tr>
                     {/foreach}
                 </table>
             {/if}
-            <a class="btn btn-success" href="{$_root}/users/manage?id={$userInfo['id']}"> Редактировать </a>
-            <a class="btn" href="{$_root}/users"> Отмена </a>
+            {if 'users_edit'|checkPermission}
+                <a class="btn btn-success" href="{$_root}/users/manage?id={$userInfo['id']}"> Редактировать </a>
+                <a class="btn" href="{$_root}/users"> Отмена </a>
+            {/if}
         </div>
-        <div class="span4 additional">
-            {include file='protected/views/Users/timeoff.tpl'}
-        </div>
+        {if $permission==1}
+            <div class="span4 additional">
+                {include file='protected/views/Users/timeoff.tpl'}
+            </div>
+        {/if}
     {/block}
 {/extends}

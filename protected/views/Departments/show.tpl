@@ -14,7 +14,9 @@
         <table class="table table-bordered">
             <th> Имя </th>
             <th> Должность </th>
-            <th> Отработано за неделю </th>
+            {if 'users_private_info'|checkPermission || (isset($depName['chief_id']) && ($depName['chief_id']==$userId))}
+                <th> Отработано за неделю </th>
+            {/if}
             <th> Статус</th>
 
             {foreach from=$users item=user}
@@ -25,7 +27,9 @@
                         {/if}
                     </td>
                     <td>{$user['position']}</td>
-                    <td>{$user['time']['total_sum']|formatDate}</td>
+                    {if 'users_private_info'|checkPermission || (isset($depName['chief_id']) && ($depName['chief_id']==$userId))}
+                        <td>{$user['time']['total_sum']|formatDate}</td>
+                    {/if}
                     <td>
                         {if {$user['status']} == 2 }
                             <span class="label label-success">В офисе</span>

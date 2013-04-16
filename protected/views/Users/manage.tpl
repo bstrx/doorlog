@@ -1,5 +1,4 @@
 {extends "protected/views/index.tpl"}
-{if 3|checkPermission}
 
     {block name="breadcrumbs"}
         <ul class="breadcrumb">
@@ -12,9 +11,8 @@
           {/if}
         </ul>
     {/block}
-    
+
     {block name="content"}
-    {if 'access_to_user_add'|checkPermission}
 
     {include file='protected/views/dialog.tpl'}
         {if isset($userId)}
@@ -22,7 +20,7 @@
         {else}
             {block name="pagetitle"}<h1>Добавить пользователя</h1>{/block}
         {/if}
-        
+
         <script>
         $(function() {
           $( "#datepicker" ).datepicker({
@@ -35,31 +33,37 @@
         </script>
         <form method="POST" id="user">
             {if !isset($userId)}
-                <p>Выберите пользователя:</p>
+                <p>Пользователь:</p>
                 <select name="userId">
                     {html_options options=$users}
                 </select> </br>
             {/if}
-            
-            <p>Выберите отдел:</p>
+
+            <p>Отдел:</p>
             <select name="department">
                 <option value=0></option>
                 {html_options options=$departments selected={$userInfo['department_id']}}
             </select> </br>
 
-            <p>Выберите должность:</p>
+            <p>Должность:</p>
             <select name="position">
                 <option value=0></option>
                 {html_options options=$positions selected={$userInfo['position_id']}}
             </select> </br>
 
-            <p>Укажите Email:</p>
+
+            <p>Права доступа:</p>
+            <select name="role">
+                {html_options options=$roles selected={$userRole['0']['id']}}
+            </select>
+
+            <p>Email:</p>
             <input type="text" maxlength="45" size="40" name="email"
                 {if isset($userId)}
                     value={$userInfo['email']}
                 {/if}>
 
-            <p>Укажите Телефон:</p>
+            <p>Телефон:</p>
             <input type="text" maxlength="11" name="phone"
                 {if isset($userId)}
                     value={$userInfo['phone']}
@@ -72,11 +76,11 @@
                 {/if}/>
             <br>
             {if isset($userId)}
-                {if $userInfo['is_shown']==0}
-                    <input name="is_shown" type="checkbox" value="1">Выводить при отчётах
+                {if $userInfo['is_shown']}
+                    <input name="is_shown" type="checkbox" value="1">Выводить в отчётах
                     <br>
                 {else}
-                    <input name="is_shown" type="checkbox" value="1" checked>Выводить при отчётах
+                    <input name="is_shown" type="checkbox" value="1" checked>Выводить в отчётах
                     <br>
                 {/if}
 
@@ -84,7 +88,7 @@
                     <input name="is_shown" type="checkbox" value="1" checked>Выводить при отчётах
                     <br>
             {/if}
-                    
+
 
             {if isset($userId)}
                 <p>Изменить пароль(не обязательно):</p>
@@ -112,10 +116,5 @@
         {else}
             <a class="btn" href="{$_root}/users"> Отмена </a>
         {/if}
-        {else}
-        <h3>Ошибка доступа!</h3>
-    {/if}
     {/block}
-
-
 {/extends}

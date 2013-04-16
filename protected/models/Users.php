@@ -34,7 +34,7 @@ class Users extends Model{
               ON u.department_id = d.id
             ORDER BY t.NAME ";
 
-        if ($firstElement != 0 && $elementsCount != 0){
+        if ($elementsCount){
             $q.="LIMIT :firstElement, :elementsCount";
             $params['firstElement'] = $firstElement;
             $params['elementsCount'] = $elementsCount;
@@ -286,12 +286,12 @@ class Users extends Model{
         $params['id'] = $id;
         $params['date1'] = $date1;
         $params['date2'] = $date2;
-        $q = "SELECT * 
+        $q = "SELECT *
             FROM users_statuses AS u
         LEFT JOIN status AS s ON u.status_id = s.id
-        WHERE u.user_id in 
+        WHERE u.user_id in
         (SELECT id FROM user WHERE id = :id AND is_shown = 1 )
-        AND u.date 
+        AND u.date
         BETWEEN :date1 AND :date2 " ;
 
         if($type){
@@ -311,13 +311,13 @@ class Users extends Model{
         $params['birthday'] = $birthday;
         $params['phone'] = $phone;
         $params['is_shown'] = $is_shown;
-        $q= "UPDATE user 
-            SET position_id = (:position), 
-            email = (:email), 
-            department_id = (:department), 
-            birthday = (:birthday), 
-            phone = (:phone), 
-            is_shown = (:is_shown) 
+        $q= "UPDATE user
+            SET position_id = (:position),
+            email = (:email),
+            department_id = (:department),
+            birthday = (:birthday),
+            phone = (:phone),
+            is_shown = (:is_shown)
             WHERE id = (:id)";
         $result = $this->execute($q, $params);
         return $result;
@@ -338,5 +338,17 @@ class Users extends Model{
       $q = "DELETE FROM user WHERE id = (:id)";
       $result = $this->execute($q, $params);
       return $result;
+    }
+
+    public function getPersonalId($id){
+        $params =array();
+        $params['id'] = $id;
+        $q = "SELECT personal_id FROM user WHERE id = :id";
+        $result = $this->fetchOne($q, $params);
+        if (isset($result['personal_id'])){
+            return $result['personal_id'];
+        } else {
+            return false;
+        }
     }
 }

@@ -120,8 +120,42 @@ input[type = "checkbox"]{
 }
 
 #user{
-    display: none;
+    
 }
 #dep{
     display: none;
+}
+
+.reports{
+    width: 550px;
+}
+
+.accordion-group {
+    border: 0px;
+}
+
+.accordion {
+    margin-top: -20px;
+    margin-bottom: 0px;
+}
+
+#dep{
+    display: none;
+}
+
+.disableDays .ui-datepicker-calendar{
+    display: none;
+}
+
+#footer{
+  height: 80px;
+  width: 100%;
+}
+
+.clear{
+    clear: both;
+}
+
+.select{
+    margin: 1px;
 }

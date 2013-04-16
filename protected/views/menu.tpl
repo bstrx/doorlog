@@ -3,11 +3,10 @@
     <div class="navbar-inner">
         <div class="container">
             <ul class="nav">
-                <li>
-                    <a href="{$_root}/">Главная</a>
-                </li>
+                <li><a href="{$_root}/"><i class="icon-home"></i></a></li>
+                {if 'menu_departments'|checkPermission}
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <a href="" class="dropdown-toggle" data-toggle="dropdown">
                         Отделы <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
@@ -18,8 +17,11 @@
                         {/if}
                     </ul>
                 </li>
+                {/if}
+
+                {if 'menu_reports'|checkPermission}
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <a href="" class="dropdown-toggle" data-toggle="dropdown">
                         Отчёты <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
@@ -27,8 +29,11 @@
                         <li><a href="{$_root}/reports/timeoffs">По отгулам</a></li>
                     </ul>
                 </li>
+                {/if}
+
+                {if 'menu_settings'|checkPermission}
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <a href="" class="dropdown-toggle" data-toggle="dropdown">
                         Настройки <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
@@ -39,16 +44,20 @@
                         <li><a href="{$_root}/holidays">Выходные дни</a></li>
                     </ul>
                 </li>
+                {/if}
+
             </ul>
             <ul class="nav pull-right">
                 <li><a href="{$_root}/users/logout">Выйти</a></li>
             </ul>
 
-            <form class="navbar-form pull-left" action="{$_root}/users/search">
-                <input type="text" class="span2" id="autocomplete" name="text" value={if isset($text)}{$text}{/if}>
-                <input type="hidden" id="id" name="id">
-                <button type="submit" class="btn">Поиск</button>
-            </form>
+            {if 'menu_search'|checkPermission}
+                <form class="navbar-form pull-left" action="{$_root}/users/search">
+                    <input type="text" class="span2" id="autocomplete" name="text" value={if isset($text)}{$text}{/if}>
+                    <input type="hidden" id="id" name="id">
+                    <button type="submit" class="btn">Поиск</button>
+                </form>
+            {/if}
         </div>
     </div>
 </div>

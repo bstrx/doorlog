@@ -1,6 +1,8 @@
 <?php
 namespace core;
 
+use core\Utils;
+
 class ControllersManager {
     /**
      * Create instance of controller's class and runs its'method depending on route(url) passed
@@ -8,9 +10,11 @@ class ControllersManager {
      * @return void
      */
     public $listUrl = array("Users\\forgotPassword", "Users\\login");
-    
+
     public function runController() {
+
         $typedUrl = isset($_GET['route']) ? $_GET['route'] : null;
+
         if ($typedUrl) {
             $urlArr = explode("/", $typedUrl);
             $class = ucfirst($urlArr[0]);

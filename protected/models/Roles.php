@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @author adrenaline
- */
 namespace models;
 use core\Db;
 use core\Model;
@@ -80,6 +77,37 @@ class Roles extends Model {
         $params['roleId'] = $roleId;
         $result = $this->execute($q, $params);
         $result1 = $this->execute($q1, $params);
+        return $result;
+    }
+
+    public function insertUserRole($user_id, $role_id){
+        $q="INSERT INTO users_roles(user_id, role_id)
+            VALUES (:user_id, :role_id)";
+        $params = array();
+        $params['user_id'] = $user_id;
+        $params['role_id'] = $role_id;
+        $result = $this->execute($q, $params);
+        return $result;
+    }
+
+    public function editUserRole($user_id, $role_id){
+        $q = "UPDATE users_roles SET role_id = (:role_id) WHERE user_id = (:user_id)";
+        $params = array();
+        $params['user_id'] = $user_id;
+        $params['role_id'] = $role_id;
+        $result = $this->execute($q, $params);
+        return $result;
+    }
+
+    public function getUserRole($user_id){
+        $q = "SELECT r.id, r.name
+            FROM role as r
+            JOIN users_roles as ur
+              ON ur.role_id = r.id
+            WHERE ur.user_id = :user_id";
+        $params = array();
+        $params['user_id'] = $user_id;
+        $result = $this->fetchAll($q, $params);
         return $result;
     }
 }

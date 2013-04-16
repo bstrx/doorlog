@@ -1,6 +1,6 @@
 {extends "protected/views/index.tpl"}
     {block name="pagetitle"}<h1>Пользователи</h1>{/block}
-    
+
     {block name="breadcrumbs"}
         <ul class="breadcrumb">
           <li><a href="{$_root}/"> Главная </a> <span class="divider">/</span></li>
@@ -9,9 +9,10 @@
     {/block}
 
     {block name="content"}
-
         <div class='span10'>
-            <a href="{$_root}/users/manage">Добавить пользователя</a>
+            {if 'users_add'|checkPermission}
+                <a href="{$_root}/users/manage">Добавить пользователя</a>
+            {/if}
             <table class="table table-bordered">
                 <thead>
                     <th>№</th>
