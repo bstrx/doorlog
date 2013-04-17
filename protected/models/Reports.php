@@ -12,7 +12,6 @@ class Reports extends Model{
      * @param date $date
      * @return array
      */
-
    public function getTimesList($date){
         $params = array();
         $params['date'] = $date;

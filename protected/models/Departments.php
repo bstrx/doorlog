@@ -10,7 +10,6 @@ class Departments extends Model {
      * Get all departments(id, name, chief_name) and amount users
      * @return array
      */
-
     public function getAll(){
         $q = "SELECT
               d.id,
@@ -29,8 +28,7 @@ class Departments extends Model {
     /**
      * Get all depatments name and id
      * @return array
-     */    
-
+     */
     public function getMenuDepartments(){
         $q = "SELECT name, id
               FROM department";
@@ -43,7 +41,6 @@ class Departments extends Model {
      * @param integer $id
      * @return array
      */
-
     public function getDepById($id){
       $q = "SELECT * FROM department WHERE id = (:id)";
       $params = array();
@@ -57,7 +54,6 @@ class Departments extends Model {
      * @param string $depName
      * @return bool
      */
-
     public function createDep($depName){
       $q = "INSERT INTO department(name) VALUES(:depName)";
       $params = array();
@@ -71,7 +67,6 @@ class Departments extends Model {
      * @param integer $id
      * @return bool
      */
-
     public function dellDep($id){
       $params = array();
       $params['id'] = $id;
@@ -89,7 +84,6 @@ class Departments extends Model {
      * @param integer $chief
      * @return bool
      */
-
     public function editDep($newname, $id, $chief){
       $params = array();
       $params['id'] = $id;
@@ -105,7 +99,6 @@ class Departments extends Model {
      * @param integer $depId
      * @return array
      */
-
     public function getUsers($depId){
         $attr = array();
         $q = "SELECT p.name , pos.name as position, u.personal_id, u.id
