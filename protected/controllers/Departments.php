@@ -56,7 +56,14 @@ class Departments extends Controller {
             foreach ($users as $user) {
                 $sortedUsers[$user['id']] = $user['name'];
             }
-            $this->render("Departments/edit.tpl" , array('departments' => $departments, 'users' => $sortedUsers));
+            
+            $allDepartments =  $departmentsModel->getAll();
+            $totalUsers = array();
+            foreach ($allDepartments as $dep) {
+                $totalUsers[$dep['id']] = $dep['total_users'];
+            }
+            
+            $this->render("Departments/edit.tpl" , array('departments' => $departments, 'users' => $sortedUsers, 'totalUsers' => $totalUsers));
         }
     }
 

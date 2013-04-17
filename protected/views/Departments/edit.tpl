@@ -28,10 +28,15 @@
 
         <button type="submit" class="btn btn-success" form="edit-department"> Сохранить </button>
         <a class="btn" href="{$_root}/departments"> Отмена </a>
-        <a href="#myModal" role="button" class="btn btn-danger" data-toggle="modal" form="delete">Удалить</a>
-    </div>
-            
+        
+        <a {if $totalUsers[$smarty.get.id]==0}
+               href="#myModal"
+           {else}
+               href="#notice"
+           {/if}
+            role="button" class="btn btn-danger" data-toggle="modal" form="delete">Удалить</a>
 
+    </div>
 {/block}
 
 {/extends}
