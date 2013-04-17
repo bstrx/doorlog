@@ -5,6 +5,12 @@ use core\Db;
 use core\Model;
 
 class Departments extends Model {
+
+    /**
+     * Get all departments(id, name, chief_name) and amount users
+     * @return array
+     */
+
     public function getAll(){
         $q = "SELECT
               d.id,
@@ -20,12 +26,23 @@ class Departments extends Model {
         return $result;
     }
 
+    /**
+     * Get all depatments name and id
+     * @return array
+     */    
+
     public function getMenuDepartments(){
         $q = "SELECT name, id
               FROM department";
         $result = $this->fetchAll($q);
         return $result;
     }
+
+    /**
+     * Get department name by id
+     * @param integer $id
+     * @return array
+     */
 
     public function getDepById($id){
       $q = "SELECT * FROM department WHERE id = (:id)";
@@ -35,14 +52,25 @@ class Departments extends Model {
       return $result;
     }
 
+    /**
+     * Add new departament
+     * @param string $depName
+     * @return bool
+     */
+
     public function createDep($depName){
       $q = "INSERT INTO department(name) VALUES(:depName)";
       $params = array();
       $params['depName'] = $depName;
       $result = $this->execute($q, $params);
-
       return $result;
       }
+
+    /**
+     * Delete departament
+     * @param integer $id
+     * @return bool
+     */
 
     public function dellDep($id){
       $params = array();
@@ -54,6 +82,14 @@ class Departments extends Model {
       return $result;
     }
 
+    /**
+     * Edit departament
+     * @param string $newname
+     * @param integer $id
+     * @param integer $chief
+     * @return bool
+     */
+
     public function editDep($newname, $id, $chief){
       $params = array();
       $params['id'] = $id;
@@ -63,6 +99,12 @@ class Departments extends Model {
       $result = $this->execute($q, $params);
       return $result;
     }
+
+    /**
+     * Get all users in current departament
+     * @param integer $depId
+     * @return array
+     */
 
     public function getUsers($depId){
         $attr = array();
