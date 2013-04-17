@@ -365,8 +365,9 @@ class Users extends Controller {
         $salt = Utils::createRandomString(5, 5);
         $password = Utils::createRandomString(8, 10);
         $hash = $this->generateHash($password, $salt);
-        if (($users->insertUsers($user, $email, $hash, $salt, $position, $department, $phone, $birthday, $is_shown)) && ($roles->insertUserRole($id, $role))) {
-            FlashMessages::addMessage("Пользователь успешно добавлен.", "success");
+        if (($users->insertUsers($user, $email, $hash, $salt, $position, $department, $phone, $birthday, $is_shown)) 
+            && ($roles->insertUserRole($users->getId($user), $role) )) {
+            FlashMessages::addMessage("Пользователь успешно добавлен.", "info");
         } else {
             FlashMessages::addMessage("Произошла ошибка. Пользователь не был добавлен.", "error");
         }
@@ -379,7 +380,8 @@ class Users extends Controller {
         if(isset($newPass)){
             $users->editUserPass($id, $newPass);
         }
-        if(($users->editUser($id, $position, $email, $department, $birthday, $phone, $is_shown)) && ($roles->insertUserRole($id, $role))){
+        if(($users->editUser($id, $position, $email, $department, $birthday, $phone, $is_shown)) 
+            && ($roles->editUserRole($id, $role))){
             FlashMessages::addMessage("Пользователь успешно отредактирован.", "success");
         } else {
             FlashMessages::addMessage("Произошла ошибка. Пользователь не был отредактирован", "error");

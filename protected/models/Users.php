@@ -351,4 +351,16 @@ class Users extends Model{
             return false;
         }
     }
+
+    public function getId($personalId){
+        $params =array();
+        $params['personalId'] = $personalId;
+        $q = "SELECT id FROM user WHERE personal_id = :personalId";
+        $result = $this->fetchOne($q, $params);
+        if (isset($result['id'])){
+            return $result['id'];
+        } else {
+            return false;
+        }
+    }
 }
