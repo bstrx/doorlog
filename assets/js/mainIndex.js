@@ -1,11 +1,3 @@
-{extends "protected/views/index.tpl"}
-{block name="javascript"}
-    <script src="{$_root}/assets/js/mainIndex.js"></script>
-{/block}
-
-    {block name="content"}
-
-<!--    <script type="text/javascript">
         $(function() {
                 var elements = $('.timer');
                 elements.each( function() {
@@ -57,39 +49,3 @@
                 $('#datepicker').datepicker("show");
             });
         });
-    </script> -->
-
-     <div class="span7">
-
-         <div align=right class='right-calendar'>
-             <form>
-                 <input name="date" type="hidden" id="datepicker" /> <span>{$date|date_format:"%d.%m.%Y"}</span>
-             </form>
-         </div>
-        <div class="tabbable">
-            <ul class="nav nav-tabs" data-tabs="tabs">
-                <li class="active"><a data-toggle="tab" href="#day">День</a></li>
-                <li><a data-toggle="tab" href="#week">Неделя</a></li>
-                <li><a data-toggle="tab" href="#month">Месяц</a></li>
-            </ul>
-
-            <div class="tab-content">
-                {* Вкладка "День" *}
-                <div class="tab-pane active" id="day">
-                    {include file='protected/views/Main/day.tpl'}
-                </div>
-
-                {* Вкладка "Неделя" *}
-                <div class="tab-pane" id="week">
-                    {include file='protected/views/Main/week.tpl'}
-                </div>
-
-                {* Вкладка "Месяц" *}
-                <div class="tab-pane" id="month">
-                    {include file='protected/views/Main/month.tpl'}
-                </div>
-            </div>
-        </div>
-    </div>
-    {/block}
-{/extends}
