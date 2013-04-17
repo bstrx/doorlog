@@ -8,10 +8,11 @@
         <th> Дата </th>
         <th> Время в офисе </th>
     </thead>
+    
     <tbody>
         {* Перебираем по каждому дню недели (weekDays), в независимости от наличия входов/выходов *}
         {foreach from=$weekDays item=dayInfo}
-            <tr>
+            <tr {if $holidays[$dayInfo['date']|date_format:"%d.%m.%Y"]==1} class="info" {/if}>
                 <td> {$dayInfo['name']} </td>
                 <td> {$dayInfo['date']|date_format:"%d.%m.%Y"} </td>
                 <td>

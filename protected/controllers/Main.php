@@ -5,7 +5,7 @@ use core\Controller;
 use models\Users as UsersModel;
 use core\Registry;
 use core\Utils;
-
+use models\Holidays as HolidaysModel;
 class Main extends Controller
 {
     const IN_OFFICE = 2;
@@ -25,6 +25,14 @@ class Main extends Controller
             $dayInfo = $weekInfo['days'][$date];
         }
 
+        $holidaysModel = new HolidaysModel();
+        $holidays = $holidaysModel->getAllDays($date);
+
+        $sortedHolidays = array();
+        foreach ($holidays as $holiday) {
+            $sortedHolidays[$holiday['date']] = $holiday['trigger'];
+        }
+
         $this->render("Main/index.tpl", array(
             'currentDate' => date('Y-m-d', time()),
             'date' => $date,
@@ -32,6 +40,7 @@ class Main extends Controller
             'day' => $dayInfo,
             'week' => $weekInfo,
             'month' => $monthInfo,
+            'holidays' => $sortedHolidays
         ));
     }
 
