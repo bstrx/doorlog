@@ -11,8 +11,8 @@ class Positions extends Controller{
         if(!Acl::checkPermission('positions_view')){
             $this->render("errorAccess.tpl");
         }
-        $obj =  new PositionModel();
-        $positions =  $obj->getAll();
+        $positionsModel =  new PositionModel();
+        $positions =  $positionsModel->getAll();
         $this->render("Positions/index.tpl" , array('positions' => $positions));
     }
 
@@ -25,7 +25,7 @@ class Positions extends Controller{
         if(isset($_POST['posName']) && $_POST['posName']){
             $positionName = $_POST['posName'];
             if($positions->insertPosition($positionName)){
-                FlashMessages::addMessage("Должность успешно добавлена.", "info");
+                FlashMessages::addMessage("Должность успешно добавлена.", "success");
             } else {
                 FlashMessages::addMessage("Произошла ошибка. Должность не была добавлена.", "error");
             }
@@ -46,10 +46,11 @@ class Positions extends Controller{
             if (isset($_POST['position']) && $_POST['position']){
                 $set=$_POST['position'];
                 if($positions->savePosition($id,$set)){
+                    FlashMessages::addMessage("Должность успешно отредактирована.", "success");
                     Utils::redirect("/positions");
-                    FlashMessages::addMessage("Должность успешно отредактирована.", "info");
                 } else {
                     FlashMessages::addMessage("Произошла ошибка. Должность не была отредактирована.", "error");
+                    Utils::redirect("/positions");
                     }
                 }
             else{
@@ -67,7 +68,7 @@ class Positions extends Controller{
             $positions=new PositionModel();
 
             if ($positions->deletePosition($id)){
-                FlashMessages::addMessage("Должность успешно удалена.", "info");
+                FlashMessages::addMessage("Должность успешно удалена.", "success");
             } else {
                 FlashMessages::addMessage("Произошла ошибка. Должность не была удалена.", "error");
             }

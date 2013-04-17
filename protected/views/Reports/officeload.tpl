@@ -6,10 +6,6 @@
 <script src="{$_root}/assets/js/jqplot.canvasTextRenderer.min.js"></script>
 <script src="{$_root}/assets/js/jqplot.canvasAxisLabelRenderer.min.js"></script>
 <script src="{$_root}/assets/js/jqplot.highlighter.min.js"></script>
-{/block}
-{block name="pagetitle"}<h1>Загрузка офиса</h1>{/block}
-
-{block name="content"}
 <script>
         $(function() {
             $('#datepicker').datepicker({
@@ -58,9 +54,13 @@
             show: true,
             tooltipAxes: 'y'
             }});
-            
         });
 </script>
+{/block}
+{block name="pagetitle"}<h1>Загрузка офиса</h1>{/block}
+
+{block name="content"}
+
 <div class="span9">
 <div class='calendar' align="right">
   <form>
@@ -71,6 +71,7 @@
 </div>
 
 <div id="office-load"></div>
+    <p>График отображает количество входов в офис в указанные часы.</p>
 </div>
     
 {/block}

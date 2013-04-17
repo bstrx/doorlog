@@ -1,7 +1,5 @@
 <?php
-/**
- * @author adrenaline
- */
+
 namespace controllers;
 
 use core\Acl;
@@ -12,23 +10,23 @@ use core\Utils;
 
 class Roles extends Controller{
 
-    function indexAction(){
+    public function indexAction(){
         if(!Acl::checkPermission('roles_view')){
             $this->render("errorAccess.tpl");
         }
-        $obj = new RolesModel();
-        $roles = $obj->getAll();
+        $roleModel = new RolesModel();
+        $roles = $roleModel->getAll();
         $this->render("Roles/index.tpl" , array('roles' => $roles));
     }
 
-    function addAction(){
+    public function addAction(){
         if(!Acl::checkPermission('roles_add')){
             $this->render("errorAccess.tpl");
         }
-        $obj =  new RolesModel();
+        $roleModel =  new RolesModel();
         if(isset($_POST['roleName']) && $_POST['roleName']){
            $roleName = $_POST['roleName'];
-           if($obj->addRole($roleName)){
+           if($roleModel->addRole($roleName)){
                FlashMessages::addMessage("Роль успешно добавлена.", "success");
            } else {
                FlashMessages::addMessage("Ошибка добавления.", "error");
@@ -37,11 +35,11 @@ class Roles extends Controller{
         Utils::redirect("/roles");
     }
 
-    function editAction(){
+   public function editAction(){
         if(!Acl::checkPermission('roles_edit')){
             $this->render("errorAccess.tpl");
         }
-        $obj = new RolesModel();
+        $roleModel = new RolesModel();
         if(isset($_GET['id']) && $_GET['id']){
             $roleId = $_GET['id'];
         }
@@ -49,18 +47,18 @@ class Roles extends Controller{
         if(isset($_POST['changes'])){
            if(isset($_POST['checkbox'])){
                 $newPermissions = $_POST['checkbox'];
-                $obj->deleteRolePermissions($roleId);
+                $roleModel->deleteRolePermissions($roleId);
                 foreach($newPermissions as $permission){
-                    $obj->addRolePermissions($roleId, $permission);
+                    $roleModel->addRolePermissions($roleId, $permission);
                 }
                 }else{
-                    $obj->deleteRolePermissions($roleId);
+                    $roleModel->deleteRolePermissions($roleId);
                 }
-            FlashMessages::addMessage("Роль успешно изменена.", "info");
+            FlashMessages::addMessage("Роль успешно изменена.", "success");
         }
 
-        $rolePermissions = $obj->getRolePermissions($roleId);
-        $allPermissions = $obj->getAllPermissions();
+        $rolePermissions = $roleModel->getRolePermissions($roleId);
+        $allPermissions = $roleModel->getAllPermissions();
 
         $sortedRolePermissions = array();
         foreach($rolePermissions as $rolePermission){
@@ -85,17 +83,17 @@ class Roles extends Controller{
         ));
     }
 
-    function deleteAction(){
+   public function deleteAction(){
         if(!Acl::checkPermission('roles_delete')){
             $this->render("errorAccess.tpl");
         }
         if(isset($_POST['id'])){
             $roleId = $_POST['id'];
         }
-        $obj = new RolesModel();
+        $roleModel = new RolesModel();
 
-        if($obj->deleteRoleWithPermissions($roleId)){
-            FlashMessages::addMessage("Роль успешно удалена.", "info");
+        if($roleModel->deleteRoleWithPermissions($roleId)){
+            FlashMessages::addMessage("Роль успешно удалена.", "success");
         } else {
             FlashMessages::addMessage("Ошибка удаления", "error");
         }

@@ -63,7 +63,7 @@ class Users extends Controller {
                 $password = Utils::createRandomString(8, 10);
                 $hash = $this->generateHash($password, $salt);
                 if ($users->insertUsers($user, $email, $hash, $salt, $position, $department, $tel, $bday)) {
-                    FlashMessages::addMessage("Пользователь успешно добавлен.", "info");
+                    FlashMessages::addMessage("Пользователь успешно добавлен.", "success");
                 } else {
                     FlashMessages::addMessage("Произошла ошибка. Пользователь не был добавлен.", "error");
                 }
@@ -206,7 +206,7 @@ class Users extends Controller {
                 $res = $timeoffs->setTimeoffs($id, $type, $date);
             }
             if ($res){
-                FlashMessages::addMessage("Отгул добавлен.", "info");
+                FlashMessages::addMessage("Отгул добавлен.", "success");
             } else {
                 FlashMessages::addMessage("Произошла ошибка. Отгул не был добавлен.", "error");
             }
@@ -238,7 +238,7 @@ class Users extends Controller {
             $phone = $_POST['phone'];
             $birthday = $_POST['birthday'];
             $user->editUser($id, $position, $email, $department, $birthday, $phone);
-            FlashMessages::addMessage("Пользователь успешно отредактирован.", "info");
+            FlashMessages::addMessage("Пользователь успешно отредактирован.", "success");
             Utils::redirect("/users");
         } else {
 
@@ -380,7 +380,7 @@ class Users extends Controller {
             $users->editUserPass($id, $newPass);
         }
         if(($users->editUser($id, $position, $email, $department, $birthday, $phone, $is_shown)) && ($roles->insertUserRole($id, $role))){
-            FlashMessages::addMessage("Пользователь успешно отредактирован.", "info");
+            FlashMessages::addMessage("Пользователь успешно отредактирован.", "success");
         } else {
             FlashMessages::addMessage("Произошла ошибка. Пользователь не был отредактирован", "error");
         }
@@ -395,7 +395,7 @@ class Users extends Controller {
         $user =  new UsersModel();
         $delete = $user->deleteUser($id);
         if ($delete) {
-            FlashMessages::addMessage("Пользователь успешно удален.", "info");
+            FlashMessages::addMessage("Пользователь успешно удален.", "success");
             Utils::redirect("/users");
         } else FlashMessages::addMessage("При удалении пользователя произошла ошибка.", "error");
     }

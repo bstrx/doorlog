@@ -1,31 +1,7 @@
 {extends "protected/views/index.tpl"}
-    {block name="breadcrumbs"}
-        <ul class="breadcrumb">
-          <li><a href="{$_root}/"> Главная </a> <span class="divider">/</span></li>
-          <li class="active"> Отгулы </li>
-        </ul>
-    {/block}
-    {block name="pagetitle"}<h1>Отгулы</h1>{/block}
-    {block name="content"}
-<script type="text/javascript">
-$(function() {
-    $('#datepicker').datepicker( {
-        changeMonth: true,
-        changeYear: true,
-        showButtonPanel: true,
-        dateFormat: 'mm.yy',
-        closeText : "Готово",
-        currentText: "Сегодня",
-        onClose: function(dateText, inst) {
-            var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
-            var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
-            $(this).datepicker('setDate', new Date(year, month, 1));
-        }
-    });
-    $('#ui-datepicker-div').addClass('disableDays');
-});
-</script>
-<script type="text/javascript">
+{block name="javascript"}
+    <script src="{$_root}/assets/js/reportsTimesOffsList.js"></script>
+    <script type="text/javascript">
     $(function() {
         $("#timeoff_autocomplete").autocomplete({
             minLength: 3,
@@ -57,27 +33,17 @@ $(function() {
             }
         });
     });
-    $(document).ready(function () {
-        $('#timeoff_autocomplete').keyup(function (e) {
-            if((e.keyCode!=37) && (e.keyCode!=38) && (e.keyCode!=39) && (e.keyCode!=40) && (e.keyCode!=13)){
-                $("#timeoff_autocomplete_id").val('');
-            }
-        });
+    </script>
+{/block}
+    {block name="breadcrumbs"}
+        <ul class="breadcrumb">
+          <li><a href="{$_root}/"> Главная </a> <span class="divider">/</span></li>
+          <li class="active"> Отгулы </li>
+        </ul>
+    {/block}
+    {block name="pagetitle"}<h1>Отгулы</h1>{/block}
+    {block name="content"}
 
-    $("select#dep_id").find(":selected").val(0);
-        $("select#type").change(function(){
-            selectedVal = $(this).find(":selected").val();
-            if (selectedVal == 2) {
-                $("div#dep").show();
-                $("div#user").hide();
-                $("select#user_id").find(":selected").val(0);
-            } else {
-                $("div#user").show();
-                $("div#dep").hide();
-            }
-        });
- });
-</script>
 
         <form id = "reports" type='GET' action = "{$_root}/reports/timeoffs">
 

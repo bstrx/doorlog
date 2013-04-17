@@ -232,6 +232,7 @@ class Users extends Model{
         $params['id']=$userId;
 
         $result = $this->fetchOne($q,$params);
+        $result['created'] = date("d.m.Y", strtotime($result['created']));
         return $result;
     }
 

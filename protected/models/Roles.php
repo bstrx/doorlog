@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @author adrenaline
- */
 namespace models;
 use core\Db;
 use core\Model;
