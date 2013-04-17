@@ -6,6 +6,12 @@ use core\Model;
 
 
 class Reports extends Model{
+
+    /**
+     * Create  list (amount entry, time entry)
+     * @param date $date
+     * @return array
+     */
    public function getTimesList($date){
         $params = array();
         $params['date'] = $date;
