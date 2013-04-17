@@ -5,6 +5,10 @@ use core\Db;
 use core\Model;
 
 class Positions extends Model{
+    /**
+     * Get from base name and sum of employee whose have this positions
+     * @return array
+     */
     public function getAll(){
         $q = "SELECT p.name,count(position_id) as total_position,p.id
             FROM position as p
@@ -14,7 +18,12 @@ class Positions extends Model{
 
         return $result;
     }
-
+    
+    /**
+     * Insert into base new Positions
+     * @param string $positionName
+     * @return bool
+     */
     public function insertPosition($positionName){
         $add= "INSERT INTO `position` (`name`)
             VALUES (:positionName)";
@@ -23,7 +32,12 @@ class Positions extends Model{
         $result=$this->execute($add, $params);
         return $result;
     }
-
+    
+    /**
+     * Get from base one position
+     * @param integer $id
+     * @return array
+     */
     public function getPosition($id){
         $q= "SELECT name,id
             FROM position
@@ -33,7 +47,13 @@ class Positions extends Model{
         $result = $this->fetchOne($q,$params);
         return $result;
     }
-
+    
+    /**
+     * Update position into base
+     * @param integer $id
+     * @param name $position
+     * @return bool
+     */
     public function savePosition($id,$position){
         $edit = "UPDATE position
             SET name=:position
@@ -44,7 +64,12 @@ class Positions extends Model{
         $result=$this->execute($edit, $params);
         return $result;
     }
-
+    
+    /**
+     * Delete position from base
+     * @param integer $id
+     * @return bool
+     */
     public function deletePosition($id){
         $update = "UPDATE user
             SET position_id=0
