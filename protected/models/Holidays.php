@@ -4,6 +4,12 @@ use core\Db;
 use core\Model;
 
 class Holidays extends Model{
+    
+    /**
+     * Forms array of weekday name, date, type holidays, triggers for a month
+     * @param date $date
+     * @return array month
+     */
     public function getMonthDays($date){
         $uDay = 24*60*60;
         $date=date("Y-m",strtotime($date));
@@ -28,6 +34,12 @@ class Holidays extends Model{
         return $month;
     }
 
+    /**
+     * Insert into base new holidays or update
+     * @param date $date
+     * @param integer $type
+     * @return bool
+     */
     public function insert($date, $type){
         $q="INSERT INTO holiday(date,holiday_type_id)
             VALUES(:date, :iType)
@@ -39,7 +51,12 @@ class Holidays extends Model{
         $result=$this->execute($q,$params);
         return $result;
     }
-
+    
+    /**
+     * Delete from base holidays 
+     * @param date $date
+     * @return bool
+     */
     public function delete($date){
         $q="DELETE FROM holiday 
             WHERE date=(:date)";
@@ -47,7 +64,13 @@ class Holidays extends Model{
         $result=$this->execute($q,$params);
         return $result;
     }
-
+    
+    /**
+     * Get from base holidays and with support function getMonthDays forms array
+     * weekday name, date, type holidays, triggers for a month
+     * @param date $date
+     * @return array
+     */
     public function getAllDays($date){
         $month = $this->getMonthDays($date);
         $num = date("t",strtotime($date))-1;
@@ -70,7 +93,10 @@ class Holidays extends Model{
         }
         return $month;
     }
-
+    /**
+     * Get from base all type of holdays
+     * @return array
+     */
     public function getAllType(){
         $q="SELECT id
             FROM holiday_type";
@@ -80,7 +106,10 @@ class Holidays extends Model{
         }
         return $result;
     }
-    
+    /**
+     * Get from base all name of type holidays
+     * @return array
+     */
     public function getAllName(){
         $q="SELECT name
             FROM holiday_type";

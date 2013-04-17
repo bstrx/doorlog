@@ -17,6 +17,12 @@ class Reports extends Model{
         $result = $this->fetchAll($q, $params);
         return $result;
     }
+    
+    /**
+     * Get Time list employee whose out from office
+     * @param date $date
+     * @return array
+     */
     public function getOutTimesList($date){
             $params = array();
         $params['date'] = $date;
