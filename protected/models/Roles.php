@@ -5,7 +5,10 @@ use core\Db;
 use core\Model;
 
 class Roles extends Model {
-
+    /**
+     * Get from base array of name role and sum of employee whose have this role
+     * @return array
+     */
     public function getAll(){
         $q = "SELECT name, id, count(user_id) as users_count
                FROM role
@@ -15,7 +18,12 @@ class Roles extends Model {
         $result = $this->fetchAll($q);
         return $result;
     }
-
+    
+    /**
+     * Add new role into base
+     * @param string $name
+     * @return bool
+     */
     public function addRole($name){
         $params = array();
         $params['name'] = $name;
@@ -24,7 +32,12 @@ class Roles extends Model {
         $result = $this->execute($q, $params);
         return $result;
     }
-
+    
+    /**
+     * Get from base all permissions for this role
+     * @param integer $roleId
+     * @return array
+     */
     public function getRolePermissions($roleId){
         $params = array();
         $params['roleId'] = $roleId;
@@ -36,7 +49,11 @@ class Roles extends Model {
         $result = $this->fetchAll($q, $params);
         return $result;
     }
-
+    
+    /**
+     * Get from base all permissions
+     * @return array
+     */
     public function getAllPermissions(){
 
         $q = "SELECT pg.id, pg.name as group_name, p.name as perm_name, p.id as perm_id
@@ -48,6 +65,11 @@ class Roles extends Model {
         return $result;
     }
 
+    /**
+     * Delete from base permissions for this role
+     * @param integer $roleId
+     * @return bool
+     */
     public function deleteRolePermissions($roleId){
         $q = "DELETE FROM roles_permissions
               WHERE role_id = (:roleId)";
@@ -57,6 +79,12 @@ class Roles extends Model {
         return $result;
     }
 
+    /**
+     * Add into base permissions for this role
+     * @param integer $roleId
+     * @param integer $permission
+     * @return bool
+     */
     public function addRolePermissions($roleId, $permission){
         $q = "INSERT INTO roles_permissions(role_id, permission_id)
               VALUES(:roleId, :permission)";
@@ -66,7 +94,12 @@ class Roles extends Model {
         $result = $this->execute($q, $params);
         return $result;
     }
-
+    
+    /**
+     * Delete from base role
+     * @param integer $roleId
+     * @return bool
+     */
     public function deleteRoleWithPermissions($roleId){
         $this->deleteRolePermissions($roleId);
         $q = "DELETE FROM role
@@ -80,6 +113,12 @@ class Roles extends Model {
         return $result;
     }
 
+    /**
+     * Add user this role
+     * @param integer $user_id
+     * @param integer $role_id
+     * @return bool
+     */
     public function insertUserRole($user_id, $role_id){
         $q="INSERT INTO users_roles(user_id, role_id)
             VALUES (:user_id, :role_id)";
@@ -89,7 +128,13 @@ class Roles extends Model {
         $result = $this->execute($q, $params);
         return $result;
     }
-
+    
+    /**
+     * Change role for this user
+     * @param integer $user_id
+     * @param integer $role_id
+     * @return bool
+     */
     public function editUserRole($user_id, $role_id){
         $q = "UPDATE users_roles SET role_id = (:role_id) WHERE user_id = (:user_id)";
         $params = array();
@@ -99,6 +144,11 @@ class Roles extends Model {
         return $result;
     }
 
+    /**
+     * Get role for this user
+     * @param integer $user_id
+     * @return array
+     */
     public function getUserRole($user_id){
         $q = "SELECT r.id, r.name
             FROM role as r
