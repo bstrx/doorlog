@@ -16,10 +16,15 @@
         <form method='post' id="edit-department">
             <input type="text" name="depName" value="{$departments['name']}"><br>
             <p>Начальник отдела:</p>
+            {if $users}
             <select name="chief">
                 <option value=0></option>
                 {html_options options=$users selected={$departments['chief_id']}}
             </select>
+            {else}
+            <select name="chief" disabled="disabled">
+            </select>
+            {/if}
         </form>
 
         <form action = "{$_root}/departments/delete" method='post' id="delete">
