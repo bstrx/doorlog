@@ -357,8 +357,8 @@ class Users extends Model{
         $params['personalId'] = $personalId;
         $q = "SELECT id FROM user WHERE personal_id = :personalId";
         $result = $this->fetchOne($q, $params);
-        if (isset($result['personal_id'])){
-            return $result['personal_id'];
+        if (isset($result['id'])){
+            return $result['id'];
         } else {
             return false;
         }
