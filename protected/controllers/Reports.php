@@ -72,7 +72,7 @@ class Reports extends Controller {
         if(!Acl::checkPermission('officeload_reports')){
             $this->render("errorAccess.tpl");
         }
-        $obj = new ReportsModel;
+        $reportModel = new ReportsModel;
 
         if (isset($_GET['date'])) {
             $date = $_GET['date'];
@@ -80,12 +80,18 @@ class Reports extends Controller {
             $date = date('Y-m-d');
         }
 
-        $desiredDate = $obj->getTimesList($date);
+        $desiredDate = $reportModel->getTimesList($date);
+        $outDesireDate = $reportModel->getOutTimesList($date);
 
         $sortedTimes = array();
+        $outSortedTimes = array();
         $stringForGraph = "";
+        $outStringForGraph = "";
         foreach ($desiredDate as $hour) {
             $sortedTimes[$hour['hour']] = $hour['count'];
+        }
+        foreach ($outDesireDate as $hour) {
+            $outSortedTimes[$hour['hour']] = $hour['count'];
         }
         for ($i = 0; $i <= 23; $i++) {
             if (isset($sortedTimes[$i])) {
@@ -93,11 +99,19 @@ class Reports extends Controller {
             } else {
                 $entersCount = 0;
             }
+            if(isset($outSortedTimes[$i])) {
+                $outsCount = $outSortedTimes[$i];
+            } else {
+                $outsCount = 0;
+            }
+                
             $stringForGraph .= "[".$i.",".$entersCount."]".",";
+            $outStringForGraph .= "[".$i.",".$outsCount."]".",";
         }
         $stringForGraph = "[".substr($stringForGraph, 0, -1)."]";
+        $outStringForGraph = "[".substr($outStringForGraph, 0, -1)."]";
         $this->render("Reports/officeload.tpl", array('date' => $date,
-                                                      'stringForGraph' => $stringForGraph));
+                                                      'stringForGraph' => $stringForGraph, 'outStringForGraph'=> $outStringForGraph));
     }
 
     public function getMonthReport($id, $selectedDate, $timeoffType){
