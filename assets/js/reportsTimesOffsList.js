@@ -34,4 +34,34 @@ $(document).ready(function () {
             }
         });
  });
+$(function() {
+        $("#timeoff_autocomplete").autocomplete({
+            minLength: 3,
+            source: function( request, response ) {
+                $.ajax({
+                    url: "{$_root}/users/autocomplete",
+                    dataType: "json",
+                    data:{
+                        name:request.term
+                    },
 
+                    success: function(data) {
+                        response($.map(data, function(item) {
+                            return {
+                                label:item.name,
+                                id:item.id
+                            };
+                        }));
+                    }
+                });
+            },
+            select: function( event, ui ) {
+                $("#timeoff_autocomplete_id").val(ui.item.id);
+            },
+            messages: {
+                noResults: '',
+                results: function() {
+                }
+            }
+        });
+    });
