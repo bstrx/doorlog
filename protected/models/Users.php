@@ -4,6 +4,11 @@ use core\Db;
 use core\Model;
 
 class Users extends Model{
+
+    /**
+     * Get all unregistered users in system
+     * @return array
+     */
     public function getAllUnregistered(){
         $q= "SELECT id, name
             FROM `tc-db-main`.`personal`
@@ -16,6 +21,12 @@ class Users extends Model{
         return $result;
     }
 
+    /**
+     * Get all registered users in system or from $firstElement to $firstElement+$elementsCount optional
+     * @param integer $firstElement
+     * @param integer $elementsCount
+     * @return array
+     */
     public function getRegistered($firstElement=0, $elementsCount=0){
         $params = array();
         $q= "SELECT
@@ -44,6 +55,10 @@ class Users extends Model{
         return $result;
     }
 
+    /**
+     * Get amount all registered users
+     * @return array
+     */
     public function getAllRegisteredCount(){
         $q = "SELECT count(id) AS count
               FROM user";
@@ -51,6 +66,11 @@ class Users extends Model{
         return $result;
     }
 
+    /**
+     * Get all users which names contain searchstring
+     * @param string $name
+     * @return array
+     */
     public function searchByName($name){
         $searchName = '%' . $name . '%';
         $q="SELECT t.NAME as name,
@@ -74,6 +94,19 @@ class Users extends Model{
         return $result;
     }
 
+    /**
+     * Add new user
+     * @param string $user
+     * @param string $email
+     * @param string $hash
+     * @param string $salt
+     * @param integer $position
+     * @param integer $department
+     * @param integer $tel
+     * @param date $bday
+     * @param bool $is_shown
+     * @return bool
+     */
     public function insertUsers($user, $email, $hash, $salt, $position, $department, $tel, $bday, $is_shown){
         $add="INSERT INTO user(personal_id, position_id, email, password, salt, department_id, created, birthday, phone,is_shown)
             VALUES (:user,:position,:email,:hash,:salt,:department, NOW(), :bday, :tel, :is_shown)";
@@ -92,6 +125,14 @@ class Users extends Model{
         return $result;
     }
 
+    /**
+     * Validation of the contents of fields
+     * @param string $email
+     * @param integer $tel
+     * @param integer $position
+     * @param integer $department
+     * @return array
+     */
     public function checkUserAttr($email, $tel, $position, $department){
         $errors = array();
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
@@ -112,6 +153,11 @@ class Users extends Model{
         return $errors;
     }
 
+    /**
+     * Get all user attributes by id
+     * @param integer $id
+     * @return array
+     */
     public function getInfo($id){
         $q="
             SELECT u.id,
@@ -133,6 +179,11 @@ class Users extends Model{
         return $result;
     }
 
+    /**
+     * Get all user attributes by email
+     * @param string $email
+     * @return array
+     */
     public function getInfoByEmail($email){
         $q="SELECT *
             FROM `user`
@@ -144,6 +195,11 @@ class Users extends Model{
         return $result;
     }
 
+    /**
+     * Get user attributes by codekey
+     * @param integer $codekey
+     * @return array
+     */
     public function getInfoByCodeKey($codekey){
         $codekey = (int) $codekey;
         $q="SELECT u.id, u.personal_id, u.email, u.password, u.salt
@@ -154,6 +210,13 @@ class Users extends Model{
         return $result;
     }
 
+    /**
+     * Get list etrys and exits in date range
+     * @param integer $userId
+     * @param date $fromDate
+     * @param date $toDate
+     * @return array
+     */
     public function getActions($userId, $fromDate, $toDate){
         $q = "SELECT id,
                 logtime,
@@ -176,6 +239,10 @@ class Users extends Model{
         return $result;
     }
 
+    /**
+     * Get all position name and id
+     * @return array
+     */
     public function getPositionsList(){
         $q ="SELECT name, id
              FROM position";
@@ -184,6 +251,10 @@ class Users extends Model{
         return $result;
     }
 
+    /**
+     * Get all department name and id
+     * @return array
+     */
     public function getDepartmentsList(){
         $q = "SELECT name, id
               FROM department";
@@ -193,6 +264,11 @@ class Users extends Model{
 
     }
 
+    /**
+     * Get user role by user_id
+     * @param integer $userId
+     * @return array
+     */
     public function getUserRoles($userId){
         $q = "SELECT r.name, r.id
             FROM users_roles as ur
@@ -205,6 +281,11 @@ class Users extends Model{
         return $result;
     }
 
+    /**
+     * Get all user attributes by user_id
+     * @param integer $userId
+     * @return array
+     */
     public function getUserInfo($userId){
         $q = "SELECT
               u.id,
@@ -236,6 +317,11 @@ class Users extends Model{
         return $result;
     }
 
+    /**
+     * Get user status by user_id
+     * @param integer $id
+     * @return array
+     */
     public function getUserStatus($id){
         $q = "SELECT SUBSTRING( HEX(`logdata`) , 10, 1 ) as status
             FROM `tc-db-log`.`logs`
@@ -250,12 +336,21 @@ class Users extends Model{
         return $result;
     }
 
+    /**
+     * Get all user statuses 
+     * @return array
+     */
     public function getUserStatuses(){
         $q = "SELECT * FROM status";
         $result = $this->fetchAll($q);
         return $result;
     }
 
+    /**
+     * Get permission for role by role_id
+     * @param integer $roleId
+     * @return array
+     */
     public function getRolePermissions($roleId){
         $q = "SELECT p.key
                 FROM roles_permissions rp
@@ -268,6 +363,13 @@ class Users extends Model{
         return $result;
     }
 
+    /**
+     * Add timeoff for current user
+     * @param integer $id
+     * @param integer $type
+     * @param date $data
+     * @return array
+     */
     public function setTimeoffs($id, $type, $data){
         $q = 'INSERT INTO users_statuses(user_id, status_id, date) VALUES (:id, :type, :date) ';
         $params = array();
@@ -278,6 +380,13 @@ class Users extends Model{
         return $result;
     }
 
+    /**
+     * Get timeoff for current user by id
+     * @param integer $id
+     * @param integer $type
+     * @param date $data
+     * @return array
+     */
     public function getTimeoffsById($id, $date, $type){
 
         $date1 = date("y-m-d", strtotime($date));
@@ -302,6 +411,17 @@ class Users extends Model{
         return $result;
     }
 
+    /**
+     * Edit current user
+     * @param integer $id
+     * @param integer $position
+     * @param string $email
+     * @param integer $department
+     * @param date $birthday
+     * @param integer $phone
+     * @param bool $is_shown
+     * @return bool
+     */
     public function editUser($id, $position, $email, $department, $birthday, $phone, $is_shown){
         $params = array();
         $params['id'] = $id;
@@ -323,6 +443,12 @@ class Users extends Model{
         return $result;
     }
 
+    /**
+     * Change password
+     * @param integer $id
+     * @param string $newPass
+     * @return bool
+     */
     public function editUserPass($id,$newPass){
         $params = array();
         $params['id'] = $id;
@@ -332,6 +458,11 @@ class Users extends Model{
         return $result;
     }
 
+    /**
+     * Delete user by id
+     * @param integer $id
+     * @return bool
+     */
     public function deleteUser($id){
       $params = array();
       $params['id'] = $id;
@@ -340,6 +471,11 @@ class Users extends Model{
       return $result;
     }
 
+    /**
+     * Get personal_id by id
+     * @param integer $id
+     * @return integer
+     */
     public function getPersonalId($id){
         $params =array();
         $params['id'] = $id;
@@ -352,6 +488,11 @@ class Users extends Model{
         }
     }
 
+    /**
+     * Get id by personal_id
+     * @param integer $personalId
+     * @return integer
+     */
     public function getId($personalId){
         $params =array();
         $params['personalId'] = $personalId;
