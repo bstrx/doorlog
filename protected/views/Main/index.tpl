@@ -54,8 +54,25 @@
                 $('#datepicker').datepicker("show");
             });
         });
-    </script>
 
+        function setCookie(c_name,value)
+            {
+              var c_value=escape(value);
+              document.cookie=c_name + "=" + c_value;
+            }
+
+        $(function() {
+            $('#dayCol').on('click', function () {
+                setCookie('col','day');
+            });
+            $('#weekCol').on('click', function () {
+                setCookie('col','week')
+            });
+            $('#monthCol').on('click', function () {
+                setCookie('col','month')
+           });
+        });
+    </script>
      <div class="span7">
 
          <div align=right class='right-calendar'>
@@ -65,24 +82,51 @@
          </div>
         <div class="tabbable">
             <ul class="nav nav-tabs" data-tabs="tabs">
-                <li class="active"><a data-toggle="tab" href="#day">День</a></li>
-                <li><a data-toggle="tab" href="#week">Неделя</a></li>
-                <li><a data-toggle="tab" href="#month">Месяц</a></li>
+                <li
+                    {if !isset($smarty.cookies.col) || $smarty.cookies.col==day}
+                        class="active"
+                    {/if}>
+                    <a data-toggle="tab" href="#day" id="dayCol">День</a>
+                </li>
+                <li
+                    {if $smarty.cookies.col==week}
+                        class="active"
+                    {/if}>
+                    <a data-toggle="tab" href="#week" id="weekCol">Неделя</a>
+                </li>
+                <li
+                    {if $smarty.cookies.col==month}
+                        class="active"
+                    {/if}>
+                    <a data-toggle="tab" href="#month" id="monthCol">Месяц</a>
+                </li>
             </ul>
 
             <div class="tab-content">
                 {* Вкладка "День" *}
-                <div class="tab-pane active" id="day">
-                    {include file='protected/views/Main/day.tpl'}
+                <div {if !isset($smarty.cookies.col) || $smarty.cookies.col==day}
+                         class="tab-pane active"
+                     {else}
+                         class="tab-pane"
+                     {/if} id="day">
+                    {include file="protected/views/Main/day.tpl"}
                 </div>
 
                 {* Вкладка "Неделя" *}
-                <div class="tab-pane" id="week">
+                <div {if $smarty.cookies.col==week}
+                        class="tab-pane active"
+                     {else}
+                         class="tab-pane"
+                     {/if} id="week">
                     {include file='protected/views/Main/week.tpl'}
                 </div>
 
                 {* Вкладка "Месяц" *}
-                <div class="tab-pane" id="month">
+                <div {if $smarty.cookies.col==month}
+                         class="tab-pane active"
+                     {else}
+                         class="tab-pane"
+                     {/if} id="month">
                     {include file='protected/views/Main/month.tpl'}
                 </div>
             </div>
