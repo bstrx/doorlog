@@ -1,16 +1,7 @@
 {extends "protected/views/index.tpl"}
 {block name="javascript"}
-    <script scr="{$_root}/assets/js/reportsTimesOffsList.js"></script>
-{/block}
-    {block name="breadcrumbs"}
-        <ul class="breadcrumb">
-          <li><a href="{$_root}/"> Главная </a> <span class="divider">/</span></li>
-          <li class="active"> Отгулы </li>
-        </ul>
-    {/block}
-    {block name="pagetitle"}<h1>Отгулы</h1>{/block}
-    {block name="content"}
-<script type="text/javascript">
+    <script src="{$_root}/assets/js/reportsTimesOffsList.js"></script>
+    <script type="text/javascript">
     $(function() {
         $("#timeoff_autocomplete").autocomplete({
             minLength: 3,
@@ -42,7 +33,17 @@
             }
         });
     });
-</script>
+    </script>
+{/block}
+    {block name="breadcrumbs"}
+        <ul class="breadcrumb">
+          <li><a href="{$_root}/"> Главная </a> <span class="divider">/</span></li>
+          <li class="active"> Отгулы </li>
+        </ul>
+    {/block}
+    {block name="pagetitle"}<h1>Отгулы</h1>{/block}
+    {block name="content"}
+
 
         <form id = "reports" type='GET' action = "{$_root}/reports/timeoffs">
 

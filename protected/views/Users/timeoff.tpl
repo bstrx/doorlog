@@ -1,39 +1,6 @@
 {block name="javascript"}
     <script src="{$_root}/assets/js/userTimeOff.js"></script>
 {/block}
-<!--<script type="text/javascript">
-    $(function() {
-        $( "#from" ).datepicker({
-            defaultDate: "+1w",
-            dateFormat: "dd-mm-yy",
-            changeMonth: true,
-            numberOfMonths: 1,
-            onClose: function( selectedDate ) {
-                $( "#to" ).datepicker( "option", "minDate", selectedDate );
-            }
-        });
-        $( "#to" ).datepicker({
-            defaultDate: "+1w",
-            dateFormat: "dd-mm-yy",
-            changeMonth: true,
-            numberOfMonths: 1,
-            onClose: function( selectedDate ) {
-                $( "#from" ).datepicker( "option", "maxDate", selectedDate );
-            }
-        });
-    });
-
-
-</script>
-
-<script>
-   $(document).ready(function()
-   {
-        $('#delete').bind('click',function(){
-            return confirm("действительно хотите удалить?");
-        });
-    });
-</script>-->
 <div>
     <h3> Добавить отгул </h3>
 
