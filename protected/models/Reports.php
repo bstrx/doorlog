@@ -21,7 +21,7 @@ class Reports extends Model{
     /**
      * Get Time list employee whose out from office
      * @param date $date
-     * @return array
+     * @return array|false
      */
     public function getOutTimesList($date){
             $params = array();
