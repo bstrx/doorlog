@@ -31,7 +31,7 @@
         });
 
         $(document).ready(function(){
-            var plot1 = $.jqplot ('office-load', [{$stringForGraph}],{
+            var plot1 = $.jqplot ('office-load', [{$stringForGraph},{$outStringForGraph}],{
             axesDefaults: {
                 labelRenderer: $.jqplot.CanvasAxisLabelRenderer
                     },
