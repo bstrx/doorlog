@@ -1,17 +1,10 @@
 {extends "protected/views/index.tpl"}
+{block name="javascript"}
+    <script src="{$_root}/assets/js/userAdd.js"></script>
+{/block}
     {block name="pagetitle"}<h1>Добавить пользователя</h1>{/block}
 
     {block name="content"}
-  <script>
-  $(function() {
-    $( "#datepicker" ).datepicker({
-      changeMonth: true,
-      changeYear: true,
-      yearRange: "1930:",
-      dateFormat: 'yy-mm-dd'
-    });
-  });
-  </script>
         <div class="users">
             <form method="POST">
 
