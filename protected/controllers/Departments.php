@@ -57,13 +57,7 @@ class Departments extends Controller {
                 $sortedUsers[$user['id']] = $user['name'];
             }
             
-            $allDepartments =  $departmentsModel->getAll();
-            $totalUsers = array();
-            foreach ($allDepartments as $dep) {
-                $totalUsers[$dep['id']] = $dep['total_users'];
-            }
-            
-            $this->render("Departments/edit.tpl" , array('departments' => $departments, 'users' => $sortedUsers, 'totalUsers' => $totalUsers));
+            $this->render("Departments/edit.tpl" , array('departments' => $departments, 'users' => $sortedUsers));
         }
     }
 
@@ -73,11 +67,22 @@ class Departments extends Controller {
         }
         $id = $_POST['id'];
         $departmentsModel =  new DepartmentModel();
-        $delete = $departmentsModel->dellDep($id);
-        if ($delete) {
-            FlashMessages::addMessage("Отдел успешно удален.", "success");
-            Utils::redirect("/departments");
-        } else FlashMessages::addMessage("При удалении отдела произошла ошибка.", "error");
+        $allDepartments =  $departmentsModel->getAll();
+        $totalUsers = array();
+        foreach ($allDepartments as $dep) {
+            $totalUsers[$dep['id']] = $dep['total_users'];
+        }
+        if($totalUsers[$id]==0){
+            $delete = $departmentsModel->dellDep($id);
+            if ($delete) {
+                FlashMessages::addMessage("Отдел успешно удален.", "success");
+                Utils::redirect("/departments");
+            } else FlashMessages::addMessage("При удалении отдела произошла ошибка.", "error");
+        }
+        else {
+            FlashMessages::addMessage("Отдел не может быть удалени, пока в нём есть пользователи.", "error");
+            Utils::redirect("/departments/edit?id=$id");
+        }
     }
 
     public function showAction(){
