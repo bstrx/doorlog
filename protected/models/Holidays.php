@@ -4,10 +4,10 @@ use core\Db;
 use core\Model;
 
 class Holidays extends Model{
-    
+
     /**
      * Forms array of weekday name, date, type holidays, triggers for a month
-     * @param date $date
+     * @param string $date
      * @return array month
      */
     public function getMonthDays($date){
@@ -36,7 +36,7 @@ class Holidays extends Model{
 
     /**
      * Insert into base new holidays or update
-     * @param date $date
+     * @param string $date
      * @param integer $type
      * @return bool
      */
@@ -51,10 +51,10 @@ class Holidays extends Model{
         $result=$this->execute($q,$params);
         return $result;
     }
-    
+
     /**
-     * Delete from base holidays 
-     * @param date $date
+     * Delete from base holidays
+     * @param string $date
      * @return bool
      */
     public function delete($date){
@@ -68,7 +68,7 @@ class Holidays extends Model{
     /**
      * Get from base holidays and with support function getMonthDays forms array
      * weekday name, date, type holidays, triggers for a month
-     * @param date $date
+     * @param string $date
      * @return array
      */
     public function getAllDays($date){
