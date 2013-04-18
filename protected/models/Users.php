@@ -103,11 +103,7 @@ class Users extends Model{
      * @param integer $position
      * @param integer $department
      * @param integer $tel
-<<<<<<< HEAD
      * @param string $bday
-=======
-     * @param date $bday
->>>>>>> bf87e4fb78fcd543d8498e18bf9b9b542c358904
      * @param bool $is_shown
      * @return bool
      */
@@ -217,13 +213,8 @@ class Users extends Model{
     /**
      * Get list etrys and exits in date range
      * @param integer $userId
-<<<<<<< HEAD
      * @param string $fromDate
      * @param string $toDate
-=======
-     * @param date $fromDate
-     * @param date $toDate
->>>>>>> bf87e4fb78fcd543d8498e18bf9b9b542c358904
      * @return array
      */
     public function getActions($userId, $fromDate, $toDate){
@@ -376,11 +367,7 @@ class Users extends Model{
      * Add timeoff for current user
      * @param integer $id
      * @param integer $type
-<<<<<<< HEAD
      * @param string $data
-=======
-     * @param date $data
->>>>>>> bf87e4fb78fcd543d8498e18bf9b9b542c358904
      * @return array
      */
     public function setTimeoffs($id, $type, $data){
