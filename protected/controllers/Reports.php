@@ -118,7 +118,7 @@ class Reports extends Controller {
     /**
     * Generates a report by user_id
     * @param integer $id
-    * @param date $selectedDate
+    * @param string $selectedDate
     * @param integer $timeoffType
     * @return array
     */

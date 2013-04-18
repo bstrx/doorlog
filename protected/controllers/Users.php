@@ -13,7 +13,10 @@ use models\Roles as RolesModel;
 use core\Acl;
 
 class Users extends Controller {
-
+    /**
+     * Render page for all users
+     * @return void
+     */
     public function indexAction() {
         if(!Acl::checkPermission('users_view')){
             $this->render("errorAccess.tpl");
@@ -40,13 +43,21 @@ class Users extends Controller {
             'pagesCount' => $pagesCount,
             'currentPage' => $currentPage));
     }
-
+    
+    /**
+     * If logout redirect in root
+     * @return void
+     */
     public function logoutAction() {
         $auth = new Authentication;
         $auth->logout();
         Utils::redirect('/');
     }
-
+    
+    /**
+     * Render page for add new user
+     * @return void
+     */
     public function addAction() {
         $users = new UsersModel();
 
@@ -101,6 +112,10 @@ class Users extends Controller {
         );
     }
 
+    /**
+     *Sign up into savage 2.0 
+     * @return void
+     */
     public function loginAction() {
         if (isset($_POST['login']) && $_POST['login'] && isset($_POST['password']) && $_POST['password']) {
             $usersModel = new UsersModel();
@@ -127,10 +142,20 @@ class Users extends Controller {
         $this->render("Users/login.tpl");
     }
 
+    /**
+     * This function is generate hash
+     * @param string $password
+     * @param string $salt
+     * @return string|false
+     */
     public function generateHash($password, $salt) {
         return sha1($salt . $password);
     }
 
+    /**
+     * This function is help search
+     * @return void
+     */
     public function autocompleteAction(){
         $autocomplete = new UsersModel;
         $name = $_GET['name'];
@@ -138,6 +163,10 @@ class Users extends Controller {
         echo (json_encode($result));
     }
 
+    /**
+     * Render page for this user
+     * @return void
+     */
     public function showAction() {
         if(!Acl::checkPermission('users_view')){
             $this->render("errorAccess.tpl");
@@ -185,6 +214,10 @@ class Users extends Controller {
         $this->render("Users/show.tpl", array('userInfo' => $userInfo, 'statuses'=> $statuses, 'id' => $id, 'timeoffs' => $timeoffs, 'timeoffsAttr' => $timeoffsAttr, 'permission' => $permission));
     }
 
+    /**
+     * Render page for add time offs
+     * @return void
+     */
     public function vacationAction(){
         if(!Acl::checkPermission('timeoffs_add')){
             $this->render("errorAccess.tpl");
@@ -218,6 +251,10 @@ class Users extends Controller {
         }
     }
 
+    /**
+     * Render page for search users
+     * @return void
+     */
     public function searchAction(){
         if(isset($_GET['id']) && $_GET['id']){
             $this->showAction();
@@ -228,6 +265,10 @@ class Users extends Controller {
         }
     }
 
+    /**
+     * Render page for edit user
+     * @return void
+     */
     public function editAction(){
         $id = $_GET['id'];
         $user = new UsersModel;
@@ -266,6 +307,10 @@ class Users extends Controller {
         );
     }
 
+    /**
+     * Render page for manage user
+     * @return void
+     */
     public function manageAction() {
         if((!Acl::checkPermission('users_add'))||(!Acl::checkPermission('users_edit'))){
             $this->render("errorAccess.tpl");
@@ -351,13 +396,26 @@ class Users extends Controller {
             ));
         }
     }
+    
+    /**
+     * This function add user in base
+     * @param integer $user
+     * @param string $email
+     * @param integer $position
+     * @param integer $role
+     * @param integer $department
+     * @param string $birthday
+     * @param string $phone
+     * @param integer $isShown
+     * @return void
+     */
     public function add($user, $email, $position, $role, $department, $birthday, $phone, $isShown){
         $users = new UsersModel;
         $roles = new RolesModel();
         $salt = Utils::createRandomString(5, 5);
         $password = Utils::createRandomString(8, 10);
         $hash = $this->generateHash($password, $salt);
-        if (($users->insertUsers($user, $email, $hash, $salt, $position, $department, $phone, $birthday, $isShown))
+        if (($users->insertUsers($user, $email, $hash, $salt, $position, $department, $phone, $birthday, $isShown)) 
             && ($roles->insertUserRole($users->getId($user), $role) )) {
             FlashMessages::addMessage("Пользователь успешно добавлен.", "info");
         } else {
@@ -366,13 +424,26 @@ class Users extends Controller {
         Utils::sendMail($email, "Создан аккаунт в системе Opensoft Savage", "Ваш пароль: $password");
     }
 
-    public function update($id, $position, $role, $email, $department, $birthday, $phone, $isShown){
+    /**
+     * This function update user in base
+     * @param integer $id
+     * @param integer $position
+     * @param integer $role
+     * @param string $email
+     * @param integer $department
+     * @param string $birthday
+     * @param string $phone
+     * @param string $newPass
+     * @param integer $isShown
+     * @return void
+     */
+    public function update($id, $position, $role, $email, $department, $birthday, $phone, $newPass, $isShown){
         $users = new UsersModel;
         $roles = new RolesModel();
         if(isset($newPass)){
             $users->editUserPass($id, $newPass);
         }
-        if(($users->editUser($id, $position, $email, $department, $birthday, $phone, $isShown))
+        if(($users->editUser($id, $position, $email, $department, $birthday, $phone, $isShown)) 
             && ($roles->editUserRole($id, $role))){
             FlashMessages::addMessage("Пользователь успешно отредактирован.", "success");
         } else {
@@ -381,6 +452,10 @@ class Users extends Controller {
         Utils::redirect("/users");
     }
 
+    /**
+     * Delete user from base and redirect on index page
+     * @return void
+     */
     public function deleteAction(){
         if(!Acl::checkPermission('users_delete')){
             $this->render("errorAccess.tpl");
@@ -394,6 +469,11 @@ class Users extends Controller {
         } else FlashMessages::addMessage("При удалении пользователя произошла ошибка.", "error");
     }
 
+    /**
+     *If you forgot password this function send message for mail and redirect 
+     * on index page
+     * @return void
+     */
     public function forgotPasswordAction(){
         if(isset($_POST['loginForForgotPassword']) && $_POST['loginForForgotPassword']){
             $login = $_POST['loginForForgotPassword'];

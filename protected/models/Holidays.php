@@ -53,7 +53,7 @@ class Holidays extends Model{
     }
 
     /**
-     * Delete from base holidays
+     * Delete from base holidays 
      * @param string $date
      * @return bool
      */
