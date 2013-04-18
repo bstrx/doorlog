@@ -6,6 +6,8 @@ $(document).ready(function () {
     });
     $(function() {
     $('#datepicker').datepicker( {
+        monthNamesShort: ['Янв','Февр','Март','Апр','Май','Июнь', 'Июль','Авг','Сент','Окт','Нояб','Дек'],
+        yearRange: "c-2:c+2",
         changeMonth: true,
         changeYear: true,
         showButtonPanel: true,
