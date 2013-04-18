@@ -291,18 +291,7 @@ class Users extends Controller {
             } else {
                 if(isset($_GET['id']) && $_GET['id']){
                     $id = $_GET['id'];
-                    if (isset($_POST['oldPass']) && $_POST['oldPass'] && isset($_POST['newPass']) && $_POST['newPass']){
-                        $oldPass = $_POST['oldPass'];
-                        $newPass = $_POST['newPass'];
-                        $info = $users->getInfo($id);
-                        $hash = $this->generateHash($oldPass, $info['salt']);
-                        if($hash == $info['password']){
-                            $newHash = $this->generateHash($newPass, $info['salt']);
-                        } else {
-                            FlashMessages::addMessage("Старый пароль введен не верно и изменен не был.", "error");
-                        }
-                    }
-                    $this->update($id, $position, $role, $email, $department, $birthday, $phone, $newHash, $isShown);
+                    $this->update($id, $position, $role, $email, $department, $birthday, $phone, $isShown);
                 } else {
                     if(isset($_POST['userId'])){
                         $user = $_POST['userId'];
@@ -377,7 +366,7 @@ class Users extends Controller {
         Utils::sendMail($email, "Создан аккаунт в системе Opensoft Savage", "Ваш пароль: $password");
     }
 
-    public function update($id, $position, $role, $email, $department, $birthday, $phone, $newPass, $is_shown){
+    public function update($id, $position, $role, $email, $department, $birthday, $phone, $is_shown){
         $users = new UsersModel;
         $roles = new RolesModel();
         if(isset($newPass)){
@@ -440,5 +429,28 @@ class Users extends Controller {
                 }
         }
         $this->render("Users/forgotPassword.tpl");
+    }
+
+    public function profileAction(){
+        if(Acl::checkPermission('users_profile') || ($_COOKIE['id']==$_GET['id']) ){
+            $user = new UsersModel();
+            if (isset($_POST['oldPass']) && $_POST['oldPass'] && isset($_POST['newPass']) && $_POST['newPass']){
+                $oldPass = $_POST['oldPass'];
+                $newPass = $_POST['newPass'];
+                $id = $_GET['id'];
+                $info = $user->getInfo($id);
+                $hash = $this->generateHash($oldPass, $info['salt']);
+                if($hash == $info['password']){
+                    $newHash = $this->generateHash($newPass, $info['salt']);
+                    $user->editUserPass($id, $newHash);
+                    FlashMessages::addMessage("Пароль успешно изменен.", "success");
+                } else {
+                    FlashMessages::addMessage("Старый пароль введен не верно и изменен не был.", "error");
+                }
+            }
+            $this->render("Users/profile.tpl");
+        } else {
+            $this->render("errorAccess.tpl");
+        }
     }
 }
