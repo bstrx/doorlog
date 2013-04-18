@@ -77,7 +77,7 @@
                 {/if}
 
             {else}
-                    <input name="is_shown" type="checkbox" value="1" checked>Выводить при отчётах
+                    <input name="is_shown" type="checkbox" value="1" checked>Выводить в отчётах
                     <br>
             {/if}
 

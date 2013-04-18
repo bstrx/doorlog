@@ -190,9 +190,9 @@ class Users extends Controller {
             $this->render("errorAccess.tpl");
         }
         $timeoffs = new UsersModel;
+        $id = $_POST['id'];
 
-        if(isset($_POST['id']) && isset($_POST['from']) && isset($_POST['to'])){
-            $id = $_POST['id'];
+        if(isset($_POST['from']) && isset($_POST['to']) && $_POST['from'] && $_POST['to']){
             $from = $_POST['from'];
             $to = $_POST['to'];
             $type = $_POST['vtype'];
@@ -211,6 +211,9 @@ class Users extends Controller {
                 FlashMessages::addMessage("Произошла ошибка. Отгул не был добавлен.", "error");
             }
 
+            Utils::redirect('/users/show?id='.$id);
+        } else {
+            FlashMessages::addMessage("Ошибка заполнения. Отгул не был добавлен.", "error");
             Utils::redirect('/users/show?id='.$id);
         }
     }

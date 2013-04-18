@@ -11,6 +11,7 @@
 
     {block name="javascript"}
         <script src="{$_root}/assets/js/holidaysIndex.js"></script>
+        <script src="{$_root}/assets/js/userTimeOff.js"></script>
     {/block}
     
     {block name="content"}
@@ -18,6 +19,9 @@
         <div class="span7">
             {if $userInfo}
                 <table class="table table-bordered">
+                    <colgroup>
+                        <col class="col-small">
+                    </colgroup>
                 {foreach from=userInfo item=user}
                     <th> Имя </th>
                     <td>{$userInfo['name']}</td>
