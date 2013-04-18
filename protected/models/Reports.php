@@ -9,7 +9,7 @@ class Reports extends Model{
 
     /**
      * Create  list (amount entry, time entry)
-     * @param date $date
+     * @param string $date
      * @return array
      */
    public function getTimesList($date){
@@ -23,10 +23,10 @@ class Reports extends Model{
         $result = $this->fetchAll($q, $params);
         return $result;
     }
-    
+
     /**
      * Get Time list employee whose out from office
-     * @param date $date
+     * @param string $date
      * @return array|false
      */
     public function getOutTimesList($date){
