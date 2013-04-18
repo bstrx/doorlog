@@ -12,85 +12,33 @@
              </form>
          </div>
         <div class="tabbable">
-            {if isset($smarty.cookies.col)}
             <ul class="nav nav-tabs" data-tabs="tabs">
-                <li
-                    {if $smarty.cookies.col==day}
-                        class="active"
-                    {/if}>
+                <li class='{$currentTab["day"]}'>
                     <a data-toggle="tab" href="#day" id="dayCol">День</a>
                 </li>
-                <li
-                    {if $smarty.cookies.col==week}
-                        class="active"
-                    {/if}>
+                <li class='{$currentTab["week"]}'>
                     <a data-toggle="tab" href="#week" id="weekCol">Неделя</a>
                 </li>
-                <li
-                    {if $smarty.cookies.col==month}
-                        class="active"
-                    {/if}>
+                <li class='{$currentTab["month"]}'>
                     <a data-toggle="tab" href="#month" id="monthCol">Месяц</a>
                 </li>
             </ul>
                 <div class="tab-content">
                 {* Вкладка "День" *}
-                <div {if $smarty.cookies.col==day}
-                         class="tab-pane active"
-                     {else}
-                         class="tab-pane"
-                     {/if} id="day">
+                <div class="tab-pane {$currentTab["day"]}" id="day">
                     {include file="protected/views/Main/day.tpl"}
                 </div>
 
                 {* Вкладка "Неделя" *}
-                <div {if $smarty.cookies.col==week}
-                        class="tab-pane active"
-                     {else}
-                         class="tab-pane"
-                     {/if} id="week">
+                <div class="tab-pane {$currentTab["week"]}" id="week">
                     {include file='protected/views/Main/week.tpl'}
                 </div>
 
                 {* Вкладка "Месяц" *}
-                <div {if $smarty.cookies.col==month}
-                         class="tab-pane active"
-                     {else}
-                         class="tab-pane"
-                     {/if} id="month">
+                <div class="tab-pane {$currentTab["month"]}" class="tab-pane" id="month">
                     {include file='protected/views/Main/month.tpl'}
                 </div>
                 </div>
-                {else}
-                <ul class="nav nav-tabs" data-tabs="tabs">
-                <li class="active">
-                    <a data-toggle="tab" href="#day" id="dayCol">День</a>
-                </li>
-                <li>
-                    <a data-toggle="tab" href="#week" id="weekCol">Неделя</a>
-                </li>
-                <li>
-                    <a data-toggle="tab" href="#month" id="monthCol">Месяц</a>
-                </li>
-                </ul>
-
-                <div class="tab-content">
-                {* Вкладка "День" *}
-                <div class="tab-pane active" id="day">
-                    {include file="protected/views/Main/day.tpl"}
-                </div>
-
-                {* Вкладка "Неделя" *}
-                <div class="tab-pane" id="week">
-                    {include file='protected/views/Main/week.tpl'}
-                </div>
-
-                {* Вкладка "Месяц" *}
-                <div class="tab-pane" id="month">
-                    {include file='protected/views/Main/month.tpl'}
-                </div>
-                </div>
-                {/if}
         </div>
     </div>
     {/block}

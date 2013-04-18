@@ -15,7 +15,13 @@ class Main extends Controller
         $userInfo = Registry::getValue('user');
         $userPersonalId = $userInfo['personal_id'];
         $date = $this->getDate();
-
+        if (isset($_COOKIE['col'])){
+            $currentTab = array('day'=>'', 'week'=>'', 'month'=>'');
+            $currentTab[$_COOKIE['col']] = 'active';
+        } else {
+            $currentTab = array('day'=>'active', 'week'=>'', 'month'=>'');
+        }
+            
         $dayInfo = array();
         $weekInfo = $this->getWeekInfo($userPersonalId, $date);
         $monthInfo = $this->getMonthInfo($userPersonalId, $date);
@@ -40,7 +46,8 @@ class Main extends Controller
             'day' => $dayInfo,
             'week' => $weekInfo,
             'month' => $monthInfo,
-            'holidays' => $sortedHolidays
+            'holidays' => $sortedHolidays,
+            'currentTab' => $currentTab
         ));
     }
 
