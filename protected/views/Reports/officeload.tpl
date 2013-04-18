@@ -37,7 +37,7 @@
                     },
              axes: {
                 yaxis: {
-                 label:"Кол-во входов",
+                 label:"Кол-во входов и выходов",
                  padMin: 0
                  },
                  xaxis: {
