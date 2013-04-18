@@ -37,7 +37,7 @@
                     },
              axes: {
                 yaxis: {
-                 label:"Кол-во входов",
+                 label:"Кол-во входов и выходов",
                  padMin: 0
                  },
                  xaxis: {
@@ -49,6 +49,15 @@
                     tickOptions: {
                     formatString: '%d'
                  }}
+            },
+            series:[
+                { color: "#4bb2c5", label:"Входы"},
+                { color: "#EAA228", label:"Выходы"}
+            ],
+            legend:{
+                show: true,
+                xoffset: 12,
+                yoffset: 12
             },
             highlighter:{
             show: true,
@@ -71,7 +80,7 @@
 </div>
 
 <div id="office-load"></div>
-    <p>График отображает количество входов в офис в указанные часы.</p>
+    <p>График отображает количество входов в офис и выходов из офиса в указанные часы.</p>
 </div>
     
 {/block}

@@ -36,7 +36,7 @@ class Positions extends Model{
     /**
      * Get from base one position
      * @param integer $id
-     * @return array
+     * @return array|false
      */
     public function getPosition($id){
         $q= "SELECT name,id
