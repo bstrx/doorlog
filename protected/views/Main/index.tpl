@@ -12,8 +12,8 @@
              </form>
          </div>
         <div class="tabbable">
+            {if isset($smarty.cookies.col)}
             <ul class="nav nav-tabs" data-tabs="tabs">
-                {if isset($smarty.cookies.col)}
                 <li
                     {if $smarty.cookies.col==day}
                         class="active"
@@ -32,24 +32,10 @@
                     {/if}>
                     <a data-toggle="tab" href="#month" id="monthCol">Месяц</a>
                 </li>
-                {else}
-                <li class="active">
-                    <a data-toggle="tab" href="#day" id="dayCol">День</a>
-                </li>
-                <li>
-                    <a data-toggle="tab" href="#week" id="weekCol">Неделя</a>
-                </li>
-                <li>
-                    <a data-toggle="tab" href="#month" id="monthCol">Месяц</a>
-                </li>
-                {/if}
-
             </ul>
-
-            <div class="tab-content">
-                {if isset($smarty.cookies.col)}
+                <div class="tab-content">
                 {* Вкладка "День" *}
-                <div {if !isset($smarty.cookies.col) || $smarty.cookies.col==day}
+                <div {if $smarty.cookies.col==day}
                          class="tab-pane active"
                      {else}
                          class="tab-pane"
@@ -74,7 +60,21 @@
                      {/if} id="month">
                     {include file='protected/views/Main/month.tpl'}
                 </div>
+                </div>
                 {else}
+                <ul class="nav nav-tabs" data-tabs="tabs">
+                <li class="active">
+                    <a data-toggle="tab" href="#day" id="dayCol">День</a>
+                </li>
+                <li>
+                    <a data-toggle="tab" href="#week" id="weekCol">Неделя</a>
+                </li>
+                <li>
+                    <a data-toggle="tab" href="#month" id="monthCol">Месяц</a>
+                </li>
+                </ul>
+
+                <div class="tab-content">
                 {* Вкладка "День" *}
                 <div class="tab-pane active" id="day">
                     {include file="protected/views/Main/day.tpl"}
@@ -89,9 +89,8 @@
                 <div class="tab-pane" id="month">
                     {include file='protected/views/Main/month.tpl'}
                 </div>
-
+                </div>
                 {/if}
-            </div>
         </div>
     </div>
     {/block}
