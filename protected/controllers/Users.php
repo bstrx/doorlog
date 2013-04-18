@@ -145,7 +145,7 @@ class Users extends Controller {
     /**
      * This function is generate hash
      * @param string $password
-     * @param string $salt optional
+     * @param string $salt
      * @return string|false
      */
     public function generateHash($password, $salt) {
