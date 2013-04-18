@@ -14,7 +14,7 @@
         <form method='post' id="change-permissions">                
             {foreach from=$allPermissions item=group}
                 <span class="tbl-span"><h3>{$group['group_name']}</h3></span></br>
-            <table class="table table-bordered">
+            <table class="border-none">
                 <tbody>
                     {foreach from=$group['permissions'] item=permName key=key}
                         <tr><td>
