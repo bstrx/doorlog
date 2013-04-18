@@ -66,8 +66,8 @@ class Departments extends Controller {
         }
         $id = $_POST['id'];
         $departmentsModel =  new DepartmentModel();
-        $totalUsers =  $departmentsModel->totalUsers($id);
-        if($totalUsers['0']['total_users']==0){
+        $totalUsers =  $departmentsModel->getTotalUsers($id);
+        if($totalUsers['total_users']==0){
             $delete = $departmentsModel->dellDep($id);
             if ($delete) {
                 FlashMessages::addMessage("Отдел успешно удален.", "success");
