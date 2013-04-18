@@ -56,7 +56,6 @@ class Departments extends Controller {
             foreach ($users as $user) {
                 $sortedUsers[$user['id']] = $user['name'];
             }
-            
             $this->render("Departments/edit.tpl" , array('departments' => $departments, 'users' => $sortedUsers));
         }
     }
@@ -67,12 +66,8 @@ class Departments extends Controller {
         }
         $id = $_POST['id'];
         $departmentsModel =  new DepartmentModel();
-        $allDepartments =  $departmentsModel->getAll();
-        $totalUsers = array();
-        foreach ($allDepartments as $dep) {
-            $totalUsers[$dep['id']] = $dep['total_users'];
-        }
-        if($totalUsers[$id]==0){
+        $totalUsers =  $departmentsModel->totalUsers($id);
+        if($totalUsers['0']['total_users']==0){
             $delete = $departmentsModel->dellDep($id);
             if ($delete) {
                 FlashMessages::addMessage("Отдел успешно удален.", "success");
@@ -80,7 +75,7 @@ class Departments extends Controller {
             } else FlashMessages::addMessage("При удалении отдела произошла ошибка.", "error");
         }
         else {
-            FlashMessages::addMessage("Отдел не может быть удалени, пока в нём есть пользователи.", "error");
+            FlashMessages::addMessage("Отдел не может быть удален, пока в нём есть пользователи.", "error");
             Utils::redirect("/departments/edit?id=$id");
         }
     }
