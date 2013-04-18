@@ -55,7 +55,7 @@ class Holidays extends Controller{
             }
             
             if(!$insertError){
-                FlashMessages::addMessage("Табель успешно отредактирован.", "info");
+                FlashMessages::addMessage("Табель успешно отредактирован.", "success");
             }
             else{
                 FlashMessages::addMessage("Табель не был отредактирован.", "error");

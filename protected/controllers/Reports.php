@@ -11,14 +11,11 @@ use models\Holidays;
 
 class Reports extends Controller {
 
-   public function indexAction() {
-        if(!Acl::checkPermission('reports')){
-            $this->render("errorAccess.tpl");
-        }
-        $this->render("Reports/index.tpl");
-    }
-
-   public function timeoffsAction() {
+    /**
+    * Render page of reports by user or all users in current department
+    * @return void
+    */
+    public function timeoffsAction() {
         if(!Acl::checkPermission('timeoffs_reports')){
             $this->render("errorAccess.tpl");
         }
@@ -37,7 +34,7 @@ class Reports extends Controller {
             $date = strtotime(strrev(strrev($date).'.10'));
             $date = date('Y-m', $date);
             if (isset($_GET['user_id']) && $_GET['user_id'] != 0 ){
-                $reportAllDaysArray = $this->getMonthReport($_GET['user_id'], $date, $_GET['type']);
+                $reportAllDaysArray = $this->getMonthReport($_GET['user_id'], $date);
                 $userInfo = $user->getInfo($_GET['user_id']);
                 $name['user'] = $userInfo['name'];
                 $id = $_GET['user_id'];
@@ -48,7 +45,7 @@ class Reports extends Controller {
                 $name['dep'] = $depInfo['name'];
                 $users = $dep->getUsers($_GET['dep_id']);
                 foreach ($users as $currentUser) {
-                    $timeoffsAllUsers[] = array('reports' => $this->getMonthReport($currentUser['id'], $date, $_GET['type']),
+                    $timeoffsAllUsers[] = array('reports' => $this->getMonthReport($currentUser['id'], $date),
                         'id' => $currentUser['id'],
                         'name' => $currentUser['name']);
                 }
@@ -68,7 +65,11 @@ class Reports extends Controller {
             'name' => $name));
     }
 
-  public  function officeloadAction() {
+    /**
+    * Render page of graph exits and entrances
+    * @return void
+    */
+    public  function officeloadAction() {
         if(!Acl::checkPermission('officeload_reports')){
             $this->render("errorAccess.tpl");
         }
@@ -114,7 +115,14 @@ class Reports extends Controller {
                                                       'stringForGraph' => $stringForGraph, 'outStringForGraph'=> $outStringForGraph));
     }
 
-    public function getMonthReport($id, $selectedDate, $timeoffType){
+    /**
+    * Generates a report by user_id
+    * @param integer $id
+    * @param string $selectedDate
+    * @param integer $timeoffType
+    * @return array
+    */
+    public function getMonthReport($id, $selectedDate, $timeoffType = 0){
         $user = new UsersModel();
         $dep = new DepartmentModel();
         $monthTime = new Time();

@@ -1,5 +1,7 @@
 $(function() {
     $('#datepicker').datepicker( {
+        monthNamesShort: ['Янв','Февр','Март','Апр','Май','Июнь', 'Июль','Авг','Сент','Окт','Нояб','Дек'],
+        yearRange: "c-2:c+2",
         changeMonth: true,
         changeYear: true,
         showButtonPanel: true,
@@ -21,7 +23,6 @@ $(document).ready(function () {
             }
         });
 
-    $("select#dep_id").find(":selected").val(0);
         $("select#type").change(function(){
             selectedVal = $(this).find(":selected").val();
             if (selectedVal == 2) {
@@ -31,7 +32,38 @@ $(document).ready(function () {
             } else {
                 $("div#user").show();
                 $("div#dep").hide();
+                $("select#dep_id").find(":selected").val(0);
             }
         });
  });
+$(function() {
+        $("#timeoff_autocomplete").autocomplete({
+            minLength: 3,
+            source: function( request, response ) {
+                $.ajax({
+                    url: "{$_root}/users/autocomplete",
+                    dataType: "json",
+                    data:{
+                        name:request.term
+                    },
 
+                    success: function(data) {
+                        response($.map(data, function(item) {
+                            return {
+                                label:item.name,
+                                id:item.id
+                            };
+                        }));
+                    }
+                });
+            },
+            select: function( event, ui ) {
+                $("#timeoff_autocomplete_id").val(ui.item.id);
+            },
+            messages: {
+                noResults: '',
+                results: function() {
+                }
+            }
+        });
+    });

@@ -26,7 +26,7 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a href="{$_root}/reports/officeload">По загрузке</a></li>
-                        <li><a href="{$_root}/reports/timeoffs">По отгулам</a></li>
+                        <li><a href="{$_root}/reports/timeoffs">По посещаемости</a></li>
                     </ul>
                 </li>
                 {/if}

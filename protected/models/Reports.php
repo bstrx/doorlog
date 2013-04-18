@@ -6,6 +6,12 @@ use core\Model;
 
 
 class Reports extends Model{
+
+    /**
+     * Create  list (amount entry, time entry)
+     * @param string $date
+     * @return array
+     */
    public function getTimesList($date){
         $params = array();
         $params['date'] = $date;
@@ -20,7 +26,7 @@ class Reports extends Model{
     
     /**
      * Get Time list employee whose out from office
-     * @param date $date
+     * @param string $date
      * @return array|false
      */
     public function getOutTimesList($date){

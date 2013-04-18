@@ -24,4 +24,3 @@ $(document).ready(function()
          return confirm("действительно хотите удалить?");
      });
 });
-

@@ -13,7 +13,9 @@
     {/block}
 
     {block name="content"}
-
+    {block name="javascript"}
+        <script src="{$_root}/assets/js/userManage.js"></script>
+    {/block}
     {include file='protected/views/dialog.tpl'}
         {if isset($userId)}
             {block name="pagetitle"}<h1>Изменить пользователя {$userInfo['name']}</h1>{/block}
@@ -21,16 +23,6 @@
             {block name="pagetitle"}<h1>Добавить пользователя</h1>{/block}
         {/if}
 
-        <script>
-        $(function() {
-          $( "#datepicker" ).datepicker({
-            changeMonth: true,
-            changeYear: true,
-            yearRange: "1930:",
-            dateFormat: 'yy-mm-dd'
-          });
-        });
-        </script>
         <form method="POST" id="user">
             {if !isset($userId)}
                 <p>Пользователь:</p>
@@ -85,7 +77,7 @@
                 {/if}
 
             {else}
-                    <input name="is_shown" type="checkbox" value="1" checked>Выводить при отчётах
+                    <input name="is_shown" type="checkbox" value="1" checked>Выводить в отчётах
                     <br>
             {/if}
 

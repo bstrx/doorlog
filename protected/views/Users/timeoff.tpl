@@ -1,6 +1,3 @@
-{block name="javascript"}
-    <script src="{$_root}/assets/js/userTimeOff.js"></script>
-{/block}
 <div>
     <h3> Добавить отгул </h3>
 

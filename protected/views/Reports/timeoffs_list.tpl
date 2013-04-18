@@ -1,47 +1,14 @@
 {extends "protected/views/index.tpl"}
 {block name="javascript"}
     <script src="{$_root}/assets/js/reportsTimesOffsList.js"></script>
-    <script type="text/javascript">
-    $(function() {
-        $("#timeoff_autocomplete").autocomplete({
-            minLength: 3,
-            source: function( request, response ) {
-                $.ajax({
-                    url: "{$_root}/users/autocomplete",
-                    dataType: "json",
-                    data:{
-                        name:request.term
-                    },
-
-                    success: function(data) {
-                        response($.map(data, function(item) {
-                            return {
-                                label:item.name,
-                                id:item.id
-                            };
-                        }));
-                    }
-                });
-            },
-            select: function( event, ui ) {
-                $("#timeoff_autocomplete_id").val(ui.item.id);
-            },
-            messages: {
-                noResults: '',
-                results: function() {
-                }
-            }
-        });
-    });
-    </script>
 {/block}
     {block name="breadcrumbs"}
         <ul class="breadcrumb">
           <li><a href="{$_root}/"> Главная </a> <span class="divider">/</span></li>
-          <li class="active"> Отгулы </li>
+          <li class="active"> Отчет по посещаемости </li>
         </ul>
     {/block}
-    {block name="pagetitle"}<h1>Отгулы</h1>{/block}
+    {block name="pagetitle"}<h1> Отчет по посещаемости </h1>{/block}
     {block name="content"}
 
 
@@ -71,14 +38,6 @@
         <label for = "datepicker"> Дата </label>
         <input name = "date" type="text" id="datepicker" class='withoutDays' value = "{$timeoffsAttr['date']|date_format:"%m.%Y"}" />
 
-        <label for = "type"> Тип </label>
-        <select name = "type">
-            <option value = "0"> Все </option>
-            {foreach from=$statuses item=stat}
-                <option value = "{$stat['id']}"> {$stat['name']} </option>
-            {/foreach}
-        </select>
-
     </form>
     <input form = "reports" type="submit" id="add" value = "Сформировать" class="btn btn-success" >
     <br>
@@ -93,10 +52,10 @@
             {foreach from=$timeoffsAllUsers item=allUsers}
                 {if $allUsers['reports']}
                     {include file='protected/views/Reports/timeoffs.tpl' reportAllDaysArray = $allUsers['reports'] tableId=$allUsers['id'] userName = $allUsers['name']}
-                    {else}<h5>Отгулов нет</h5>
+                    {else}
                 {/if}
             {/foreach}
-        {else} <h5>Отгулов нет</h5>{/if}
+        {else}{/if}
     {/if}
     </div>
     {/block}

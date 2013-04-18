@@ -11,6 +11,10 @@ class Main extends Controller
     const IN_OFFICE = 2;
     const OUT_OFFICE = 1;
 
+    /**
+     * Render main page
+     * @return void
+     */
     public function indexAction() {
         $userInfo = Registry::getValue('user');
         $userPersonalId = $userInfo['personal_id'];
@@ -43,7 +47,13 @@ class Main extends Controller
             'holidays' => $sortedHolidays
         ));
     }
-
+    
+    /**
+     * Get week information for user
+     * @param integer $userPersonalId
+     * @param string $date
+     * @return array
+     */
     public function getWeekInfo($userPersonalId, $date) {
         $uDay = 24 * 60 * 60;
         $uTime = strtotime($date);
@@ -56,6 +66,12 @@ class Main extends Controller
         return $weekPeriods;
     }
 
+    /**
+     * Get month informations for user
+     * @param integer $userPersonalId
+     * @param string $date
+     * @return array
+     */
     public function getMonthInfo($userPersonalId, $date) {
         $uDay = 24 * 60 * 60;
         $uTime = strtotime($date);
@@ -68,6 +84,12 @@ class Main extends Controller
         return $monthPeriods;
     }
 
+    /**
+     * Forms array for Periods
+     * @param array $actions
+     * @param string $offsetDate optional
+     * @return array
+     */
     public function formPeriods(array $actions, $offsetDate = null) {
         $daysPeriods = array();
         $daysPeriods['total_sum'] = 0;
@@ -133,7 +155,10 @@ class Main extends Controller
         return $daysPeriods;
     }
 
-    //Возвращает дату либо из $_GET, либо текущую
+    /**
+     * Return date from $_GET or now date
+     * @return date
+     */
     public function getDate() {
         if (!empty($_GET['date'])) {
             $unixtime = strtotime($_GET['date']);

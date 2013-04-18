@@ -55,7 +55,7 @@ class Users extends Controller {
     }
     
     /**
-     * Render page for add new user]
+     * Render page for add new user
      * @return void
      */
     public function addAction() {
@@ -146,7 +146,7 @@ class Users extends Controller {
      * This function is generate hash
      * @param string $password
      * @param bool $salt optional
-     * @return bool
+     * @return string|false
      */
     public function generateHash($password, $salt) {
         return sha1($salt . $password);
@@ -223,9 +223,9 @@ class Users extends Controller {
             $this->render("errorAccess.tpl");
         }
         $timeoffs = new UsersModel;
+        $id = $_POST['id'];
 
-        if(isset($_POST['id']) && isset($_POST['from']) && isset($_POST['to'])){
-            $id = $_POST['id'];
+        if(isset($_POST['from']) && isset($_POST['to']) && $_POST['from'] && $_POST['to']){
             $from = $_POST['from'];
             $to = $_POST['to'];
             $type = $_POST['vtype'];
@@ -244,6 +244,9 @@ class Users extends Controller {
                 FlashMessages::addMessage("Произошла ошибка. Отгул не был добавлен.", "error");
             }
 
+            Utils::redirect('/users/show?id='.$id);
+        } else {
+            FlashMessages::addMessage("Ошибка заполнения. Отгул не был добавлен.", "error");
             Utils::redirect('/users/show?id='.$id);
         }
     }
@@ -411,7 +414,7 @@ class Users extends Controller {
      * @param integer $position
      * @param integer $role
      * @param integer $department
-     * @param date $birthday
+     * @param string $birthday
      * @param string $phone
      * @param integer $is_shown
      * @return void
@@ -422,8 +425,9 @@ class Users extends Controller {
         $salt = Utils::createRandomString(5, 5);
         $password = Utils::createRandomString(8, 10);
         $hash = $this->generateHash($password, $salt);
-        if (($users->insertUsers($user, $email, $hash, $salt, $position, $department, $phone, $birthday, $is_shown)) && ($roles->insertUserRole($id, $role))) {
-            FlashMessages::addMessage("Пользователь успешно добавлен.", "success");
+        if (($users->insertUsers($user, $email, $hash, $salt, $position, $department, $phone, $birthday, $is_shown)) 
+            && ($roles->insertUserRole($users->getId($user), $role) )) {
+            FlashMessages::addMessage("Пользователь успешно добавлен.", "info");
         } else {
             FlashMessages::addMessage("Произошла ошибка. Пользователь не был добавлен.", "error");
         }
@@ -437,7 +441,7 @@ class Users extends Controller {
      * @param integer $role
      * @param string $email
      * @param integer $department
-     * @param date $birthday
+     * @param string $birthday
      * @param string $phone
      * @param string $newPass
      * @param integer $is_shown
@@ -449,7 +453,8 @@ class Users extends Controller {
         if(isset($newPass)){
             $users->editUserPass($id, $newPass);
         }
-        if(($users->editUser($id, $position, $email, $department, $birthday, $phone, $is_shown)) && ($roles->insertUserRole($id, $role))){
+        if(($users->editUser($id, $position, $email, $department, $birthday, $phone, $is_shown)) 
+            && ($roles->editUserRole($id, $role))){
             FlashMessages::addMessage("Пользователь успешно отредактирован.", "success");
         } else {
             FlashMessages::addMessage("Произошла ошибка. Пользователь не был отредактирован", "error");
