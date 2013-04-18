@@ -1,4 +1,14 @@
 {extends "protected/views/index.tpl"}
+
+    {block name="breadcrumbs"}
+        <ul class="breadcrumb">
+          <li><a href="{$_root}/"> Главная </a> <span class="divider"> / </span></li>
+          <li class="active"> Профиль </li>
+        </ul>
+    {/block}
+
+    {block name="pagetitle"}<h1>Настройки профиля</h1>{/block}
+
     {block name="content"}
         <form method="POST">
             <p>Изменить пароль:</p>
