@@ -80,15 +80,6 @@
                     <input name="is_shown" type="checkbox" value="1" checked>Выводить в отчётах
                     <br>
             {/if}
-
-
-            {if isset($userId)}
-                <p>Изменить пароль(не обязательно):</p>
-                    <p>Старый пароль:</p>
-                    <input type="password" name="oldPass">
-                    <p>Новый пароль:</p>
-                    <input type="password" name="newPass">
-            {/if}
         </form>
 
         <form action = "{$_root}/users/delete" method='post'  id="delete">
