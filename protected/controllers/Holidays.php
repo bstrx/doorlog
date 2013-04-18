@@ -7,6 +7,10 @@ use models\Holidays as HolidayModel;
 use controllers\Main as Time;
 
 class Holidays extends Controller{
+    /**
+     * Render page of holidays and can change holidays
+     * @return void
+     */
     public function indexAction(){
         $holidaysModel = new HolidayModel();
         $time = new Time();

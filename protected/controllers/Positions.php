@@ -7,6 +7,10 @@ use core\Acl;
 use core\Utils;
 
 class Positions extends Controller{
+    /**
+     * Render page for all positions
+     * @return void
+     */
     public function indexAction() {
         if(!Acl::checkPermission('positions_view')){
             $this->render("errorAccess.tpl");
@@ -16,6 +20,10 @@ class Positions extends Controller{
         $this->render("Positions/index.tpl" , array('positions' => $positions));
     }
 
+    /**
+     * Render page for add positions whose can see on index Page
+     * @return void
+     */
     public function addAction(){
         if(!Acl::checkPermission('positions_add')){
             $this->render("errorAccess.tpl");
@@ -34,6 +42,10 @@ class Positions extends Controller{
         Utils::redirect("/positions");
     }
 
+    /**
+     * Render page for edit position
+     * @return void
+     */
     public function editAction(){
         if(!Acl::checkPermission('positions_edit')){
             $this->render("errorAccess.tpl");
@@ -58,7 +70,11 @@ class Positions extends Controller{
             }
         }
     }
-
+    
+    /**
+     * Delete position and redirect on index page
+     * @return void
+     */
     public function deleteAction(){
         if(!Acl::checkPermission('positions_delete')){
             $this->render("errorAccess.tpl");
