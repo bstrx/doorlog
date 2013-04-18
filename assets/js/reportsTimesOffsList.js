@@ -1,5 +1,6 @@
 $(function() {
     $('#datepicker').datepicker( {
+        monthNamesShort: ['Январь','Февраль','Март','Апрель','Май','Июнь', 'Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'],
         changeMonth: true,
         changeYear: true,
         showButtonPanel: true,
