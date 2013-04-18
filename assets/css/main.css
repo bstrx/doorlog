@@ -159,3 +159,9 @@ input[type = "checkbox"]{
 .select{
     margin: 1px;
 }
+
+.border-none{
+    border: 0px;
+    width: 100%;
+    margin-bottom: 20px;
+}
