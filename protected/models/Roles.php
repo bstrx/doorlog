@@ -36,7 +36,7 @@ class Roles extends Model {
     /**
      * Get from base all permissions for this role
      * @param integer $roleId
-     * @return array
+     * @return array|false
      */
     public function getRolePermissions($roleId){
         $params = array();
@@ -147,7 +147,7 @@ class Roles extends Model {
     /**
      * Get role for this user
      * @param integer $user_id
-     * @return array
+     * @return array|false
      */
     public function getUserRole($user_id){
         $q = "SELECT r.id, r.name
