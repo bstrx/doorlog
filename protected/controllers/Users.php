@@ -416,16 +416,16 @@ class Users extends Controller {
      * @param integer $department
      * @param string $birthday
      * @param string $phone
-     * @param integer $is_shown
+     * @param integer $isShown
      * @return void
      */
-    public function add($user, $email, $position, $role, $department, $birthday, $phone, $is_shown){
+    public function add($user, $email, $position, $role, $department, $birthday, $phone, $isShown){
         $users = new UsersModel;
         $roles = new RolesModel();
         $salt = Utils::createRandomString(5, 5);
         $password = Utils::createRandomString(8, 10);
         $hash = $this->generateHash($password, $salt);
-        if (($users->insertUsers($user, $email, $hash, $salt, $position, $department, $phone, $birthday, $is_shown)) 
+        if (($users->insertUsers($user, $email, $hash, $salt, $position, $department, $phone, $birthday, $isShown)) 
             && ($roles->insertUserRole($users->getId($user), $role) )) {
             FlashMessages::addMessage("Пользователь успешно добавлен.", "info");
         } else {
@@ -444,16 +444,16 @@ class Users extends Controller {
      * @param string $birthday
      * @param string $phone
      * @param string $newPass
-     * @param integer $is_shown
+     * @param integer $isShown
      * @return void
      */
-    public function update($id, $position, $role, $email, $department, $birthday, $phone, $newPass, $is_shown){
+    public function update($id, $position, $role, $email, $department, $birthday, $phone, $newPass, $isShown){
         $users = new UsersModel;
         $roles = new RolesModel();
         if(isset($newPass)){
             $users->editUserPass($id, $newPass);
         }
-        if(($users->editUser($id, $position, $email, $department, $birthday, $phone, $is_shown)) 
+        if(($users->editUser($id, $position, $email, $department, $birthday, $phone, $isShown)) 
             && ($roles->editUserRole($id, $role))){
             FlashMessages::addMessage("Пользователь успешно отредактирован.", "success");
         } else {
