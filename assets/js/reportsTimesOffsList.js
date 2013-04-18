@@ -23,7 +23,6 @@ $(document).ready(function () {
             }
         });
 
-    $("select#dep_id").find(":selected").val(0);
         $("select#type").change(function(){
             selectedVal = $(this).find(":selected").val();
             if (selectedVal == 2) {
@@ -33,6 +32,7 @@ $(document).ready(function () {
             } else {
                 $("div#user").show();
                 $("div#dep").hide();
+                $("select#dep_id").find(":selected").val(0);
             }
         });
  });

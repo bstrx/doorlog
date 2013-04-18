@@ -37,7 +37,7 @@ class Reports extends Controller {
             $date = strtotime(strrev(strrev($date).'.10'));
             $date = date('Y-m', $date);
             if (isset($_GET['user_id']) && $_GET['user_id'] != 0 ){
-                $reportAllDaysArray = $this->getMonthReport($_GET['user_id'], $date, $_GET['type']);
+                $reportAllDaysArray = $this->getMonthReport($_GET['user_id'], $date, 0);
                 $userInfo = $user->getInfo($_GET['user_id']);
                 $name['user'] = $userInfo['name'];
                 $id = $_GET['user_id'];
@@ -48,7 +48,7 @@ class Reports extends Controller {
                 $name['dep'] = $depInfo['name'];
                 $users = $dep->getUsers($_GET['dep_id']);
                 foreach ($users as $currentUser) {
-                    $timeoffsAllUsers[] = array('reports' => $this->getMonthReport($currentUser['id'], $date, $_GET['type']),
+                    $timeoffsAllUsers[] = array('reports' => $this->getMonthReport($currentUser['id'], $date, 0),
                         'id' => $currentUser['id'],
                         'name' => $currentUser['name']);
                 }
