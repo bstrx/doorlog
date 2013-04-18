@@ -112,4 +112,14 @@ class Departments extends Model {
         $result = $this->fetchAll($q, $attr);
         return $result;
     }
+
+    public function getTotalUsers($id){
+        $params = array();
+        $params['id'] = $id;
+        $q = "SELECT count(id) as total_users
+            FROM user
+            WHERE department_id = :id";
+        $result = $this->fetchOne($q, $params);
+        return $result;
+    }
 }
