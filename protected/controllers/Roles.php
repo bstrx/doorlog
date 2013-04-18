@@ -10,6 +10,10 @@ use core\Utils;
 
 class Roles extends Controller{
 
+    /**
+     * Render page of roles
+     * @return void
+     */
     public function indexAction(){
         if(!Acl::checkPermission('roles_view')){
             $this->render("errorAccess.tpl");
@@ -19,6 +23,10 @@ class Roles extends Controller{
         $this->render("Roles/index.tpl" , array('roles' => $roles));
     }
 
+    /**
+     * Render page of add role
+     * @return void
+     */
     public function addAction(){
         if(!Acl::checkPermission('roles_add')){
             $this->render("errorAccess.tpl");
@@ -35,7 +43,11 @@ class Roles extends Controller{
         Utils::redirect("/roles");
     }
 
-   public function editAction(){
+    /**
+     * Render page of edit role
+     * @return void
+     */
+    public function editAction(){
         if(!Acl::checkPermission('roles_edit')){
             $this->render("errorAccess.tpl");
         }
@@ -83,7 +95,11 @@ class Roles extends Controller{
         ));
     }
 
-   public function deleteAction(){
+    /**
+     * Delete role and redirect on index
+     * @return void
+     */
+    public function deleteAction(){
         if(!Acl::checkPermission('roles_delete')){
             $this->render("errorAccess.tpl");
         }
