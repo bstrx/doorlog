@@ -4,7 +4,7 @@ use core\Db;
 use core\Model;
 
 class Holidays extends Model{
-    
+
     /**
      * Forms array of weekday name, date, type holidays, triggers for a month
      * @param string $date
@@ -51,7 +51,7 @@ class Holidays extends Model{
         $result=$this->execute($q,$params);
         return $result;
     }
-    
+
     /**
      * Delete from base holidays 
      * @param string $date

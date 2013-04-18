@@ -17,6 +17,9 @@
     {block name="content"}
 
         <div class="span7">
+            {if 'users_profile'|checkPermission}
+                <a href="{$_root}/users/profile?id={$smarty.get.id}">Профиль пользователя</a>
+            {/if}
             {if $userInfo}
                 <table class="table table-bordered">
                     <colgroup>

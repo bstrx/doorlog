@@ -23,7 +23,7 @@ class Reports extends Model{
         $result = $this->fetchAll($q, $params);
         return $result;
     }
-    
+
     /**
      * Get Time list employee whose out from office
      * @param string $date
