@@ -38,10 +38,10 @@
     {block name="breadcrumbs"}
         <ul class="breadcrumb">
           <li><a href="{$_root}/"> Главная </a> <span class="divider">/</span></li>
-          <li class="active"> Отгулы </li>
+          <li class="active"> Отчет по посещаемости </li>
         </ul>
     {/block}
-    {block name="pagetitle"}<h1>Отгулы</h1>{/block}
+    {block name="pagetitle"}<h1> Отчет по посещаемости </h1>{/block}
     {block name="content"}
 
 
@@ -71,14 +71,6 @@
         <label for = "datepicker"> Дата </label>
         <input name = "date" type="text" id="datepicker" class='withoutDays' value = "{$timeoffsAttr['date']|date_format:"%m.%Y"}" />
 
-        <label for = "type"> Тип </label>
-        <select name = "type">
-            <option value = "0"> Все </option>
-            {foreach from=$statuses item=stat}
-                <option value = "{$stat['id']}"> {$stat['name']} </option>
-            {/foreach}
-        </select>
-
     </form>
     <input form = "reports" type="submit" id="add" value = "Сформировать" class="btn btn-success" >
     <br>
@@ -93,10 +85,10 @@
             {foreach from=$timeoffsAllUsers item=allUsers}
                 {if $allUsers['reports']}
                     {include file='protected/views/Reports/timeoffs.tpl' reportAllDaysArray = $allUsers['reports'] tableId=$allUsers['id'] userName = $allUsers['name']}
-                    {else}<h5>Отгулов нет</h5>
+                    {else}
                 {/if}
             {/foreach}
-        {else} <h5>Отгулов нет</h5>{/if}
+        {else}{/if}
     {/if}
     </div>
     {/block}
