@@ -12,6 +12,7 @@
     {block name="javascript"}
         <script src="{$_root}/assets/js/holidaysIndex.js"></script>
         <script src="{$_root}/assets/js/userTimeOff.js"></script>
+        <script src="{$_root}/assets/js/userDelete.js"></script>
     {/block}
     
     {block name="content"}
