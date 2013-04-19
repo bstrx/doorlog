@@ -1,4 +1,5 @@
 {extends "protected/views/index.tpl"}
+<title>{block name="title"}Настройки профиля{/block}</title>
 
     {block name="breadcrumbs"}
         <ul class="breadcrumb">

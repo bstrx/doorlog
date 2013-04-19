@@ -1,4 +1,10 @@
 {extends "protected/views/index.tpl"}
+        {if isset($userId)}
+            <title>{block name="title"}Изменить пользователя{/block}</title>
+        {else}
+            <title>{block name="title"}Добавить пользователя{/block}</title>
+        {/if}
+<title>{block name="title"}Вход в систему{/block}</title>
 
     {block name="breadcrumbs"}
         <ul class="breadcrumb">

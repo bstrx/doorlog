@@ -1,8 +1,9 @@
 {extends "protected/views/index.tpl"}
+<title>{block name="title"}Добавить пользователя{/block}</title>
 {block name="javascript"}
     <script src="{$_root}/assets/js/userDatepicker.js"></script>
 {/block}
-    {block name="pagetitle"}<h1>Добавить пользователя</h1>{/block}
+    <title>{block name="pagetitle"}<h1>Добавить пользователя</h1>{/block}</title>
 
     {block name="content"}
         <div class="users">
