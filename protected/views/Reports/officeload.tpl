@@ -66,6 +66,7 @@
         });
 </script>
 {/block}
+<title>{block name="title"} Загрузка офиса {/block}</title>
 {block name="pagetitle"}<h1>Загрузка офиса</h1>{/block}
     {block name="breadcrumbs"}
         <ul class="breadcrumb">

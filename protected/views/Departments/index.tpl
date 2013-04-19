@@ -1,4 +1,6 @@
+
 {extends "protected/views/index.tpl"}
+<title>{block name="title"} Отделы {/block}</title>
 
 {block name="breadcrumbs"}
     <ul class="breadcrumb">
