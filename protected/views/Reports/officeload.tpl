@@ -67,7 +67,12 @@
 </script>
 {/block}
 {block name="pagetitle"}<h1>Загрузка офиса</h1>{/block}
-
+    {block name="breadcrumbs"}
+        <ul class="breadcrumb">
+          <li><a href="{$_root}/"> Главная </a> <span class="divider">/</span></li>
+          <li class="active"> Отчет по загрузке </li>
+        </ul>
+    {/block}
 {block name="content"}
 
 <div class="span9">
