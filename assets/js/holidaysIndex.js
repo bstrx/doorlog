@@ -1,7 +1,7 @@
 $(document).ready(function () {
         $("#auto").click(function(){
             $("select#holiday").val(1);
-            $("select#holiday").attr("class","text-error");
+            $("select#holiday").attr("class","text-info");
         });
     });
     $(function() {

@@ -4,6 +4,12 @@
 {/block}
 {block name="pagetitle"}<h1>Выходные дни</h1>{/block}
 
+{block name="breadcrumbs"}
+    <ul class="breadcrumb">
+        <li><a href="{$_root}/"> Главная </a> <span class="divider">/</span></li>
+        <li class="active"> Выходные дни </li>
+    </ul>
+{/block}
 {block name="content"}
 <style>
 .ui-datepicker-calendar {
