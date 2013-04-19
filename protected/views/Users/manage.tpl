@@ -14,7 +14,7 @@
 
     {block name="content"}
     {block name="javascript"}
-        <script src="{$_root}/assets/js/userManage.js"></script>
+        <script src="{$_root}/assets/js/userDatapicker.js"></script>
     {/block}
     {include file='protected/views/dialog.tpl'}
         {if isset($userId)}
