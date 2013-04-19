@@ -1,8 +1,8 @@
 {extends "protected/views/index.tpl"}
 {block name="javascript"}
     <script src="{$_root}/assets/js/mainIndex.js"></script>
-    <script src="{$_root}/assets/js/mainDatapicker.js"></script>
-    <script src="{$_root}/assets/js/mainCoockie.js"></script>
+    <script src="{$_root}/assets/js/mainDatepicker.js"></script>
+    <script src="{$_root}/assets/js/mainCookie.js"></script>
 {/block}
 
     {block name="content"}
