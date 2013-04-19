@@ -1,4 +1,5 @@
 {extends "protected/views/index.tpl"}
+<title>{block name="title"}Главная{/block}</title>
 {block name="javascript"}
     <script src="{$_root}/assets/js/mainIndex.js"></script>
     <script src="{$_root}/assets/js/mainDatepicker.js"></script>
