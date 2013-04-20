@@ -1,4 +1,5 @@
 {extends "protected/views/index.tpl"}
+{include file='protected/views/dialog.tpl'}
 
     {block name="breadcrumbs"}
         <ul class="breadcrumb">
@@ -12,17 +13,19 @@
         </ul>
     {/block}
 
-    {block name="content"}
     {block name="javascript"}
         <script src="{$_root}/assets/js/userDatapicker.js"></script>
     {/block}
-    {include file='protected/views/dialog.tpl'}
-        {if isset($userId)}
-            {block name="pagetitle"}<h1>Изменить пользователя {$userInfo['name']}</h1>{/block}
-        {else}
-            {block name="pagetitle"}<h1>Добавить пользователя</h1>{/block}
-        {/if}
 
+    {block name="pagetitle"}
+        {if isset($userId)}
+            <h1>Изменить пользователя {$userInfo['name']}</h1>
+        {else}
+           <h1>Добавить пользователя</h1>
+        {/if}
+    {/block}
+
+    {block name="content"}
         <form method="POST" id="user">
             {if !isset($userId)}
                 <p>Пользователь:</p>
