@@ -2,7 +2,7 @@
 {block name="javascript"}
     <script src="{$_root}/assets/js/reportsTimesOffsList.js"></script>
 {/block}
-<title>{block name="title"} Отчет по посещаемости {/block}</title>
+{block name="title"} Отчет по посещаемости {/block}
     {block name="breadcrumbs"}
         <ul class="breadcrumb">
           <li><a href="{$_root}/"> Главная </a> <span class="divider">/</span></li>

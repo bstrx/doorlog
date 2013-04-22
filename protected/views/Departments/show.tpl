@@ -1,5 +1,5 @@
 {extends "protected/views/index.tpl"}
-<title>{block name="title"} Отдел {$depName['name']} {/block}</title>
+{block name="title"} Отдел {$depName['name']} {/block}
     {block name="breadcrumbs"}
         <ul class="breadcrumb">
           <li><a href="{$_root}/"> Главная </a> <span class="divider">/</span></li>
