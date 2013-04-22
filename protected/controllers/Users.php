@@ -501,7 +501,7 @@ class Users extends Controller {
 
             if(isset($email)){
                 if(Utils::sendMail($email, "Ваш новый пароль в системе Opensoft Savage", "Ваш пароль: $password")){
-                    $usersModel->editUserPass($user['id'], $hash);
+                    $usersModel->editUserPass($user['id'], $hash, $salt);
                     FlashMessages::addMessage("Ваш новый пароль отправлен вам на почту", "success");
                     Utils::redirect("/users/login");
                 } else {

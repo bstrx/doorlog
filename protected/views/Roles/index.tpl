@@ -1,5 +1,5 @@
 {extends "protected/views/index.tpl"}
-    <title>{block name="title"}Права доступа{/block}</title>
+    {block name="title"}Права доступа{/block}
     {block name="pagetitle"}<h1>Права доступа</h1>{/block}
 
     {block name="breadcrumbs"}
