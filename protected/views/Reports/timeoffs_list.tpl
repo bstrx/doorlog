@@ -12,25 +12,37 @@
     {block name="pagetitle"}<h1> Отчет по посещаемости </h1>{/block}
     {block name="content"}
 
-
         <form id = "reports" type='GET' action = "{$_root}/reports/timeoffs">
 
-        <select id = 'type'>
+        <select id = 'type' name='stype'>
             <option value='1'> Пользователь </option>
+            {if {$smarty.get.stype} == 2}
+            <option selected value='2'> Отделы </option>
+            {else}
             <option value='2'> Отделы </option>
+            {/if}
         </select>
         <div id="user">
             <select id='user_id' name = 'user_id'>
             {foreach from=$allUsers item=user}
+            {if {$user['id']} == {$smarty.get.user_id}}
+            asd{$_GET['user_id']}
+                <option value = "{$user['id']}" selected> {$user['name']} </option>
+                {else} 
                 <option value = "{$user['id']}"> {$user['name']} </option>
+                {/if}
             {/foreach}
             </select>
         </div>
 
         <div id="dep">
-            <select id='dep_id' name = 'dep_id'>
+            <select id='dep_id' name='dep_id'>
             {foreach from=$allDep item=dep}
+            {if {$user['id']} == {$smarty.get.user_id}}
+                <option value = "{$dep['id']}" selected> {$dep['name']} </option>
+                {else}
                 <option value = "{$dep['id']}"> {$dep['name']} </option>
+                {/if}
             {/foreach}
             </select>
         </div>
