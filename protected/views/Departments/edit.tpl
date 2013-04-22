@@ -1,9 +1,9 @@
 {extends "protected/views/index.tpl"}
 {block name="breadcrumbs"}
     <ul class="breadcrumb">
-      <li><a href="{$_root}/"> Главная </a> <span class="divider"> / </span></li>
-      <li><a href="{$_root}/departments/"> Отделы </a> <span class="divider"> / </span> </li>
-      <li class="active"> Редактировать </li>
+        <li><a href="{$_root}/"> Главная </a> <span class="divider"> / </span></li>
+        <li><a href="{$_root}/departments/"> Отделы </a> <span class="divider"> / </span> </li>
+        <li class="active"> Редактировать </li>
     </ul>
 {/block}
 
@@ -17,13 +17,13 @@
             <input type="text" name="depName" value="{$departments['name']}"><br>
             <p>Начальник отдела:</p>
             {if $users}
-            <select name="chief">
-                <option value=0></option>
-                {html_options options=$users selected={$departments['chief_id']}}
-            </select>
+                <select name="chief">
+                    <option value=0></option>
+                    {html_options options=$users selected={$departments['chief_id']}}
+                </select>
             {else}
-            <select name="chief" disabled="disabled">
-            </select>
+                <select name="chief" disabled="disabled">
+                </select>
             {/if}
         </form>
 
@@ -35,7 +35,6 @@
         <a class="btn" href="{$_root}/departments"> Отмена </a>
         
         <a href="#myModal" role="button" class="btn btn-danger" data-toggle="modal" form="delete">Удалить</a>
-
     </div>
 {/block}
 
