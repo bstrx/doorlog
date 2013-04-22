@@ -1,5 +1,4 @@
 <div>
-<title>{block name="title"}Добавить отгул{/block}</title>
     <h3> Добавить отгул </h3>
 
     <form method="POST" action='{$_root}/users/vacation'>
