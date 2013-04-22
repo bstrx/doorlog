@@ -1,4 +1,5 @@
 {extends "protected/views/index.tpl"}
+{block name="title"}Результаты поиска{/block}
     {block name="breadcrumbs"}
         <ul class="breadcrumb">
             <li><a href="{$_root}/"> Главная </a> <span class="divider">/</span></li>

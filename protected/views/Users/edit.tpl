@@ -1,4 +1,5 @@
 {extends "protected/views/index.tpl"}
+{block name="title"}Редактировать пользователя{/block}
 {block name="javascript"}
     <script src="{$_root}/assets/js/userDatepicker.js"></script>
 {/block}

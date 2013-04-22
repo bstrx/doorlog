@@ -1,4 +1,5 @@
 {extends "protected/views/index.tpl"}
+{block name="title"}Вход в систему{/block}
     {block name="pagetitle"}<h1>Вход в систему</h1>{/block}
 
     {block name="content"}
