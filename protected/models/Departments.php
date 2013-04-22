@@ -100,26 +100,26 @@ class Departments extends Model {
          * @return array
          */
         public function getUsers($depId){
-                $attr = array();
-                $q = "SELECT p.name , pos.name as position, u.personal_id, u.id
-                    FROM `tc-db-main`.personal as p
-                    LEFT JOIN `savage-db`.user as u
-                    ON u.personal_id = p.id
-                    LEFT JOIN `savage-db`.position as pos
-                    ON u.position_id = pos.id
-                    WHERE u.department_id = :depId";
-                $attr['depId'] = $depId;
-                $result = $this->fetchAll($q, $attr);
-                return $result;
+            $attr = array();
+            $q = "SELECT p.name , pos.name as position, u.personal_id, u.id
+                FROM `tc-db-main`.personal as p
+                LEFT JOIN `savage-db`.user as u
+                ON u.personal_id = p.id
+                LEFT JOIN `savage-db`.position as pos
+                ON u.position_id = pos.id
+                WHERE u.department_id = :depId";
+            $attr['depId'] = $depId;
+            $result = $this->fetchAll($q, $attr);
+            return $result;
         }
 
         public function getTotalUsers($id){
-                $params = array();
-                $params['id'] = $id;
-                $q = "SELECT count(id) as total_users
-                    FROM user
-                    WHERE department_id = :id";
-                $result = $this->fetchOne($q, $params);
-                return $result;
+            $params = array();
+            $params['id'] = $id;
+            $q = "SELECT count(id) as total_users
+                FROM user
+                WHERE department_id = :id";
+            $result = $this->fetchOne($q, $params);
+            return $result;
         }
 }
