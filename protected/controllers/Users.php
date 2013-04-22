@@ -441,9 +441,6 @@ class Users extends Controller {
     public function update($id, $position, $role, $email, $department, $birthday, $phone, $newPass, $isShown){
         $users = new UsersModel;
         $roles = new RolesModel();
-        if(isset($newPass)){
-            $users->editUserPass($id, $newPass);
-        }
         if(($users->editUser($id, $position, $email, $department, $birthday, $phone, $isShown))
             && ($roles->editUserRole($id, $role))){
             FlashMessages::addMessage("Пользователь успешно отредактирован.", "success");
