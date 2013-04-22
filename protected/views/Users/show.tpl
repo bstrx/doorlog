@@ -52,7 +52,7 @@
                     </tr>
                     {if $userInfo['birthday']}
                     <tr><th> Дата рождения </th>
-                    <td> {$userInfo['birthday']} </td></tr>
+                    <td> {$userInfo['birthday']|date_format:"%d.%m.%Y"} </td></tr>
                     {/if}
                     {/if}
                     <tr><th> Дата создания </th>
