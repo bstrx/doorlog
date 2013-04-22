@@ -1,5 +1,6 @@
 $(function() {
     $( "#from" ).datepicker({
+        monthNamesShort: ['Янв','Февр','Март','Апр','Май','Июнь', 'Июль','Авг','Сент','Окт','Нояб','Дек'],
         defaultDate: "+1w",
         dateFormat: "dd-mm-yy",
         changeMonth: true,
@@ -9,6 +10,7 @@ $(function() {
         }
     });
     $( "#to" ).datepicker({
+        monthNamesShort: ['Янв','Февр','Март','Апр','Май','Июнь', 'Июль','Авг','Сент','Окт','Нояб','Дек'],
         defaultDate: "+1w",
         dateFormat: "dd-mm-yy",
         changeMonth: true,
