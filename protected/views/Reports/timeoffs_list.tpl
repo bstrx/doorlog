@@ -1,6 +1,7 @@
 {extends "protected/views/index.tpl"}
 {block name="javascript"}
-    <script src="{$_root}/assets/js/reportsTimesOffsList.js"></script>
+    <script src="{$_root}/assets/js/reportsDatepicker.js"></script>
+    <script src="{$_root}/assets/js/reportsAutocomplete"></script>
 {/block}
 {block name="title"} Отчет по посещаемости {/block}
     {block name="breadcrumbs"}

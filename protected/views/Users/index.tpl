@@ -1,10 +1,11 @@
 {extends "protected/views/index.tpl"}
+{block name="title"}Пользователи{/block}
     {block name="pagetitle"}<h1>Пользователи</h1>{/block}
 
     {block name="breadcrumbs"}
         <ul class="breadcrumb">
-          <li><a href="{$_root}/"> Главная </a> <span class="divider">/</span></li>
-          <li class="active"> Пользователи </li>
+            <li><a href="{$_root}/"> Главная </a> <span class="divider">/</span></li>
+            <li class="active"> Пользователи </li>
         </ul>
     {/block}
 
@@ -54,7 +55,7 @@
                 </div>
                 {else}
                     <div class="alert alert-error">
-                    <p> Пользователей не обнаружено! </p>
+                        <p> Пользователей не обнаружено! </p>
                     </div>
                 {/if}
            {/if}

@@ -1,6 +1,7 @@
 {extends "protected/views/index.tpl"}
+{block name="title"}Редактировать пользователя{/block}
 {block name="javascript"}
-    <script src="{$_root}/assets/js/userEdit.js"></script>
+    <script src="{$_root}/assets/js/userDatepicker.js"></script>
 {/block}
     {block name="pagetitle"}<h1>Редактировать пользователя {$userInfo['name']}</h1>{/block}
 

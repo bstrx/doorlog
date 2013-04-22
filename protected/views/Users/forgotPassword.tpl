@@ -1,4 +1,5 @@
 {extends "protected/views/index.tpl"}
+{block name="title"}Восстановление пароля{/block}
     {block name="pagetitle"}<h1>Восстановление пароля</h1>{/block}
 
     {block name="content"}

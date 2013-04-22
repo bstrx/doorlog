@@ -7,6 +7,10 @@ use models\Holidays as HolidayModel;
 use controllers\Main as Time;
 
 class Holidays extends Controller{
+    /**
+     * Shows page where user can mark days as holidays
+     * @return void
+     */
     public function indexAction(){
         $holidaysModel = new HolidayModel();
         $time = new Time();
@@ -23,8 +27,8 @@ class Holidays extends Controller{
             $date=$hYear."-".$hMonth;
             $num=date("t",strtotime($date))-1;
             $holidays = $holidaysModel->getAllDays($date);
-       }
-       $newHolidays=array();
+        }
+        $newHolidays=array();
         if(!empty($_POST)){
             $num=date("t",strtotime($date))-1;
             for($i=0;$i<=$num;$i++){
@@ -49,7 +53,7 @@ class Holidays extends Controller{
                     $insertError=true;
                 }
             }
-            
+
             if(!$insertError){
                 FlashMessages::addMessage("Табель успешно отредактирован.", "success");
             }
@@ -58,7 +62,13 @@ class Holidays extends Controller{
             }
             $holidays = $holidaysModel->getAllDays($date);
         }
-    $date=$hMonth.".".$hYear;
-    $this->render("Holidays/index.tpl", array('holidays' => $holidays, 'types' => $types, 'values' => $values, 'date'=>$date));
+
+        $date=$hMonth.".".$hYear;
+        $this->render("Holidays/index.tpl", array(
+            'holidays' => $holidays,
+            'types' => $types,
+            'values' => $values,
+            'date'=>$date)
+        );
     }
 }

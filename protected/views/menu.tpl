@@ -48,6 +48,7 @@
 
             </ul>
             <ul class="nav pull-right">
+                <li><a href="{$_root}/users/profile">Мой профиль</a></li>
                 <li><a href="{$_root}/users/logout">Выйти</a></li>
             </ul>
 

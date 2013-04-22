@@ -1,9 +1,16 @@
 {extends "protected/views/index.tpl"}
+{block name="title"}Выходные дни{/block}
 {block name="javascript"}
 <script src="{$_root}/assets/js/holidaysIndex.js"></script>
 {/block}
 {block name="pagetitle"}<h1>Выходные дни</h1>{/block}
 
+{block name="breadcrumbs"}
+    <ul class="breadcrumb">
+        <li><a href="{$_root}/"> Главная </a> <span class="divider">/</span></li>
+        <li class="active"> Выходные дни </li>
+    </ul>
+{/block}
 {block name="content"}
 <style>
 .ui-datepicker-calendar {
@@ -29,7 +36,7 @@
                         <td>{$holiday['days']}</td>
                         <td> {$holiday['date']}</td>
                         <td>
-                            <select class="select" name="{$i}"{if $holiday['trigger']==1} id="holiday"{/if} {if $holiday['type']==1 or $holiday['type']==2} class="text-error"{/if}>
+                            <select class="select {if $holiday['type']==1 or $holiday['type']==2} text-info {/if}" name="{$i}"{if $holiday['trigger']==1} id="holiday"{/if}>
                                 <option value="0"{if $holiday['trigger']==0} selected {/if}>Рабочий</option>
                                 {html_options values=$values output=$types selected=$holiday['type']}
                             </select>

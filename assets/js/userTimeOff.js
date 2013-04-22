@@ -1,5 +1,7 @@
 $(function() {
     $( "#from" ).datepicker({
+        monthNamesShort: ['Янв','Февр','Март','Апр','Май','Июнь', 'Июль','Авг','Сент','Окт','Нояб','Дек'],
+        dayNamesMin: ['Вс','Пн','Вт','Ср','Чт','Пт','Сб'],
         defaultDate: "+1w",
         dateFormat: "dd-mm-yy",
         changeMonth: true,
@@ -9,6 +11,8 @@ $(function() {
         }
     });
     $( "#to" ).datepicker({
+        monthNamesShort: ['Янв','Февр','Март','Апр','Май','Июнь', 'Июль','Авг','Сент','Окт','Нояб','Дек'],
+        dayNamesMin: ['Вс','Пн','Вт','Ср','Чт','Пт','Сб'],
         defaultDate: "+1w",
         dateFormat: "dd-mm-yy",
         changeMonth: true,
@@ -18,9 +22,4 @@ $(function() {
         }
     });
 });
-$(document).ready(function()
-{
-     $('#delete').bind('click',function(){
-         return confirm("действительно хотите удалить?");
-     });
-});
+
