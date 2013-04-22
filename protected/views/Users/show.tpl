@@ -4,9 +4,9 @@
 
     {block name="breadcrumbs"}
         <ul class="breadcrumb">
-          <li><a href="{$_root}/"> Главная </a> <span class="divider">/</span></li>
-          <li><a href="{$_root}/departments/show?id={$userInfo['department_id']}"> Отдел {$userInfo['department']} </a> <span class="divider"> / </span> </li>
-          <li class="active"> Пользователь {$userInfo['name']} </li>
+            <li><a href="{$_root}/"> Главная </a> <span class="divider">/</span></li>
+            <li><a href="{$_root}/departments/show?id={$userInfo['department_id']}"> Отдел {$userInfo['department']} </a> <span class="divider"> / </span> </li>
+            <li class="active"> Пользователь {$userInfo['name']} </li>
         </ul>
     {/block}
 
@@ -53,7 +53,7 @@
                     </tr>
                     {if $userInfo['birthday']}
                     <tr><th> Дата рождения </th>
-                    <td> {$userInfo['birthday']} </td></tr>
+                    <td> {$userInfo['birthday']|date_format:"%d.%m.%Y"} </td></tr>
                     {/if}
                     {/if}
                     <tr><th> Дата создания </th>

@@ -2,8 +2,8 @@
 
 {block name="breadcrumbs"}
     <ul class="breadcrumb">
-      <li><a href="{$_root}/"> Главная </a> <span class="divider">/</span></li>
-      <li class="active"> Отделы </li>
+        <li><a href="{$_root}/"> Главная </a> <span class="divider">/</span></li>
+        <li class="active"> Отделы </li>
     </ul>
 {/block}
 

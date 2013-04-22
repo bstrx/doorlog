@@ -1,11 +1,11 @@
 {extends "protected/views/index.tpl"}
-
+    {block name="title"}Права доступа{/block}
     {block name="pagetitle"}<h1>Права доступа</h1>{/block}
 
     {block name="breadcrumbs"}
         <ul class="breadcrumb">
-          <li><a href="{$_root}/"> Главная </a> <span class="divider">/</span></li>
-          <li class="active"> Права доступа </li>
+            <li><a href="{$_root}/"> Главная </a> <span class="divider">/</span></li>
+            <li class="active"> Права доступа </li>
         </ul>
     {/block}
 

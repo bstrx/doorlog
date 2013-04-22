@@ -449,11 +449,12 @@ class Users extends Model{
      * @param string $newPass
      * @return bool
      */
-    public function editUserPass($id,$newPass){
+    public function editUserPass($id,$newPass,$salt){
         $params = array();
         $params['id'] = $id;
         $params['newPass'] = $newPass;
-        $q = "UPDATE user SET password = (:newPass) WHERE id = (:id)";
+        $params['salt']=$salt;
+        $q = "UPDATE user SET password = (:newPass), salt = (:salt) WHERE id = (:id)";
         $result = $this->execute($q, $params);
         return $result;
     }
