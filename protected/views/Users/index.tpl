@@ -26,7 +26,7 @@
                     {foreach from=$users item=user}
                         <tr>
                             <td>{$num}</td>
-                            <td> <a href="{$_root}/users/show?id={$user['id']}"> {$user['name']} </a></td>
+                            <td> <a href="{$_root}/users/manage?id={$user['id']}"> {$user['name']} </a></td>
                             <td> {$user['email']} </td>
                             <td> {$user['department']} </td>
                             <td> {$user['position']} </td>
