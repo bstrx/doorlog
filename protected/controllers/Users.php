@@ -312,9 +312,18 @@ class Users extends Controller {
      * @return void
      */
     public function manageAction() {
-        if((!Acl::checkPermission('users_add'))||(!Acl::checkPermission('users_edit'))){
-            $this->render("errorAccess.tpl");
+        $editActionFlag = false;
+        if(isset($_GET['id']) && $_GET['id']) {
+            if (!Acl::checkPermission('users_edit')) {
+                $this->render("errorAccess.tpl");
+            }
+            $editActionFlag = true;
+        } else {
+            if (!Acl::checkPermission('users_add')) {
+                $this->render("errorAccess.tpl");
+            }
         }
+        
         $users = new UsersModel();
         $roles = new RolesModel();
 
@@ -371,10 +380,7 @@ class Users extends Controller {
             $sortedRoles[$role['id']] = $role['name'];
         }
 
-        if(isset($_GET['id']) && $_GET['id']){
-            if(!Acl::checkPermission('users_edit')){
-                $this->render("errorAccess.tpl");
-            }
+        if($editActionFlag){
             $id = $_GET['id'];
             $userInfo = $users->getUserInfo($id);
             $this->render("Users/manage.tpl", array(
@@ -384,10 +390,7 @@ class Users extends Controller {
                 'departments' => $sortedDepartments,
                 'roles' => $sortedRoles
             ));
-        } else {
-            if(!Acl::checkPermission('users_add')){
-                $this->render("errorAccess.tpl");
-            }
+        } if(!$editActionFlag) {
             $this->render("Users/manage.tpl", array(
                 'users' => $sortedUsers,
                 'positions' => $sortedPositions,
