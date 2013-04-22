@@ -8,7 +8,7 @@ use controllers\Main as Time;
 
 class Holidays extends Controller{
     /**
-     * Render page of holidays and can change holidays
+     * Shows page where user can mark days as holidays
      * @return void
      */
     public function indexAction(){
@@ -62,7 +62,13 @@ class Holidays extends Controller{
             }
             $holidays = $holidaysModel->getAllDays($date);
         }
-    $date=$hMonth.".".$hYear;
-    $this->render("Holidays/index.tpl", array('holidays' => $holidays, 'types' => $types, 'values' => $values, 'date'=>$date));
+
+        $date=$hMonth.".".$hYear;
+        $this->render("Holidays/index.tpl", array(
+            'holidays' => $holidays,
+            'types' => $types,
+            'values' => $values,
+            'date'=>$date)
+        );
     }
 }

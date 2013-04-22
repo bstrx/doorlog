@@ -12,9 +12,9 @@ use core\Utils;
 class Departments extends Controller {
 
     /**
-    * Render page of all departments
-    * @return void
-    */
+     * Shows all departments
+     * @return void
+     */
     public function indexAction() {
         if(!Acl::checkPermission('departments_view')){
             $this->render("errorAccess.tpl");
@@ -26,9 +26,9 @@ class Departments extends Controller {
     }
 
     /**
-    * Render page of add department
-    * @return void
-    */
+     * Shows department add form
+     * @return void
+     */
     public function addAction() {
         if(!Acl::checkPermission('departments_add')){
             $this->render("errorAccess.tpl");
@@ -46,9 +46,9 @@ class Departments extends Controller {
     }
 
     /**
-    * Render page of edit department
-    * @return void
-    */
+     * Shows department edit form
+     * @return void
+     */
     public function editAction() {
         if(!Acl::checkPermission('departments_edit')){
             $this->render("errorAccess.tpl");
@@ -73,9 +73,9 @@ class Departments extends Controller {
     }
 
     /**
-    * Delete department
-    * @return void
-    */
+     * Delete department
+     * @return void
+     */
     public function deleteAction(){
         if(!Acl::checkPermission('departments_delete')){
             $this->render("errorAccess.tpl");
@@ -97,9 +97,9 @@ class Departments extends Controller {
     }
 
     /**
-    * Render page of all users in current department
-    * @return void
-    */
+     * Shows one department with all of it users
+     * @return void
+     */
     public function showAction(){
         if(!Acl::checkPermission('departments_view')){
             $this->render("errorAccess.tpl");
