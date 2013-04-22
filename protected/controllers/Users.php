@@ -512,10 +512,13 @@ class Users extends Controller {
     public function profileAction(){
         if(Acl::checkPermission('users_profile') || ($_COOKIE['id']==$_GET['id']) ){
             $user = new UsersModel();
+            $id = $_COOKIE['id'];
+            $userInfo = $user->getUserInfo($id);
+            $userStatus = $user->getUserStatus($userInfo['personal_id']);
+            $userInfo['status'] = $userStatus['status'];
             if (isset($_POST['oldPass']) && $_POST['oldPass'] && isset($_POST['newPass']) && $_POST['newPass']){
                 $oldPass = $_POST['oldPass'];
                 $newPass = $_POST['newPass'];
-                $id = $_COOKIE['id'];
                 $info = $user->getInfo($id);
                 $hash = $this->generateHash($oldPass, $info['salt']);
                 if($hash == $info['password']){
@@ -527,7 +530,7 @@ class Users extends Controller {
                     FlashMessages::addMessage("Старый пароль введен не верно и изменен не был.", "error");
                 }
             }
-            $this->render("Users/profile.tpl");
+            $this->render("Users/profile.tpl", array('userInfo' => $userInfo));
         } else {
             $this->render("errorAccess.tpl");
         }
