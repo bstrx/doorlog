@@ -518,12 +518,13 @@ class Users extends Controller {
             if (isset($_POST['oldPass']) && $_POST['oldPass'] && isset($_POST['newPass']) && $_POST['newPass']){
                 $oldPass = $_POST['oldPass'];
                 $newPass = $_POST['newPass'];
-                $id = $_GET['id'];
+                $id = $_COOKIE['id'];
                 $info = $user->getInfo($id);
                 $hash = $this->generateHash($oldPass, $info['salt']);
                 if($hash == $info['password']){
-                    $newHash = $this->generateHash($newPass, $info['salt']);
-                    $user->editUserPass($id, $newHash);
+                    $salt = Utils::createRandomString(5, 5);
+                    $newHash = $this->generateHash($newPass, $salt);
+                    $user->editUserPass($id, $newHash,$salt);
                     FlashMessages::addMessage("Пароль успешно изменен.", "success");
                 } else {
                     FlashMessages::addMessage("Старый пароль введен не верно и изменен не был.", "error");
