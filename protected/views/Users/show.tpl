@@ -1,5 +1,5 @@
 {extends "protected/views/index.tpl"}
-<title>{block name="title"}Просмотр пользователя{/block}</title>
+{block name="title"}Просмотр пользователя{/block}
     {block name="pagetitle"}<h1>Просмотр пользователя {$userInfo['name']}</h1>{/block}
 
     {block name="breadcrumbs"}

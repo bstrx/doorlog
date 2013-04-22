@@ -1,5 +1,5 @@
 {extends "protected/views/index.tpl"}
-<title>{block name="title"}Добавить пользователя{/block}</title>
+{block name="title"}Добавить пользователя{/block}
 {block name="javascript"}
     <script src="{$_root}/assets/js/userDatepicker.js"></script>
 {/block}

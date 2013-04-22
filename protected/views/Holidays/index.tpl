@@ -1,5 +1,5 @@
 {extends "protected/views/index.tpl"}
-<title>{block name="title"}Выходные дни{/block}</title>
+{block name="title"}Выходные дни{/block}
 {block name="javascript"}
 <script src="{$_root}/assets/js/holidaysIndex.js"></script>
 {/block}

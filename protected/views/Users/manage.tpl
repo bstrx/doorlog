@@ -1,5 +1,12 @@
 {extends "protected/views/index.tpl"}
-{block name="title"}Параметры пользователя{/block}
+
+        {block name="title"}
+            {if isset($userId)}
+                Изменить пользователя {$userInfo['name']}
+            {else}
+                Добавить пользователя
+            {/if}
+        {/block}
 
     {block name="breadcrumbs"}
         <ul class="breadcrumb">
@@ -15,7 +22,7 @@
 
     {block name="content"}
     {block name="javascript"}
-        <script src="{$_root}/assets/js/userDatapicker.js"></script>
+        <script src="{$_root}/assets/js/userDatepicker.js"></script>
     {/block}
     {include file='protected/views/dialog.tpl'}
         {if isset($userId)}
