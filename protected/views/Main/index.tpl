@@ -9,11 +9,12 @@
     {block name="content"}
      <div class="span7">
 
-         <div align=right class='right-calendar'>
-             <form>
-                 <input name="date" type="hidden" id="datepicker" /> <span>{$date|date_format:"%d.%m.%Y"}</span>
-             </form>
-         </div>
+        <div align=right class='right-calendar'>
+            <form>
+                <input name="date" type="hidden" id="datepicker" /> <span>{$date|date_format:"%d.%m.%Y"}</span>
+            </form>
+        </div>
+
         <div class="tabbable">
             <ul class="nav nav-tabs" data-tabs="tabs">
                 <li class='{$currentTab["day"]}'>
@@ -42,7 +43,7 @@
                     {include file='protected/views/Main/month.tpl'}
                 </div>
                 </div>
+            </div>
         </div>
-    </div>
     {/block}
 {/extends}

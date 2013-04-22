@@ -24,17 +24,18 @@
         <table class="table table-bordered reports">
             <th> День недели </th>
             <th> Дата </th>
-            <th> Тип </th>
             <th> Время </th>
+            <th> Тип отгула </th>
             {foreach from=$reportAllDaysArray item=timeoff}
-              {if $timeoff['dayType']}
-                <tr class='info'>
-                  {else} <tr>
-              {/if}
-                    <td>{$timeoff['dayName']}</td>
-                    <td>{$timeoff['date']|date_format:"%d.%m.%Y"}</td>
-                    <td>{$timeoff['timeoffName']}</td>
-                    <td>{$timeoff['time']|formatDate}</td>
+                {if $timeoff['dayType']}
+                    <tr class='info'>
+                {else}
+                    <tr>
+                {/if}
+                    <td> {$timeoff['dayName']} </td>
+                    <td> {$timeoff['date']|date_format:"%d.%m.%Y"} </td>
+                    <td> {$timeoff['time']|formatDate} </td>
+                    <td> {$timeoff['timeoffName']} </td>
                 </tr>
             {/foreach}
     </table>

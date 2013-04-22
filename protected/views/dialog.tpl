@@ -5,7 +5,7 @@
           <h3 id="myModalLabel">Подтверждение удаления</h3>
         </div>
         <div class="modal-body">
-          <p>Вы действительно хотите удалить?</p>
+          <p>Действительно хотите удалить?</p>
         </div>
         <div class="modal-footer">
           <button class="btn btn-danger" type="submit" form="delete">Удалить</button>

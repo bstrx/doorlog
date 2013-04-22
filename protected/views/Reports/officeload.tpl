@@ -66,28 +66,28 @@
         });
 </script>
 {/block}
+
 {block name="pagetitle"}<h1>Загрузка офиса</h1>{/block}
-    {block name="breadcrumbs"}
-        <ul class="breadcrumb">
-          <li><a href="{$_root}/"> Главная </a> <span class="divider">/</span></li>
-          <li class="active"> Отчет по загрузке </li>
-        </ul>
-    {/block}
+
+{block name="breadcrumbs"}
+    <ul class="breadcrumb">
+        <li><a href="{$_root}/"> Главная </a> <span class="divider">/</span></li>
+        <li class="active"> Отчет по загрузке </li>
+    </ul>
+{/block}
+
 {block name="content"}
+    <div class="span9">
+        <div class='calendar' align="right">
+            <form>
+                <input type="hidden" name="date" id="datepicker">
+                <span>{$date|date_format:"%d.%m.%Y"}</span>
+            </form>
+        </div>
 
-<div class="span9">
-<div class='calendar' align="right">
-  <form>
-    <input type="hidden" name="date" id="datepicker">
-    <span>{$date|date_format:"%d.%m.%Y"}</span>
-
-  </form>
-</div>
-
-<div id="office-load"></div>
-    <p>График отображает количество входов в офис и выходов из офиса в указанные часы.</p>
-</div>
-    
+        <div id="office-load"></div>
+        <p>График отображает количество входов в офис и выходов из офиса в указанные часы.</p>
+    </div>
 {/block}
 
 {/extends}

@@ -11,7 +11,7 @@ class Db {
     private function __clone() {}
 
     public static function getInstance() {
-       if (null === self::$_instance) {
+        if (null === self::$_instance) {
             $values = Registry::getValue('config');
             $valuesDb = $values['db'];
             $connectionString = "mysql:host=" . $valuesDb['host'] . ";port=" . $valuesDb['port'] .";dbname=" . $valuesDb['dbname'];
@@ -22,8 +22,7 @@ class Db {
             self::$_instance->query ( 'SET character_set_results = utf-8' );
             self::$_instance->query ( 'SET NAMES utf8' );
             self::$_instance->setAttribute(\PDO::ATTR_EMULATE_PREPARES, FALSE);
-
-       }
+        }
 
        return self::$_instance;
     }

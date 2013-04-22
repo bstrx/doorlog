@@ -27,8 +27,8 @@ class Holidays extends Controller{
             $date=$hYear."-".$hMonth;
             $num=date("t",strtotime($date))-1;
             $holidays = $holidaysModel->getAllDays($date);
-       }
-       $newHolidays=array();
+        }
+        $newHolidays=array();
         if(!empty($_POST)){
             $num=date("t",strtotime($date))-1;
             for($i=0;$i<=$num;$i++){
@@ -53,7 +53,7 @@ class Holidays extends Controller{
                     $insertError=true;
                 }
             }
-            
+
             if(!$insertError){
                 FlashMessages::addMessage("Табель успешно отредактирован.", "success");
             }

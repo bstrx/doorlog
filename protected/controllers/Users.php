@@ -43,7 +43,7 @@ class Users extends Controller {
             'pagesCount' => $pagesCount,
             'currentPage' => $currentPage));
     }
-    
+
     /**
      * If logout redirect in root
      * @return void
@@ -53,7 +53,7 @@ class Users extends Controller {
         $auth->logout();
         Utils::redirect('/');
     }
-    
+
     /**
      * Render page for add new user
      * @return void
@@ -113,7 +113,7 @@ class Users extends Controller {
     }
 
     /**
-     *Sign up into savage 2.0 
+     *Sign up into savage 2.0
      * @return void
      */
     public function loginAction() {
@@ -318,7 +318,8 @@ class Users extends Controller {
         $users = new UsersModel();
         $roles = new RolesModel();
 
-        if (isset($_POST['department']) && isset($_POST['position']) && isset($_POST['email']) && isset($_POST['phone']) && isset($_POST['birthday'])) {
+        if (isset($_POST['department']) && isset($_POST['position']) && isset($_POST['email'])
+            && isset($_POST['phone']) && isset($_POST['birthday'])) {
             $position = $_POST['position'];
             $department = $_POST['department'];
             $role = $_POST['role'];
@@ -396,7 +397,7 @@ class Users extends Controller {
             ));
         }
     }
-    
+
     /**
      * This function add user in base
      * @param integer $user
@@ -406,7 +407,7 @@ class Users extends Controller {
      * @param integer $department
      * @param string $birthday
      * @param string $phone
-     * @param integer $isShown
+     * @param boolean $isShown
      * @return void
      */
     public function add($user, $email, $position, $role, $department, $birthday, $phone, $isShown){
@@ -415,7 +416,7 @@ class Users extends Controller {
         $salt = Utils::createRandomString(5, 5);
         $password = Utils::createRandomString(8, 10);
         $hash = $this->generateHash($password, $salt);
-        if (($users->insertUsers($user, $email, $hash, $salt, $position, $department, $phone, $birthday, $isShown)) 
+        if (($users->insertUsers($user, $email, $hash, $salt, $position, $department, $phone, $birthday, $isShown))
             && ($roles->insertUserRole($users->getId($user), $role) )) {
             FlashMessages::addMessage("Пользователь успешно добавлен.", "info");
         } else {
@@ -443,7 +444,7 @@ class Users extends Controller {
         if(isset($newPass)){
             $users->editUserPass($id, $newPass);
         }
-        if(($users->editUser($id, $position, $email, $department, $birthday, $phone, $isShown)) 
+        if(($users->editUser($id, $position, $email, $department, $birthday, $phone, $isShown))
             && ($roles->editUserRole($id, $role))){
             FlashMessages::addMessage("Пользователь успешно отредактирован.", "success");
         } else {
@@ -470,7 +471,7 @@ class Users extends Controller {
     }
 
     /**
-     *If you forgot password this function send message for mail and redirect 
+     *If you forgot password this function send message for mail and redirect
      * on index page
      * @return void
      */
@@ -506,7 +507,7 @@ class Users extends Controller {
                 } else {
                     FlashMessages::addMessage("Произошла ошибка. Пароль отправлен не был.", "error");
                 }
-                }
+            }
         }
         $this->render("Users/forgotPassword.tpl");
     }
