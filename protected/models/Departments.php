@@ -11,18 +11,18 @@ class Departments extends Model {
          * @return array
          */
         public function getAll(){
-                $q = "SELECT
-                            d.id,
-                            d.name,
-                            count(u.id) as total_users,
-                            t.name as chief_name
-                        FROM department as d
-                        LEFT JOIN user as u ON u.department_id = d.id
-                        LEFT JOIN user as us ON us.id = d.chief_id
-                        LEFT JOIN `tc-db-main`.personal as t ON t.id = us.personal_id
-                        GROUP BY d.id";
-                $result = $this->fetchAll($q);
-                return $result;
+            $q = "SELECT
+                d.id,
+                d.name,
+                count(u.id) as total_users,
+                t.name as chief_name
+                FROM department as d
+                LEFT JOIN user as u ON u.department_id = d.id
+                LEFT JOIN user as us ON us.id = d.chief_id
+                LEFT JOIN `tc-db-main`.personal as t ON t.id = us.personal_id
+                GROUP BY d.id";
+            $result = $this->fetchAll($q);
+        return $result;
         }
 
         /**
@@ -30,10 +30,10 @@ class Departments extends Model {
          * @return array
          */
         public function getMenuDepartments(){
-                $q = "SELECT name, id
-                            FROM department";
+            $q = "SELECT name, id
+                FROM department";
                 $result = $this->fetchAll($q);
-                return $result;
+            return $result;
         }
 
         /**
@@ -102,12 +102,12 @@ class Departments extends Model {
         public function getUsers($depId){
                 $attr = array();
                 $q = "SELECT p.name , pos.name as position, u.personal_id, u.id
-                        FROM `tc-db-main`.personal as p
-                        LEFT JOIN `savage-db`.user as u
-                                     ON u.personal_id = p.id
-                        LEFT JOIN `savage-db`.position as pos
-                                     ON u.position_id = pos.id
-                        WHERE u.department_id = :depId";
+                    FROM `tc-db-main`.personal as p
+                    LEFT JOIN `savage-db`.user as u
+                    ON u.personal_id = p.id
+                    LEFT JOIN `savage-db`.position as pos
+                    ON u.position_id = pos.id
+                    WHERE u.department_id = :depId";
                 $attr['depId'] = $depId;
                 $result = $this->fetchAll($q, $attr);
                 return $result;
@@ -117,8 +117,8 @@ class Departments extends Model {
                 $params = array();
                 $params['id'] = $id;
                 $q = "SELECT count(id) as total_users
-                        FROM user
-                        WHERE department_id = :id";
+                    FROM user
+                    WHERE department_id = :id";
                 $result = $this->fetchOne($q, $params);
                 return $result;
         }
