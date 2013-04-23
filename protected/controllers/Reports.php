@@ -157,11 +157,11 @@ class Reports extends Controller {
                     $userMonthTimeArray[$workDay]['time'] = $userMonthTime[$workDay]['sum'];
                 }
             }
-
             for ($date = $firstMonthDay; $date < $lastMonthDay; $date += 86400) {
                 $currentDate = date('Y-m-d', $date);
+                if (date("w", $date) != 0) {$dayName = date("w", $date)-1;} else {$dayName = 6;}
                 $oneDay = array('date'=> $currentDate,
-                    'dayName' => strftime("%A", $date),
+                    'dayName' => \core\Utils::$daysFullNames[$dayName],
                     'timeoffName' => '',
                     'time' => 0,
                     'dayType' => (int)$currVacation[$currentDate]['type']);
