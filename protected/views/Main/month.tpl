@@ -13,6 +13,7 @@
                 {else}{$month['total_sum']|formatDate}
                 {/if}
             </td>
+            {$sum}
         </tr>
     </tbody>
 </table>

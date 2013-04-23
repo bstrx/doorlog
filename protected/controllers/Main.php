@@ -42,6 +42,12 @@ class Main extends Controller
         foreach ($holidays as $holiday) {
             $sortedHolidays[$holiday['date']] = $holiday['trigger'];
         }
+        $sum=0;
+        foreach($holidays as $day){
+            if ($day['type']!=1){
+                $sum++;
+            }
+        }
 
         $this->render("Main/index.tpl", array(
             'currentDate' => date('Y-m-d', time()),
@@ -51,7 +57,8 @@ class Main extends Controller
             'week' => $weekInfo,
             'month' => $monthInfo,
             'holidays' => $sortedHolidays,
-            'currentTab' => $currentTab
+            'currentTab' => $currentTab,
+            'sum'=>$sum
         ));
     }
     
