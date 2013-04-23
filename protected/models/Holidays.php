@@ -4,7 +4,7 @@ use core\Db;
 use core\Model;
 
 class Holidays extends Model{
-
+    const DAY_WORKING_HOURS=8;
     /**
      * Forms array of weekday name, date, type holidays, triggers for a month
      * @param string $date
@@ -28,7 +28,7 @@ class Holidays extends Model{
             if (date("w",$days)==0 or date("w",$days)==6){
                 $trigger=1;
             }
-            $month[] = array("days" =>$name, "date" => $date,"type" => $type,"trigger"=>$trigger);
+            $month[] = array("days" =>$name, "date" => $date,"type" => $type,"trigger"=>$trigger,"time"=>$this::DAY_WORKING_HOURS);
             $days = $days + $uDay;
         }
         return $month;
@@ -77,10 +77,13 @@ class Holidays extends Model{
         $uFirst = $month[0]['date'];
         $uLast = $month[$num]['date'];
         $q="SELECT date,
-            holiday_type_id
-            FROM holiday 
+            holiday_type_id,
+            time
+            FROM holiday,
+            holiday_type
             WHERE date>='$uFirst' 
-            AND date<='$uLast'";
+            AND date<='$uLast' 
+            AND holiday_type.id=holiday.holiday_type_id";
         $result = $this->fetchAll($q);
         for ($i=0;$i<=$num;$i++){
             foreach ($result as $holiday){
@@ -88,6 +91,7 @@ class Holidays extends Model{
                 $hDate=$hYear."-".$hMonth."-".$hDay;
                 if ($hDate==$holiday['date']){
                    $month[$i]['type']=$holiday['holiday_type_id'];
+                   $month[$i]['time']=$holiday['time'];
                 }
             }
         }

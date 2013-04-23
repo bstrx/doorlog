@@ -6,6 +6,10 @@
     </colgroup>
     <tbody>
         <tr>
+            <td>Рабочих дней</td>
+            <td>{$workingDays}</td>
+        </tr>
+        <tr>
             <td> Всего </td>
             <td>
                 {if isset($month['days'][$currentDate]['setTimer']) && {$month['days'][$currentDate]['setTimer']} && {$date|date_format:"m"} == {$currentDate|date_format:"m"}}
