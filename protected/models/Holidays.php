@@ -11,6 +11,15 @@ class Holidays extends Model{
      * @return array month
      */
     public function getMonthDays($date){
+        $russionDayNames = array(1 => 'Понедельник',
+            2 => 'Вторник',
+            3 => 'Среда',
+            4 => 'Четверг',
+            5 => 'Пятница',
+            6 => 'Суббота',
+            0 => 'Воскресенье'
+            );
+
         $uDay = 24*60*60;
         $date=date("Y-m",strtotime($date));
         $mDay = strtotime(date("Y-m",strtotime($date)));
@@ -24,7 +33,7 @@ class Holidays extends Model{
             $type = 0;
             $trigger=0;
             $date = date("d.m.Y", $days);
-            $name = strftime("%A", $days);
+            $name = $russionDayNames[date("w", strtotime($date))];
             if (date("w",$days)==0 or date("w",$days)==6){
                 $trigger=1;
             }
