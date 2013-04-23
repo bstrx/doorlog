@@ -39,7 +39,11 @@ class Main extends Controller
         $holidays = $holidaysModel->getAllDays($date);
 
         $sortedHolidays = array();
+        $workingDays=0;
         foreach ($holidays as $holiday) {
+            if ($holiday['time']!=0){
+                $workingDays++;
+            }
             $sortedHolidays[$holiday['date']] = $holiday['trigger'];
         }
 
@@ -51,7 +55,8 @@ class Main extends Controller
             'week' => $weekInfo,
             'month' => $monthInfo,
             'holidays' => $sortedHolidays,
-            'currentTab' => $currentTab
+            'currentTab' => $currentTab,
+            'workingDays'=>$workingDays
         ));
     }
     
