@@ -21,6 +21,7 @@ class Holidays extends Model{
         $uOffsetDay = $uMonthFirstDay+$num*$uDay;
         $days = $uMonthFirstDay;
         while($days<=$uOffsetDay){
+            $time=8;
             $type = 0;
             $trigger=0;
             $date = date("d.m.Y", $days);
@@ -28,7 +29,7 @@ class Holidays extends Model{
             if (date("w",$days)==0 or date("w",$days)==6){
                 $trigger=1;
             }
-            $month[] = array("days" =>$name, "date" => $date,"type" => $type,"trigger"=>$trigger);
+            $month[] = array("days" =>$name, "date" => $date,"type" => $type,"trigger"=>$trigger,"time"=>$time);
             $days = $days + $uDay;
         }
         return $month;
@@ -77,10 +78,13 @@ class Holidays extends Model{
         $uFirst = $month[0]['date'];
         $uLast = $month[$num]['date'];
         $q="SELECT date,
-            holiday_type_id
-            FROM holiday 
+            holiday_type_id,
+            time
+            FROM holiday,
+            holiday_type
             WHERE date>='$uFirst' 
-            AND date<='$uLast'";
+            AND date<='$uLast' 
+            AND holiday_type.id=holiday.holiday_type_id";
         $result = $this->fetchAll($q);
         for ($i=0;$i<=$num;$i++){
             foreach ($result as $holiday){
@@ -88,6 +92,7 @@ class Holidays extends Model{
                 $hDate=$hYear."-".$hMonth."-".$hDay;
                 if ($hDate==$holiday['date']){
                    $month[$i]['type']=$holiday['holiday_type_id'];
+                   $month[$i]['time']=$holiday['time'];
                 }
             }
         }

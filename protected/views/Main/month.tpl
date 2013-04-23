@@ -6,6 +6,10 @@
     </colgroup>
     <tbody>
         <tr>
+            <td>{$workingDays}</td>
+            <td></td>
+        </tr>
+        <tr>
             <td> Всего </td>
             <td>
                 {if isset($month['days'][$currentDate]['setTimer']) && {$month['days'][$currentDate]['setTimer']} && {$date|date_format:"m"} == {$currentDate|date_format:"m"}}
@@ -13,7 +17,6 @@
                 {else}{$month['total_sum']|formatDate}
                 {/if}
             </td>
-            {$sum}
         </tr>
     </tbody>
 </table>
