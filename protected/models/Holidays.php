@@ -4,7 +4,7 @@ use core\Db;
 use core\Model;
 
 class Holidays extends Model{
-
+    const DAY_WORKING_HOURS=8;
     /**
      * Forms array of weekday name, date, type holidays, triggers for a month
      * @param string $date
@@ -21,7 +21,6 @@ class Holidays extends Model{
         $uOffsetDay = $uMonthFirstDay+$num*$uDay;
         $days = $uMonthFirstDay;
         while($days<=$uOffsetDay){
-            $time=8;
             $type = 0;
             $trigger=0;
             $date = date("d.m.Y", $days);
@@ -29,7 +28,7 @@ class Holidays extends Model{
             if (date("w",$days)==0 or date("w",$days)==6){
                 $trigger=1;
             }
-            $month[] = array("days" =>$name, "date" => $date,"type" => $type,"trigger"=>$trigger,"time"=>$time);
+            $month[] = array("days" =>$name, "date" => $date,"type" => $type,"trigger"=>$trigger,"time"=>$this::DAY_WORKING_HOURS);
             $days = $days + $uDay;
         }
         return $month;

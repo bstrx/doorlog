@@ -6,8 +6,8 @@
     </colgroup>
     <tbody>
         <tr>
+            <td>Рабочих дней</td>
             <td>{$workingDays}</td>
-            <td></td>
         </tr>
         <tr>
             <td> Всего </td>
