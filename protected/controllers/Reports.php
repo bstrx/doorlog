@@ -123,15 +123,6 @@ class Reports extends Controller {
     * @return array
     */
     public function getMonthReport($id, $selectedDate, $timeoffType = 0){
-        $russionDayNames = array(1 => 'Понедельник',
-            2 => 'Вторник',
-            3 => 'Среда',
-            4 => 'Четверг',
-            5 => 'Пятница',
-            6 => 'Суббота',
-            0 => 'Воскресенье'
-            );
-
         $user = new UsersModel();
         $dep = new DepartmentModel();
         $monthTime = new Time();
@@ -168,8 +159,9 @@ class Reports extends Controller {
             }
             for ($date = $firstMonthDay; $date < $lastMonthDay; $date += 86400) {
                 $currentDate = date('Y-m-d', $date);
+                if (date("w", $date) != 0) {$dayName = date("w", $date)-1;} else {$dayName = 6;}
                 $oneDay = array('date'=> $currentDate,
-                    'dayName' => $russionDayNames[date("w", $date)],
+                    'dayName' => \core\Utils::$daysFullNames[$dayName],
                     'timeoffName' => '',
                     'time' => 0,
                     'dayType' => (int)$currVacation[$currentDate]['type']);
