@@ -39,14 +39,12 @@ class Main extends Controller
         $holidays = $holidaysModel->getAllDays($date);
 
         $sortedHolidays = array();
-        foreach ($holidays as $holiday) {
-            $sortedHolidays[$holiday['date']] = $holiday['trigger'];
-        }
         $sum=0;
-        foreach($holidays as $day){
-            if ($day['type']!=1){
+        foreach ($holidays as $holiday) {
+            if ($holiday['type']!=1){
                 $sum++;
             }
+            $sortedHolidays[$holiday['date']] = $holiday['trigger'];
         }
 
         $this->render("Main/index.tpl", array(
