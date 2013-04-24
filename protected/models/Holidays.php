@@ -2,6 +2,7 @@
 namespace models;
 use core\Db;
 use core\Model;
+use core\Utils;
 
 class Holidays extends Model{
     const DAY_WORKING_HOURS=8;
@@ -25,8 +26,7 @@ class Holidays extends Model{
             $type = 0;
             $trigger=0;
             $date = date("d.m.Y", $days);
-            if (date("w", strtotime($date)) != 0) {$dayName = date("w", strtotime($date))-1;} else {$dayName = 6;}
-            $name = \core\Utils::$daysFullNames[$dayName];
+            $name = Utils::$daysFullNames[date("N", strtotime($date))-1];
             if (date("w",$days)==0 or date("w",$days)==6){
                 $trigger=1;
             }

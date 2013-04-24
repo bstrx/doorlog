@@ -8,6 +8,7 @@ use core\FlashMessages;
 use models\Reports as ReportsModel;
 use controllers\Main as Time;
 use models\Holidays;
+use core\Utils;
 
 class Reports extends Controller {
 
@@ -159,9 +160,8 @@ class Reports extends Controller {
             }
             for ($date = $firstMonthDay; $date < $lastMonthDay; $date += 86400) {
                 $currentDate = date('Y-m-d', $date);
-                if (date("w", $date) != 0) {$dayName = date("w", $date)-1;} else {$dayName = 6;}
                 $oneDay = array('date'=> $currentDate,
-                    'dayName' => \core\Utils::$daysFullNames[$dayName],
+                    'dayName' => Utils::$daysFullNames[date("N", $date)-1],
                     'timeoffName' => '',
                     'time' => 0,
                     'dayType' => (int)$currVacation[$currentDate]['type']);
