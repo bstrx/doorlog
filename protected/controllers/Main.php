@@ -32,23 +32,17 @@ class Main extends Controller
         $monthInfo = $this->getMonthInfo($userPersonalId, $date);
         
         $workedDays=0;
-        $mDay = strtotime(date("Y-m",strtotime($date)));
-        $monthDate=date("Y-m-d",$mDay);
-        $num = date("t",$mDay)-1;
-        for($i=0;$i<=$num;$i++){
+        $monthOfDate=$this->getDateOfMonth($date);
+        foreach($monthOfDate as $monthDate){
             if(isset($monthInfo['days'][$monthDate])){
-                if($monthInfo['days'][$monthDate]['sum']!=0){
                     $workedDays++;
-                }
             }
-            $mDay=$mDay+24*60*60;
-            $monthDate=date("Y-m-d",$mDay);
         }
 
         if (isset($weekInfo['days'][$date])) {
             $dayInfo = $weekInfo['days'][$date];
         }
-
+        
         $holidaysModel = new HolidaysModel();
         $holidays = $holidaysModel->getAllDays($date);
 
@@ -60,16 +54,17 @@ class Main extends Controller
             }
             $sortedHolidays[$holiday['date']] = $holiday['trigger'];
         }
-        
-        $reportsDays=0;
+
+        $takenTimeoffs=0;
         $reportsDate=date("Y-m",strtotime($date));
         $reports= new ReportsModel();
         $timeOffDays = $reports->getMonthReport($userInfo['id'], $reportsDate);
         foreach ($timeOffDays as $reports){
-            if($reports['timeoffName']!=''){
-                $reportsDays++;
+            if($reports['timeoffType']!=0){
+                $takenTimeoffs++;
             }
         }
+
         
         $this->render("Main/index.tpl", array(
             'currentDate' => date('Y-m-d', time()),
@@ -82,7 +77,7 @@ class Main extends Controller
             'currentTab' => $currentTab,
             'workingDays'=>$workingDays,
             'workedDays'=>$workedDays,
-            'reportsDays'=>$reportsDays
+            'takenTimeoffs'=>$takenTimeoffs
         ));
     }
     
@@ -203,5 +198,17 @@ class Main extends Controller
         } else $date = date('Y-m-d');
 
         return $date;
+    }
+    
+    public function getDateOfMonth($date){
+        $mDay = strtotime(date("Y-m",strtotime($date)));
+        $days=date("Y-m-d",$mDay);
+        $num = date("t",$mDay)-1;
+        for($i=0;$i<$num;$i++){
+        $dateOfMonth[$i]=$days;
+        $mDay=$mDay+24*60*60;
+        $days=date("Y-m-d",$mDay);
+        }
+        return $dateOfMonth;
     }
 }

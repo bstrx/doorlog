@@ -11,7 +11,7 @@
         </tr>
         <tr>
             <td>Взято отгулов</td>
-            <td>{$reportsDays}</td>
+            <td>{$takenTimeoffs}</td>
         </tr>
         <tr>
             <td>Отработано дней</td>
