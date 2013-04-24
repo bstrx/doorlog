@@ -17,48 +17,57 @@
                 <col class="col-small">
             </colgroup>
             {foreach from=userInfo item=user}
-                <th> Имя </th>
-                <td>{$userInfo['name']}</td>
-                <tr><th> Отдел </th>
-                <td> {if (isset($userInfo['department']))}
-                        {$userInfo['department']}
-                     {/if}
-                </td></tr>
-                <tr><th> Должность </th>
-                <td> {if (isset($userInfo['position']))}
-                        {$userInfo['position']}
-                     {/if}
-                </td></tr>
-                <tr><th> Статус </th>
-                <td>
-                {if $userInfo['status']==2}
-                    <span class="label label-success">В офисе</span>
-                {else}
-                    <span class="label">Не в офисе</span>
-                {/if}
-                </td></tr>
-                <tr><th> Телефон </th>
-                <td> {$userInfo['phone']} </td>
+                <tr>
+                    <td> Имя </td>
+                    <td>{$userInfo['name']}</td>
                 </tr>
-                {if $userInfo['birthday']}
-                    <tr><th> Дата рождения </th>
-                    <td> {$userInfo['birthday']|date_format:"%d.%m.%Y"} </td></tr>
+                <tr>
+                    <td> Отдел </td>
+                    <td>
+                        {if (isset($userInfo['department']))}
+                            {$userInfo['department']}
+                        {/if}
+                    </td>
+                </tr>
+                <tr>
+                    <td> Должность </td>
+                    <td>
+                        {if (isset($userInfo['position']))}
+                            {$userInfo['position']}
+                        {/if}
+                    </td>
+                </tr>
+                {if ('users_private_info'|checkPermission) || ($permission==1)}
+                    <tr>
+                        <td> Телефон </td>
+                        <td> {$userInfo['phone']} </td>
+                    </tr>
+                    {if $userInfo['birthday']}
+                        <tr>
+                            <td> Дата рождения </td>
+                            <td> {$userInfo['birthday']|date_format:"%d.%m.%Y"} </td>
+                        </tr>
+                    {/if}
                 {/if}
-                <tr><th> Дата создания </th>
-                <td> {$userInfo['created']} </td>
+                <tr>
+                    <td> Дата создания </td>
+                    <td> {$userInfo['created']} </td>
+                </tr>
+                <tr>
+                    <td> Статус </td>
+                    <td>
+                        {if $userInfo['status']==2}
+                            <span class="label label-success">В офисе</span>
+                        {else}
+                            <span class="label">Не в офисе</span>
+                        {/if}
+                    </td>
                 </tr>
             {/foreach}
-        </table>                        
+        </table>
     </div>
     <div class="span4 additional">
-        <form method="POST">
-            <p>Изменить пароль:</p>
-            <p>Старый пароль:</p>
-            <input type="password" name="oldPass">
-            <p>Новый пароль:</p>
-            <input type="password" name="newPass"><br>
-            <button type=submit class="btn btn-success"> Сохранить </button>
-        </form>
+        {include file='protected/views/Users/changePassword.tpl'}
     </div>
     {/block}
 {extends}
