@@ -38,17 +38,17 @@
         <form method="POST" id="user">
         <div class="span7">
         <table class='table table-bordered'>
-            <tr>
-                <td>Пользователь</td>
-                <td>
-                    {if !isset($userId)}
+            {if !isset($userId)}
+                <tr>
+                    <td>Пользователь</td>
+                    <td>
                         <select form='user' name="userId">
                             {html_options options=$users}
                         </select>
                         </br>
-                    {/if}
-                </td>
-            </tr>
+                    </td>
+                </tr>
+            {/if}
             <tr>
                 <td>Отдел</td>
                 <td>
@@ -109,14 +109,8 @@
                 <td>Выводить в отчётах </td>
                 <td>
                     {if isset($userId)}
-                        {if $userInfo['is_shown']}
-                            <input name="is_shown" type="checkbox" value="1">Выводить в отчётах
+                            <input name="is_shown" type="checkbox" value="1"{if $userInfo['is_shown']}checked{/if}>Выводить в отчётах
                             <br>
-                        {else}
-                            <input name="is_shown" type="checkbox" value="1" checked>Выводить в отчётах
-                            <br>
-                        {/if}
-
                     {else}
                         <input name="is_shown" type="checkbox" value="1" checked>Выводить в отчётах
                         <br>
