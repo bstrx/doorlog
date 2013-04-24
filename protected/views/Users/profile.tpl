@@ -50,7 +50,11 @@
                     {/if}
                 {/if}
                 <tr>
+<<<<<<< HEAD
                     <td> Дата регистрации </td>
+=======
+                    <td> Дата создания </td>
+>>>>>>> 22339a6211c8c112fedf35a2a4c7fb22e8b56f77
                     <td> {$userInfo['created']} </td>
                 </tr>
                 <tr>
