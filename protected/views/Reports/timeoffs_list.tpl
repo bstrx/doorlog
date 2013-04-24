@@ -18,20 +18,19 @@
         <select id = 'type' name='stype'>
             <option value='1' selected> Пользователь </option>
             {if {$smarty.get.stype} == 2}
-            <option value='2' selected> Отделы </option>
+                <option value='2' selected> Отделы </option>
             {else}
-            <option value='2'> Отделы </option>
+                <option value='2'> Отделы </option>
             {/if}
         </select>
         <div id="user">
             <select id='user_id' name = 'user_id'>
             {foreach from=$allUsers item=user}
             {if {$user['id']} == {$smarty.get.user_id}}
-            {$_GET['user_id']}
                 <option value = "{$user['id']}" selected> {$user['name']} </option>
-                {else}
+            {else}
                 <option value = "{$user['id']}"> {$user['name']} </option>
-                {/if}
+            {/if}
             {/foreach}
             </select>
         </div>
@@ -41,9 +40,9 @@
             {foreach from=$allDep item=dep}
             {if {$dep['id']} == {$smarty.get.dep_id}}
                 <option value = "{$dep['id']}" selected> {$dep['name']} </option>
-                {else}
+            {else}
                 <option value = "{$dep['id']}"> {$dep['name']} </option>
-                {/if}
+            {/if}
             {/foreach}
             </select>
         </div>
