@@ -1,13 +1,12 @@
 {extends "protected/views/index.tpl"}
-{include file='protected/views/dialog.tpl'}
 
-        {block name="title"}
-            {if isset($userId)}
-                Изменить пользователя {$userInfo['name']}
-            {else}
-                Добавить пользователя
-            {/if}
-        {/block}
+    {block name="title"}
+        {if isset($userId)}
+            Изменить пользователя {$userInfo['name']}
+        {else}
+            Добавить пользователя
+        {/if}
+    {/block}
 
     {block name="breadcrumbs"}
         <ul class="breadcrumb">
@@ -22,7 +21,7 @@
     {/block}
 
     {block name="javascript"}
-        <script src="{$_root}/assets/js/userDatepicker.js"></script>
+        <script src="{$_root}/assets/js/birthdayDatepicker.js"></script>
     {/block}
 
     {block name="pagetitle"}
@@ -34,6 +33,8 @@
     {/block}
 
     {block name="content"}
+        {include file='protected/views/dialog.tpl'}
+
         <form method="POST" id="user">
             {if !isset($userId)}
                 <p>Пользователь:</p>
@@ -88,7 +89,7 @@
             {/if}
         </form>
 
-        <form action = "{$_root}/users/delete" method='post'  id="delete">
+        <form action = "{$_root}/users/delete" method='post' id="delete">
             <input type="hidden" name="id" value="{$userId}">
         </form>
 
@@ -101,7 +102,7 @@
         </button>
         {if isset($userId)}
             <a class="btn" href="{$_root}/users/show?id={$userInfo['id']}"> Отмена </a>
-            <a href="#myModal" role="button" class="btn btn-danger" data-toggle="modal">Удалить</a>
+            <a href="#myModal" role="button" class="btn btn-danger" data-toggle="modal" form="delete">Удалить</a>
         {else}
             <a class="btn" href="{$_root}/users"> Отмена </a>
         {/if}

@@ -55,65 +55,7 @@ class Users extends Controller {
     }
 
     /**
-     * Render page for add new user
-     * @return void
-     */
-    public function addAction() {
-        $users = new UsersModel();
-
-        if (isset($_POST['userId']) && isset($_POST['department']) && isset($_POST['position']) && isset($_POST['email']) && isset($_POST['tel']) && isset($_POST['bday'])) {
-            $user = $_POST['userId'];
-            $position = $_POST['position'];
-            $department = $_POST['department'];
-            $email = $_POST['email'];
-            $tel = $_POST['tel'];
-            $bday = $_POST['bday'];
-            $attr = $users->checkUserAttr($email, $tel, $position, $department);
-            if (!$attr) {
-                $salt = Utils::createRandomString(5, 5);
-                $password = Utils::createRandomString(8, 10);
-                $hash = $this->generateHash($password, $salt);
-                if ($users->insertUsers($user, $email, $hash, $salt, $position, $department, $tel, $bday)) {
-                    FlashMessages::addMessage("Пользователь успешно добавлен.", "success");
-                } else {
-                    FlashMessages::addMessage("Произошла ошибка. Пользователь не был добавлен.", "error");
-                }
-                Utils::sendMail($email, "Создан аккаунт в системе Opensoft Savage", "Ваш пароль: $password");
-            } else {
-                foreach ($attr as $val) {
-                    FlashMessages::addMessage($val, "error");
-                }
-            }
-        }
-
-        $unregisteredUsers = $users->getAllUnregistered();
-        $posList = $users->getPositionsList();
-        $sortedUsers = array();
-        $depList = $users->getDepartmentsList();
-
-        $sortedDepartments = array();
-        foreach ($depList as $department) {
-            $sortedDepartments[$department['id']] = $department['name'];
-        }
-
-        $sortedPositions = array();
-        foreach ($posList as $position) {
-            $sortedPositions[$position['id']] = $position['name'];
-        }
-
-        foreach ($unregisteredUsers as $user) {
-            $sortedUsers[$user['id']] = $user['name'];
-        }
-
-        $this->render("Users/add.tpl", array(
-            'users' => $sortedUsers,
-            'positions' => $sortedPositions,
-            'departments' => $sortedDepartments)
-        );
-    }
-
-    /**
-     *Sign up into savage 2.0
+     * Shows login form
      * @return void
      */
     public function loginAction() {
@@ -146,7 +88,7 @@ class Users extends Controller {
      * This function is generate hash
      * @param string $password
      * @param string $salt
-     * @return string|false
+     * @return string|bool
      */
     public function generateHash($password, $salt) {
         return sha1($salt . $password);
@@ -173,6 +115,9 @@ class Users extends Controller {
         }
         $timeoffs = array();
         $user = new UsersModel();
+        $name = "";
+        $date = date('Y-m');
+        $id = '';
 
         if (isset($_GET['date']) && isset($_GET['id']) && !empty($_GET['date']) && !empty($_GET['id']) ){
             $timeoffs = $user->getTimeoffsById($_GET['id'], $_GET['date'], $_GET['type']);
@@ -184,12 +129,8 @@ class Users extends Controller {
             } else {
                 FlashMessages::addMessage("Неверный id пользователя", "error");
             }
-
-        } else {
-            $name = "";
-            $date = date('Y-m');
-            $id = '';
         }
+
         $statuses = $user->getUserStatuses();
         $timeoffsAttr = array('date' => $date, 'name' => $name, 'id' => $id);
 
@@ -263,48 +204,6 @@ class Users extends Controller {
             $search = $users->searchByName($_GET['text']);
             $this->render("Users/search.tpl", array('search' => $search, 'text' => $_GET['text']));
         }
-    }
-
-    /**
-     * Render page for edit user
-     * @return void
-     */
-    public function editAction(){
-        $id = $_GET['id'];
-        $user = new UsersModel;
-        $userInfo = null;
-        $userInfo = $user->getUserInfo($id);
-
-        if(isset($_POST['position']) && isset($_POST['department']) && isset($_POST['email']) && isset($_POST['phone']) && isset($_POST['birthday'])){
-            $position = $_POST['position'];
-            $department = $_POST['department'];
-            $email = $_POST['email'];
-            $phone = $_POST['phone'];
-            $birthday = $_POST['birthday'];
-            $user->editUser($id, $position, $email, $department, $birthday, $phone);
-            FlashMessages::addMessage("Пользователь успешно отредактирован.", "success");
-            Utils::redirect("/users");
-        } else {
-
-        $sortedDepartments = array();
-        $depList = $user->getDepartmentsList();
-        foreach ($depList as $department) {
-            $sortedDepartments[$department['id']] = $department['name'];
-        }
-
-        $sortedPositions = array();
-        $posList = $user->getPositionsList();
-        foreach ($posList as $position) {
-            $sortedPositions[$position['id']] = $position['name'];
-        }
-
-        }
-        $this->render("Users/edit.tpl", array(
-            'id'=> $id,
-            'userInfo'=>$userInfo,
-            'positions' => $sortedPositions,
-            'departments' => $sortedDepartments)
-        );
     }
 
     /**
@@ -441,7 +340,7 @@ class Users extends Controller {
      * @param integer $isShown
      * @return void
      */
-    public function update($id, $position, $role, $email, $department, $birthday, $phone, $newPass, $isShown){
+    public function update($id, $position, $role, $email, $department, $birthday, $phone, $isShown){
         $users = new UsersModel;
         $roles = new RolesModel();
         if(($users->editUser($id, $position, $email, $department, $birthday, $phone, $isShown))
@@ -515,10 +414,13 @@ class Users extends Controller {
     public function profileAction(){
         if(Acl::checkPermission('users_profile') || ($_COOKIE['id']==$_GET['id']) ){
             $user = new UsersModel();
+            $id = $_COOKIE['id'];
+            $userInfo = $user->getUserInfo($id);
+            $userStatus = $user->getUserStatus($userInfo['personal_id']);
+            $userInfo['status'] = $userStatus['status'];
             if (isset($_POST['oldPass']) && $_POST['oldPass'] && isset($_POST['newPass']) && $_POST['newPass']){
                 $oldPass = $_POST['oldPass'];
                 $newPass = $_POST['newPass'];
-                $id = $_COOKIE['id'];
                 $info = $user->getInfo($id);
                 $hash = $this->generateHash($oldPass, $info['salt']);
                 if($hash == $info['password']){
@@ -530,7 +432,7 @@ class Users extends Controller {
                     FlashMessages::addMessage("Старый пароль введен не верно и изменен не был.", "error");
                 }
             }
-            $this->render("Users/profile.tpl");
+            $this->render("Users/profile.tpl", array('userInfo' => $userInfo));
         } else {
             $this->render("errorAccess.tpl");
         }

@@ -1,7 +1,7 @@
 {extends "protected/views/index.tpl"}
 {block name="title"}Выходные дни{/block}
 {block name="javascript"}
-<script src="{$_root}/assets/js/holidaysIndex.js"></script>
+<script src="{$_root}/assets/js/holidaysDatepicker.js"></script>
 {/block}
 {block name="pagetitle"}<h1>Выходные дни</h1>{/block}
 
@@ -50,7 +50,7 @@
     <button form="type" class="btn btn-success" type="submit">Сохранить</button>
     </div>
     <div class="span4 additional">
-            
+
 
             <p>Пометить все субботы и воскресенья как выходные. Для того, чтобы изменения вступили в силу, необходимо их сохранить</p>
             <button id="auto" class="btn btn-info">Автозаполнение</button>

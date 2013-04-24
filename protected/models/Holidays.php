@@ -2,6 +2,7 @@
 namespace models;
 use core\Db;
 use core\Model;
+use core\Utils;
 
 class Holidays extends Model{
     const DAY_WORKING_HOURS=8;
@@ -11,6 +12,7 @@ class Holidays extends Model{
      * @return array month
      */
     public function getMonthDays($date){
+
         $uDay = 24*60*60;
         $date=date("Y-m",strtotime($date));
         $mDay = strtotime(date("Y-m",strtotime($date)));
@@ -24,7 +26,7 @@ class Holidays extends Model{
             $type = 0;
             $trigger=0;
             $date = date("d.m.Y", $days);
-            $name = strftime("%A", $days);
+            $name = Utils::$daysFullNames[date("N", strtotime($date))-1];
             if (date("w",$days)==0 or date("w",$days)==6){
                 $trigger=1;
             }
