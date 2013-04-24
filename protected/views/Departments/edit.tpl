@@ -11,7 +11,7 @@
 {block name="pagetitle"}<h1>Редактировать отдел</h1>{/block}
 
 {block name="content"}
-{include file='protected/views/dialog.tpl'}
+    {include file='protected/views/dialog.tpl'}
     <div class="span7">
         <form method='post' id="edit-department">
             <input type="text" name="depName" value="{$departments['name']}"><br>
@@ -33,7 +33,7 @@
 
         <button type="submit" class="btn btn-success" form="edit-department"> Сохранить </button>
         <a class="btn" href="{$_root}/departments"> Отмена </a>
-        
+
         <a href="#myModal" role="button" class="btn btn-danger" data-toggle="modal" form="delete">Удалить</a>
     </div>
 {/block}

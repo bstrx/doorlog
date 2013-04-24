@@ -1,9 +1,9 @@
 {extends "protected/views/index.tpl"}
 {block name="title"}Главная{/block}
 {block name="javascript"}
-    <script src="{$_root}/assets/js/mainIndex.js"></script>
+    <script src="{$_root}/assets/js/timerSetter.js"></script>
     <script src="{$_root}/assets/js/mainDatepicker.js"></script>
-    <script src="{$_root}/assets/js/mainCookie.js"></script>
+    <script src="{$_root}/assets/js/currentTabSetter.js"></script>
 {/block}
 
     {block name="content"}
