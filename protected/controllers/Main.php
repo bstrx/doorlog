@@ -6,6 +6,7 @@ use models\Users as UsersModel;
 use core\Registry;
 use core\Utils;
 use models\Holidays as HolidaysModel;
+use controllers\Reports as ReportsModel;
 class Main extends Controller
 {
     const IN_OFFICE = 2;
@@ -29,7 +30,20 @@ class Main extends Controller
         $dayInfo = array();
         $weekInfo = $this->getWeekInfo($userPersonalId, $date);
         $monthInfo = $this->getMonthInfo($userPersonalId, $date);
-
+        
+        $workedDays=0;
+        $mDay = strtotime(date("Y-m",strtotime($date)));
+        $monthDate=date("Y-m-d",$mDay);
+        $num = date("t",$mDay)-1;
+        for($i=0;$i<=$num;$i++){
+            if(isset($monthInfo['days'][$monthDate])){
+                if($monthInfo['days'][$monthDate]['sum']!=0){
+                    $workedDays++;
+                }
+            }
+            $mDay=$mDay+24*60*60;
+            $monthDate=date("Y-m-d",$mDay);
+        }
 
         if (isset($weekInfo['days'][$date])) {
             $dayInfo = $weekInfo['days'][$date];
@@ -46,7 +60,17 @@ class Main extends Controller
             }
             $sortedHolidays[$holiday['date']] = $holiday['trigger'];
         }
-
+        
+        $reportsDays=0;
+        $reportsDate=date("Y-m",strtotime($date));
+        $reports= new ReportsModel();
+        $timeOffDays = $reports->getMonthReport($userInfo['id'], $reportsDate);
+        foreach ($timeOffDays as $reports){
+            if($reports['timeoffName']!=''){
+                $reportsDays++;
+            }
+        }
+        
         $this->render("Main/index.tpl", array(
             'currentDate' => date('Y-m-d', time()),
             'date' => $date,
@@ -56,7 +80,9 @@ class Main extends Controller
             'month' => $monthInfo,
             'holidays' => $sortedHolidays,
             'currentTab' => $currentTab,
-            'workingDays'=>$workingDays
+            'workingDays'=>$workingDays,
+            'workedDays'=>$workedDays,
+            'reportsDays'=>$reportsDays
         ));
     }
     
@@ -163,7 +189,6 @@ class Main extends Controller
             $daysPeriods['days'][$day]['sum'] += $diff;
             $daysPeriods['total_sum'] += $diff;
         }
-
         return $daysPeriods;
     }
 

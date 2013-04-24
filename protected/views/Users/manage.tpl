@@ -79,13 +79,8 @@
                 {/if}/>
             <br>
             {if isset($userId)}
-                {if $userInfo['is_shown']}
-                    <input name="is_shown" type="checkbox" value="1">Выводить в отчётах
+                    <input name="is_shown" type="checkbox" value="1"{if $userInfo['is_shown']} checked{/if}>Выводить в отчётах
                     <br>
-                {else}
-                    <input name="is_shown" type="checkbox" value="1" checked>Выводить в отчётах
-                    <br>
-                {/if}
 
             {else}
                     <input name="is_shown" type="checkbox" value="1" checked>Выводить в отчётах
