@@ -30,15 +30,14 @@ class Main extends Controller
         $dayInfo = array();
         $weekInfo = $this->getWeekInfo($userPersonalId, $date);
         $monthInfo = $this->getMonthInfo($userPersonalId, $date);
-        
+
         $workedDays=0;
         $monthOfDate=$this->getDateOfMonth($date);
-        foreach($monthOfDate as $monthDate){
-            if(isset($monthInfo['days'][$monthDate])){
-                    $workedDays++;
+        if(isset($monthInfo['days'])){
+            foreach($monthInfo['days'] as $monthDate){
+                $workedDays++;
             }
         }
-
         if (isset($weekInfo['days'][$date])) {
             $dayInfo = $weekInfo['days'][$date];
         }
