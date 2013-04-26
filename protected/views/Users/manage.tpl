@@ -106,16 +106,13 @@
                 </td>
             </tr>
             <tr>
-                <td>Выводить в отчётах </td>
-                <td>
-                    {if isset($userId)}
-                            <input name="is_shown" type="checkbox" value="1"{if $userInfo['is_shown']}checked{/if}>Выводить в отчётах
-                            <br>
-                    {else}
-                        <input name="is_shown" type="checkbox" value="1" checked>Выводить в отчётах
-                        <br>
-                    {/if}
-                </td>
+            <td>Выводить в отчётах </td>
+            <td>{if isset($userId)}
+                    <p><input name="is_shown" type="checkbox" value="1"{if $userInfo['is_shown']} checked{/if}>Выводить в отчётах</p>
+            {else}
+                    <p><input name="is_shown" type="checkbox" value="1" checked>Выводить в отчётах</p>
+            {/if}
+            </td>
             </tr>
         </table>
         </form>
