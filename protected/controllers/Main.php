@@ -33,11 +33,24 @@ class Main extends Controller
 
         $workedDays=0;
         if(isset($monthInfo['days'])){
-            
+            $workedDays=count($monthInfo['days']);
         }
-        if (isset($weekInfo['days'])){
-            $workedDays=count($weekInfo['days']);
+        $lastDayPrevMonth=date("Y-m",strtotime($date));
+        $lastDayPrevMonth=date("Y-m-d",strtotime($lastDayPrevMonth)-24*60*60);
+        
+        $firstDayNextMonth=date("Y-m-d",mktime(0,0,0,date("m")+1,01,date("Y")));
+        
+        if(isset($monthInfo['days'][$lastDayPrevMonth])){
+            $workedDays--;
         }
+        if(isset($monthInfo['days'][$firstDayNextMonth])){
+            $workedDays--;
+        }
+        
+        if (isset($weekInfo['days'][$date])) {
+            $dayInfo = $weekInfo['days'][$date];
+        }
+        
         $holidaysModel = new HolidaysModel();
         $holidays = $holidaysModel->getAllDays($date);
 
