@@ -25,7 +25,7 @@
                     <td> Отдел </td>
                     <td>
                         {if (isset($userInfo['department']))}
-                            {$userInfo['department']}
+                            <a href="{$_root}/departments/show?id={$userInfo['department_id']}">{$userInfo['department']}</a>
                         {/if}
                     </td>
                 </tr>
@@ -50,7 +50,7 @@
                     {/if}
                 {/if}
                 <tr>
-                    <td> Дата создания </td>
+                    <td> Дата регистрации </td>
                     <td> {$userInfo['created']} </td>
                 </tr>
                 <tr>

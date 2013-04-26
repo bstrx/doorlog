@@ -6,6 +6,7 @@ use models\Users as UsersModel;
 use core\Registry;
 use core\Utils;
 use models\Holidays as HolidaysModel;
+use controllers\Reports as ReportsModel;
 class Main extends Controller
 {
     const IN_OFFICE = 2;
@@ -30,11 +31,20 @@ class Main extends Controller
         $weekInfo = $this->getWeekInfo($userPersonalId, $date);
         $monthInfo = $this->getMonthInfo($userPersonalId, $date);
 
+        $workedDays=0;
+        $currentMonth=date("m");
+        if(isset($monthInfo['days'])){
+            foreach($monthInfo['days'] as $dateInfo=>$infoDays){
+                if(date("m",strtotime($dateInfo))==$currentMonth){
+                        $workedDays++;
+                }
+            }
+        }
 
         if (isset($weekInfo['days'][$date])) {
             $dayInfo = $weekInfo['days'][$date];
         }
-
+        
         $holidaysModel = new HolidaysModel();
         $holidays = $holidaysModel->getAllDays($date);
 
@@ -47,6 +57,17 @@ class Main extends Controller
             $sortedHolidays[$holiday['date']] = $holiday['trigger'];
         }
 
+        $takenTimeoffs=0;
+        $reportsDate=date("Y-m",strtotime($date));
+        $reports= new ReportsModel();
+        $timeOffDays = $reports->getMonthReport($userInfo['id'], $reportsDate);
+        foreach ($timeOffDays as $reports){
+            if($reports['timeoffType']!=0){
+                $takenTimeoffs++;
+            }
+        }
+
+        
         $this->render("Main/index.tpl", array(
             'currentDate' => date('Y-m-d', time()),
             'date' => $date,
@@ -56,7 +77,9 @@ class Main extends Controller
             'month' => $monthInfo,
             'holidays' => $sortedHolidays,
             'currentTab' => $currentTab,
-            'workingDays'=>$workingDays
+            'workingDays'=>$workingDays,
+            'workedDays'=>$workedDays,
+            'takenTimeoffs'=>$takenTimeoffs
         ));
     }
     
@@ -163,7 +186,6 @@ class Main extends Controller
             $daysPeriods['days'][$day]['sum'] += $diff;
             $daysPeriods['total_sum'] += $diff;
         }
-
         return $daysPeriods;
     }
 

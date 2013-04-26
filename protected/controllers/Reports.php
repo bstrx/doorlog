@@ -142,6 +142,7 @@ class Reports extends Controller {
         $timeoffs = $user->getTimeoffsById($id, $selectedDate, $timeoffType);
         foreach ($timeoffs as $timeOff) {
             $timeoffsArray[$timeOff['date']]['name'] = $timeOff['name'];
+            $timeoffsArray[$timeOff['date']]['type'] = $timeOff['id'];
         }
 
         foreach ($vacation as $curr) {
@@ -164,10 +165,12 @@ class Reports extends Controller {
                     'dayName' => Utils::$daysFullNames[date("N", $date)-1],
                     'timeoffName' => '',
                     'time' => 0,
+                    'timeoffType'=>0,
                     'dayType' => (int)$currVacation[$currentDate]['type']);
                 if(isset($timeoffsArray[$currentDate])){
                     $oneDay['timeoffName'] = $timeoffsArray[$currentDate]['name'];
                     $oneDay['dayType'] = (int)$currVacation[$currentDate]['type'];
+                    $oneDay['timeoffType'] = $timeoffsArray[$currentDate]['type'];
                 }
 
                 if(isset($userMonthTimeArray[$currentDate])){
