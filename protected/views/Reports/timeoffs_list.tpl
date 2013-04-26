@@ -1,7 +1,7 @@
 {extends "protected/views/index.tpl"}
 {block name="javascript"}
     <script src="{$_root}/assets/js/reportsDatepicker.js"></script>
-    <script src="{$_root}/assets/js/reportsAutocomplete"></script>
+    <script src="{$_root}/assets/js/reportsAutocomplete.js"></script>
 {/block}
 {block name="title"} Отчет по посещаемости {/block}
     {block name="breadcrumbs"}
@@ -16,22 +16,21 @@
         <form id = "reports" type='GET' action = "{$_root}/reports/timeoffs">
 
         <select id = 'type' name='stype'>
-            <option value='1'> Пользователь </option>
+            <option value='1' selected> Пользователь </option>
             {if {$smarty.get.stype} == 2}
-            <option selected value='2'> Отделы </option>
+                <option value='2' selected> Отделы </option>
             {else}
-            <option value='2'> Отделы </option>
+                <option value='2'> Отделы </option>
             {/if}
         </select>
         <div id="user">
             <select id='user_id' name = 'user_id'>
             {foreach from=$allUsers item=user}
             {if {$user['id']} == {$smarty.get.user_id}}
-            asd{$_GET['user_id']}
                 <option value = "{$user['id']}" selected> {$user['name']} </option>
-                {else} 
+            {else}
                 <option value = "{$user['id']}"> {$user['name']} </option>
-                {/if}
+            {/if}
             {/foreach}
             </select>
         </div>
@@ -39,11 +38,11 @@
         <div id="dep">
             <select id='dep_id' name='dep_id'>
             {foreach from=$allDep item=dep}
-            {if {$user['id']} == {$smarty.get.user_id}}
+            {if {$dep['id']} == {$smarty.get.dep_id}}
                 <option value = "{$dep['id']}" selected> {$dep['name']} </option>
-                {else}
+            {else}
                 <option value = "{$dep['id']}"> {$dep['name']} </option>
-                {/if}
+            {/if}
             {/foreach}
             </select>
         </div>
