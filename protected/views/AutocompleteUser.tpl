@@ -1,10 +1,11 @@
-    $(function() {
+<script>
+        $(function() {
         $("#autocomplete").autocomplete({
             minLength: 3,
             delay: 600,
             source: function( request, response ) {
                 $.ajax({
-                    url: "/users/autocomplete",
+                    url: "{$_root}/users/autocomplete",
                     dataType: "json",
                     data:{
                         name:request.term
@@ -42,3 +43,4 @@
             }
         });
     });
+</script>

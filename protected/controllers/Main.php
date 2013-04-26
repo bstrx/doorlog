@@ -33,14 +33,11 @@ class Main extends Controller
 
         $workedDays=0;
         if(isset($monthInfo['days'])){
-            foreach($monthInfo['days'] as $monthDate){
-                $workedDays++;
-            }
+            
         }
-        if (isset($weekInfo['days'][$date])) {
-            $dayInfo = $weekInfo['days'][$date];
+        if (isset($weekInfo['days'])){
+            $workedDays=count($weekInfo['days']);
         }
-        
         $holidaysModel = new HolidaysModel();
         $holidays = $holidaysModel->getAllDays($date);
 

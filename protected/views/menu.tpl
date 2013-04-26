@@ -62,8 +62,7 @@
         </div>
     </div>
 </div>
-<script src="{$_root}/assets/js/AutocompleteUser.js">
-</script>
+{include file="protected/views/AutocompleteUser.tpl"}
 {/block}
 
 
