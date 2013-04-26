@@ -32,7 +32,7 @@ class Main extends Controller
         $monthInfo = $this->getMonthInfo($userPersonalId, $date);
 
         $workedDays=0;
-
+        $nowMonth=date("m");
         if(isset($monthInfo['days'])){
             foreach($monthInfo['days'] as $dateInfo=>$infoDays){
                 if(date("m",strtotime($dateInfo))==date("m")){
