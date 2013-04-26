@@ -32,7 +32,6 @@ class Main extends Controller
         $monthInfo = $this->getMonthInfo($userPersonalId, $date);
 
         $workedDays=0;
-        $monthOfDate=$this->getDateOfMonth($date);
         if(isset($monthInfo['days'])){
             foreach($monthInfo['days'] as $monthDate){
                 $workedDays++;
@@ -197,17 +196,5 @@ class Main extends Controller
         } else $date = date('Y-m-d');
 
         return $date;
-    }
-    
-    public function getDateOfMonth($date){
-        $mDay = strtotime(date("Y-m",strtotime($date)));
-        $days=date("Y-m-d",$mDay);
-        $num = date("t",$mDay)-1;
-        for($i=0;$i<$num;$i++){
-        $dateOfMonth[$i]=$days;
-        $mDay=$mDay+24*60*60;
-        $days=date("Y-m-d",$mDay);
-        }
-        return $dateOfMonth;
     }
 }
