@@ -32,14 +32,10 @@ class Main extends Controller
         $monthInfo = $this->getMonthInfo($userPersonalId, $date);
 
         $workedDays=0;
-        $lastDayPrevMonth=date("Y-m");
-        $lastDayPrevMonth=date("Y-m-d",strtotime($lastDayPrevMonth)-24*60*60);
-
-        $firstDayNextMonth=date("Y-m-d",mktime(0,0,0,date("m")+1,01,date("Y")));
 
         if(isset($monthInfo['days'])){
-            foreach($monthInfo['days'] as $date=>$infoDays){
-                if($lastDayPrevMonth!=$date && $firstDayNextMonth!=$date){
+            foreach($monthInfo['days'] as $dateInfo=>$infoDays){
+                if(date("m",strtotime($dateInfo))==date("m")){
                         $workedDays++;
                 }
             }
