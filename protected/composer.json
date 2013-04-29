@@ -1,6 +1,7 @@
 {
     "require": {
         "smarty/smarty": "3.1.13",
-        "twitter/bootstrap": "v2.3.0"
+        "twitter/bootstrap": "v2.3.0",
+        "phpexcel/phpexcel": "v1.7.7"
     }
 }
