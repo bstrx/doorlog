@@ -115,6 +115,25 @@ class Reports extends Controller {
         $this->render("Reports/officeload.tpl", array('date' => $date,
                                                       'stringForGraph' => $stringForGraph, 'outStringForGraph'=> $outStringForGraph));
     }
+    
+    public function downloadAction(){
+        if(isset($_GET['date'])){
+            $date=$_GET['date'];
+            if(isset($_GET['user_id'])){
+                $userId=$_GET['user_id'];
+                $reports=$this->getMonthReport($userId, $date);
+            }
+            else if(isset($_GET['dep_id'])){
+                $users = $dep->getUsers($_GET['dep_id']);
+                foreach($user as $currentUser)
+                $reports[] = array('reports' => $this->getMonthReport($currentUser['id'], $date),
+                        'id' => $currentUser['id'],
+                        'name' => $currentUser['name']);
+            }
+            Utils::tabletoxls($reports);
+            Utils::redirect('/reports/timeoffs');
+        }
+    }
 
     /**
     * Generates a report by user_id
