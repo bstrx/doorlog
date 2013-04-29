@@ -134,4 +134,49 @@ class Utils{
         header('Location: ' . $cfg['root'] . $url);
         die();
     }
+
+    /**
+     * Returns first day of the month which includes specified day
+     * @param int $ut day unixtime
+     * @return int unixtime
+     */
+    public function tabletoxls($report){
+        if ($report){
+            $pExcel = new PHPExcel();
+            $pExcel->setActiveSheetIndex(0);
+            $aSheet = $pExcel->getActiveSheet();
+            //header
+
+            //style
+            $aSheet->getColumnDimension('A')->setWidth(15);
+            $aSheet->getColumnDimension('D')->setWidth(10);
+            //writing
+            if (isset($report['reports'])){
+                $iter = 1;
+                $aSheet->setTitle("Наверно тут название отдела");
+                $countUser = count($report);
+                for ($usr=0; $usr < $countUser; $usr++) {
+                    $aSheet->mergeCells("A$iter:D$iter");
+                    $aSheet->setCellValueByColumnAndRow(0,$iter, $report[$usr]['name']);
+                    $iter++;
+                    $aSheet->setCellValueByColumnAndRow(0,$iter,'День недели');
+                    $aSheet->setCellValueByColumnAndRow(1,$iter,'Дата');
+                    $aSheet->setCellValueByColumnAndRow(2,$iter,'Время');
+                    $aSheet->setCellValueByColumnAndRow(3,$iter,'Тип отгула');
+                    $iter++;
+                    foreach ($report['reports'] as $curr) {
+                        $aSheet->setCellValueByColumnAndRow(0, $iter, $curr['dayName']);
+                        $aSheet->setCellValueByColumnAndRow(1, $iter, $curr['date']);
+                        $aSheet->setCellValueByColumnAndRow(2, $iter, $curr['time']);
+                        $aSheet->setCellValueByColumnAndRow(3, $iter, $curr['timeoffName']);
+                        $iter++;
+                    }
+                }
+
+            } else {
+                $aSheet->setTitle("А тут имя юзверя");
+            }
+        }
+
+    }
 }
