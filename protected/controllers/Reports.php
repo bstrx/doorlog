@@ -115,7 +115,11 @@ class Reports extends Controller {
         $this->render("Reports/officeload.tpl", array('date' => $date,
                                                       'stringForGraph' => $stringForGraph, 'outStringForGraph'=> $outStringForGraph));
     }
-    
+
+    /**
+     * Render page for download xls and redirect
+     * @return void
+     */
     public function downloadAction(){
         if(isset($_GET['date'])){
             $date=$_GET['date'];
