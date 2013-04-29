@@ -136,9 +136,9 @@ class Utils{
     }
 
     /**
-     * Returns first day of the month which includes specified day
-     * @param int $ut day unixtime
-     * @return int unixtime
+     * Create *.xls file
+     * @param array $report
+     * @return void
      */
     public function tabletoxls($report){
         if ($report){
