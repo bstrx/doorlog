@@ -412,7 +412,8 @@ class Users extends Controller {
     }
 
     public function profileAction(){
-        if(Acl::checkPermission('users_profile') || Registry::getValue('user')['id'] == $_GET['id'] ){
+        $usrInfo = Registry::getValue('user');
+        if(Acl::checkPermission('users_profile') || $usrInfo['id'] == $_GET['id'] ){
             $user = new UsersModel();
             $id = $_GET['id'];
             $userInfo = $user->getUserInfo($id);
