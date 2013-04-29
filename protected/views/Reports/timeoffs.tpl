@@ -39,6 +39,7 @@
                 </tr>
             {/foreach}
     </table>
+    <a class="btn btn-primary" href="/reports/download?user_id={$user['id']}&date={$timeoffsAttr['date']}">Сохранить</a>         
 {if isset($userName)}
             </div>
         </div>

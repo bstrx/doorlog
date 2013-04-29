@@ -68,6 +68,7 @@
                     {else}
                 {/if}
             {/foreach}
+            <a class="btn btn-primary" href="/reports/download?dep_id={$dep['id']}&date={$timeoffsAttr['date']}">Сохранить Отдел</a>
         {else}{/if}
     {/if}
     </div>
