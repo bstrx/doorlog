@@ -117,25 +117,33 @@ class Reports extends Controller {
     }
 
     /**
-     * Render page for download xls and redirect
+     * Render page for download
      * @return void
      */
     public function downloadAction(){
+        $user = new UsersModel();
+        $dep = new DepartmentModel();
+        $reports = array();
         if(isset($_GET['date'])){
             $date=$_GET['date'];
             if(isset($_GET['user_id'])){
                 $userId=$_GET['user_id'];
-                $reports=$this->getMonthReport($userId, $date);
+                $infoUser=$user->getInfo($userId);
+                $reports[]= array('reports' => $this->getMonthReport($userId, $date),
+                    'name' => $infoUser['name']);
             }
             else if(isset($_GET['dep_id'])){
-                $users = $dep->getUsers($_GET['dep_id']);
-                foreach($user as $currentUser)
+                $depId = $_GET['dep_id'];
+                $users = $dep->getUsers($depId);
+                $depName = $dep->getDepById($depId);
+                foreach($users as $currentUser)
                 $reports[] = array('reports' => $this->getMonthReport($currentUser['id'], $date),
                         'id' => $currentUser['id'],
-                        'name' => $currentUser['name']);
+                        'name' => $currentUser['name'],
+                        'depName'=>$depName['name']);
             }
-            Utils::tabletoxls($reports);
-            Utils::redirect('/reports/timeoffs');
+            $utils = new Utils();
+            $utils->tabletoxls($reports);
         }
     }
 
