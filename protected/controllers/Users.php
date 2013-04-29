@@ -412,7 +412,7 @@ class Users extends Controller {
     }
 
     public function profileAction(){
-        if(Acl::checkPermission('users_profile') ){
+        if(Acl::checkPermission('users_profile') || ($_COOKIE['id']==$_GET['id']) ){
             $user = new UsersModel();
             $id = $_GET['id'];
             $userInfo = $user->getUserInfo($id);
