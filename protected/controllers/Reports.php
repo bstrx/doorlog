@@ -152,6 +152,29 @@ class Reports extends Controller {
     }
 
     /**
+    * Gets total time and count timeoffs type
+    * @param array $report
+    * @return array
+    */
+    public function totalSumReports($report){
+        $user = new UsersModel();
+        $total = array();
+        $total['time'] = 0;
+        $statuses = $user->getUserStatuses();
+        foreach ($statuses as $status) {
+            $total[$status['id']] = 0;
+        }
+
+        foreach ($report as $currentDay) {
+            $total['time'] += $currentDay['time'];
+            if ( isset($total[$currentDay['timeoffType']]) ){
+                $total[$currentDay['timeoffType']] ++;
+            }   
+        }
+        return $total;
+    }
+
+    /**
     * Generates a report by user_id
     * @param integer $id
     * @param string $selectedDate
