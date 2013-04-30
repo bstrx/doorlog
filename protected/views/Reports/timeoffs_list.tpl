@@ -61,16 +61,27 @@
         <h3>{$name['user']}</h3>
         {include file='protected/views/Reports/timeoffs.tpl' reportAllDaysArray = $reportAllDaysArray}
     {else}
-        {if $timeoffsAllUsers}
-            <h3>{$name['dep']}</h3>
-            {foreach from=$timeoffsAllUsers item=allUsers}
-                {if $allUsers['reports']}
-                    {include file='protected/views/Reports/timeoffs.tpl' reportAllDaysArray = $allUsers['reports'] tableId=$allUsers['id'] userName = $allUsers['name'] userSelected=$userSelected}
-                    {else}
-                {/if}
+    {if $totalDepInfo}
+        <br>
+        <br>
+        <table class="table table-bordered reports">
+            <tr>
+                <td> Имя </td>
+                <td> Часы </td>
+                {foreach from=$totalDepInfo['statuses'] item=totalUserInfo}
+                    <td>{$totalUserInfo['name']}</td>
+                {/foreach}
+            <tr>
+            {foreach from=$totalDepInfo['totalUserStats'] item=user}
+            <tr>
+                <td><a href="{$_root}/reports/timeoffs?stype=1&user_id={$user['id']}&dep_id=0&date={$totalDepInfo['date']}">{$user['name']}</a></td>
+                {foreach from=$user['stats'] item=userStats}
+                <td>{$userStats}</td>
+                {/foreach}
+            </tr>
             {/foreach}
-            <a class="btn btn-primary" href="/reports/download?dep_id={$depSelected}&date={$timeoffsAttr['date']}">Сохранить Отдел</a>
-        {else}{/if}
+        </table>
+    {/if}
     {/if}
     </div>
     {/block}

@@ -24,6 +24,7 @@ class Reports extends Controller {
         $users = array();
         $reportAllDaysArray = array();
         $name = array();
+        $totalDepInfo = array();
 
         $timeoffsAllUsers = array();
         $user = new UsersModel();
@@ -31,7 +32,7 @@ class Reports extends Controller {
         $date = date('m-Y');
         $id = '';
         if (isset($_GET['date']) && !empty($_GET['date'])){
-            $date = $_GET['date'];
+            $date = $queryDate = $_GET['date'];
             $date = strtotime(strrev(strrev($date).'.10'));
             $date = date('Y-m', $date);
             if (isset($_GET['user_id']) && $_GET['user_id'] != 0 ){
@@ -42,13 +43,18 @@ class Reports extends Controller {
             }
 
             if (isset($_GET['dep_id']) && $_GET['dep_id'] != 0 ){
+                $totalDepInfo['statuses'] = $user->getUserStatuses();
                 $depInfo = $dep->getDepById($_GET['dep_id']);
                 $name['dep'] = $depInfo['name'];
                 $users = $dep->getUsers($_GET['dep_id']);
                 foreach ($users as $currentUser) {
-                    $timeoffsAllUsers[] = array('reports' => $this->getMonthReport($currentUser['id'], $date),
+                    $totalUserStats[] = array(
                         'id' => $currentUser['id'],
-                        'name' => $currentUser['name']);
+                        'name' => $currentUser['name'],
+                        'stats' => $this->totalSumReports($this->getMonthReport($currentUser['id'], $date))
+                    );
+                    $totalDepInfo['totalUserStats'] = $totalUserStats;
+                    $totalDepInfo['date'] = $queryDate;
                 }
             }
         }
@@ -60,10 +66,10 @@ class Reports extends Controller {
             'timeoffsAttr' => $timeoffsAttr,
             'allUsers' => $allUsers,
             'allDep'=>$allDep,
-            'timeoffsAllUsers' => $timeoffsAllUsers,
             'users'=>$users,
             'reportAllDaysArray' => $reportAllDaysArray,
-            'name' => $name));
+            'name' => $name,
+            'totalDepInfo' => $totalDepInfo));
     }
 
     /**
@@ -171,6 +177,10 @@ class Reports extends Controller {
                 $total[$currentDay['timeoffType']] ++;
             }   
         }
+        $hour = floor($total['time']/3600);
+        $total['time'] = $total['time'] - $hour*3600;
+        $min = floor($total['time']/60);
+        $total['time'] = $hour.'ч '.$min.'м';
         return $total;
     }
 
