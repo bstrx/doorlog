@@ -131,7 +131,8 @@ class Reports extends Controller {
                 $infoUser=$user->getInfo($userId);
                 $reports[]= array(
                     'reports' => $this->getMonthReport($userId, $date),
-                    'name' => $infoUser['name']);
+                    'name' => $infoUser['name']
+                );
             }
             else if(isset($_GET['dep_id'])){
                 $depId = $_GET['dep_id'];
@@ -142,7 +143,8 @@ class Reports extends Controller {
                     'reports' => $this->getMonthReport($currentUser['id'], $date),
                     'id' => $currentUser['id'],
                     'name' => $currentUser['name'],
-                    'depName'=>$depName['name']);
+                    'depName'=>$depName['name']
+                );
             }
             $utils = new Utils();
             $utils->tabletoxls($reports);
