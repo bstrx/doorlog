@@ -425,25 +425,25 @@ class Users extends Controller {
         }
         if(Acl::checkPermission('users_profile')|| $isOwner){
             $user = new UsersModel();
-            $userInfo = $user->getUserInfo($id);
+            $userInfo = $user->getUserInfo($currentId);
             $userStatus = $user->getUserStatus($userInfo['personal_id']);
             $userInfo['status'] = $userStatus['status'];
             if (isset($_POST['oldPass']) && $_POST['oldPass'] && isset($_POST['newPass']) && $_POST['newPass']){
                 $oldPass = $_POST['oldPass'];
                 $newPass = $_POST['newPass'];
-                $info = $user->getInfo($id);
+                $info = $user->getInfo($currentId);
                 $hash = $this->generateHash($oldPass, $info['salt']);
                 if($hash == $info['password']){
                     $salt = Utils::createRandomString(5, 5);
                     $newHash = $this->generateHash($newPass, $salt);
-                    $user->editUserPass($id, $newHash,$salt);
+                    $user->editUserPass($currentId, $newHash,$salt);
                     FlashMessages::addMessage("Пароль успешно изменен.", "success");
                 } else {
                     FlashMessages::addMessage("Старый пароль введен не верно и изменен не был.", "error");
                 }
             }
             $statuses = $user->getUserStatuses();
-            $this->render("Users/profile.tpl", array('userInfo' => $userInfo, 'isOwner'=>$isOwner, 'statuses'=>$statuses, 'id'=>$id));
+            $this->render("Users/profile.tpl", array('userInfo' => $userInfo, 'isOwner'=>$isOwner, 'statuses'=>$statuses, 'id'=>$currentId));
         } else {
             $this->render("errorAccess.tpl");
         }

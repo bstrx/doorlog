@@ -40,7 +40,7 @@
                         {/if}
                     </td>
                 </tr>
-                {if ('user_private_info'|checkPermission) || $isOwner}
+                {if ('users_private_info'|checkPermission) || $isOwner}
                     <tr>
                         <td> Телефон </td>
                         <td> {$userInfo['phone']} </td>
