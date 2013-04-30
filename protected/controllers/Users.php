@@ -198,7 +198,8 @@ class Users extends Controller {
      */
     public function searchAction(){
         if(isset($_GET['id']) && $_GET['id']){
-            $this->showAction();
+            $id = $_GET['id'];
+            Utils::redirect("/users/profile?id=$id");
         } else {
             $users = new UsersModel;
             $search = $users->searchByName($_GET['text']);
@@ -412,13 +413,15 @@ class Users extends Controller {
     }
 
     public function profileAction(){
-        if(Acl::checkPermission('users_profile') || ($_COOKIE['id']==$_GET['id']) ){
+        $userInfo = Registry::getValue('user');
+        $id=$userInfo['id'];
+        $currentid = $_GET['id'];
+        if(Acl::checkPermission('users_profile') || $id == $currentid ){
             $permission=null;
             if(Acl::checkPermission('timeoffs_add')){
                 $permission=1;
             }
             $user = new UsersModel();
-            $id = $_COOKIE['id'];
             $userInfo = $user->getUserInfo($id);
             $userStatus = $user->getUserStatus($userInfo['personal_id']);
             $userInfo['status'] = $userStatus['status'];

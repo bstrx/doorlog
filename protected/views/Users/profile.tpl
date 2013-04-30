@@ -41,7 +41,7 @@
                         {/if}
                     </td>
                 </tr>
-                {if ('users_private_info'|checkPermission) || ($permission==1)}
+                {if ('users_private_info'|checkPermission) || ({$permission}==1)}
                     <tr>
                         <td> Телефон </td>
                         <td> {$userInfo['phone']} </td>
@@ -73,7 +73,7 @@
     <div class="span4 additional">
         {include file='protected/views/Users/changePassword.tpl'}
     </div>
-    {if $permission==1 || 'timeoffs_add'|checkPermission}
+    {if $permission==1}
     <div class="span4 additional">
                 {include file='protected/views/Users/timeoff.tpl'}
             </div>

@@ -129,22 +129,49 @@ class Reports extends Controller {
             if(isset($_GET['user_id'])){
                 $userId=$_GET['user_id'];
                 $infoUser=$user->getInfo($userId);
-                $reports[]= array('reports' => $this->getMonthReport($userId, $date),
-                    'name' => $infoUser['name']);
+                $reports[]= array(
+                    'reports' => $this->getMonthReport($userId, $date),
+                    'name' => $infoUser['name']
+                );
             }
             else if(isset($_GET['dep_id'])){
                 $depId = $_GET['dep_id'];
                 $users = $dep->getUsers($depId);
                 $depName = $dep->getDepById($depId);
                 foreach($users as $currentUser)
-                $reports[] = array('reports' => $this->getMonthReport($currentUser['id'], $date),
-                        'id' => $currentUser['id'],
-                        'name' => $currentUser['name'],
-                        'depName'=>$depName['name']);
+                $reports[] = array(
+                    'reports' => $this->getMonthReport($currentUser['id'], $date),
+                    'id' => $currentUser['id'],
+                    'name' => $currentUser['name'],
+                    'depName'=>$depName['name']
+                );
             }
             $utils = new Utils();
             $utils->tabletoxls($reports);
         }
+    }
+
+    /**
+    * Gets total time and count timeoffs type
+    * @param array $report
+    * @return array
+    */
+    public function totalSumReports($report){
+        $user = new UsersModel();
+        $total = array();
+        $total['time'] = 0;
+        $statuses = $user->getUserStatuses();
+        foreach ($statuses as $status) {
+            $total[$status['id']] = 0;
+        }
+
+        foreach ($report as $currentDay) {
+            $total['time'] += $currentDay['time'];
+            if ( isset($total[$currentDay['timeoffType']]) ){
+                $total[$currentDay['timeoffType']] ++;
+            }   
+        }
+        return $total;
     }
 
     /**
