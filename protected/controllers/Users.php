@@ -185,10 +185,10 @@ class Users extends Controller {
                 FlashMessages::addMessage("Произошла ошибка. Отгул не был добавлен.", "error");
             }
 
-            Utils::redirect('/users/show?id='.$id);
+            Utils::redirect('/users/profile');
         } else {
             FlashMessages::addMessage("Ошибка заполнения. Отгул не был добавлен.", "error");
-            Utils::redirect('/users/show?id='.$id);
+            Utils::redirect('/users/profile');
         }
     }
 
@@ -413,6 +413,10 @@ class Users extends Controller {
 
     public function profileAction(){
         if(Acl::checkPermission('users_profile') || ($_COOKIE['id']==$_GET['id']) ){
+            $permission=null;
+            if(Acl::checkPermission('timeoffs_add')){
+                $permission=1;
+            }
             $user = new UsersModel();
             $id = $_COOKIE['id'];
             $userInfo = $user->getUserInfo($id);
@@ -432,7 +436,8 @@ class Users extends Controller {
                     FlashMessages::addMessage("Старый пароль введен не верно и изменен не был.", "error");
                 }
             }
-            $this->render("Users/profile.tpl", array('userInfo' => $userInfo));
+            $statuses = $user->getUserStatuses();
+            $this->render("Users/profile.tpl", array('userInfo' => $userInfo, 'permission'=>$permission, 'statuses'=>$statuses, 'id'=>$id));
         } else {
             $this->render("errorAccess.tpl");
         }

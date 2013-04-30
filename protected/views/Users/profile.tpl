@@ -1,4 +1,8 @@
 {extends "protected/views/index.tpl"}
+{block name="javascript"}
+    <script src="{$_root}/assets/js/holidaysDatepicker.js"></script>
+    <script src="{$_root}/assets/js/rangeDatepicker.js"></script>
+{/block}
 {block name="title"}Настройки профиля{/block}
 
     {block name="breadcrumbs"}
@@ -69,5 +73,10 @@
     <div class="span4 additional">
         {include file='protected/views/Users/changePassword.tpl'}
     </div>
+    {if $permission==1 || 'timeoffs_add'|checkPermission}
+    <div class="span4 additional">
+                {include file='protected/views/Users/timeoff.tpl'}
+            </div>
+        {/if}
     {/block}
 {extends}
