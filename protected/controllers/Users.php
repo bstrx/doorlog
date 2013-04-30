@@ -198,7 +198,8 @@ class Users extends Controller {
      */
     public function searchAction(){
         if(isset($_GET['id']) && $_GET['id']){
-            $this->showAction();
+            $id = $_GET['id'];
+            Utils::redirect("/users/profile?id=$id");
         } else {
             $users = new UsersModel;
             $search = $users->searchByName($_GET['text']);
