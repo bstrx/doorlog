@@ -415,15 +415,15 @@ class Users extends Controller {
     public function profileAction(){
         $userInfo = Registry::getValue('user');
         $id=$userInfo['id'];
-        $currentid = $id;
+        $currentId = $id;
         if (isset($_GET['id'])){
-        $currentid = $_GET['id'];
+        $currentId = $_GET['id'];
         }
-        if(Acl::checkPermission('users_profile') || $id == $currentid ){
-            $permission=null;
-            if(Acl::checkPermission('user_private_info') || $id=$currentid){
-                $permission=1;
-            }
+        $isOwner=null;
+        if($id == $currentId){
+            $isOwner=1;
+        }
+        if(Acl::checkPermission('users_profile')|| $isOwner){
             $user = new UsersModel();
             $userInfo = $user->getUserInfo($id);
             $userStatus = $user->getUserStatus($userInfo['personal_id']);
@@ -443,7 +443,7 @@ class Users extends Controller {
                 }
             }
             $statuses = $user->getUserStatuses();
-            $this->render("Users/profile.tpl", array('userInfo' => $userInfo, 'permission'=>$permission, 'statuses'=>$statuses, 'id'=>$id));
+            $this->render("Users/profile.tpl", array('userInfo' => $userInfo, 'isOwner'=>$isOwner, 'statuses'=>$statuses, 'id'=>$id));
         } else {
             $this->render("errorAccess.tpl");
         }
