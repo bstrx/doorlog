@@ -415,10 +415,13 @@ class Users extends Controller {
     public function profileAction(){
         $userInfo = Registry::getValue('user');
         $id=$userInfo['id'];
+        $currentid = $id;
+        if (isset($_GET['id'])){
         $currentid = $_GET['id'];
+        }
         if(Acl::checkPermission('users_profile') || $id == $currentid ){
             $permission=null;
-            if(Acl::checkPermission('timeoffs_add')){
+            if(Acl::checkPermission('user_private_info') || $id=$currentid){
                 $permission=1;
             }
             $user = new UsersModel();
