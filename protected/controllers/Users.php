@@ -416,7 +416,6 @@ class Users extends Controller {
         $id = $_GET['id'];
         if(Acl::checkPermission('users_profile') || $userInfo['id'] == $id ){
             $user = new UsersModel();
-            $id = $_GET['id'];
             $userInfo = $user->getUserInfo($id);
             $userStatus = $user->getUserStatus($userInfo['personal_id']);
             $userInfo['status'] = $userStatus['status'];
