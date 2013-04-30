@@ -37,7 +37,7 @@
                         {/if}
                     </td>
                 </tr>
-                {if ('users_private_info'|checkPermission) || ($permission==1)}
+                {if ('users_private_info'|checkPermission) || ({$permission}==1)}
                     <tr>
                         <td> Телефон </td>
                         <td> {$userInfo['phone']} </td>

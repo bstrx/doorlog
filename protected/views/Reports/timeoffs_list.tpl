@@ -24,10 +24,11 @@
             {/if}
         </select>
         <div id="user">
+            {$userSelected=0}
             <select id='user_id' name = 'user_id'>
             {foreach from=$allUsers item=user}
             {if {$user['id']} == {$smarty.get.user_id}}
-                <option value = "{$user['id']}" selected> {$user['name']} </option>
+                <option value = "{$user['id']}" {$userSelected=$user['id']} selected> {$user['name']} </option>
             {else}
                 <option value = "{$user['id']}"> {$user['name']} </option>
             {/if}
@@ -39,7 +40,7 @@
             <select id='dep_id' name='dep_id'>
             {foreach from=$allDep item=dep}
             {if {$dep['id']} == {$smarty.get.dep_id}}
-                <option value = "{$dep['id']}" selected> {$dep['name']} </option>
+                <option value = "{$dep['id']}" {$depSelected=$dep['id']} selected> {$dep['name']} </option>
             {else}
                 <option value = "{$dep['id']}"> {$dep['name']} </option>
             {/if}
@@ -64,10 +65,11 @@
             <h3>{$name['dep']}</h3>
             {foreach from=$timeoffsAllUsers item=allUsers}
                 {if $allUsers['reports']}
-                    {include file='protected/views/Reports/timeoffs.tpl' reportAllDaysArray = $allUsers['reports'] tableId=$allUsers['id'] userName = $allUsers['name']}
+                    {include file='protected/views/Reports/timeoffs.tpl' reportAllDaysArray = $allUsers['reports'] tableId=$allUsers['id'] userName = $allUsers['name'] userSelected=$userSelected}
                     {else}
                 {/if}
             {/foreach}
+            <a class="btn btn-primary" href="/reports/download?dep_id={$depSelected}&date={$timeoffsAttr['date']}">Сохранить Отдел</a>
         {else}{/if}
     {/if}
     </div>
