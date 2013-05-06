@@ -414,36 +414,36 @@ class Users extends Controller {
 
     public function profileAction(){
         $userInfo = Registry::getValue('user');
-        $id=$userInfo['id'];
-        $currentId = $id;
-        if (isset($_GET['id'])){
-        $currentId = $_GET['id'];
-        }
-        $isOwner=null;
-        if($id == $currentId){
-            $isOwner=1;
+        $userId = $userInfo['id'];
+       
+        if (!isset($_GET['id']) || ($_GET['id'] == $userId)) {
+            $profileUserId = $userId;
+            $isOwner = true;
+        } else {
+            $profileUserId = $_GET['id'];
+            $isOwner = false;
         }
         if(Acl::checkPermission('users_profile')|| $isOwner){
             $user = new UsersModel();
-            $userInfo = $user->getUserInfo($currentId);
-            $userStatus = $user->getUserStatus($userInfo['personal_id']);
-            $userInfo['status'] = $userStatus['status'];
+            $profileUserInfo = $user->getUserInfo($profileUserId);
+            $userStatus = $user->getUserStatus($profileUserId);
+            $profileUserInfo['status'] = $userStatus['status'];
             if (isset($_POST['oldPass']) && $_POST['oldPass'] && isset($_POST['newPass']) && $_POST['newPass']){
                 $oldPass = $_POST['oldPass'];
                 $newPass = $_POST['newPass'];
-                $info = $user->getInfo($currentId);
+                $info = $user->getInfo($profileUserId);
                 $hash = $this->generateHash($oldPass, $info['salt']);
                 if($hash == $info['password']){
                     $salt = Utils::createRandomString(5, 5);
                     $newHash = $this->generateHash($newPass, $salt);
-                    $user->editUserPass($currentId, $newHash,$salt);
+                    $user->editUserPass($profileUserId, $newHash,$salt);
                     FlashMessages::addMessage("Пароль успешно изменен.", "success");
                 } else {
                     FlashMessages::addMessage("Старый пароль введен не верно и изменен не был.", "error");
                 }
             }
             $statuses = $user->getUserStatuses();
-            $this->render("Users/profile.tpl", array('userInfo' => $userInfo, 'isOwner'=>$isOwner, 'statuses'=>$statuses, 'id'=>$currentId));
+            $this->render("Users/profile.tpl", array('userInfo' => $profileUserInfo, 'isOwner'=>$isOwner, 'statuses'=>$statuses, 'id'=>$profileUserId));
         } else {
             $this->render("errorAccess.tpl");
         }
