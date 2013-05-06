@@ -430,7 +430,7 @@ class Users extends Controller {
             if (isset($_POST['oldPass']) && $_POST['oldPass'] && isset($_POST['newPass']) && $_POST['newPass']){
                 $oldPass = $_POST['oldPass'];
                 $newPass = $_POST['newPass'];
-                $info = $user->getInfo($profileUserId);
+                $info = $user->getUserInfo($profileUserId);
                 $hash = $this->generateHash($oldPass, $info['salt']);
                 if($hash == $info['password']){
                     $salt = Utils::createRandomString(5, 5);

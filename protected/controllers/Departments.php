@@ -113,8 +113,9 @@ class Departments extends Controller {
         $users = $department->getUsers($depId);
         sort($users);
         for ($i=0; $i <count($users) ; $i++) {
-            $userPersonalId = $users[$i]['personal_id'];
-            $weekTime = $user->getUserStatus($userPersonalId);
+            $userId = $users[$i]['id'];
+            $userPersonalId=$users[$i]['personal_id'];
+            $weekTime = $user->getUserStatus($userId);
             $users[$i]['status'] = $weekTime['status'];
             $users[$i]['time'] = $time->getWeekInfo($userPersonalId, date('Y-m-d'));
         }
