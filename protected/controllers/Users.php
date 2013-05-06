@@ -185,11 +185,10 @@ class Users extends Controller {
                 FlashMessages::addMessage("Произошла ошибка. Отгул не был добавлен.", "error");
             }
 
-            Utils::redirect('/users/profile');
         } else {
             FlashMessages::addMessage("Ошибка заполнения. Отгул не был добавлен.", "error");
-            Utils::redirect('/users/profile');
         }
+        Utils::redirect('/users/profile');
     }
 
     /**
