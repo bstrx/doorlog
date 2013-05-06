@@ -235,6 +235,7 @@ class Users extends Controller {
             $email = $_POST['email'];
             $phone = $_POST['phone'];
             $birthday = $_POST['birthday'];
+            $birthday = date('Y-m-d', strtotime($birthday));
             if (isset($_POST['is_shown'])){
                 $isShown = $_POST['is_shown'];
             } else $isShown = 0;

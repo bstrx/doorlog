@@ -2,7 +2,8 @@ $(function() {
   $( "#datepicker" ).datepicker({
     changeMonth: true,
     changeYear: true,
-    yearRange: "1930:",
-    dateFormat: 'yy-mm-dd'
+    yearRange: "-80:-16",
+    dateFormat: 'dd.mm.yy',
+    defaultDate: '-16y'
   });
 });
