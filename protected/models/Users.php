@@ -301,7 +301,7 @@ class Users extends Model{
     public function getUserStatus($id){
         $q = "SELECT SUBSTRING( HEX(`logdata`) , 10, 1 ) as status
             FROM `tc-db-log`.`logs`
-            LEFT JOIN `user` u
+            JOIN `user` u
                 ON u.id= :id
             WHERE emphint = u.personal_id
             AND logtime  >= NOW() - INTERVAL 1 DAY
@@ -311,13 +311,7 @@ class Users extends Model{
         $params['id']=$id;
 
         $result = $this->fetchOne($q,$params);
-        if($result['status']==2){
-            $result['status']="В офисе";
-        }
-        else{
-            $result['status']="Не в офисе";
-        }
-        return $result;
+        return $result['status'];
     }
 
     /**

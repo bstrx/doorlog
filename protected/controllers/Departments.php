@@ -116,7 +116,7 @@ class Departments extends Controller {
             $userId = $user['id'];
             $userPersonalId=$user['personal_id'];
             $weekTime = $userModel->getUserStatus($userId);
-            $user['status'] = $weekTime['status'];
+            $user['status'] = $weekTime;
             $user['time'] = $time->getWeekInfo($userPersonalId, date('Y-m-d'));
         }
         $name = $department->getDepById($depId);

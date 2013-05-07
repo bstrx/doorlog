@@ -426,7 +426,7 @@ class Users extends Controller {
             $user = new UsersModel();
             $profileUserInfo = $user->getUserInfo($profileUserId);
             $userStatus = $user->getUserStatus($profileUserId);
-            $profileUserInfo['status'] = $userStatus['status'];
+            $profileUserInfo['status'] = $userStatus;
             if (isset($_POST['oldPass']) && $_POST['oldPass'] && isset($_POST['newPass']) && $_POST['newPass']){
                 $oldPass = $_POST['oldPass'];
                 $newPass = $_POST['newPass'];
