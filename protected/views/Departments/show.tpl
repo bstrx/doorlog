@@ -31,11 +31,7 @@
                         <td>{$user['time']['total_sum']|formatDate}</td>
                     {/if}
                     <td>
-                        {if {$user['status']} == 2 }
-                            <span class="label label-success">В офисе</span>
-                        {else}
-                            <span class="label">Не в офисе</span>
-                        {/if}
+                        <span class="label {if {$user['status']}=="В офисе"} label-success {/if}">{$user['status']}</span>
                     </td>
                 </tr>
             {/foreach}

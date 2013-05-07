@@ -59,11 +59,7 @@
                 <tr>
                     <td> Статус </td>
                     <td>
-                        {if $userInfo['status']==2}
-                            <span class="label label-success">В офисе</span>
-                        {else}
-                            <span class="label">Не в офисе</span>
-                        {/if}
+                        <span class="label {if {$userInfo['status']}=="В офисе"} label-success {/if}">{$userInfo['status']}</span>
                     </td>
                 </tr>
             {/foreach}

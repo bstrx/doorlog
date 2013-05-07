@@ -122,7 +122,7 @@ class Users extends Controller {
         if (isset($_GET['date']) && isset($_GET['id']) && !empty($_GET['date']) && !empty($_GET['id']) ){
             $timeoffs = $user->getTimeoffsById($_GET['id'], $_GET['date'], $_GET['type']);
             $date = $_GET['date'];
-            $userInfo = $user->getInfo($_GET['id']);
+            $userInfo = $user->getUserInfo($_GET['id']);
             if ($userInfo) {
                 $name = $userInfo['name'];
                 $id = $_GET['id'];
