@@ -311,7 +311,12 @@ class Users extends Model{
         $params['id']=$id;
 
         $result = $this->fetchOne($q,$params);
+        if(isset($result['status'])){
         return $result['status'];
+        }
+        else{
+            return 1;
+        }
     }
 
     /**
