@@ -1,4 +1,7 @@
 {extends "protected/views/index.tpl"}
+{block name="javascript"}
+    <script src="{$_root}/assets/js/rangeDatepicker.js"></script>
+{/block}
 {block name="title"}Настройки профиля{/block}
 
     {block name="breadcrumbs"}
@@ -37,7 +40,7 @@
                         {/if}
                     </td>
                 </tr>
-                {if ('users_private_info'|checkPermission) || ({$permission}==1)}
+                {if ('users_private_info'|checkPermission) || $isOwner}
                     <tr>
                         <td> Телефон </td>
                         <td> {$userInfo['phone']} </td>
@@ -69,5 +72,10 @@
     <div class="span4 additional">
         {include file='protected/views/Users/changePassword.tpl'}
     </div>
+    {if ('timeoffs_add'|checkPermission)}
+    <div class="span4 additional">
+                {include file='protected/views/Users/timeoff.tpl'}
+            </div>
+        {/if}
     {/block}
 {extends}

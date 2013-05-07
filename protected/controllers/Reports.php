@@ -37,7 +37,7 @@ class Reports extends Controller {
             $date = date('Y-m', $date);
             if (isset($_GET['user_id']) && $_GET['user_id'] != 0 ){
                 $reportAllDaysArray = $this->getMonthReport($_GET['user_id'], $date);
-                $userInfo = $user->getInfo($_GET['user_id']);
+                $userInfo = $user->getUserInfo($_GET['user_id']);
                 $name['user'] = $userInfo['name'];
                 $id = $_GET['user_id'];
             }
@@ -134,7 +134,7 @@ class Reports extends Controller {
             $date=$_GET['date'];
             if(isset($_GET['user_id'])){
                 $userId=$_GET['user_id'];
-                $infoUser=$user->getInfo($userId);
+                $infoUser=$user->getUserInfo($userId);
                 $reports[]= array(
                     'reports' => $this->getMonthReport($userId, $date),
                     'name' => $infoUser['name']

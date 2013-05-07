@@ -106,17 +106,18 @@ class Departments extends Controller {
         }
         $time  = new Time();
         $department =  new DepartmentModel();
-        $user = new UserModel();
+        $userModel = new UserModel();
         if(isset($_GET['id']) && $_GET['id']){
             $depId = $_GET['id'];
         }
         $users = $department->getUsers($depId);
         sort($users);
-        for ($i=0; $i <count($users) ; $i++) {
-            $userPersonalId = $users[$i]['personal_id'];
-            $weekTime = $user->getUserStatus($userPersonalId);
-            $users[$i]['status'] = $weekTime['status'];
-            $users[$i]['time'] = $time->getWeekInfo($userPersonalId, date('Y-m-d'));
+        foreach($users as &$user) {
+            $userId = $user['id'];
+            $userPersonalId=$user['personal_id'];
+            $weekTime = $userModel->getUserStatus($userId);
+            $user['status'] = $weekTime;
+            $user['time'] = $time->getWeekInfo($userPersonalId, date('Y-m-d'));
         }
         $name = $department->getDepById($depId);
         $userId = $_COOKIE['id'];

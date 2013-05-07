@@ -154,32 +154,6 @@ class Users extends Model{
     }
 
     /**
-     * Get all user attributes by id
-     * @param integer $id
-     * @return array
-     */
-    public function getInfo($id){
-        $q="
-            SELECT u.id,
-                u.email,
-                u.position_id,
-                u.password,
-                u.salt,
-                t.id as personal_id,
-                t.name
-            FROM `user` u
-            JOIN `tc-db-main`.`personal` t
-              ON u.personal_id = t.id
-            WHERE u.id = :id
-        ";
-        $params=array();
-        $params['id']=$id;
-        $result = $this->fetchOne($q,$params);
-
-        return $result;
-    }
-
-    /**
      * Get all user attributes by email
      * @param string $email
      * @return array
@@ -292,6 +266,8 @@ class Users extends Model{
               u.personal_id,
               u.position_id,
               u.department_id,
+              u.password,
+              u.salt,
               t.name,
               u.email,
               d.name as department,
@@ -325,7 +301,9 @@ class Users extends Model{
     public function getUserStatus($id){
         $q = "SELECT SUBSTRING( HEX(`logdata`) , 10, 1 ) as status
             FROM `tc-db-log`.`logs`
-            WHERE emphint = :id
+            JOIN `user` u
+                ON u.id= :id
+            WHERE emphint = u.personal_id
             AND logtime  >= NOW() - INTERVAL 1 DAY
             ORDER BY logtime DESC
             LIMIT 1";
@@ -333,7 +311,12 @@ class Users extends Model{
         $params['id']=$id;
 
         $result = $this->fetchOne($q,$params);
-        return $result;
+        if(isset($result['status'])){
+        return $result['status'];
+        }
+        else{
+            return 1;
+        }
     }
 
     /**
