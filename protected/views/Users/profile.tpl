@@ -21,8 +21,8 @@
             </colgroup>
             {foreach from=userInfo item=user}
                 <tr>
-                    <td> Имя </td>
-                    <td>{$userInfo['name']}</td>
+                    <td> ФИО </td>
+                    <td>{$userInfo['second_name']} {$userInfo['first_name']} {$userInfo['patronymic']}</td>
                 </tr>
                 <tr>
                     <td> Отдел </td>

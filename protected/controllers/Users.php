@@ -227,7 +227,11 @@ class Users extends Controller {
         $roles = new RolesModel();
 
         if (isset($_POST['department']) && isset($_POST['position']) && isset($_POST['email'])
-            && isset($_POST['phone']) && isset($_POST['birthday'])) {
+            && isset($_POST['phone']) && isset($_POST['birthday']) && isset($_POST['firstName'])
+                && isset($_POST['secondName']) && isset($_POST['patronymic'])) {
+            $firstName=$_POST['firstName'];
+            $secondName=$_POST['secondName'];
+            $patronymic=$_POST['patronymic'];
             $position = $_POST['position'];
             $department = $_POST['department'];
             $role = $_POST['role'];
@@ -246,11 +250,11 @@ class Users extends Controller {
             } else {
                 if(isset($_GET['id']) && $_GET['id']){
                     $id = $_GET['id'];
-                    $this->update($id, $position, $role, $email, $department, $birthday, $phone, $isShown);
+                    $this->update($id, $firstName, $secondName, $patronymic, $position, $role, $email, $department, $birthday, $phone, $isShown);
                 } else {
                     if(isset($_POST['userId'])){
                         $user = $_POST['userId'];
-                        $this->add($user, $email, $position, $role, $department, $birthday, $phone, $isShown);
+                        $this->add($user, $firstName, $secondName, $patronymic, $email, $position, $role, $department, $birthday, $phone, $isShown);
                     }
                 }
             }
@@ -313,13 +317,13 @@ class Users extends Controller {
      * @param boolean $isShown
      * @return void
      */
-    public function add($user, $email, $position, $role, $department, $birthday, $phone, $isShown){
+    public function add($user, $firstName, $secondName, $patronymic, $email, $position, $role, $department, $birthday, $phone, $isShown){
         $users = new UsersModel;
         $roles = new RolesModel();
         $salt = Utils::createRandomString(5, 5);
         $password = Utils::createRandomString(8, 10);
         $hash = $this->generateHash($password, $salt);
-        if (($users->insertUsers($user, $email, $hash, $salt, $position, $department, $phone, $birthday, $isShown))
+        if (($users->insertUsers($user, $firstName, $secondName, $patronymic, $email, $hash, $salt, $position, $department, $phone, $birthday, $isShown))
             && ($roles->insertUserRole($users->getId($user), $role) )) {
             FlashMessages::addMessage("Пользователь успешно добавлен.", "info");
         } else {
@@ -341,10 +345,10 @@ class Users extends Controller {
      * @param integer $isShown
      * @return void
      */
-    public function update($id, $position, $role, $email, $department, $birthday, $phone, $isShown){
+    public function update($id, $firstName, $secondName, $patronymic, $position, $role, $email, $department, $birthday, $phone, $isShown){
         $users = new UsersModel;
         $roles = new RolesModel();
-        if(($users->editUser($id, $position, $email, $department, $birthday, $phone, $isShown))
+        if(($users->editUser($id, $firstName, $secondName, $patronymic, $position, $email, $department, $birthday, $phone, $isShown))
             && ($roles->editUserRole($id, $role))){
             FlashMessages::addMessage("Пользователь успешно отредактирован.", "success");
         } else {

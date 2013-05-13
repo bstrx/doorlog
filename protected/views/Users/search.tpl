@@ -16,7 +16,7 @@
                 <th> Должность </th>
                 {foreach from=$search item=user key=key}
                     <tr>
-                        <td><a href='{$_root}/users/show?id={$search[$key]['id']}'> {$search[$key]['name']}</a></td>
+                        <td><a href='{$_root}/users/show?id={$search[$key]['id']}'> {$search[$key]['first_name']} {$search[$key]['second_name']} {$search[$key]['patronymic']}</a></td>
                         <td> {$search[$key]['dep']} </td>
                         <td> {$search[$key]['pos']} </td>
                     </tr>

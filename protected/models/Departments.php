@@ -101,7 +101,8 @@ class Departments extends Model {
          */
         public function getUsers($depId){
             $attr = array();
-            $q = "SELECT p.name , pos.name as position, u.personal_id, u.id
+            $q = "SELECT pos.name as position, u.personal_id, u.id,
+                u.first_name, u.second_name, u.patronymic
                 FROM `tc-db-main`.personal as p
                 LEFT JOIN `savage-db`.user as u
                 ON u.personal_id = p.id

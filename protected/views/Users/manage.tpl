@@ -49,7 +49,22 @@
                     </td>
                 </tr>
             {/if}
-            <tr>
+                <tr>
+                    <td>Фамилия</td>
+                    <td><input type="text" size="40" name="firstName"
+                               {if isset($userId)}value="{$userInfo['first_name']}"{/if}></td>
+                </tr>
+                <tr>
+                    <td>Имя</td>
+                    <td><input type="text" size="40" name="secondName"
+                               {if isset($userId)}value="{$userInfo['second_name']}"{/if}></td>
+                </tr>
+                <tr>
+                    <td>Отчество</td>
+                    <td><input type="text" size="40" name="patronymic"
+                               {if isset($userId)}value="{$userInfo['patronymic']}"{/if}></td>
+                </tr>
+            </tr>
                 <td>Отдел</td>
                 <td>
                     <select form='user' name="department">

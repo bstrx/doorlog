@@ -31,6 +31,9 @@ class Users extends Model{
         $params = array();
         $q= "SELECT
               u.id,
+              u.first_name,
+              u.second_name,
+              u.patronymic,
               t.id as personal_id,
               t.NAME as name,
               d.name as department,
@@ -72,8 +75,13 @@ class Users extends Model{
      * @return array
      */
     public function searchByName($name){
-        $searchName = '%' . $name . '%';
+        $searchFirstName = '%' . $name . '%';
+        $searchSecondName = '%' . $name . '%';
+        $searchPatronymic= '%' . $name . '%';
         $q="SELECT t.NAME as name,
+                u.first_name,
+                u.second_name,
+                u.patronymic,
                 u.id,
                 d.name as dep,
                 p.name as pos
@@ -84,11 +92,14 @@ class Users extends Model{
               ON u.department_id = d.id
             LEFT JOIN position as p
               ON u.position_id = p.id
-            WHERE t.NAME LIKE :searchName
+            WHERE u.first_name LIKE :searchFirstName OR u.second_name LIKE :searchSecondName
+            OR u.patronymic LIKE :searchPatronymic
             ORDER BY t.NAME
         ";
         $params=array();
-        $params['searchName']=$searchName;
+        $params['searchFirstName']=$searchFirstName;
+        $params['searchSecondName']=$searchSecondName;
+        $params['searchPatronymic']=$searchPatronymic;
         $result = $this->fetchAll($q,$params);
 
         return $result;
@@ -107,10 +118,13 @@ class Users extends Model{
      * @param bool $is_shown
      * @return bool
      */
-    public function insertUsers($user, $email, $hash, $salt, $position, $department, $tel, $bday, $is_shown){
-        $add="INSERT INTO user(personal_id, position_id, email, password, salt, department_id, created, birthday, phone,is_shown)
-            VALUES (:user,:position,:email,:hash,:salt,:department, NOW(), :bday, :tel, :is_shown)";
+    public function insertUsers($user, $firstName, $secondName, $patronymic, $email, $hash, $salt, $position, $department, $tel, $bday, $is_shown){
+        $add="INSERT INTO user(first_name, second_name, patronymic, personal_id, position_id, email, password, salt, department_id, created, birthday, phone,is_shown)
+            VALUES (:firstName, :secondName, :patronymic, :user,:position,:email,:hash,:salt,:department, NOW(), :bday, :tel, :is_shown)";
         $params=array();
+        $params['firstName']=$firstName;
+        $params['secondName']=$secondName;
+        $params['patronymic']=$patronymic;
         $params['user'] = $user;
         $params['position'] = $position;
         $params['email'] = $email;
@@ -263,6 +277,9 @@ class Users extends Model{
     public function getUserInfo($userId){
         $q = "SELECT
               u.id,
+              u.first_name,
+              u.second_name,
+              u.patronymic,
               u.personal_id,
               u.position_id,
               u.department_id,
@@ -405,9 +422,12 @@ class Users extends Model{
      * @param bool $is_shown
      * @return bool
      */
-    public function editUser($id, $position, $email, $department, $birthday, $phone, $is_shown){
+    public function editUser($id, $firstName, $secondName, $patronymic, $position, $email, $department, $birthday, $phone, $is_shown){
         $params = array();
         $params['id'] = $id;
+        $params['firstName']=$firstName;
+        $params['secondName']=$secondName;
+        $params['patronymic']=$patronymic;
         $params['position'] = $position;
         $params['email'] = $email;
         $params['department'] = $department;
@@ -415,7 +435,10 @@ class Users extends Model{
         $params['phone'] = $phone;
         $params['is_shown'] = $is_shown;
         $q= "UPDATE user
-            SET position_id = (:position),
+            SET first_name=(:firstName),
+            second_name=(:secondName),
+            patronymic=(:patronymic),
+            position_id = (:position),
             email = (:email),
             department_id = (:department),
             birthday = (:birthday),

@@ -18,7 +18,7 @@
                             if (typeof(item.pos) == 'string')  item.pos = " | " + item.pos;
                                 else item.pos = '';
                             return {
-                                label: item.name + item.dep + item.pos,
+                                label: item.first_name + " " + item.second_name + " " + item.patronymic + item.dep + item.pos,
                                 id:item.id
                             };
                         }));

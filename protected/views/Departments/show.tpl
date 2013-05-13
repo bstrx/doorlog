@@ -21,7 +21,7 @@
 
             {foreach from=$users item=user}
                 <tr>
-                    <td><a href='{$_root}/users/profile?id={$user['id']}'> {$user['name']}</a> 
+                    <td><a href='{$_root}/users/profile?id={$user['id']}'> {$user['second_name']} {$user['first_name']} {$user['patronymic']}</a> 
                         {if isset($depName['chief_id']) && ($depName['chief_id']==$user['id'])}
                             <span id="chief">начальник</span>
                         {/if}

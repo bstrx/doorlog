@@ -38,7 +38,7 @@ class Reports extends Controller {
             if (isset($_GET['user_id']) && $_GET['user_id'] != 0 ){
                 $reportAllDaysArray = $this->getMonthReport($_GET['user_id'], $date);
                 $userInfo = $user->getUserInfo($_GET['user_id']);
-                $name['user'] = $userInfo['name'];
+                $name['user'] = $userInfo['second_name']." ".$userInfo['first_name']." ".$userInfo['patronymic'];
                 $id = $_GET['user_id'];
             }
 
@@ -50,7 +50,7 @@ class Reports extends Controller {
                 foreach ($users as $currentUser) {
                     $totalUserStats[] = array(
                         'id' => $currentUser['id'],
-                        'name' => $currentUser['name'],
+                        'name' => $currentUser['second_name']." ".$currentUser['first_name']. " ".$currentUser['patronymic'],
                         'stats' => $this->totalSumReports($this->getMonthReport($currentUser['id'], $date))
                     );
                     $totalDepInfo['totalUserStats'] = $totalUserStats;
