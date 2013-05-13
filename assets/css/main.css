@@ -165,3 +165,9 @@ input[type = "checkbox"]{
     width: 100%;
     margin-bottom: 20px;
 }
+#timesheetTable tr {
+    height: 35px;
+}
+#timesheetTable td {
+    font-size: 14px;
+}
