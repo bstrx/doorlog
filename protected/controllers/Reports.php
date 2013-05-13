@@ -255,7 +255,7 @@ class Reports extends Controller {
         $timesheet = array();
         $user = new UsersModel();
         $dep = new DepartmentModel();
-        $date = '2013-02';
+        $date = '2013-01';
         $dayCount = date("t", strtotime($date));
 
         $allDep = $dep->getMenuDepartments();

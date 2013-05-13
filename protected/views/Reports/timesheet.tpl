@@ -51,38 +51,83 @@
     {$id = 1}
     {foreach from=$timesheet item=currentUser}
         <tr>
-            <td rowspan='2'> {$id} </td>
-            <td rowspan='2'> {$currentUser['name']}, {$currentUser['position']} </td>
-            <td rowspan='2'>  </td>
+            <td rowspan='4'> {$id} </td>
+            <td rowspan='4'> {$currentUser['name']}, {$currentUser['position']} </td>
+            <td rowspan='4'>  </td>
             {$partitionDate = 1}
                {foreach from=$currentUser['report'] item=report}
                {if $partitionDate <= 15}
-                   {if $report['dayType'] == 0}
-                        <td id = 'workday'>
+                    {if $report['dayType'] == 0}
+                        {if $report['time'] == 0}
+                            <td id = 'workday'> Н </td>
+                        {else}
+                            <td id = 'workday'> Я </td>
+                        {/if}
                     {else}
-                        <td bgcolor='red'>
-                    {/if} {$report['time']|date_format:"%H:%M"} </td>
+                        <td bgcolor='red'> В </td>
+                    {/if} 
                 {$partitionDate=$partitionDate+1}
                 {/if}
-               {/foreach}
-               <td></td>
+                {/foreach}
+            <td></td>
+        </tr>
+        <tr>
+            {$partitionDate = 1}
+            {foreach from=$currentUser['report'] item=report}
+            {if $partitionDate <= 15}
+                {if $report['dayType'] == 0}
+                    {if $report['time'] == 0}
+                        <td id = 'workday'>  </td>
+                    {else}
+                        <td id = 'workday'> {$report['time']|date_format:"%H:%M"} </td>
+                    {/if}
+                {else}
+                    <td bgcolor='red'> {$report['time']|date_format:"%H:%M"} </td>
+                {/if} 
+            {$partitionDate=$partitionDate+1}
+            {/if}
+            {/foreach}
+            <td></td>
         </tr>
         <tr>
             {$partitionDate = 1}
             {foreach from=$currentUser['report'] item=report}
                {if $partitionDate > 15}
                     {if $report['dayType'] == 0}
-                        <td id = 'workday'>
+                        {if $report['time'] == 0}
+                            <td id = 'workday'> Н </td>
+                        {else}
+                            <td id = 'workday'> Я </td>
+                        {/if}
                     {else}
-                        <td bgcolor='red'>
+                        <td bgcolor='red'> В </td>
                     {/if}
-                    {$report['time']|date_format:"%H:%M"} </td>
                 {/if}
                 {$partitionDate=$partitionDate+1}
-                {/foreach}
-                {for $td=0 to 30-$dayCount}
-                    <td></td>
-                {/for}
+            {/foreach}
+            {for $td=0 to 30-$dayCount}
+                <td></td>
+            {/for}
+        </tr>
+        <tr>
+            {$partitionDate = 1}
+            {foreach from=$currentUser['report'] item=report}
+               {if $partitionDate > 15}
+                    {if $report['dayType'] == 0}
+                        {if $report['time'] == 0}
+                            <td id = 'workday'>  </td>
+                        {else}
+                            <td id = 'workday'> {$report['time']|date_format:"%H:%M"} </td>
+                        {/if}
+                    {else}
+                        <td bgcolor='red'> {$report['time']|date_format:"%H:%M"} </td>
+                    {/if}
+                {/if}
+                {$partitionDate=$partitionDate+1}
+            {/foreach}
+            {for $td=0 to 30-$dayCount}
+                <td></td>
+            {/for}
         </tr>
         {$id=$id+1}
     {/foreach}
