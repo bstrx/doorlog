@@ -18,13 +18,14 @@
 </form>
 <br>
 <h3>Отчет за {$date}</h3>
-<table class='table table-bordered'>
+<table id='timesheetTable' class='table table-bordered'>
     <tr>
-        <td rowspan='3'> Номер по порядку </td>
-        <td rowspan='3'> Фамилия, инициалы, должность(специальность, профессия) </td>
-        <td rowspan='3'> Табельный номер </td>
+        <td rowspan='3' width='25px'> Номер по порядку </td>
+        <td rowspan='3' width='50px'> Фамилия, инициалы, должность(специальность, профессия) </td>
+        <td rowspan='3' width='25px'> Табельный номер </td>
         <td colspan='16'> Отметки о явках и неявках на работу по числам месяца </td>
     </tr>
+
     <tr>
             {for $day=1 to 9}
                 {if $days[$day-1] == 0}
@@ -57,6 +58,12 @@
             {for $td=0 to 31-$dayCount-1}
                <td></td>
             {/for}
+    </tr>
+    <tr>
+        <td> 1 </td>
+        <td> 2 </td>
+        <td> 3 </td>
+        <td colspan='16'> 4 </td>
     </tr>
     {$id = 1}
     {foreach from=$timesheet item=currentUser}
