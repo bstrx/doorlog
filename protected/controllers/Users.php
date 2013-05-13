@@ -122,7 +122,7 @@ class Users extends Controller {
         if (isset($_GET['date']) && isset($_GET['id']) && !empty($_GET['date']) && !empty($_GET['id']) ){
             $timeoffs = $user->getTimeoffsById($_GET['id'], $_GET['date'], $_GET['type']);
             $date = $_GET['date'];
-            $userInfo = $user->getInfo($_GET['id']);
+            $userInfo = $user->getUserInfo($_GET['id']);
             if ($userInfo) {
                 $name = $userInfo['name'];
                 $id = $_GET['id'];
@@ -185,11 +185,10 @@ class Users extends Controller {
                 FlashMessages::addMessage("Произошла ошибка. Отгул не был добавлен.", "error");
             }
 
-            Utils::redirect('/users/show?id='.$id);
         } else {
             FlashMessages::addMessage("Ошибка заполнения. Отгул не был добавлен.", "error");
-            Utils::redirect('/users/show?id='.$id);
         }
+        Utils::redirect('/users/profile');
     }
 
     /**
@@ -415,27 +414,36 @@ class Users extends Controller {
 
     public function profileAction(){
         $userInfo = Registry::getValue('user');
-        $id = $_GET['id'];
-        if(Acl::checkPermission('users_profile') || $userInfo['id'] == $id ){
+        $userId = $userInfo['id'];
+       
+        if (!isset($_GET['id']) || ($_GET['id'] == $userId)) {
+            $profileUserId = $userId;
+            $isOwner = true;
+        } else {
+            $profileUserId = $_GET['id'];
+            $isOwner = false;
+        }
+        if(Acl::checkPermission('users_profile')|| $isOwner){
             $user = new UsersModel();
-            $userInfo = $user->getUserInfo($id);
-            $userStatus = $user->getUserStatus($userInfo['personal_id']);
-            $userInfo['status'] = $userStatus['status'];
+            $profileUserInfo = $user->getUserInfo($profileUserId);
+            $userStatus = $user->getUserStatus($profileUserId);
+            $profileUserInfo['status'] = $userStatus;
             if (isset($_POST['oldPass']) && $_POST['oldPass'] && isset($_POST['newPass']) && $_POST['newPass']){
                 $oldPass = $_POST['oldPass'];
                 $newPass = $_POST['newPass'];
-                $info = $user->getInfo($id);
+                $info = $user->getUserInfo($profileUserId);
                 $hash = $this->generateHash($oldPass, $info['salt']);
                 if($hash == $info['password']){
                     $salt = Utils::createRandomString(5, 5);
                     $newHash = $this->generateHash($newPass, $salt);
-                    $user->editUserPass($id, $newHash,$salt);
+                    $user->editUserPass($profileUserId, $newHash,$salt);
                     FlashMessages::addMessage("Пароль успешно изменен.", "success");
                 } else {
                     FlashMessages::addMessage("Старый пароль введен не верно и изменен не был.", "error");
                 }
             }
-            $this->render("Users/profile.tpl", array('userInfo' => $userInfo));
+            $statuses = $user->getUserStatuses();
+            $this->render("Users/profile.tpl", array('userInfo' => $profileUserInfo, 'isOwner'=>$isOwner, 'statuses'=>$statuses, 'id'=>$profileUserId));
         } else {
             $this->render("errorAccess.tpl");
         }

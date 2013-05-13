@@ -15,7 +15,7 @@ class Authentication{
     public function checkAccess($class, $method) {
         if(isset($_COOKIE['id']) && isset($_COOKIE['hash'])){
             $user = new UsersModel();
-            $userInfo = $user->getInfo((int) $_COOKIE['id']);
+            $userInfo = $user->getUserInfo((int) $_COOKIE['id']);
 
             if ($userInfo && $userInfo['password'] == $_COOKIE['hash']) {
                 $userInfo['permissions'] = Acl::getUserPermissions($userInfo['id']);
