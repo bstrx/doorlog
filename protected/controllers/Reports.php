@@ -250,4 +250,30 @@ class Reports extends Controller {
         }
     return $reportAllDaysArray;
     }
+
+    public function timesheetAction(){
+        $timesheet = array();
+        $user = new UsersModel();
+        $dep = new DepartmentModel();
+        $date = '2013-02';
+        $dayCount = date("t", strtotime($date));
+
+        $allDep = $dep->getMenuDepartments();
+        $countUsers = 0;
+        foreach ($allDep as $currentDep) {
+            $allUsers = $dep->getUsers($currentDep['id']);
+
+            foreach ($allUsers as $currentUser) {
+                $monthReport = $this->getMonthReport($currentUser['id'], $date);
+
+                $timesheet[$countUsers]['user_id'] = $currentUser['id'];
+                $timesheet[$countUsers]['name'] = $currentUser['name'];
+                $timesheet[$countUsers]['position'] = $currentUser['position'];
+                $timesheet[$countUsers]['report'] = $monthReport;
+                $countUsers++;
+            }
+        }
+
+        $this->render("Reports/timesheet.tpl" , array('timesheet' => $timesheet, 'dayCount' => $dayCount));
+    }
 }
