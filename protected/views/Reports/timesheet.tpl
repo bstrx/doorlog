@@ -10,21 +10,81 @@
 <br>
 <table class='table table-bordered'>
     <tr>
-        <td> Имя </td>
-           {for $day=1 to 9}
-               <td> 0{$day} </td>
-           {/for}
-            {for $day=10 to $dayCount}
-               <td> {$day} </td>
-           {/for}
+        <td rowspan='3'> Номер по порядку </td>
+        <td rowspan='3'> Фамилия, инициалы, должность(специальность, профессия) </td>
+        <td rowspan='3'> Табельный номер </td>
+        <td> Число </td>
     </tr>
+    <tr>
+            {for $day=1 to 9}
+                {if $days[$day-1] == 0}
+                    <td>
+                {else}
+                    <td bgcolor='red'>
+                {/if}
+                 0{$day} </td>
+            {/for}
+            {for $day=10 to 15}
+                {if $days[$day-1] == 0}
+                    <td>
+                {else}
+                    <td bgcolor='red'>
+                {/if}
+                {$day} </td>
+            {/for}
+           <td>
+
+    </tr>
+    <tr>
+            {for $day=16 to $dayCount}
+                {if $days[$day-1] == 0}
+                    <td>
+                {else}
+                    <td bgcolor='red'>
+                {/if}
+                {$day} </td>
+            {/for}
+            {for $td=0 to 31-$dayCount-1}
+               <td></td>
+            {/for}
+    </tr>
+    {$id = 1}
     {foreach from=$timesheet item=currentUser}
         <tr>
-            <td> {$currentUser['name']} </td>
+            <td rowspan='2'> {$id} </td>
+            <td rowspan='2'> {$currentUser['name']}, {$currentUser['position']} </td>
+            <td rowspan='2'>  </td>
+            {$partitionDate = 1}
                {foreach from=$currentUser['report'] item=report}
-                   <td> {$report['time']|date_format:"%H:%M"} </td>
+               {if $partitionDate <= 15}
+                   {if $report['dayType'] == 0}
+                        <td id = 'workday'>
+                    {else}
+                        <td bgcolor='red'>
+                    {/if} {$report['time']|date_format:"%H:%M"} </td>
+                {$partitionDate=$partitionDate+1}
+                {/if}
                {/foreach}
+               <td></td>
         </tr>
+        <tr>
+            {$partitionDate = 1}
+            {foreach from=$currentUser['report'] item=report}
+               {if $partitionDate > 15}
+                    {if $report['dayType'] == 0}
+                        <td id = 'workday'>
+                    {else}
+                        <td bgcolor='red'>
+                    {/if}
+                    {$report['time']|date_format:"%H:%M"} </td>
+                {/if}
+                {$partitionDate=$partitionDate+1}
+                {/foreach}
+                {for $td=0 to 30-$dayCount}
+                    <td></td>
+                {/for}
+        </tr>
+        {$id=$id+1}
     {/foreach}
 
 <table>
