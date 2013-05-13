@@ -255,9 +255,12 @@ class Reports extends Controller {
         $timesheet = array();
         $user = new UsersModel();
         $dep = new DepartmentModel();
-        $date = '2013-01';
+        $date = date('Y-m');
+        if (isset($_GET['date']) && $_GET['date']){
+            $date = '01.'.$_GET['date'];
+            $date = date('Y-m', strtotime($date));
+        }
         $dayCount = date("t", strtotime($date));
-
         $allDep = $dep->getMenuDepartments();
         $countUsers = 0;
         foreach ($allDep as $currentDep) {
@@ -279,6 +282,7 @@ class Reports extends Controller {
         foreach ($allHolidays as $oneDay) {
             $days[] = $oneDay['trigger'];
         }
-        $this->render("Reports/timesheet.tpl" , array('timesheet' => $timesheet,'days'=> $days, 'dayCount' => $dayCount));
+        $date = date('m.Y', strtotime($date));
+        $this->render("Reports/timesheet.tpl" , array('timesheet' => $timesheet,'days'=> $days,'date'=> $date, 'dayCount' => $dayCount));
     }
 }

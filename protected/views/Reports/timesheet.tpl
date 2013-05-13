@@ -1,4 +1,7 @@
 {extends "protected/views/index.tpl"}
+{block name="javascript"}
+    <script src="{$_root}/assets/js/reportsDatepicker.js"></script>
+{/block}
 {block name="title"} Табель {/block}
 {block name="breadcrumbs"}
     <ul class="breadcrumb">
@@ -7,13 +10,20 @@
     </ul>
 {/block}
 {block name="content"}
+Отчет за месяц:
+<form id='timesheet' type='GET' action='{$_root}/reports/timesheet'>
+    <input name = "date" type="text" id="datepicker" class='withoutDays' value = "{$date}" />
+    <br>
+    <input form = "timesheet" type="submit" id="add" value = "Сформировать" class="btn btn-success" >
+</form>
 <br>
+<h3>Отчет за {$date}</h3>
 <table class='table table-bordered'>
     <tr>
         <td rowspan='3'> Номер по порядку </td>
         <td rowspan='3'> Фамилия, инициалы, должность(специальность, профессия) </td>
         <td rowspan='3'> Табельный номер </td>
-        <td> Число </td>
+        <td colspan='16'> Отметки о явках и неявках на работу по числам месяца </td>
     </tr>
     <tr>
             {for $day=1 to 9}
