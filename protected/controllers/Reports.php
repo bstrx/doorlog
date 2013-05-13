@@ -273,7 +273,12 @@ class Reports extends Controller {
                 $countUsers++;
             }
         }
-
-        $this->render("Reports/timesheet.tpl" , array('timesheet' => $timesheet, 'dayCount' => $dayCount));
+        $holidays = new Holidays();
+        $allHolidays = $holidays->getAllDays($date);
+        $days = array();
+        foreach ($allHolidays as $oneDay) {
+            $days[] = $oneDay['trigger'];
+        }
+        $this->render("Reports/timesheet.tpl" , array('timesheet' => $timesheet,'days'=> $days, 'dayCount' => $dayCount));
     }
 }
