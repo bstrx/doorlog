@@ -134,4 +134,51 @@ class Utils{
         header('Location: ' . $cfg['root'] . $url);
         die();
     }
+
+    /**
+     * Create *.xls file
+     * @param array $report
+     * @return void
+     */
+    public function tabletoxls($report){
+        if ($report){
+            $pExcel = new \PHPExcel();
+            $pExcel->setActiveSheetIndex(0);
+            $aSheet = $pExcel->getActiveSheet();
+            //style
+            $aSheet->getColumnDimension('A')->setWidth(15);
+            $aSheet->getColumnDimension('B')->setWidth(10);
+            $aSheet->getColumnDimension('D')->setWidth(10);
+
+            $iter = 1;
+            $countUser = count($report);
+            for ($usr=0; $usr < $countUser; $usr++) {
+                $aSheet->mergeCells("A$iter:D$iter");
+                $aSheet->setCellValueByColumnAndRow(0,$iter, $report[$usr]['name']);
+                $iter++;
+                $aSheet->setCellValueByColumnAndRow(0,$iter,'День недели');
+                $aSheet->setCellValueByColumnAndRow(1,$iter,'Дата');
+                $aSheet->setCellValueByColumnAndRow(2,$iter,'Время');
+                $aSheet->setCellValueByColumnAndRow(3,$iter,'Тип отгула');
+                $iter++;
+
+                foreach ($report[$usr]['reports'] as $curr) {
+                    $aSheet->setCellValueByColumnAndRow(0, $iter, $curr['dayName']);
+                    $aSheet->setCellValueByColumnAndRow(1, $iter, $curr['date']);
+                    $aSheet->setCellValueByColumnAndRow(2, $iter, $curr['time']);
+                    $aSheet->setCellValueByColumnAndRow(3, $iter, $curr['timeoffName']);
+                    $iter++;
+                }
+            }
+            $objWriter = new \PHPExcel_Writer_Excel5($pExcel);
+            if ($countUser>1){
+                $name = $report[0]['depName'].'.xls';
+            } else {
+                $name = $report[0]['name'].'.xls';
+            }
+            header('Content-Disposition: attachment; filename='.$name);
+            $objWriter->save('php://output');
+        }
+
+    }
 }
